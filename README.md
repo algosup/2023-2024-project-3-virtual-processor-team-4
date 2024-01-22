@@ -1,6 +1,6 @@
 # The Project
 
-This project is a student project provided by ALGOSUP, based in Vierzon.( → see the [**call for tender**](/documents/management/Call_for_tender_-_2023-2024_Project_3_Virtual_Processor.pdf))
+This project is a student project provided by ALGOSUP, based in Vierzon.( → see the [**call for tender**](/documents/.data/Call_for_tender_-_2023-2024_Project_3_Virtual_Processor.pdf))
 The objective is to build a virtual processor and its components in C and to create our own assembly language to interact with it.
 
 <hr>
@@ -50,6 +50,7 @@ You first need to install 'gcc' (a C compiler) on your machine
 - [Test Plan](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/QA/testPlan.md)
 - [KPIs](https://algosup-my.sharepoint.com/:x:/r/personal/benoit_dekeyn_algosup_com/_layouts/15/doc2.aspx?sourcedoc=%7BA6E7D73D-0366-4F0D-A4B7-932DC4AE6EF2%7D&file=Livre.xlsx&action=editnew&mobileredirect=true&wdNewAndOpenCt=1705502980352&ct=1705502980709&wdOrigin=OFFICECOM-WEB.MAIN.NEW&wdPreviousSessionSrc=HarmonyWeb&wdPreviousSession=67a6512f-83b6-47d1-a15c-38e269217ee2&cid=0ee4bf9b-ef3d-4f55-9a31-d0b5b0c875d8)
 - [Tasks Board](https://trello.com/b/fyHkoXl9/virtual-processor-team-4)
+- [Weekly report]("https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/Weekly%20Report/Cumulative.md")
 
 <hr>
 
@@ -68,5 +69,4 @@ You first need to install 'gcc' (a C compiler) on your machine
 This project is under the [Mit License](LICENSE).
 
 <hr>
-<img src="documents/management/pictures/algosup-logo.png" width="750px">
-
+<img src="documents/.data/pictures/algosup-logo.png" width="750px">
