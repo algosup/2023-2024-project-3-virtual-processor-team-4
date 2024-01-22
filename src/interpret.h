@@ -5,13 +5,39 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum InstructionType{MOV, JMP, CALL, RET}InstructionType_t; // etc...
+
+typedef enum InstructionType{
+    NOOP,
+    SET,
+    COPY,
+    LOAD,
+    STORE,
+    ADD,
+    SUB,
+    MUL,
+    DIV,
+    NOT,
+    AND,
+    OR,
+    XOR,
+    INPUT,
+    OUTPUT,
+    CMPEQ,
+    CMPGE,
+    JTRUE,
+    JFALSE,
+    JUMP,
+    CALL,
+    RET,
+    HALT,
+    INT
+    }InstructionType_t; // etc...
 
 typedef struct instruction
 {
     InstructionType_t instT;
-    int reg1;
-    int reg2;
+    int* val1;
+    int* val2;
     int line;
 }instruction_t;
 

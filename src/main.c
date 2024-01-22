@@ -67,6 +67,7 @@ int findOperand(char* input, InstructionType_t* instruction){
         instruction = INT;
     }
     
+    return 0;
 };
 
 int parse_content(const char *content)
