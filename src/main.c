@@ -1,20 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedList.h"
-
-enum instructionType{mov, jmp, call}; // etc...
-
-typedef struct instruction
-{
-    enum instructionType instT;
-    int reg1;
-    int reg2;
-    int line;
-}instruction_t;
-
-int returnCall(instruction_t* call){
-    return 0;
-}
+#include <string.h>
 
 int parse_content(const char *content)
 {
