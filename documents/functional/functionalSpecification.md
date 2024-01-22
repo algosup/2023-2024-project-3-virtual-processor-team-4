@@ -21,7 +21,9 @@ The assembly language will also be created and tailored by us.
 - [Acceptance criteria](#acceptance-criteria)
 - [Solution overview](#solution-overview)
   - [System architecture](#system-architecture)
+  - [Syntax](#syntax)
   - [Instructions](#instructions)
+  - [Exceptions](#exceptions)
   - [Usage](#usage)
 - [Non-functional requirements](#non-functional-requirements)
   - [Performance](#performance)
@@ -110,15 +112,84 @@ To ensure that the project is viable, all the specifications must be approved by
 
 ## Solution overview
 
-<!-- TODO -->
-
 ### System architecture
 
-<!-- TODO -->
+The architecture will use 32-bit integers to run. Unless otherwise specified, those integers are supposed signed.
+
+We will consider to have 16 registers. Those are denoted by the letter `r` followed by an uppercase hexadecimal digit (r0, r1, ..., rE, rF). This notation allows for easy recognizability and easy expansion if necessary.
+
+The processor will also allow for four flags (boolean outputs from the ALU). They are denoted with the letter `f` followed by an uppercase letter.
+| Representation | Meaning          | Description                                                                                                                                                                    |
+| -------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| fO             | Overflow flag    | When an operation is executed, the flag is set if the result cannot fit in the register (32 bits).                                                                             |
+| fZ             | Zero flag        | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is equal to zero.                                            |
+| fS             | Sign flag        | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is strictly negative (i.e. the most significant bit is set). |
+| fJ             | Jump status flag | After a comparison is done, the flag is set if the specified values match the operator.                                                                                        |
+
+All the flags default to false when the interpreter starts.
+
+### Syntax
+
+The syntax for the instructions follows one of those patterns:
+- `mnem`
+- `mnem param`
+- `mnem param1, param2`
+
+where `mnem` is the mnemonic for the instruction and the rest is parameters. Everything should be in lowercase.
+
+A label should be on a line with no instruction, written in camel case, and followed by a colon: `camelCase:`
+
+A line only composed with whitespace is to be ignored.
+
+Comments can be added at the end of any line with an instruction or label, starting with a double slash `//`. Any whitespace before the symbol and any text after it until the end of the line is to be ignored.
 
 ### Instructions
 
-<!-- TODO -->
+| Mnemonic | Parameter 1 | Parameter 2 | Behavior                                                                                                                                   |
+| -------- | ----------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| noop     |             |             | Does nothing (used for padding or hogging clock cycles).                                                                                   |
+| set      | Register    | Immediate   | Sets the value of the register to the specified immediate value.                                                                           |
+| copy     | Register    | Register    | Copies the value from the second register to the first.                                                                                    |
+| load     | Register    | Register    | Loads the value in memory at the address stored in the second register into the first register.                                            |
+| load     | Register    | Immediate   | Loads the value in memory at the address specified by the immediate value into the register.                                               |
+| store    | Register    | Register    | Stores the value of the second register to the memory address stored in the first register.                                                |
+| store    | Immediate   | Register    | Stores the value of the register to the memory address specified by the immediate value.                                                   |
+| store    | Immediate   | Immediate   | Stores the second immediate values to the memory address specified by the first immediate value.                                           |
+| add      | Register    | Register    | Adds the value of the second register to the first register.                                                                               |
+| add      | Register    | Immediate   | Adds the immediate value to the register.                                                                                                  |
+| sub      | Register    | Register    | Subtracts the value of the second register to the first register.                                                                          |
+| sub      | Register    | Immeditate  | Subtracts the immediate value to the register.                                                                                             |
+| mul      | Register    | Register    | Multiplies the values of the two registers. The first register gets the lower half of the result while the second one takes the high half. |
+| div      | Register    | Register    | Divides the value of the first register by the value of the second register.                                                               |
+| not      | Register    |             |
+| and      | Register    | Register    |
+| and      | Register    | Immediate   |
+| or       | Register    | Register    |
+| or       | Register    | Immediate   |
+| xor      | Register    | Register    |
+| xor      | Register    | Immediate   |
+| input    | Register    |             |
+| output   | Register    |             |
+| output   | Immediate   |             |
+| cmpeq    | Register    | Register    |
+| cmpeq    | Register    | Immediate   |
+| cmpge    | Register    | Register    |
+| cmpge    | Register    | Immediate   |
+| cmpge    | Immediate   | Register    |
+| jtrue    | Label       |             |
+| jfalse   | Label       |             |
+| jump     | Label       |             |
+| call     | Label       |             |
+| ret      |             |             |
+| halt     |             |             |
+| int      | Immediate   |             |
+
+### Exceptions
+
+The execution of the code should be ended with the program exiting if:
+- a line of code does not fit one of the previously mentioned rules (syntax error)
+- an instruction whose mnemonic is invalid or with parameters not corresponding (syntax error)
+- a division by zero occurs (arithmetic error)
 
 ### Usage
 
@@ -181,3 +252,5 @@ An architecture defining how a microprocessor and its related components should 
 **RAM** \
 
 **Register** \
+
+**Arithmetic and Logic Unit (ALU)** \
