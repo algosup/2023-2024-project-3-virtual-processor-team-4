@@ -1,6 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+
+typedef enum ErrorType
+{
+    SUCCESS,
+    GENERIC_ERROR,
+    FILE_NOT_FOUND,
+    CANNOT_ACCESS_FILE,
+    INVALID_DATA,
+    OUT_OF_MEMORY,
+} errorType_t;
+
+enum instructionType
+{
+    mov,
+    jmp,
+    call
+}; // etc...
+
+typedef struct operation
+{
+    enum instructionType instT;
+    int reg1;
+    int reg2;
+    int line;
+} operation_t;
 
 int parse_content(const char *content)
 {
@@ -11,7 +37,7 @@ int parse_content(const char *content)
         printf("%s\n%s\n%s\n", str1, str2, str3);
         offset += read;
     }
-    return 0;
+    return SUCCESS;
 }
 
 int read_file(char *filename, char *output, int size)
@@ -20,10 +46,10 @@ int read_file(char *filename, char *output, int size)
     char ch;
     ptr = fopen(filename, "r");
 
-    if (NULL == ptr)
+    if (ptr == NULL)
     {
-        printf("file can't be opened \n");
-        return 1;
+        printf("Failed to open file: %s\n\n", filename);
+        return FILE_NOT_FOUND;
     }
 
     int count = 0;
@@ -37,7 +63,7 @@ int read_file(char *filename, char *output, int size)
     output[count - 1] = '\0';
 
     fclose(ptr);
-    return 0;
+    return SUCCESS;
 }
 
 int get_file_size(char *filename, int *size)
@@ -51,9 +77,9 @@ int get_file_size(char *filename, int *size)
 
     if (fp == NULL)
     {
-        printf("Could not open file %s",
+        printf("Could not open file: %s\n\n",
                filename);
-        return 0;
+        return FILE_NOT_FOUND;;
     }
 
     for (c = getc(fp); c != EOF; c = getc(fp))
@@ -61,22 +87,33 @@ int get_file_size(char *filename, int *size)
 
     fclose(fp);
 
-    return 0;
+    return SUCCESS;
 }
 
 int main()
 {
-    int i = 0;
-    get_file_size("example.asm", &i);
-
-    char *content;
-    content = (char *)malloc(i * sizeof(char));
-
-    read_file("example.asm", content, i);
-
-    // printf("%s", content);
-
-    parse_content(content);
-
-    return 0;
+    while (true)
+    {
+        char filename[100]; // File name in input
+        scanf("%s", filename);
+        strlwr(filename); // convert to lowercase
+        if (strcmp(&filename[strlen(filename) - 4], ".asm") != 0)
+        {
+            strcat(filename, ".asm");
+        }
+        int i = 0;
+        if (get_file_size(filename, &i) != 0)
+        {
+            continue; // Go back to the beginning of the loop
+        }
+        else
+        {
+            char *content;
+            content = (char *)malloc(i * sizeof(char));
+            read_file(filename, content, i);
+            parse_content(content);
+            free(content);
+        }
+    }
+    return SUCCESS;
 }
