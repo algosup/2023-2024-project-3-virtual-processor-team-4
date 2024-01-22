@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 typedef enum ErrorType
 {
@@ -77,9 +78,8 @@ int get_file_size(char *filename, int *size)
 
     if (fp == NULL)
     {
-        printf("Could not open file: %s\n\n",
-               filename);
-        return FILE_NOT_FOUND;;
+        printf("Could not open file: %s\n\n", filename);
+        return FILE_NOT_FOUND;
     }
 
     for (c = getc(fp); c != EOF; c = getc(fp))
@@ -96,7 +96,10 @@ int main()
     {
         char filename[100]; // File name in input
         scanf("%s", filename);
-        strlwr(filename); // convert to lowercase
+        for (int i = 0; filename[i]; i++)
+        {
+            filename[i] = tolower(filename[i]);
+        } // convert to lowercase
         if (strcmp(&filename[strlen(filename) - 4], ".asm") != 0)
         {
             strcat(filename, ".asm");
