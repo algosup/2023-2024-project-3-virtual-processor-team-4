@@ -17,54 +17,54 @@ typedef enum ErrorType
 
 
 int findOperand(char* input, InstructionType_t* instruction){
-    if(strcmp("noop",input)){
-        instruction = NOOP;
-    }else if (strcmp("set",input)){
-        instruction = SET;
-    }else if (strcmp("copy",input)){
-        instruction = COPY;
-    }else if (strcmp("load",input)){
-        instruction = LOAD;
-    }else if (strcmp("store",input)){
-        instruction = STORE;
-    }else if (strcmp("add",input)){
-        instruction = ADD;
-    }else if (strcmp("sub",input)){
-        instruction = SUB;
-    }else if (strcmp("mul",input)){
-        instruction = MUL;
-    }else if (strcmp("div",input)){
-        instruction = DIV;
-    }else if (strcmp("not",input)){
-        instruction = NOT;
-    }else if (strcmp("and",input)){
-        instruction = AND;
-    }else if (strcmp("or",input)){
-        instruction = OR;
-    }else if (strcmp("xor",input)){
-        instruction = XOR;
-    }else if (strcmp("input",input)){
-        instruction = INPUT;
-    }else if (strcmp("output",input)){
-        instruction = OUTPUT;
-    }else if (strcmp("cmpeq",input)){
-        instruction = CMPEQ;
-    }else if (strcmp("cmpge",input)){
-        instruction = CMPGE;
-    }else if (strcmp("jtrue",input)){
-        instruction = JTRUE;
-    }else if (strcmp("jfalse",input)){
-        instruction = JFALSE;
-    }else if (strcmp("jump",input)){
-        instruction = JUMP;
-    }else if (strcmp("call",input)){
-        instruction = CALL;
-    }else if (strcmp("ret",input)){
-        instruction = RET;
-    }else if (strcmp("halt",input)){
-        instruction = HALT;
-    }else if (strcmp("int",input)){
-        instruction = INT;
+    if(strcmp("noop",input) == 0){
+        *instruction = NOOP;
+    }else if (strcmp("set",input) == 0){
+        *instruction = SET;
+    }else if (strcmp("copy",input) == 0){
+        *instruction = COPY;
+    }else if (strcmp("load",input) == 0){
+        *instruction = LOAD;
+    }else if (strcmp("store",input) == 0){
+        *instruction = STORE;
+    }else if (strcmp("add",input) == 0){
+        *instruction = ADD;
+    }else if (strcmp("sub",input) == 0){
+        *instruction = SUB;
+    }else if (strcmp("mul",input) == 0){
+        *instruction = MUL;
+    }else if (strcmp("div",input) == 0){
+        *instruction = DIV;
+    }else if (strcmp("not",input) == 0){
+        *instruction = NOT;
+    }else if (strcmp("and",input) == 0){
+        *instruction = AND;
+    }else if (strcmp("or",input) == 0){
+        *instruction = OR;
+    }else if (strcmp("xor",input) == 0){
+        *instruction = XOR;
+    }else if (strcmp("input",input) == 0){
+        *instruction = INPUT;
+    }else if (strcmp("output",input) == 0){
+        *instruction = OUTPUT;
+    }else if (strcmp("cmpeq",input) == 0){
+        *instruction = CMPEQ;
+    }else if (strcmp("cmpge",input) == 0){
+        *instruction = CMPGE;
+    }else if (strcmp("jtrue",input) == 0){
+        *instruction = JTRUE;
+    }else if (strcmp("jfalse",input) == 0){
+        *instruction = JFALSE;
+    }else if (strcmp("jump",input) == 0){
+        *instruction = JUMP;
+    }else if (strcmp("call",input) == 0){
+        *instruction = CALL;
+    }else if (strcmp("ret",input) == 0){
+        *instruction = RET;
+    }else if (strcmp("halt",input) == 0){
+        *instruction = HALT;
+    }else if (strcmp("int",input) == 0){
+        *instruction = INT;
     }
     
     return 0;
@@ -132,7 +132,7 @@ int get_file_size(char *filename, int *size)
 }
 
 int main()
-{
+{   
     while (true)
     {
         char filename[100]; // File name in input
