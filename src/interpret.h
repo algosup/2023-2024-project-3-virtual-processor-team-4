@@ -36,8 +36,8 @@ typedef enum InstructionType{
 typedef struct instruction
 {
     InstructionType_t instT;
-    int* val1;
-    int* val2;
+    char* val1;
+    char* val2;
     int line;
 }instruction_t;
 
