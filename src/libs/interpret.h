@@ -8,6 +8,28 @@
 
 int registerArr[16];
 
+int load(instruction_t instruction);
+int store(instruction_t instruction);
+int add(instruction_t instruction);
+int sub(instruction_t instruction);
+int mul(instruction_t instruction);
+int div(instruction_t instruction);
+int not_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int and_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int or_(instruction_t instruction);  // Added _ to avoid conflict with existing keywords
+int xor_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int input(instruction_t instruction);
+int output(instruction_t instruction);
+int cmpeq(instruction_t instruction);
+int cmpge(instruction_t instruction);
+int jtrue(instruction_t instruction);
+int jfalse(instruction_t instruction);
+int jump(instruction_t instruction);
+int call(instruction_t instruction);
+int ret(instruction_t instruction);
+int halt(instruction_t instruction);
+int int_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+
 typedef enum InstructionType
 {
     NOOP,
@@ -56,15 +78,16 @@ typedef struct stack
     unsigned int size;
 } stack_t;
 
-int findRegister(char* inString, int* registerIndex)
+int findRegister(char *inString, int *registerIndex)
 {
-    if(strlen(inString) > 3){
+    if (strlen(inString) > 3)
+    {
         return INVALID_DATA;
     }
 
     char str2[3];
     strcpy(str2, inString);
-    char* ptr = str2;
+    char *ptr = str2;
     ptr++;
     *registerIndex = (int)strtol(ptr, NULL, 16);
 
@@ -132,7 +155,8 @@ int getReturnLine(stack_t *returnStack, instruction_t *call)
 
 // --- Operations ---
 
-int set(instruction_t instruction){
+int set(instruction_t instruction)
+{
     int i;
     findRegister(instruction.val1, &i);
 
@@ -140,7 +164,8 @@ int set(instruction_t instruction){
     return SUCCESS;
 }
 
-int copy(instruction_t instruction){
+int copy(instruction_t instruction)
+{
     int i;
     findRegister(instruction.val1, &i);
 
@@ -148,6 +173,86 @@ int copy(instruction_t instruction){
     findRegister(instruction.val2, &i2);
 
     registerArr[i] = registerArr[i2];
+}
+
+int executeInstruction(instruction_t *instruction)
+{
+    switch (instruction->instT)
+    {
+    case NOOP:
+        break;
+    case SET:
+        set(*instruction);
+        break;
+    case COPY:
+        copy(*instruction);
+        break;
+    case LOAD:
+        load(*instruction);
+        break;
+    case STORE:
+        store(*instruction);
+        break;
+    case ADD:
+        add(*instruction);
+        break;
+    case SUB:
+        sub(*instruction);
+        break;
+    case MUL:
+        mul(*instruction);
+        break;
+    case DIV:
+        div(*instruction);
+        break;
+    case NOT:
+        not_(*instruction);
+        break;
+    case AND:
+        and_(*instruction);
+        break;
+    case OR:
+        or_(*instruction);
+        break;
+    case XOR:
+        xor_(*instruction);
+        break;
+    case INPUT:
+        input(*instruction);
+        break;
+    case OUTPUT:
+        output(*instruction);
+        break;
+    case CMPEQ:
+        cmpeq(*instruction);
+        break;
+    case CMPGE:
+        cmpge(*instruction);
+        break;
+    case JTRUE:
+        jtrue(*instruction);
+        break;
+    case JFALSE:
+        jfalse(*instruction);
+        break;
+    case JUMP:
+        jump(*instruction);
+        break;
+    case CALL:
+        call(*instruction);
+        break;
+    case RET:
+        ret(*instruction);
+        break;
+    case HALT:
+        halt(*instruction);
+        break;
+    case INT:
+        int_(*instruction);
+        break;
+    default:
+        break;
+    }
     return SUCCESS;
 }
 

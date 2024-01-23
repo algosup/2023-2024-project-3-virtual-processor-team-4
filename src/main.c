@@ -38,6 +38,8 @@ int main()
                 line_content_from_file_content(content, j, line_content);
                 instruction_t *ope = malloc(sizeof(instruction_t));
                 parse_content_one_line(line_content, ope, &j);
+                // Store in stack
+                executeInstruction(ope);
                 free(ope);
             }
 
