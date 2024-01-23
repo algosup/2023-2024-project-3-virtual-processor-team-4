@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+int registerArr[16];
+
 typedef enum InstructionType
 {
     NOOP,
@@ -52,6 +54,17 @@ typedef struct stack
     stackNode_t *head;
     unsigned int size;
 } stack_t;
+
+int findRegister(char* inString, int* registerIndex)
+{
+    char str2[3];
+    strcpy(str2, inString);
+    char* ptr = str2;
+    ptr++;
+    *registerIndex = (int)strtol(ptr, NULL, 16);
+
+    return 0;
+};
 
 int push_to_stack(stack_t *pStack, instruction_t value)
 {
