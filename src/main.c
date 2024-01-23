@@ -117,24 +117,11 @@ int findOperand(char *input, InstructionType_t *instruction)
     return 0;
 };
 
-int parse_content(const char *content)
+int parse_content_one_line(char *line_content, instruction_t *operation, int *line_number)
 {
-    char str1[5], str2[10], str3[10];
-    int offset = 0, read;
-    while (sscanf(content + offset, "%s %s %s%n", str1, str2, str3, &read) == 3)
+    if (strcmp(line_content, "") == 0 || line_content == NULL || line_content == "") // Check if the line is empty
     {
-        printf("%s\n%s\n%s\n", str1, str2, str3);
-        offset += read;
-    }
-    return SUCCESS;
-}
-
-int parse_content_one_line(char *line_content, instruction_t *operation)
-{
-    if (line_content == NULL)
-    {
-        printf("line_content is NULL\n");
-        return GENERIC_ERROR; // Return an error code
+        return SUCCESS;
     }
     char *token = strtok(line_content, " ");
     char *word1, *word2, *word3;
@@ -158,13 +145,16 @@ int parse_content_one_line(char *line_content, instruction_t *operation)
     {
         word3 = token;
     }
-    operation->instT = *word1;
+    InstructionType_t *instType = malloc(sizeof(InstructionType_t));
+    findOperand(word1, instType);
+    operation->instT = *instType;
     operation->val1 = word2;
     operation->val2 = word3;
+    operation->line = *line_number;
     return SUCCESS;
 }
 
-int read_file(char *filename, char *output, int size)
+int read_file(char *filename, char *output, int size, int *number_of_lines)
 {
     FILE *ptr;
     char ch;
@@ -180,6 +170,10 @@ int read_file(char *filename, char *output, int size)
     while (!feof(ptr))
     {
         ch = fgetc(ptr);
+        if (ch == '\n')
+        {
+            *number_of_lines += 1;
+        }
         output[count] = ch;
         count++;
     }
@@ -190,10 +184,11 @@ int read_file(char *filename, char *output, int size)
     return SUCCESS;
 }
 
-int line_content_from_file_content(char *content, int *line_number, char *line_content)
+int line_content_from_file_content(char *content, int line_number, char *line_content)
 {
-    // Returns the content of the line_number unitl next \n
+    // Returns the content of the line_number until next \n
     int i = 0;
+
     if (content == NULL)
     {
         printf("content is NULL\n");
@@ -201,20 +196,33 @@ int line_content_from_file_content(char *content, int *line_number, char *line_c
     }
 
     int content_length = strlen(content);
-    if (*line_number >= content_length)
+    if (line_number >= content_length)
     {
         printf("line_number is out of bounds\n");
         return GENERIC_ERROR;
     }
 
-    while (*line_number < content_length && content[*line_number] != '\n')
+    // Find the starting position of the line
+    int current_line = 0;
+    while (current_line < line_number)
     {
-        line_content[i] = content[*line_number];
+        if (content[i] == '\n')
+        {
+            current_line++;
+        }
         i++;
-        *line_number += 1;
     }
-    line_content[i] = '\0';
-    *line_number += 1;
+
+    // Store the content of the line in line_content
+    int j = 0;
+    while (content[i] != '\n' && content[i] != '\0')
+    {
+        line_content[j++] = content[i++];
+    }
+
+    // Add null terminator to line_content
+    line_content[j] = '\0';
+
     return SUCCESS;
 }
 
@@ -245,7 +253,7 @@ int main()
 {
     while (true)
     {
-
+        printf("> ");
         char filename[100]; // File name in input
         scanf("%s", filename);
         for (int i = 0; filename[i]; i++)
@@ -264,18 +272,21 @@ int main()
         else
         {
             char *content;
-            content = (char *)malloc(i * sizeof(char));
-            read_file(filename, content, i);
-            int j = 0;
-            for (int j = 0; j < 10; j++)
+            int line_count = 0;
+            content = (char *)malloc((i + 1) * sizeof(char));
+            read_file(filename, content, i, &line_count);
+            for (int j = 0; j < line_count; j++)
             {
                 char line_content[25];
-                line_content_from_file_content(content, &j, line_content);
+                line_content_from_file_content(content, j, line_content);
                 instruction_t *ope = malloc(sizeof(instruction_t));
-                parse_content_one_line(line_content, ope);
+                parse_content_one_line(line_content, ope, &j);
+                free(ope);
             }
-            // free(content);
+
+            free(content);
         }
+        printf("\n");
     }
     return SUCCESS;
 }
