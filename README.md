@@ -27,19 +27,7 @@ Then, unzip it, and follow the instructions below ↓
 
 ## Use
 
-You first need to install 'gcc' (a C compiler) on your machine
-
-### For Windows
-
-(empty for now)
-
-### For MacOS
-
-(empty for now)
-
-### For Linux
-
-(empty for now)
+*Empty for the moment*
 
 <hr>
 
@@ -70,3 +58,4 @@ This project is under the [Mit License](LICENSE).
 
 <hr>
 <img src="documents/.data/pictures/algosup-logo.png" width="750px">
+
