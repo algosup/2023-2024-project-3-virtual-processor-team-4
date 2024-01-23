@@ -23,6 +23,7 @@ The assembly language will also be created and tailored by us.
   - [System architecture](#system-architecture)
   - [Syntax](#syntax)
   - [Instructions](#instructions)
+    - [Per parameter type](#per-parameter-type)
   - [Exceptions](#exceptions)
   - [Usage](#usage)
 - [Non-functional requirements](#non-functional-requirements)
@@ -135,7 +136,7 @@ The syntax for the instructions follows one of those patterns:
 - `mnem param`
 - `mnem param1, param2`
 
-where `mnem` is the mnemonic for the instruction and the rest is parameters. Everything should be in lowercase.
+where `mnem` is the mnemonic for the instruction and the rest is parameters. Everything should be in lowercase. For alignment reasons, we allow any number more than one space before the parameters.
 
 A label should be on a line with no instruction, written in camel case, and followed by a colon: `camelCase:`
 
@@ -143,13 +144,15 @@ A line only composed with whitespace is to be ignored.
 
 Comments can be added at the end of any line with an instruction or label, starting with a double slash `//`. Any whitespace before the symbol and any text after it until the end of the line is to be ignored.
 
+The immediate values can be written either in decimal or in hexadecimal prefixed with a lowercase `x`.
+
 ### Instructions
 
 | Mnemonic | Parameter 1 | Parameter 2 | Behavior                                                                                                                                   |
 | -------- | ----------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | noop     |             |             | Does nothing (used for padding or hogging clock cycles).                                                                                   |
 | set      | Register    | Immediate   | Sets the value of the register to the specified immediate value.                                                                           |
-| copy     | Register    | Register    | Copies the value from the second register to the first.                                                                                    |
+| copy     | Register    | Register    | Copies the value from the second register* to the first.                                                                                   |
 | load     | Register    | Register    | Loads the value in memory at the address stored in the second register into the first register.                                            |
 | load     | Register    | Immediate   | Loads the value in memory at the address specified by the immediate value into the register.                                               |
 | store    | Register    | Register    | Stores the value of the second register to the memory address stored in the first register.                                                |
@@ -161,28 +164,45 @@ Comments can be added at the end of any line with an instruction or label, start
 | sub      | Register    | Immeditate  | Subtracts the immediate value to the register.                                                                                             |
 | mul      | Register    | Register    | Multiplies the values of the two registers. The first register gets the lower half of the result while the second one takes the high half. |
 | div      | Register    | Register    | Divides the value of the first register by the value of the second register.                                                               |
-| not      | Register    |             |
-| and      | Register    | Register    |
-| and      | Register    | Immediate   |
-| or       | Register    | Register    |
-| or       | Register    | Immediate   |
-| xor      | Register    | Register    |
-| xor      | Register    | Immediate   |
-| input    | Register    |             |
-| output   | Register    |             |
-| output   | Immediate   |             |
-| cmpeq    | Register    | Register    |
-| cmpeq    | Register    | Immediate   |
-| cmpge    | Register    | Register    |
-| cmpge    | Register    | Immediate   |
-| cmpge    | Immediate   | Register    |
-| jtrue    | Label       |             |
-| jfalse   | Label       |             |
-| jump     | Label       |             |
-| call     | Label       |             |
-| ret      |             |             |
-| halt     |             |             |
-| int      | Immediate   |             |
+| not      | Register    |             | Flips all the bits of the value of the register.                                                                                           |
+| and      | Register    | Register    | Performs a bitwise AND operation on the value of the first register with the value of the second register.                                 |
+| and      | Register    | Immediate   | Performs a bitwise AND operation on the value of the register with the value of the second register.                                       |
+| or       | Register    | Register    | Performs a bitwise OR operation on the value of the first register with the value of the second register.                                  |
+| or       | Register    | Immediate   | Performs a bitwise OR operation on the value of the register with the value of the second register.                                        |
+| xor      | Register    | Register    | Performs a bitwise XOR operation on the value of the first register with the value of the second register.                                 |
+| xor      | Register    | Immediate   | Performs a bitwise XOR operation on the value of the register with the value of the second register.                                       |
+| cmpeq    | Register    | Register    | Tests if the values stores in both registers are equal and sets the `fJ` flag correspondingly.                                             |
+| cmpeq    | Register    | Immediate   | Tests if the value in the register is equal to the immediate values and sets the `fJ` flag correspondingly.                                |
+| cmpge    | Register    | Register    | Tests if the value in the first register is greater or equal to the value in the second register and sets the `fJ` flag correspondingly.   |
+| cmpge    | Register    | Immediate   | Tests if the value in the register is greater or equal to the immediate value and sets the `fJ` flag correspondingly.                      |
+| cmpge    | Immediate   | Register    | Tests if the immediate value is greater or equal to the value in the register and sets the `fJ` flag correspondingly.                      |
+| jtrue    | Label       |             | Jumps conditionally to the specified label if the `fJ` flag is true.                                                                       |
+| jfalse   | Label       |             | Jumps conditionally to the specified label if the `fJ` flag is false.                                                                      |
+| jump     | Label       |             | Jumps unconditionally to the specified label.                                                                                              |
+| call     | Label       |             | Calls a subroutine by jumping to the specified label.                                                                                      |
+| ret      |             |             | Returns from the current subrouting by jumping back right after the call instruction.                                                      |
+| input    | Register    |             | Reads the scan code from the virtual keyboard into the specified register in a non-blocking way (value of 0 if no key is pressed).         |
+| output   | Register    |             | Writes the ASCII value stored in the specified register to the virtual terminal**.                                                         |
+| output   | Immediate   |             | Writes the specified immediate ASCII value to the virtual terminal**.                                                                      |
+| clock    | Register    |             | Writes the current timestamp of the physical computer into the specified register.                                                         |
+| exit     |             |             | Terminates the execution of the program.                                                                                                   |
+
+*For the `copy` instruction, the source register (second parameter) can also be `sp` or `ln`, respectively the address of the stack pointer and the number of the currently executed instruction. Those values are read-only.
+**The virtual terminal should correctly handle the backspace, new line, and carriage return control characters. Other control characters are to be silently omitted.
+
+<!-- TODO: Scancode appendix -->
+
+#### Per parameter type
+| Parameters         | Instructions                                                      |
+| ------------------ | ----------------------------------------------------------------- |
+| None               | noop, ret, halt                                                   |
+| 1 Immediate        | output                                                            |
+| 1 Register         | not, input, output                                                |
+| 2 Immediates       | store                                                             |
+| 2 Registers        | copy, load, store, add, sub, mul, div, and, or, xor, cmpeq, cmpge |
+| Immediate/Register | store, cmpge                                                      |
+| Register/Immediate | set, load, add, sub, and, or, xor, cmpeq, cmpge                   |
+| Label              | jtrue, jfalse, jump, call                                         |
 
 ### Exceptions
 
@@ -190,6 +210,7 @@ The execution of the code should be ended with the program exiting if:
 - a line of code does not fit one of the previously mentioned rules (syntax error)
 - an instruction whose mnemonic is invalid or with parameters not corresponding (syntax error)
 - a division by zero occurs (arithmetic error)
+- the user presses Ctrl+C (interrupt error)
 
 ### Usage
 
@@ -230,6 +251,7 @@ Budget:
 ## Risks and assumptions
 
 <!-- TODO -->
+<!-- Clock: 32-bit timestamp ends in 2038 -->
 
 ## Future improvements
 
