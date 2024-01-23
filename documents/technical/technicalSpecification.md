@@ -37,6 +37,8 @@ This document is the technical specification of a project commissioned to us by 
 
 This document will not describe the assembly language and it's working, those information will be available in the [functional specification](/documents/functional/functionalSpecification.md).
 
+---
+
 ## Architecture
 
 ### Naming Conventions
@@ -63,9 +65,11 @@ src-----
 ----------------
 ```
 
-read.h will house the functions related to reading assembly files
+interpret.h will contain the functions relative to the interpreter.
+file.h will contain the functions relative to the file handling.
+utils.h will contain some miscellianous function.
 
-interpret.h will house the functions related to interpreting and displaying the content of assembly files.
+---
 
 ## Interpreter
 
@@ -90,11 +94,13 @@ The Core is composed of 3 functions in our project[```ìnterpret_statement```](#
 
 ### Step 5 Execution Stack
 
-The Execution Stack manage the call frames during the execution of functions, recursion and maintain the execution context.
+The Execution Stack manage the call frames during the execution of functions, recursion and maintain the execution context. We manage the execution stack with ```ìnti_execution_stack```, ```push_frame``` and ```pop_frame```.
 
 ### Step 6 Error Handling
 
 Syntax error, runtime error and semantics error are to be handled and error message are to be explicit to aid in the debugging.
+
+---
 
 ## Glossary and Functions
 
@@ -126,7 +132,7 @@ function lexen_file(file)
 {
 nLine   integer
 nToken  integer
-c:      character
+c       character
 
 loop:
     read a character into c
@@ -258,4 +264,33 @@ function executeAddFunction(arguments):
     else:
         throw RuntimeError("Invalid types for addition")
 [...]
+```
+- init_execution_stack:
+```
+function init_execution_stack(stack):
+    stack.frames = []
+    stack.size = 0 
+    stack.capacity = 0 
+
+```
+- push_frame:
+```
+function push_frame(stack, functionNode, localEnv):
+    if stack.size == stack.capacity:
+        stack.capacity = (stack.capacity == 0) ? 1 : stack.capacity * 2
+        stack.frames.resize(stack.capacity)
+
+    // Push a new frame onto the stack
+    stack.frames[stack.size].function = functionNode
+    stack.frames[stack.size].localEnv = localEnv
+    stack.size += 1
+```
+- pop_frame:
+```
+function pop_frame(stack):
+    if stack.size > 0:
+        stack.size = stack.size - 1
+    else:
+        throw RuntimeError("Attempted to pop an empty execution stack")
+
 ```
