@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utils.h"
 
 int registerArr[16];
 
@@ -57,13 +58,17 @@ typedef struct stack
 
 int findRegister(char* inString, int* registerIndex)
 {
+    if(strlen(inString) > 3){
+        return INVALID_DATA;
+    }
+
     char str2[3];
     strcpy(str2, inString);
     char* ptr = str2;
     ptr++;
     *registerIndex = (int)strtol(ptr, NULL, 16);
 
-    return 0;
+    return SUCCESS;
 };
 
 int push_to_stack(stack_t *pStack, instruction_t value)
@@ -123,6 +128,27 @@ int getReturnLine(stack_t *returnStack, instruction_t *call)
     pop_from_stack(returnStack, call);
 
     return 0;
+}
+
+// --- Operations ---
+
+int set(instruction_t instruction){
+    int i;
+    findRegister(instruction.val1, &i);
+
+    registerArr[i] = instruction.val2;
+    return SUCCESS;
+}
+
+int copy(instruction_t instruction){
+    int i;
+    findRegister(instruction.val1, &i);
+
+    int i2;
+    findRegister(instruction.val2, &i2);
+
+    registerArr[i] = registerArr[i2];
+    return SUCCESS;
 }
 
 #endif
