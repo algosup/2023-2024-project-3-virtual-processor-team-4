@@ -48,7 +48,7 @@ You first need to install 'gcc' (a C compiler) on your machine
 - [Functional specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/functionalSpecification.md)
 - [Technical specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/technical/technicalSpecification.md)
 - [Test Plan](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/QA/testPlan.md)
-- [KPIs](https://algosup-my.sharepoint.com/:x:/r/personal/benoit_dekeyn_algosup_com/_layouts/15/doc2.aspx?sourcedoc=%7BA6E7D73D-0366-4F0D-A4B7-932DC4AE6EF2%7D&file=Livre.xlsx&action=editnew&mobileredirect=true&wdNewAndOpenCt=1705502980352&ct=1705502980709&wdOrigin=OFFICECOM-WEB.MAIN.NEW&wdPreviousSessionSrc=HarmonyWeb&wdPreviousSession=67a6512f-83b6-47d1-a15c-38e269217ee2&cid=0ee4bf9b-ef3d-4f55-9a31-d0b5b0c875d8)
+- [KPIs](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIBwjEooiU8LSl_ZvGzSR8ylA?e=STmP8k)
 - [Tasks Board](https://trello.com/b/fyHkoXl9/virtual-processor-team-4)
 - [Weekly report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/Weekly%20Report/Cumulative.md)
 
