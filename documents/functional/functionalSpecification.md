@@ -97,11 +97,44 @@ The interpreter must also detect syntactical errors such as invalid lines or inv
 
 ## Personas and use cases
 
-<!-- TODO -->
+### Persona 1 - Pascal Thomas
 
-### Persona 1
+#### Introduction
+Pascal Thomas is a 47-year-old senior software engineer. He has been in this field for 20 years and has had the opportunity to work with many different languages during this time. Pascal works in a little company that handles two small projects every year. He currently lives in London and works from home.
 
-### Persona ...
+#### Goals
+  - Pascal needs to learn a new assembly language to complete his client's requirements. He discovered our assembly language and saw that it would perfectly fit his client's requirements.
+  - He prefers working on his Windows computer even if he also has a macOS.
+
+#### Challenges
+  - Pascal wants a virtual processor effective with the language.
+  - He doesn't want to search for a separate interpreter.
+
+### Persona 2 - Violette Mayers
+
+#### Introduction
+  Violette Mayers is a 23-year-old junior software engineer. She just got her diploma and got a job in a little company in New York City. Violette doesn't know a lot of languages except C and web languages.
+
+#### Goals
+  - Her primary goal is to understand assembly language to improve her global comprehension of high-level languages and to have an added value in her curriculum vitae.
+  - She wants to become more familiar with a new operating system like Linux.
+
+#### Challenges
+  - The principal challenge here is to provide a comprehensible assembly language with a simple instruction set.
+  - Struggles with the Linux command system.
+
+### Persona 3 - Patricia Farmer
+
+#### Introduction
+  Patricia Farmer is a 31-year-old kind-hearted Educator who wants the well-being of her students. She works in a computer science school in the city of Berlin, where she lives as well. She has been doing this job for the last eight years, and after that, she obtained her master's in her courses at the same school where she is currently working.
+
+#### Goals
+  - She wants to rehearse her level in low-level programming for her courses.
+  - Her main goal is to know if the language she found could be a good first approach for her second-year students because she knows that assembly could be a plus for them.
+
+#### Challenges
+  - The main challenge here is to have an Assembly language that can be easily run and understood.
+  - The virtual processor must be portable because her students aren't in the same operating system.
 
 ## Acceptance criteria
 
