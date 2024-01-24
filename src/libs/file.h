@@ -60,14 +60,6 @@ int findOperand(char *input, InstructionType_t *instruction)
     {
         *instruction = XOR;
     }
-    else if (strcmp("input", input) == 0)
-    {
-        *instruction = INPUT;
-    }
-    else if (strcmp("output", input) == 0)
-    {
-        *instruction = OUTPUT;
-    }
     else if (strcmp("cmpeq", input) == 0)
     {
         *instruction = CMPEQ;

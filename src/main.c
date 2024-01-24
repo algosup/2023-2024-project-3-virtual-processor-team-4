@@ -8,7 +8,7 @@
 
 int main()
 {
-    while (true)
+    /*while (true)
     {
         printf("> ");
         char filename[100]; // File name in input
@@ -47,5 +47,11 @@ int main()
         }
         printf("\n");
     }
+    return SUCCESS;*/
+
+    instruction_t a = {SET, "R1", "10", 0};
+    set(a);
+    printf("%s\n", registerArr[1]);
+
     return SUCCESS;
 }

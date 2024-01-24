@@ -6,29 +6,7 @@
 #include <string.h>
 #include "utils.h"
 
-int registerArr[16];
-
-int load(instruction_t instruction);
-int store(instruction_t instruction);
-int add(instruction_t instruction);
-int sub(instruction_t instruction);
-int mul(instruction_t instruction);
-int div(instruction_t instruction);
-int not_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
-int and_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
-int or_(instruction_t instruction);  // Added _ to avoid conflict with existing keywords
-int xor_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
-int input(instruction_t instruction);
-int output(instruction_t instruction);
-int cmpeq(instruction_t instruction);
-int cmpge(instruction_t instruction);
-int jtrue(instruction_t instruction);
-int jfalse(instruction_t instruction);
-int jump(instruction_t instruction);
-int call(instruction_t instruction);
-int ret(instruction_t instruction);
-int halt(instruction_t instruction);
-int int_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+__int32_t registerArr[16];
 
 typedef enum InstructionType
 {
@@ -45,8 +23,6 @@ typedef enum InstructionType
     AND,
     OR,
     XOR,
-    INPUT,
-    OUTPUT,
     CMPEQ,
     CMPGE,
     JTRUE,
@@ -66,6 +42,48 @@ typedef struct instruction // Definition of an instruction after parsing
     int line;
 } instruction_t;
 
+int load(instruction_t instruction);
+int store(instruction_t instruction);
+int add(instruction_t instruction);
+int sub(instruction_t instruction);
+int mul(instruction_t instruction);
+int div_(instruction_t instruction);
+int not_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int and_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int or_(instruction_t instruction);  // Added _ to avoid conflict with existing keywords
+int xor_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int cmpeq(instruction_t instruction);
+int cmpge(instruction_t instruction);
+int jtrue(instruction_t instruction);
+int jfalse(instruction_t instruction);
+int jump(instruction_t instruction);
+int call(instruction_t instruction);
+int ret(instruction_t instruction);
+int halt(instruction_t instruction);
+int int_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+
+//int memory[2048];
+
+int load(instruction_t instruction);
+int store(instruction_t instruction);
+int add(instruction_t instruction);
+int sub(instruction_t instruction);
+int mul(instruction_t instruction);
+int div_(instruction_t instruction);
+int not_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int and_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int or_(instruction_t instruction);  // Added _ to avoid conflict with existing keywords
+int xor_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+int cmpeq(instruction_t instruction);
+int cmpge(instruction_t instruction);
+int jtrue(instruction_t instruction);
+int jfalse(instruction_t instruction);
+int jump(instruction_t instruction);
+int call(instruction_t instruction);
+int ret(instruction_t instruction);
+int halt(instruction_t instruction);
+int int_(instruction_t instruction); // Added _ to avoid conflict with existing keywords
+
 typedef struct stackNode
 { // Item of linked list
     struct stackNode *previous;
@@ -80,8 +98,7 @@ typedef struct stack
 
 int findRegister(char *inString, int *registerIndex)
 {
-    if (strlen(inString) > 3)
-    {
+    if(strlen(inString) != 2){
         return INVALID_DATA;
     }
 
@@ -89,9 +106,13 @@ int findRegister(char *inString, int *registerIndex)
     strcpy(str2, inString);
     char *ptr = str2;
     ptr++;
-    *registerIndex = (int)strtol(ptr, NULL, 16);
 
-    return SUCCESS;
+    if((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')){
+        *registerIndex = (int)strtol(ptr, NULL, 16);
+        return SUCCESS;
+    }else{
+        return INVALID_DATA;
+    }
 };
 
 int push_to_stack(stack_t *pStack, instruction_t value)
@@ -153,26 +174,77 @@ int getReturnLine(stack_t *returnStack, instruction_t *call)
     return 0;
 }
 
+int checkVal(char* val){
+    if(val == NULL || strcmp(val, "") == 0){
+        return NULL_;
+    }
+
+    char str2[3];
+    strcpy(str2, val);
+    char* ptr = str2;
+    ptr++;
+
+    if(((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) 
+    && strlen(val) == 2
+    && (val[0] == 'R' || val[0] == 'r')){
+        return REGISTER;
+    }
+    if(checkIsNumber(val) == SUCCESS){
+        return IMMEDIAT;
+    }
+    if(checkIsLabel(val) == SUCCESS){
+        return LABEL;
+    }
+
+    return INVALID_DATA;
+}
+
 // --- Operations ---
 
-int set(instruction_t instruction)
-{
-    int i;
-    findRegister(instruction.val1, &i);
+int noop(instruction_t instruction){
+    if(instruction.instT == NOOP){
+        return SUCCESS;
+    }
+}
 
-    registerArr[i] = instruction.val2;
-    return SUCCESS;
+int set(instruction_t instruction){
+    int i;
+    if(checkVal(instruction.val1) != REGISTER){
+        printf("Error: at line %d. %s is not a valid register.", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+    else{
+        findRegister(instruction.val1, &i);
+    }
+
+    if(checkVal(instruction.val2) == IMMEDIAT){
+        registerArr[i] = (__int32_t)strtod(instruction.val2, '\0');
+        return SUCCESS;
+    }
+
+    printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
+    return INVALID_DATA;
 }
 
 int copy(instruction_t instruction)
 {
     int i;
-    findRegister(instruction.val1, &i);
-
     int i2;
-    findRegister(instruction.val2, &i2);
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
 
-    registerArr[i] = registerArr[i2];
+    if(checkVal(instruction.val2) == REGISTER){
+        findRegister(instruction.val2, &i2);
+        registerArr[i] = registerArr[i2];
+        return SUCCESS;
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val2);
+        return INVALID_DATA;
+    }
 }
 
 int executeInstruction(instruction_t *instruction)
@@ -203,7 +275,7 @@ int executeInstruction(instruction_t *instruction)
         mul(*instruction);
         break;
     case DIV:
-        div(*instruction);
+        div_(*instruction);
         break;
     case NOT:
         not_(*instruction);
@@ -216,12 +288,6 @@ int executeInstruction(instruction_t *instruction)
         break;
     case XOR:
         xor_(*instruction);
-        break;
-    case INPUT:
-        input(*instruction);
-        break;
-    case OUTPUT:
-        output(*instruction);
         break;
     case CMPEQ:
         cmpeq(*instruction);
@@ -255,5 +321,220 @@ int executeInstruction(instruction_t *instruction)
     }
     return SUCCESS;
 }
+
+int add(instruction_t instruction)
+{
+    int i;
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+        switch (checkVal(instruction.val2))
+        {
+        case REGISTER:
+            int i2;
+            findRegister(instruction.val2, &i2);
+            registerArr[i] = registerArr[i] + registerArr[i2];
+            return SUCCESS;
+        
+        case IMMEDIAT:
+            registerArr[i] = registerArr[i] + (__int32_t)strtod(instruction.val2, '\0');
+            return SUCCESS;
+        default:
+            printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
+            return INVALID_DATA;
+        }
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+}
+
+int sub(instruction_t instruction)
+{
+    int i;
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+        switch (checkVal(instruction.val2))
+        {
+        case REGISTER:
+            int i2;
+            findRegister(instruction.val2, &i2);
+            registerArr[i] = registerArr[i] - registerArr[i2];
+            return SUCCESS;
+        
+        case IMMEDIAT:
+            registerArr[i] = registerArr[i] - (__int32_t)strtod(instruction.val2, '\0');
+            return SUCCESS;
+        default:
+            printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
+            return INVALID_DATA;
+        }
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+}
+
+int mul(instruction_t instruction){
+    int i;
+    int i2;
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+
+    if(checkVal(instruction.val2) == REGISTER){
+        findRegister(instruction.val2, &i2);
+
+        __int64_t bigInt64 = (__int64_t)registerArr[i]*registerArr[i2];
+        __int32_t high32 = (__int32_t)(bigInt64 >> 32);
+        __int32_t low32 = (__int32_t)bigInt64;
+
+        registerArr[i] = low32;
+        registerArr[i2] = high32;
+
+        return SUCCESS;
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val2);
+        return INVALID_DATA;
+    }
+}
+
+int div_(instruction_t instruction){
+    int i;
+    int i2;
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+
+    if(checkVal(instruction.val2) == REGISTER){
+        __int32_t tmp = registerArr[i2];
+
+        registerArr[i2] = registerArr[i]%registerArr[i2];
+        registerArr[i] = registerArr[i]/tmp;
+
+        return SUCCESS;
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val2);
+        return INVALID_DATA;
+    }
+}
+
+int and_ (instruction_t instruction){
+    int i;
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+        switch (checkVal(instruction.val2))
+        {
+        case REGISTER:
+            int i2;
+            findRegister(instruction.val2, &i2);
+            registerArr[i] = registerArr[i] & registerArr[i2];
+            return SUCCESS;
+        
+        case IMMEDIAT:
+            registerArr[i] = registerArr[i] & (__int32_t)strtod(instruction.val2, '\0');
+            return SUCCESS;
+        default:
+            printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
+            return INVALID_DATA;
+        }
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+}
+
+int or_ (instruction_t instruction){
+    int i;
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+        switch (checkVal(instruction.val2))
+        {
+        case REGISTER:
+            int i2;
+            findRegister(instruction.val2, &i2);
+            registerArr[i] = registerArr[i] | registerArr[i2];
+            return SUCCESS;
+        
+        case IMMEDIAT:
+            registerArr[i] = registerArr[i] | (__int32_t)strtod(instruction.val2, '\0');
+            return SUCCESS;
+        default:
+            printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
+            return INVALID_DATA;
+        }
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+}
+
+int xor_ (instruction_t instruction){
+    int i;
+    if(checkVal(instruction.val1) == REGISTER){
+        findRegister(instruction.val1, &i);
+        switch (checkVal(instruction.val2))
+        {
+        case REGISTER:
+            int i2;
+            findRegister(instruction.val2, &i2);
+            registerArr[i] = registerArr[i] ^ registerArr[i2];
+            return SUCCESS;
+        
+        case IMMEDIAT:
+            registerArr[i] = registerArr[i] ^ (__int32_t)strtod(instruction.val2, '\0');
+            return SUCCESS;
+        default:
+            printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
+            return INVALID_DATA;
+        }
+    }else{
+        printf("Error: at line %d. %s is not a valid register", instruction.line, instruction.val1);
+        return INVALID_DATA;
+    }
+}
+
+int load(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int store(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int not_(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int cmpeq(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int cmpge(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int jtrue(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int jfalse(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int jump(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int call(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int ret(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int halt(instruction_t instruction){
+    return GENERIC_ERROR;
+}
+int int_(instruction_t instruction){
+    return GENERIC_ERROR;
+} 
+
 
 #endif
