@@ -16,8 +16,18 @@ The assembly language will also be created and tailored by us.
 - [Functional requirements](#functional-requirements)
 - [Deliverables and milestones](#deliverables-and-milestones)
 - [Personas and use cases](#personas-and-use-cases)
-  - [Persona 1](#persona-1)
-  - [Persona ...](#persona-)
+  - [Persona 1 - Pascal Thomas](#persona-1---pascal-thomas)
+    - [Introduction](#introduction)
+    - [Goals](#goals)
+    - [Challenges](#challenges)
+  - [Persona 2 - Violette Mayers](#persona-2---violette-mayers)
+    - [Introduction](#introduction-1)
+    - [Goals](#goals-1)
+    - [Challenges](#challenges-1)
+  - [Persona 3 - Patricia Farmer](#persona-3---patricia-farmer)
+    - [Introduction](#introduction-2)
+    - [Goals](#goals-2)
+    - [Challenges](#challenges-2)
 - [Acceptance criteria](#acceptance-criteria)
 - [Solution overview](#solution-overview)
   - [System architecture](#system-architecture)
@@ -169,9 +179,9 @@ The syntax for the instructions follows one of those patterns:
 - `mnem param`
 - `mnem param1, param2`
 
-where `mnem` is the mnemonic for the instruction and the rest is parameters. Everything should be in lowercase. For alignment reasons, we allow any number more than one space before the parameters.
+where `mnem` is the mnemonic for the instruction in lowercase and the rest is parameters. For alignment reasons, we allow any number more than one space before the parameters.
 
-A label should be on a line with no instruction, written in camel case, and followed by a colon: `camelCase:`
+A label should be on a line with no instruction, written in camel case, and followed by a colon: `camelCase:`. A label may only be defined once in a file but jumped to or called any amount of time.
 
 A line only composed with whitespace is to be ignored.
 
@@ -249,6 +259,8 @@ The execution of the code should be ended with the program exiting if:
 
 <!-- TODO -->
 
+Execution of the program starts at the first line and ends when the end of the file is reached, the `exit` instruction is used, or when a runtime error occurs.
+
 ## Non-functional requirements
 
 ### Performance
@@ -289,6 +301,7 @@ Budget:
 ## Future improvements
 
 <!-- TODO -->
+<!-- shl shr neg jmpoffset cmpne cmpgt cmple cmpgt jmpo jmpz jmps -->
 
 ## Glossary
 
@@ -309,3 +322,6 @@ An architecture defining how a microprocessor and its related components should 
 **Register** \
 
 **Arithmetic and Logic Unit (ALU)** \
+
+**Immediate value** \
+A constant
