@@ -57,7 +57,7 @@ int main()
             }
             free(content);
         }
-        printf("\n");
+        printf("Done!\n");
     }
     return SUCCESS;
 }

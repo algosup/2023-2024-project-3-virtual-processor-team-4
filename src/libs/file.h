@@ -286,9 +286,7 @@ int isLineHavingErrors(instruction_t *instruction, int *line_number)
             printf("Error: set instruction second operator is a register, instead should be an immediate value on line %d\n", *line_number);
             return GENERIC_ERROR;
         }
-        return SUCCESS;
         break;
-
     case COPY:
         if (instruction->val1 == NULL)
         {
@@ -678,5 +676,6 @@ int isLineHavingErrors(instruction_t *instruction, int *line_number)
         return GENERIC_ERROR;
         break;
     }
+    return SUCCESS;
 }
 #endif
