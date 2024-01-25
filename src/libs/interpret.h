@@ -4,9 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include "utils.h"
 
-__int32_t registerArr[16];
+int32_t registerArr[16];
 
 typedef enum InstructionType
 {
@@ -218,7 +219,7 @@ int set(instruction_t instruction){
     }
 
     if(checkVal(instruction.val2) == IMMEDIAT){
-        registerArr[i] = (__int32_t)strtod(instruction.val2, '\0');
+        registerArr[i] = (int32_t)strtod(instruction.val2, '\0');
         return SUCCESS;
     }
 
@@ -336,7 +337,7 @@ int add(instruction_t instruction)
             return SUCCESS;
         
         case IMMEDIAT:
-            registerArr[i] = registerArr[i] + (__int32_t)strtod(instruction.val2, '\0');
+            registerArr[i] = registerArr[i] + (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -362,7 +363,7 @@ int sub(instruction_t instruction)
             return SUCCESS;
         
         case IMMEDIAT:
-            registerArr[i] = registerArr[i] - (__int32_t)strtod(instruction.val2, '\0');
+            registerArr[i] = registerArr[i] - (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -387,9 +388,9 @@ int mul(instruction_t instruction){
     if(checkVal(instruction.val2) == REGISTER){
         findRegister(instruction.val2, &i2);
 
-        __int64_t bigInt64 = (__int64_t)registerArr[i]*registerArr[i2];
-        __int32_t high32 = (__int32_t)(bigInt64 >> 32);
-        __int32_t low32 = (__int32_t)bigInt64;
+        int64_t bigInt64 = (int64_t)registerArr[i]*registerArr[i2];
+        int32_t high32 = (int32_t)(bigInt64 >> 32);
+        int32_t low32 = (int32_t)bigInt64;
 
         registerArr[i] = low32;
         registerArr[i2] = high32;
@@ -412,7 +413,7 @@ int div_(instruction_t instruction){
     }
 
     if(checkVal(instruction.val2) == REGISTER){
-        __int32_t tmp = registerArr[i2];
+        int32_t tmp = registerArr[i2];
 
         registerArr[i2] = registerArr[i]%registerArr[i2];
         registerArr[i] = registerArr[i]/tmp;
@@ -437,7 +438,7 @@ int and_ (instruction_t instruction){
             return SUCCESS;
         
         case IMMEDIAT:
-            registerArr[i] = registerArr[i] & (__int32_t)strtod(instruction.val2, '\0');
+            registerArr[i] = registerArr[i] & (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -462,7 +463,7 @@ int or_ (instruction_t instruction){
             return SUCCESS;
         
         case IMMEDIAT:
-            registerArr[i] = registerArr[i] | (__int32_t)strtod(instruction.val2, '\0');
+            registerArr[i] = registerArr[i] | (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -487,7 +488,7 @@ int xor_ (instruction_t instruction){
             return SUCCESS;
         
         case IMMEDIAT:
-            registerArr[i] = registerArr[i] ^ (__int32_t)strtod(instruction.val2, '\0');
+            registerArr[i] = registerArr[i] ^ (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);

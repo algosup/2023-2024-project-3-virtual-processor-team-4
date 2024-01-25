@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-typedef enum ErrorType //Define all the errors which could happen and their codes
+typedef enum ErrorType // Define all the errors which could happen and their codes
 {
     SUCCESS,
     GENERIC_ERROR,
@@ -9,6 +9,7 @@ typedef enum ErrorType //Define all the errors which could happen and their code
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
+    LINE_EMPTY,
 } errorType_t;
 
 typedef enum ParameterType //Define type of parameters in a function

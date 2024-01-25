@@ -8,9 +8,11 @@
 
 int main()
 {
-    /*while (true)
+    system("cls");
+    printf("Welcome to the Team 4 virtual processor interpreter!\n"); // Notify we enter into the processor interpreter
+    while (true)
     {
-        printf("> ");
+        printf("\n> ");
         char filename[100]; // File name in input
         scanf("%s", filename);
         for (int i = 0; filename[i]; i++)
@@ -29,29 +31,33 @@ int main()
         else
         {
             char *content;
-            int line_count = 0;
+            int line_count = 1; //File has at least one line if it exists
             content = (char *)malloc((i + 1) * sizeof(char));
             read_file(filename, content, i, &line_count);
             for (int j = 0; j < line_count; j++)
             {
-                char line_content[25];
+                // malloc line content 
+                char *line_content = malloc(100 * sizeof(char));
                 line_content_from_file_content(content, j, line_content);
                 instruction_t *ope = malloc(sizeof(instruction_t));
-                parse_content_one_line(line_content, ope, &j);
+                if (
+                    parse_content_one_line(line_content, ope, &j) != 0)
+                {
+                    continue;
+                }
+                
+                if (isLineHavingErrors(ope, &j) != 0)
+                {
+                    break;
+                }
                 // Store in stack
-                executeInstruction(ope);
+                // executeInstruction(ope);
                 free(ope);
+                free(line_content);
             }
-
             free(content);
         }
         printf("\n");
     }
-    return SUCCESS;*/
-
-    instruction_t a = {SET, "R1", "10", 0};
-    set(a);
-    printf("%s\n", registerArr[1]);
-
     return SUCCESS;
 }

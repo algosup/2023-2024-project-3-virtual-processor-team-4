@@ -96,16 +96,24 @@ int findOperand(char *input, InstructionType_t *instruction)
     {
         *instruction = INT;
     }
-
+    else
+    {
+        *instruction = NOOP; // Not found returns NOOP
+    }
     return 0;
 };
 
 int parse_content_one_line(char *line_content, instruction_t *operation, int *line_number)
 {
-    if (strcmp(line_content, "") == 0 || line_content == NULL || line_content == "") // Check if the line is empty
+    if (line_content[0] == '/' && line_content[1] == '/') // Check if the line is empty or a comment
     {
+        operation->instT = NOOP;
+        operation->line = *line_number;
+        operation->val1 = NULL;
+        operation->val2 = NULL;
         return SUCCESS;
     }
+
     char *token = strtok(line_content, " ");
     char *word1, *word2, *word3;
 
@@ -115,6 +123,10 @@ int parse_content_one_line(char *line_content, instruction_t *operation, int *li
         word1 = token;
         token = strtok(NULL, " ");
     }
+    else
+    {
+        word1 = "noop";
+    }
 
     // Extract the second word
     if (token != NULL)
@@ -122,18 +134,27 @@ int parse_content_one_line(char *line_content, instruction_t *operation, int *li
         word2 = token;
         token = strtok(NULL, " ");
     }
+    else
+    {
+        word2 = NULL;
+    }
 
     // Extract the third word
     if (token != NULL)
     {
         word3 = token;
     }
-    InstructionType_t *instType = malloc(sizeof(InstructionType_t));
+    else
+    {
+        word3 = NULL;
+    }
+
+    InstructionType_t *instType = malloc(sizeof(InstructionType_t)); // check for free afterwhile
     findOperand(word1, instType);
     operation->instT = *instType;
+    operation->line = *line_number;
     operation->val1 = word2;
     operation->val2 = word3;
-    operation->line = *line_number;
     return SUCCESS;
 }
 
@@ -174,7 +195,7 @@ int line_content_from_file_content(char *content, int line_number, char *line_co
 
     if (content == NULL)
     {
-        printf("content is NULL\n");
+        printf("Content is NULL\n");
         return GENERIC_ERROR;
     }
 
@@ -230,5 +251,432 @@ int get_file_size(char *filename, int *size)
     fclose(fp);
 
     return SUCCESS;
+}
+
+int isLineHavingErrors(instruction_t *instruction, int *line_number)
+{
+    switch (instruction->instT)
+    {
+    case NOOP:
+        if (instruction->val1 != NULL || instruction->val2 != NULL)
+        {
+            printf("Error: noop instruction has operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        break;
+    case SET:
+        if (instruction->val1 == NULL || instruction->val2 == NULL)
+        {
+            printf("Error: set instruction is missing an operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: set instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: set instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2[0] == 'r' && ((instruction->val2[1] >= '0' || instruction->val2[1] <= '9') || (instruction->val2[1] >= 'A' || instruction->val2[1] <= 'F') || (instruction->val2[1] >= 'a' || instruction->val2[1] <= 'f')))
+        {
+            printf("Error: set instruction second operator is a register, instead should be an immediate value on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        return SUCCESS;
+        break;
+
+    case COPY:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: copy instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: copy instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: copy instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2[0] != 'r')
+        {
+            printf("Error: copy instruction second operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: copy instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (((instruction->val2[1] < '0' || instruction->val2[1] > '9') ||
+             (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') ||
+             (instruction->val2[1] < 'a' || instruction->val2[1] > 'f')) &&
+            strlen(instruction->val2) != 2 && strcmp(instruction->val2, "sp") != 0 && strcmp(instruction->val2, "ln") != 0)
+        {
+            printf("Error: copy instruction second operator is not a register, sp or ln on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        break;
+    case LOAD: // Should add checks for memory addresses
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: load instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: load instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: load instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: load instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        {
+            printf("Error: load instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        break;
+    case STORE: // Should add checks for memory addresses
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: STORE instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: STORE instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[0] != 'r' && (instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2) || isdigit(instruction->val1[0]) == 0)
+        {
+            printf("Error: store instruction FISRT operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        {
+            printf("Error: store instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        break;
+    case ADD:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: add instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: add instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: add instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: add instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        // if ((instruction->val2[0] != 'r' || (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        // {
+        //     printf("Error: add instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+        //     return GENERIC_ERROR;
+        // } // Checks between register and immediate value to be adressed
+        break;
+    case SUB:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: sub instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: sub instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: sub instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: sub instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        // if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        // {
+        //     printf("Error: sub instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+        //     return GENERIC_ERROR;
+        // } // Checks between register and immediate value to be adressed
+        break;
+    case MUL:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: mul instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: mul instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: mul instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2[0] != 'r')
+        {
+            printf("Error: mul instruction second operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: mul instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val2[1] < '0' || instruction->val2[1] > '9') &&
+            (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') &&
+            (instruction->val2[1] < 'a' || instruction->val2[1] > 'f'))
+        {
+            printf("Error: mul instruction second operator is not a register, sp or ln on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        break;
+    case DIV:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: div instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: div instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: div instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2[0] != 'r')
+        {
+            printf("Error: div instruction second operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: div instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val2[1] < '0' || instruction->val2[1] > '9') &&
+            (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') &&
+            (instruction->val2[1] < 'a' || instruction->val2[1] > 'f'))
+        {
+            printf("Error: div instruction second operator is not a register, sp or ln on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        break;
+    case NOT:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: not instruction is missing its operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 != NULL)
+        {
+            printf("Error: not instruction has a second operand, but instead, should have only one on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: not instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: not instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        break;
+    case AND:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: and instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: and instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: and instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: and instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        // if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        // {
+        //     printf("Error: and instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+        //     return GENERIC_ERROR;
+        // } // Checks between register and immediate value to be adressed
+        break;
+    case OR:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: or instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: or instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: or instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: or instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        // if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        // {
+        //     printf("Error: or instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+        //     return GENERIC_ERROR;
+        // } // Checks between register and immediate value to be adressed
+        break;
+    case XOR:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: xor instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: xor instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: xor instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: xor instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        // if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        // {
+        //     printf("Error: xor instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+        //     return GENERIC_ERROR;
+        // } // Checks between register and immediate value to be adressed
+        break;
+    case CMPEQ:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: cmpeq instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: cmpeq instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: cmpeq instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: cmpeq instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        // if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        // {
+        //     printf("Error: cmpeq instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+        //     return GENERIC_ERROR;
+        // } // Checks between register and immediate value to be adressed
+        break;
+    case CMPGE:
+        if (instruction->val1 == NULL)
+        {
+            printf("Error: cmpge instruction is missing operands on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val2 == NULL)
+        {
+            printf("Error: cmpge instruction is missing its second operand on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if (instruction->val1[0] != 'r')
+        {
+            printf("Error: cmpge instruction first operator is not a register on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        if ((instruction->val1[1] < '0' || instruction->val1[1] > '9') && (instruction->val1[1] < 'A' || instruction->val1[1] > 'F') && (instruction->val1[1] < 'a' || instruction->val1[1] > 'f') || strlen(instruction->val1) != 2)
+        {
+            printf("Error: cmpge instruction first operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+            return GENERIC_ERROR;
+        }
+        // if ((instruction->val2[0] != 'r' && (instruction->val2[1] < '0' || instruction->val2[1] > '9') && (instruction->val2[1] < 'A' || instruction->val2[1] > 'F') && (instruction->val2[1] < 'a' || instruction->val2[1] > 'f') || strlen(instruction->val2) != 2) || isdigit(instruction->val2[0]) == 0)
+        // {
+        //     printf("Error: cmpge instruction second operator is not an existing register on range R0 -> R9 and range RA -> RF on line %d\n", *line_number);
+        //     return GENERIC_ERROR;
+        // } // Checks between register and immediate value to be adressed
+        break;
+    case JTRUE:
+        // Not handled yet in code
+        break;
+    case JFALSE:
+        // Not handled yet in code
+        break;
+    case JUMP:
+        // Not handled yet in code
+        break;
+    case CALL:
+        // Not handled yet in code
+        break;
+    case RET:
+        // Not handled yet in code
+        break;
+    case HALT:
+        // Not handled yet in code
+        break;
+    case INT:
+        // Not handled yet in code
+        break;
+    default:
+        printf("Error: instruction not found\n");
+        return GENERIC_ERROR;
+        break;
+    }
 }
 #endif
