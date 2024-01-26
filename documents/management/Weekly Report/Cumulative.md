@@ -26,6 +26,7 @@ In light of this confusion, our Program Manager was on the verge of drafting an 
 Subsequently, we thought together, leaded by the Program Manager, about all the bases of functional specifications, trying to bring real added value to the creation of yet another assembly language.
 
 <hr>
+
 ### Accomplishments
 
 - We get a clear idea of what we are going to develop.
