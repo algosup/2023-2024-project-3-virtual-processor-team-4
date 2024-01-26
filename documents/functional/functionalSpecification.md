@@ -31,10 +31,11 @@ The assembly language will also be created and tailored by us.
 - [Acceptance criteria](#acceptance-criteria)
 - [Solution overview](#solution-overview)
   - [System architecture](#system-architecture)
-  - [Syntax](#syntax)
-  - [Instructions](#instructions)
+  - [Assembly syntax](#assembly-syntax)
+  - [Assembly instructions](#assembly-instructions)
     - [Per parameter type](#per-parameter-type)
-  - [Exceptions](#exceptions)
+  - [Errors](#errors)
+  - [Machine code](#machine-code)
   - [Usage](#usage)
 - [Non-functional requirements](#non-functional-requirements)
   - [Performance](#performance)
@@ -78,6 +79,7 @@ We have multiple objectives for this project:
 
 ## Functional requirements
 
+<!-- TODO: Update with both compiler and emulator -->
 The instructions of the language must allow for the following actions:
 - Data handling i.e. writing data between a register and
   - an immediate value (a constant),
@@ -95,6 +97,9 @@ The instructions of the language must allow for the following actions:
 The interpreter must be able to be compiled and run on any real computer architecture. No libraries outside of the standard ones should be used, and the libraries that are operating system-specific must have existing alternatives.
 
 The interpreter must also detect syntactical errors such as invalid lines or invalid parameters. When those happen, the interpreter must stop the program and alert the user.
+
+Since we are emulating the execution of the machine code, the instructions must be run with a duration similar to what it would be on real hardware.
+This means that if an instruction takes 4 clock cycles and another one takes 7, if the first runs in 1.3ms and the second one 3.7ms, we would have to slow the first instruction to have a time factor closer to the real thing. We allow a 10% margin between the time-to-clock cycles of the fastest and slowest instructions (in terms of clock cycles).
 
 ## Deliverables and milestones
 
@@ -163,21 +168,24 @@ The architecture will use 32-bit integers to run. Unless otherwise specified, th
 We will consider to have 16 registers. Those are denoted by the letter `r` followed by an uppercase hexadecimal digit (r0, r1, ..., rE, rF). This notation allows for easy recognizability and easy expansion if necessary.
 
 The processor will also allow for four flags (boolean outputs from the ALU). They are denoted with the letter `f` followed by an uppercase letter.
-| Representation | Meaning          | Description                                                                                                                                                                    |
-| -------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| fO             | Overflow flag    | When an operation is executed, the flag is set if the result cannot fit in the register (32 bits).                                                                             |
-| fZ             | Zero flag        | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is equal to zero.                                            |
-| fS             | Sign flag        | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is strictly negative (i.e. the most significant bit is set). |
-| fJ             | Jump status flag | After a comparison is done, the flag is set if the specified values match the operator.                                                                                        |
+| Representation | Meaning    | Description                                                                                                                                                                    |
+| -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| fC             | Carry flag | When an operation is executed, the flag is set if the unsigned result cannot fit in the register.                                                                              |
+| fS             | Sign flag  | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is strictly negative (i.e. the most significant bit is set). |
+| fZ             | Zero flag  | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is equal to zero.                                            |
 
 All the flags default to false when the interpreter starts.
 
-### Syntax
+Since the overflow flag is set when there is an overflow into the sign bit, we assume the sign flag can be used instead.
+
+<!-- TODO: Memory layout -->
+
+### Assembly syntax
 
 The syntax for the instructions follows one of those patterns:
 - `mnem`
 - `mnem param`
-- `mnem param1, param2`
+- `mnem param1 param2`
 
 where `mnem` is the mnemonic for the instruction in lowercase and the rest is parameters. For alignment reasons, we allow any number more than one space before the parameters.
 
@@ -189,46 +197,49 @@ Comments can be added at the end of any line with an instruction or label, start
 
 The immediate values can be written either in decimal or in hexadecimal prefixed with a lowercase `x`.
 
-### Instructions
+### Assembly instructions
 
-| Mnemonic | Parameter 1 | Parameter 2 | Behavior                                                                                                                                   |
-| -------- | ----------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| noop     |             |             | Does nothing (used for padding or hogging clock cycles).                                                                                   |
-| set      | Register    | Immediate   | Sets the value of the register to the specified immediate value.                                                                           |
-| copy     | Register    | Register    | Copies the value from the second register* to the first.                                                                                   |
-| load     | Register    | Register    | Loads the value in memory at the address stored in the second register into the first register.                                            |
-| load     | Register    | Immediate   | Loads the value in memory at the address specified by the immediate value into the register.                                               |
-| store    | Register    | Register    | Stores the value of the second register to the memory address stored in the first register.                                                |
-| store    | Immediate   | Register    | Stores the value of the register to the memory address specified by the immediate value.                                                   |
-| store    | Immediate   | Immediate   | Stores the second immediate values to the memory address specified by the first immediate value.                                           |
-| add      | Register    | Register    | Adds the value of the second register to the first register.                                                                               |
-| add      | Register    | Immediate   | Adds the immediate value to the register.                                                                                                  |
-| sub      | Register    | Register    | Subtracts the value of the second register to the first register.                                                                          |
-| sub      | Register    | Immeditate  | Subtracts the immediate value to the register.                                                                                             |
-| mul      | Register    | Register    | Multiplies the values of the two registers. The first register gets the lower half of the result while the second one takes the high half. |
-| div      | Register    | Register    | Divides the value of the first register by the value of the second register.                                                               |
-| not      | Register    |             | Flips all the bits of the value of the register.                                                                                           |
-| and      | Register    | Register    | Performs a bitwise AND operation on the value of the first register with the value of the second register.                                 |
-| and      | Register    | Immediate   | Performs a bitwise AND operation on the value of the register with the value of the second register.                                       |
-| or       | Register    | Register    | Performs a bitwise OR operation on the value of the first register with the value of the second register.                                  |
-| or       | Register    | Immediate   | Performs a bitwise OR operation on the value of the register with the value of the second register.                                        |
-| xor      | Register    | Register    | Performs a bitwise XOR operation on the value of the first register with the value of the second register.                                 |
-| xor      | Register    | Immediate   | Performs a bitwise XOR operation on the value of the register with the value of the second register.                                       |
-| cmpeq    | Register    | Register    | Tests if the values stores in both registers are equal and sets the `fJ` flag correspondingly.                                             |
-| cmpeq    | Register    | Immediate   | Tests if the value in the register is equal to the immediate values and sets the `fJ` flag correspondingly.                                |
-| cmpge    | Register    | Register    | Tests if the value in the first register is greater or equal to the value in the second register and sets the `fJ` flag correspondingly.   |
-| cmpge    | Register    | Immediate   | Tests if the value in the register is greater or equal to the immediate value and sets the `fJ` flag correspondingly.                      |
-| cmpge    | Immediate   | Register    | Tests if the immediate value is greater or equal to the value in the register and sets the `fJ` flag correspondingly.                      |
-| jtrue    | Label       |             | Jumps conditionally to the specified label if the `fJ` flag is true.                                                                       |
-| jfalse   | Label       |             | Jumps conditionally to the specified label if the `fJ` flag is false.                                                                      |
-| jump     | Label       |             | Jumps unconditionally to the specified label.                                                                                              |
-| call     | Label       |             | Calls a subroutine by jumping to the specified label.                                                                                      |
-| ret      |             |             | Returns from the current subrouting by jumping back right after the call instruction.                                                      |
-| input    | Register    |             | Reads the scan code from the virtual keyboard into the specified register in a non-blocking way (value of 0 if no key is pressed).         |
-| output   | Register    |             | Writes the ASCII value stored in the specified register to the virtual terminal**.                                                         |
-| output   | Immediate   |             | Writes the specified immediate ASCII value to the virtual terminal**.                                                                      |
-| clock    | Register    |             | Writes the current timestamp of the physical computer into the specified register.                                                         |
-| exit     |             |             | Terminates the execution of the program.                                                                                                   |
+| Mnemonic | Parameter 1 | Parameter 2 | Behavior                                                                                                                                                  | Modifies flags (fP, fS, FZ) |
+| -------- | ----------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| noop     |             |             | Does nothing (used for padding or hogging clock cycles).                                                                                                  | No                          |
+| set      | Register    | Immediate   | Sets the value of the register to the specified immediate value.                                                                                          | Yes                         |
+| copy     | Register    | Register    | Copies the value from the second register* to the first.                                                                                                  | Yes                         |
+| load     | Register    | Register    | Loads the value in memory at the address stored in the second register into the first register.                                                           | Yes                         |
+| load     | Register    | Immediate   | Loads the value in memory at the address specified by the immediate value into the register.                                                              | Yes                         |
+| store    | Register    | Register    | Stores the value of the second register to the memory address stored in the first register.                                                               | Yes                         |
+| store    | Immediate   | Register    | Stores the value of the register to the memory address specified by the immediate value.                                                                  | Yes                         |
+| store    | Immediate   | Immediate   | Stores the second immediate values to the memory address specified by the first immediate value.                                                          | Yes                         |
+| add      | Register    | Register    | Adds the value of the second register to the first register.                                                                                              | Yes (also modifies fC)      |
+| add      | Register    | Immediate   | Adds the immediate value to the register.                                                                                                                 | Yes (also modifies fC)      |
+| sub      | Register    | Register    | Subtracts the value of the second register to the first register.                                                                                         | Yes (also modifies fC)      |
+| sub      | Register    | Immeditate  | Subtracts the immediate value to the register.                                                                                                            | Yes (also modifies fC)      |
+| mul      | Register    | Register    | Multiplies the values of the two registers. The first register gets the lower half of the result while the second one takes the high half.                | Yes (also modifies fC)      |
+| div      | Register    | Register    | Divides the value of the first register by the value of the second register. The first register gets the quotient and the second one takes the remainder. | Yes (also modifies fC)      |
+| not      | Register    |             | Flips all the bits of the value of the register.                                                                                                          | Yes                         |
+| and      | Register    | Register    | Performs a bitwise AND operation on the value of the first register with the value of the second register.                                                | Yes                         |
+| and      | Register    | Immediate   | Performs a bitwise AND operation on the value of the register with the value of the second register.                                                      | Yes                         |
+| or       | Register    | Register    | Performs a bitwise OR operation on the value of the first register with the value of the second register.                                                 | Yes                         |
+| or       | Register    | Immediate   | Performs a bitwise OR operation on the value of the register with the value of the second register.                                                       | Yes                         |
+| xor      | Register    | Register    | Performs a bitwise XOR operation on the value of the first register with the value of the second register.                                                | Yes                         |
+| xor      | Register    | Immediate   | Performs a bitwise XOR operation on the value of the register with the value of the second register.                                                      | Yes                         |
+| cmp      | Register    | Register    | Compares the value in the first register and the value in the second register and sets the flags correspondingly.                                         | Yes                         |
+| cmp      | Register    | Immediate   | Compares the value in the register and the immediate value and sets the flags correspondingly.                                                            | Yes                         |
+| cmp      | Immediate   | Register    | Compares the immediate value and the value in the register and sets the flags correspondingly.                                                            | Yes                         |
+| jeq      | Label       |             | Jumps conditionally to the specified label if the `fZ` flag is true.                                                                                      | No                          |
+| jneq     | Label       |             | Jumps conditionally to the specified label if the `fZ` flag is false.                                                                                     | No                          |
+| jgeq     | Label       |             | Jumps conditionally to the specified label if the `fS` flag is false or the `fZ` flag is true.                                                            | No                          |
+| jgt      | Label       |             | Jumps conditionally to the specified label if the `fS` flag is false and the `fZ` flag is false.                                                          | No                          |
+| jleq     | Label       |             | Jumps conditionally to the specified label if the `fS` flag is true or the `fZ` flag is true.                                                             | No                          |
+| jlt      | Label       |             | Jumps conditionally to the specified label if the `fS` flag is true and the `fZ` flag is false.                                                           | No                          |
+| jc       | Label       |             | Jumps conditionally to the specified label if the `fC` flag is true.                                                                                      | No                          |
+| jnc      | Label       |             | Jumps conditionally to the specified label if the `fC` flag is false.                                                                                     | No                          |
+| jump     | Label       |             | Jumps unconditionally to the specified label.                                                                                                             | No                          |
+| call     | Label       |             | Calls a subroutine by jumping to the specified label.                                                                                                     | No                          |
+| ret      |             |             | Returns from the current subroutine by jumping back right after the call instruction.                                                                     | No                          |
+| push     | Register    |             | Adds the value in the register to the top of the stack.                                                                                                   | Yes                         |
+| push     | Immediate   |             | Adds the specified value to the top of the stack.                                                                                                         | Yes                         |
+| pop      | Register    |             | Retrieves and deletes the value from the top of the stack into the register.                                                                              | Yes                         |
+| exit     |             |             | Terminates the execution of the program.                                                                                                                  | No                          |
 
 *For the `copy` instruction, the source register (second parameter) can also be `sp` or `ln`, respectively the address of the stack pointer and the number of the currently executed instruction. Those values are read-only.
 **The virtual terminal should correctly handle the backspace, new line, and carriage return control characters. Other control characters are to be silently omitted.
@@ -236,24 +247,22 @@ The immediate values can be written either in decimal or in hexadecimal prefixed
 <!-- TODO: Scancode appendix -->
 
 #### Per parameter type
-| Parameters         | Instructions                                                      |
-| ------------------ | ----------------------------------------------------------------- |
-| None               | noop, ret, halt                                                   |
-| 1 Immediate        | output                                                            |
-| 1 Register         | not, input, output                                                |
-| 2 Immediates       | store                                                             |
-| 2 Registers        | copy, load, store, add, sub, mul, div, and, or, xor, cmpeq, cmpge |
-| Immediate/Register | store, cmpge                                                      |
-| Register/Immediate | set, load, add, sub, and, or, xor, cmpeq, cmpge                   |
-| Label              | jtrue, jfalse, jump, call                                         |
+<!-- TODO -->
 
-### Exceptions
+### Errors
 
-The execution of the code should be ended with the program exiting if:
+The compilation of the code should abort with the program exiting if:
 - a line of code does not fit one of the previously mentioned rules (syntax error)
 - an instruction whose mnemonic is invalid or with parameters not corresponding (syntax error)
+
+The execution of the code should stop if:
 - a division by zero occurs (arithmetic error)
+- the stack is popped when empty (index error)
 - the user presses Ctrl+C (interrupt error)
+
+### Machine code
+
+<!-- TODO -->
 
 ### Usage
 
@@ -301,7 +310,7 @@ Budget:
 ## Future improvements
 
 <!-- TODO -->
-<!-- shl shr neg jmpoffset cmpne cmpgt cmple cmpgt jmpo jmpz jmps -->
+<!-- shl shr neg jmpoffset -->
 
 ## Glossary
 
