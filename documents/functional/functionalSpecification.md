@@ -208,7 +208,6 @@ The immediate values can be written either in decimal or in hexadecimal prefixed
 | load     | Register    | Immediate   | Loads the value in memory at the address specified by the immediate value into the register.                                                              | Yes                         |
 | store    | Register    | Register    | Stores the value of the second register to the memory address stored in the first register.                                                               | Yes                         |
 | store    | Immediate   | Register    | Stores the value of the register to the memory address specified by the immediate value.                                                                  | Yes                         |
-| store    | Immediate   | Immediate   | Stores the second immediate values to the memory address specified by the first immediate value.                                                          | Yes                         |
 | add      | Register    | Register    | Adds the value of the second register to the first register.                                                                                              | Yes (also modifies fC)      |
 | add      | Register    | Immediate   | Adds the immediate value to the register.                                                                                                                 | Yes (also modifies fC)      |
 | sub      | Register    | Register    | Subtracts the value of the second register to the first register.                                                                                         | Yes (also modifies fC)      |
@@ -237,12 +236,10 @@ The immediate values can be written either in decimal or in hexadecimal prefixed
 | call     | Label       |             | Calls a subroutine by jumping to the specified label.                                                                                                     | No                          |
 | ret      |             |             | Returns from the current subroutine by jumping back right after the call instruction.                                                                     | No                          |
 | push     | Register    |             | Adds the value in the register to the top of the stack.                                                                                                   | Yes                         |
-| push     | Immediate   |             | Adds the specified value to the top of the stack.                                                                                                         | Yes                         |
 | pop      | Register    |             | Retrieves and deletes the value from the top of the stack into the register.                                                                              | Yes                         |
 | exit     |             |             | Terminates the execution of the program.                                                                                                                  | No                          |
 
 *For the `copy` instruction, the source register (second parameter) can also be `sp` or `ln`, respectively the address of the stack pointer and the number of the currently executed instruction. Those values are read-only.
-**The virtual terminal should correctly handle the backspace, new line, and carriage return control characters. Other control characters are to be silently omitted.
 
 <!-- TODO: Scancode appendix -->
 
@@ -251,7 +248,7 @@ The immediate values can be written either in decimal or in hexadecimal prefixed
 
 ### Errors
 
-The compilation of the code should abort with the program exiting if:
+The assembly of the code should abort with the program exiting if:
 - a line of code does not fit one of the previously mentioned rules (syntax error)
 - an instruction whose mnemonic is invalid or with parameters not corresponding (syntax error)
 
@@ -262,7 +259,50 @@ The execution of the code should stop if:
 
 ### Machine code
 
-<!-- TODO -->
+Patterns:
+  - Register/Register:  `                ##SSSSDDDD0OOOCC`
+  - Register/Immediate: `IIIIIIIIIIIIIIIIIIIIIIDDDD1OOOCC`
+  - Push/Pop:           `                ######DDDDP#0101`
+  - Label (jump):       `AAAAAAAAAAAAAAAAAAAAAAAAAAAOOO11`
+Bits:
+  - C: Category
+  - O: Opcode
+  - D: Destination
+  - S: Source
+  - I: Immediate
+  - P: Stack direction (0 = push, 1 = pop)
+  - A: Address
+
+| Mnemonic  | Category              | Opcode | Type |
+| --------- | --------------------- | -----: | ---- |
+| add       | Arithmetic/Logic (00) |    000 | R?   |
+| sub       | Arithmetic/Logic (00) |    001 | R?   |
+| mul       | Arithmetic/Logic (00) |    010 | RR   |
+| div       | Arithmetic/Logic (00) |    011 | RR   |
+| and       | Arithmetic/Logic (00) |    100 | R?   |
+| or        | Arithmetic/Logic (00) |    101 | R?   |
+| xor       | Arithmetic/Logic (00) |    110 | R?   |
+| RESERVED  | Arithmetic/Logic (00) |    111 | X    |
+| set/copy  | Memory (01)           |  [0]00 | R?   |
+| push/pop  | Memory (01)           |  [0]01 | R    |
+| load      | Memory (01)           |  [0]10 | R?   |
+| store     | Memory (01)           |  [0]11 | R?   |
+| RESERVED? | Memory (01)           |    100 | X    |
+| RESERVED? | Memory (01)           |    101 | X    |
+| RESERVED? | Memory (01)           |    110 | X    |
+| RESERVED? | Memory (01)           |    111 | X    |
+| jump      | Branching (10)        |     00 | L    |
+| cmp       | Branching (10)        |     01 | R?   |
+| call      | Branching (10)        |     10 | L    |
+| ret       | Branching (10)        |     11 | TBD  |
+| jeq       | Cond branch (11)      |    000 | L    |
+| jneq      | Cond branch (11)      |    001 | L    |
+| jgeq      | Cond branch (11)      |    010 | L    |
+| jgt       | Cond branch (11)      |    011 | L    |
+| jleq      | Cond branch (11)      |    100 | L    |
+| jlt       | Cond branch (11)      |    101 | L    |
+| jc        | Cond branch (11)      |    110 | L    |
+| jnc       | Cond branch (11)      |    111 | L    |
 
 ### Usage
 
