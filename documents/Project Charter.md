@@ -25,6 +25,10 @@ Also, we must choose the syntax, the mnemonics, and the working process of the n
 
 The client gave us the basic instructions we need to implement for this assembly language.
 
+Therefore, we will create an assembly compiler in C to build a machine code file from the assembly. Then, another C program containing the virtual processor will interpret the machine code line by line to emulate the assembly program.
+
+Also, the virtual processor will consist of a simulation of the different components like register, memory, and flags and their behavior while executing the machine code. 
+
 
 
 ## Stakeholders
@@ -46,7 +50,7 @@ The client gave us the basic instructions we need to implement for this assembly
 
 ## Project Plan
 
-A meeting with the client will be organized in the early days. Further discussions will be made via emails/Slack messages and reports will be sent to the client.
+A meeting with the client had been organized in the early days. Further discussions will be made via emails/Slack messages and reports will be sent to the client.
 
 The project will mainly use the Waterfall method as shown by the deliverables, but will also use SCRUM ideas to improve the quality of development.
 The program will be split into multiple steps which will be incrementally implemented. This will also allow for fast testing iterations, leading to fewer bugs.
