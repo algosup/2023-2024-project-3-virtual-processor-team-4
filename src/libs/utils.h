@@ -12,7 +12,42 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     LINE_EMPTY,
 } errorType_t;
 
-typedef enum ParameterType //Define type of parameters in a function
+typedef enum InstructionType
+{
+    SKIP = -1,
+    NOOP,
+    SET,
+    COPY,
+    LOAD,
+    STORE,
+    ADD,
+    SUB,
+    MUL,
+    DIV,
+    NOT,
+    AND,
+    OR,
+    XOR,
+    CMPEQ,
+    CMPGE,
+    JTRUE,
+    JFALSE,
+    JUMP,
+    CALL,
+    RET,
+    HALT,
+    INT
+} InstructionType_t; // etc...
+
+typedef struct instruction // Definition of an instruction after parsing
+{
+    InstructionType_t instT;
+    char *val1;
+    char *val2;
+    int line;
+} instruction_t;
+
+typedef enum ParameterType // Define type of parameters in a function
 {
     IMMEDIAT,
     REGISTER,
@@ -20,11 +55,35 @@ typedef enum ParameterType //Define type of parameters in a function
     NULL_,
 } ParameterType_t;
 
-int checkIsNumber(char* str){
+typedef struct line
+{
+    struct
+    {
+        InstructionType_t mnemonic;
+        ParameterType_t param1;
+        union
+        {
+            int register1; // 0-15
+            uint32_t immediate1;
+            char *label;
+        };
+        ParameterType_t param2;
+        union
+        {
+            char register2;
+            uint32_t immediate2;
+        };
+    };
+    char *label_declaration;
+    int *line_number;
+} line_t;
+
+int checkIsNumber(char *str)
+{
     int i = 0;
     while (str[i] != '\0')
     {
-        if(!(str[i] >= '0' && str[i] <= '9'))
+        if (!(str[i] >= '0' && str[i] <= '9'))
         {
             return INVALID_DATA;
         }
@@ -33,22 +92,22 @@ int checkIsNumber(char* str){
     return SUCCESS;
 }
 
-int checkIsLabel(char* str){
-    if(!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
+int checkIsLabel(char *str)
+{
+    if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
     {
         return INVALID_DATA;
     }
     int i = 1;
     while (str[i] != '\0')
     {
-        if(!(str[i] >= '0' && str[i] <= '9') || !(str[i] >= 'A' && str[i] <= 'F') || !(str[i] >= 'a' && str[i] <= 'f'))
+        if (!(str[i] >= '0' && str[i] <= '9') || !(str[i] >= 'A' && str[i] <= 'F') || !(str[i] >= 'a' && str[i] <= 'f'))
         {
             return INVALID_DATA;
         }
         i++;
-    } 
+    }
     return SUCCESS;
 }
-
 
 #endif
