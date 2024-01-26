@@ -1,7 +1,7 @@
 # The Project
 
-This project is a student project provided by ALGOSUP, based in Vierzon.( → see the [**call for tender**](/documents/.data/Call_for_tender_-_2023-2024_Project_3_Virtual_Processor.pdf))
-The objective is to build a virtual processor and its components in C and to create our own assembly language to interact with it.
+This project is a student project provided by ALGOSUP, based in Vierzon. ( → see the [**call for tender**](/documents/.data/Call_for_tender_-_2023-2024_Project_3_Virtual_Processor.pdf))
+The objective is to build a virtual processor and its components in C and to create our assembly language to interact with it.
 
 <hr>
 
@@ -44,18 +44,17 @@ Then, unzip it, and follow the instructions below ↓
 
 # Dates
 
-- We started the project on Wednesday, January 17th of 2024
+- We started the project on Wednesday, January 17th, 2024
 
-- The deadline of the project is on Friday, January 23th
+- The deadline for the project is Friday, February 23rd
 
-- Date of the last official update of the project : 17/01/2024
+- Date of the last official update of the project: 17/01/2024
 
 <hr>
 
 # License
 
-This project is under the [Mit License](LICENSE).
+This project is under the [MIT License](LICENSE).
 
 <hr>
 <img src="documents/.data/pictures/algosup-logo.png" width="750px">
-

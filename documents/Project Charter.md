@@ -5,7 +5,7 @@
 - [Scope](#scope)
 - [Stakeholders](#stakeholders)
 - [Team members and responsibilities](#team-members-and-responsabilities)
-- [Project plan](#project-plan)
+- [Project Plan](#project-plan)
 - [Milestones](#milestones)
 - [Deliverables](#deliverables)
 - [Budget](#budget)
@@ -13,7 +13,7 @@
 
 ## Project definition
 
-The project involves creating a virtual processor in C and an interpreter to run an assembly language trough that processor.
+The project involves creating a virtual processor in C and an interpreter to run an assembly language through that processor.
 
 The client is ALGOSUP, the programming school we are part of, and our contact point is Franck JEANNIN, the school director.
 
@@ -21,9 +21,13 @@ The client is ALGOSUP, the programming school we are part of, and our contact po
 
 The project should be done in a portable C language, using only C standard libraries as external ones.
 
-Also, we have to choose the syntax, the mnemonics and the working process of the new assembly language that the new virtual processor will use.
+Also, we must choose the syntax, the mnemonics, and the working process of the new assembly language that the new virtual processor will use.
 
-The client gave us a set of the basics instructions we need to implement for this assembly language.
+The client gave us the basic instructions we need to implement for this assembly language.
+
+Therefore, we will create an assembly compiler in C to build a machine code file from the assembly. Then, another C program containing the virtual processor will interpret the machine code line by line to emulate the assembly program.
+
+Also, the virtual processor will consist of a simulation of the different components like register, memory, and flags and their behavior while executing the machine code. 
 
 
 
@@ -42,18 +46,18 @@ The client gave us a set of the basics instructions we need to implement for thi
 | Jason GROSSO    | Technical Leader  | Choose technical tools<br>Define interactions within the code<br>Review code<br>Technical specifications | Technical specifications                                     |
 | Antoine PREVOST | Software Engineer | Write code<br>Fix bugs<br>Document the code                  | (Unit tests)<br>As few bugs in the code as possible          |
 | Max BERNARD     | Software Engineer |                                                              |                                                              |
-| Maxime THIZEAU  | Quality Assurance | Verify documents<br>Test the program<br>Confirm we match the client needs<br>Overall quality of the project<br>Test plan | All bugs identified<br>Good team cohesion<br>Deliver a qualitative project |
+| Maxime THIZEAU  | Quality Assurance | Verify documents<br>Test the program<br>Confirm we match the client's needs<br>Overall quality of the project<br>Test plan | All bugs identified<br>Good team cohesion<br>Deliver a qualitative project |
 
-## Project plan
+## Project Plan
 
-A meeting with the client will be organized in the early days. Further discussions will be made via emails/Slack messages and reports will be sent to the client.
+A meeting with the client had been organized in the early days. Further discussions will be made via emails/Slack messages and reports will be sent to the client.
 
 The project will mainly use the Waterfall method as shown by the deliverables, but will also use SCRUM ideas to improve the quality of development.
 The program will be split into multiple steps which will be incrementally implemented. This will also allow for fast testing iterations, leading to fewer bugs.
 
-For all the files and documents for this project, a GitHub repository is created to allow an easy access and collaboration among a centralized system.
+For all the files and documents for this project, a GitHub repository is created to allow easy access and collaboration in a centralized system.
 
-The planning will consist in a Trello's board where each tasks will have tags such as the priority, the kind of task, the members who work on it, the deadlines. There will be some columns containing the remaining tasks by category, and 3 columns as "Doing", "To review" and "Done". An excel board will deserve the KPI's chart and data, and a weekly report will be available on the GitHub. All these documents will be available trough the readme.md of the repository.
+The planning will consist of a Trello board where each task will have tags such as the priority, the kind of task, the members who work on it, and the deadlines. There will be some columns containing the remaining tasks by category, and 3 columns as "Doing", "To review" and "Done". An Excel board will deserve the KPI chart and data, and a weekly report will be available on GitHub. All these documents will be available through the readme.md of the repository.
 
 ## Milestones
 
@@ -88,4 +92,4 @@ Money: Free
 Workforce: 6 team members
 Worktime: 27 half days of 3h15 (at least)
 
-Estimated total man-hours : 527 mh
+Estimated total man-hours: 527 mh
