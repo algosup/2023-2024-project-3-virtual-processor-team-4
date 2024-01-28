@@ -112,44 +112,49 @@ This means that if an instruction takes 4 clock cycles and another one takes 7, 
 
 ## Personas and use cases
 
-### Persona 1 - Pascal Thomas
+Use Casse :
+Cherche a comprendre comment un CPU peut fonctioné
+CTO d'une boite en system embarqué -> chereche un asm simple et fiable
+Direct d'une banque voulant renouvlé ses system de comunication inter +performant
 
-#### Introduction
-Pascal Thomas is a 47-year-old senior software engineer. He has been in this field for 20 years and has had the opportunity to work with many different languages during this time. Pascal works in a little company that handles two small projects every year. He currently lives in London and works from home.
 
-#### Goals
-  - Pascal needs to learn a new assembly language to complete his client's requirements. He discovered our assembly language and saw that it would perfectly fit his client's requirements.
-  - He prefers working on his Windows computer even if he also has a macOS.
+### Persona 1 - Oceane Thomas
 
-#### Challenges
-  - Pascal wants a virtual processor effective with the language.
-  - He doesn't want to search for a separate interpreter.
-
-### Persona 2 - Violette Mayers
-
-#### Introduction
-  Violette Mayers is a 23-year-old junior software engineer. She just got her diploma and got a job in a little company in New York City. Violette doesn't know a lot of languages except C and web languages.
+Oceane Thomas is an 18-year-old student working to become a CPU Architect. She already knows x64 assembly and C.
 
 #### Goals
-  - Her primary goal is to understand assembly language to improve her global comprehension of high-level languages and to have an added value in her curriculum vitae.
-  - She wants to become more familiar with a new operating system like Linux.
+  - Oceane wants to learn a new assembly language to gain insight into the various steps and implementations of assembly.
+  - She hopes to better understand CPU architecture choices by exploring how a virtual CPU works.
 
 #### Challenges
-  - The principal challenge here is to provide a comprehensible assembly language with a simple instruction set.
-  - Struggles with the Linux command system.
+  - Oceane is looking for an open-source project that allows her to examine its inner workings.
+  - She seeks a virtual processor that enables her to observe processes in greater detail than on physical hardware.
+  - She needs an easy-to-learn assembly language, as she does not want to spend too much time on the assembly itself.
+
+### Persona 2 - John Mayers
+
+John is a 34-year-old Computer Architect Researcher at IBM. He has been in this role for a few years and believes that drawing inspiration from external projects will enhance his creativity.
+
+#### Goals
+  - He aims to discover innovative ideas for CPU architecture.
+  - He is looking for solutions that are practical for general use.
+
+#### Challenges
+  - He needs a fresh perspective on assembly, as he is specifically seeking new viewpoints.
+  - The instructions must be realistically implementable in hardware.
+  - He needs to test and prototype quickly without necessarily having the physical CPU on hand.
 
 ### Persona 3 - Patricia Farmer
 
-#### Introduction
-  Patricia Farmer is a 31-year-old kind-hearted Educator who wants the well-being of her students. She works in a computer science school in the city of Berlin, where she lives as well. She has been doing this job for the last eight years, and after that, she obtained her master's in her courses at the same school where she is currently working.
+Patricia Farmer is a 31-year-old CTO at a bank. She recently assumed the position and realized that the bank's internal communication system urgently needs an upgrade.
 
 #### Goals
-  - She wants to rehearse her level in low-level programming for her courses.
-  - Her main goal is to know if the language she found could be a good first approach for her second-year students because she knows that assembly could be a plus for them.
+  - She aims to revamp the bank's internal communication system to make it faster.
+  - She also intends to enhance its security.
 
 #### Challenges
-  - The main challenge here is to have an Assembly language that can be easily run and understood.
-  - The virtual processor must be portable because her students aren't in the same operating system.
+  - The language and system architecture must be different from the old one to render existing malware obsolete.
+  - She cannot replace all the hardware at once. A virtual CPU is needed to run the new programs on the old hardware.
 
 ## Acceptance criteria
 
@@ -275,14 +280,26 @@ Execution of the program starts at the first line and ends when the end of the f
 ### Performance
 Since our language will be interpreted, our software must do so quite rapidly to not hinder the user experience.
 
-### Scalability
+### Maintainablility
 In case the client decides to change their requirements, or if we realize that the current instruction set is insufficient, we must be able to easily update the way the instructions are run.
+
+### Scalability
+<!-- The program is single threaded and does not make use of aditional CPU core available on modern hardware. The user could run multiple instances of the Virtual Processor program to make use of a multicore CPU.
+
+?? might be for future improvement :
+The virtual CPU speed is limited by it's internal clock although this clock speed may change depending on the available hardware. -->
 
 ### Portability
 As mentioned earlier, the software must run on any computer architecture which has a working C compiler.
 
+<!--It should work without recompilation on all operating system as long as the hardware doesn't change.
+The machine code created by the assembler program needs to run in the Virtual processor irelevent of the hardware used to assemble it or the hardware on which the V-CPU is running. -->
+
 ### Usability
 Although a debugger is not required, it might be useful for the developers to implement one for their own debugging needs.
+
+<!--Said debugger would concist of a way to display the content of register and flags at a particular point in the code.
+-->
 
 ## Examples
 
@@ -291,6 +308,7 @@ Although a debugger is not required, it might be useful for the developers to im
 ## Timeline
 
 <!-- TODO -->
+<!-- insert benoi's xcel table -->
 
 ## Resources
 
@@ -305,12 +323,21 @@ Budget:
 ## Risks and assumptions
 
 <!-- TODO -->
+<!-- risk -->
 <!-- Clock: 32-bit timestamp ends in 2038 -->
+<!-- the instruction we create could be infringing a patent-->
+
+<!-- assumptions -->
+<!-- We assume that every implementation of C follows the ??C17 standard close enough to not be a problem -->
+<!-- We assume that any isntruction we create can be implemented in a real hardware -->
+
 
 ## Future improvements
 
 <!-- TODO -->
-<!-- shl shr neg jmpoffset -->
+<!-- adding lookup table -->
+<!-- Giving the user direct acess to memory -->
+<!-- making a system of headerfile -->
 
 ## Glossary
 
