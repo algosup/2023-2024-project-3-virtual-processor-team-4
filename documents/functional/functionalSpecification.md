@@ -71,7 +71,7 @@ The assembly language will also be created and tailored by us.
 We have multiple objectives for this project:
 - Creation of an assembly language and [Instruction Set Architecture](#glossary) (defined further down in this document)
 - Implementation of this ISA in the form of a [virtual processor](#glossary)
-- Implementation of an interpreter to run code onto this virtual processor (in other words, encode the instructions of the CPU)
+- Implementation of an [interpreter](#glossary) to run code onto this virtual processor (in other words, encode the instructions of the CPU)
 - Provision of sample assembly scripts that can be run by the interpreter
 
 ## Functional requirements
@@ -109,11 +109,10 @@ This means that if an instruction takes 4 clock cycles and another one takes 7, 
 
 ## Personas and use cases
 
-Use Casse :
+<!-- Use Cases:
 Cherche a comprendre comment un CPU peut fonctioné
 CTO d'une boite en system embarqué -> chereche un asm simple et fiable
-Direct d'une banque voulant renouvlé ses system de comunication inter +performant
-
+Direct d'une banque voulant renouvlé ses system de comunication inter +performant -->
 
 ### Persona 1 - Oceane Thomas
 
@@ -363,6 +362,10 @@ An architecture defining how a microprocessor and its related components should 
 
 **Virtual processor** \
 
+<!-- **Interpreter** \
+
+**assembly** \ -->
+
 **Machine code** \
 
 **Processor / Central Processing Unit (CPU)** \
@@ -375,3 +378,31 @@ An architecture defining how a microprocessor and its related components should 
 
 **Immediate value** \
 A constant
+<!-- 
+**Branching** \
+
+**subroutines** \ 
+
+**compiler** \
+
+**libraries** \
+
+**operating system** \
+
+**emulating** \
+
+**clock cycles** \
+
+**x64 assembly** \
+
+**C language** \
+
+**segmentation fault** \
+
+**stack pointer** \
+
+**mnemonic** \
+
+**label** \
+
+**opcodes** \ -->
