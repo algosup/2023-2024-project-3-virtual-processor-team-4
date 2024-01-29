@@ -12,7 +12,7 @@
 
 <br><hr><br>
 
-[*Original file*]("https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/weekly-report/documents/management/Weekly%20Report/Week%202%20%20%20%20%20-%20%20%20%20%2015-01%20to%2019-01.md")
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/weekly-report/documents/management/Weekly%20Report/Week%202%20%20%20%20%20-%20%20%20%20%2015-01%20to%2019-01.md)
 
 # Weekly report - day 1
 
