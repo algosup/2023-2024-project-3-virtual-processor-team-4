@@ -12,7 +12,7 @@
 
 <br><hr><br>
 
-[*Original file*]("Week 2     -     15-01 to 19-01.md")
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/Weekly%20Report/Week%202%20%20%20%20%20-%20%20%20%20%2015-01%20to%2019-01.md)
 
 # Weekly report - day 1
 
@@ -54,7 +54,7 @@ Subsequently, we thought together, led by the Program Manager, about all the bas
 
 
 
-[*Original file*]("Week 3     -     22-01 to 26-01.md")
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/Weekly%20Report/Week%203%20%20%20%20%20-%20%20%20%20%2022-01%20to%2026-01.md)
 
 # Weekly report - week 3
 
