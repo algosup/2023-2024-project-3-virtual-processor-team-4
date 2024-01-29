@@ -235,7 +235,6 @@ int fillLineStruct(line_t *line, InstructionType_t *instType, char *word2, char 
 
 int areOperationParamsValid(InstructionType_t *instructionId, char *param1, char *param2, int *line_number)
 {
-    printf("Instruction: %d\nParam 1: %s\nParam 2: %s\n\n", *instructionId, param1, param2);
     switch (*instructionId)
     {
     case SKIP:

@@ -34,19 +34,41 @@ int isSecondOperandNull(InstructionType_t *instructionId, char *param2, int *lin
     return SUCCESS;
 }
 
+int isFirstOperandNotNull(InstructionType_t *instructionId, char *param1, int *line_number)
+{
+    // Check if first operand is not null
+    if (param1 == NULL)
+    {
+        char opcode[4];
+        getOperandName(*instructionId, opcode);
+        printf("Error: %s instruction requires first operand on line: %d\n", opcode, line_number);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int isSecondOperandNotNull(InstructionType_t *instructionId, char *param2, int *line_number)
+{
+    // Check if second operand is not null
+    if (param2 == NULL)
+    {
+        char opcode[4];
+        getOperandName(*instructionId, opcode);
+        printf("Error: %s instruction requires second operand on line: %d\n", opcode, line_number);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
 int isFirstOperandRegister(InstructionType_t *instructionId, char *param1, int *line_number)
 {
     int paramVerificationReturn;
     char opcode[4];
 
-    // if (isFirstOperandNull(instructionId, param1, line_number) == SUCCESS)
-    // {
-    //     getOperandName(*instructionId, opcode);
-    //     printf("Error: %s instruction first parameter should not be null or undefined on line: %d\n", opcode, line_number);
-    //     return INVALID_DATA;
-    // }
-
-    // printf("param1: %s\n", &param1);
+    if (isFirstOperandNotNull(instructionId, param1, line_number) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
 
     if (findRegister(param1, &paramVerificationReturn) != SUCCESS)
     {
@@ -63,14 +85,12 @@ int isSecondOperandRegister(InstructionType_t *instructionId, char *param2, int 
     int paramVerificationReturn;
     char opcode[4];
 
-    // if (isSecondOperandNull(instructionId, param2, line_number) == SUCCESS)
-    // {
-    //     getOperandName(*instructionId, opcode);
-    //     printf("Error: %s instruction second parameter should not be null or undefined on line: %d\n", opcode, line_number);
-    //     return INVALID_DATA;
-    // }
+    if(isSecondOperandNotNull(instructionId, param2, line_number) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
 
-    // printf("param2: %s\n", param2);
+    printf("param2: %s\n", param2);
 
     if (findRegister(param2, &paramVerificationReturn) != SUCCESS)
     {
@@ -87,12 +107,10 @@ int isFirstOperandImmediate(InstructionType_t *instructionId, char *param1, int 
     int paramVerificationReturn;
     char opcode[4];
 
-    // if (isFirstOperandNull(instructionId, param1, line_number) == SUCCESS)
-    // {
-    //     getOperandName(*instructionId, opcode);
-    //     printf("Error: %s instruction first parameter should not be null or undefined on line: %d\n", opcode, line_number);
-    //     return INVALID_DATA;
-    // }
+    if(isFirstOperandNotNull(instructionId, param1, line_number) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
 
     if (checkIsNumber(param1) != SUCCESS)
     {
@@ -108,12 +126,10 @@ int isSecondOperandImmediate(InstructionType_t *instructionId, char *param2, int
     int paramVerificationReturn;
     char opcode[4];
 
-    // if (isSecondOperandNull(instructionId, param2, line_number) == SUCCESS)
-    // {
-    //     getOperandName(*instructionId, opcode);
-    //     printf("Error: %s instruction second parameter should not be null or undefined on line: %d\n", opcode, line_number);
-    //     return INVALID_DATA;
-    // }
+    if(isSecondOperandNotNull(instructionId, param2, line_number) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
 
     if (checkIsNumber(param2) != SUCCESS)
     {
@@ -129,12 +145,10 @@ int isFirstOperandImmediateOrRegister(InstructionType_t *instructionId, char *pa
     int paramVerificationReturn;
     char opcode[4];
 
-    // if (isFirstOperandNull(instructionId, param1, line_number) == SUCCESS)
-    // {
-    //     getOperandName(*instructionId, opcode);
-    //     printf("Error: %s instruction first parameter should not be null or undefined on line: %d\n", opcode, line_number);
-    //     return INVALID_DATA;
-    // }
+    if(isFirstOperandNotNull(instructionId, param1, line_number) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
 
     if (checkIsNumber(param1) != SUCCESS && findRegister(param1, &paramVerificationReturn) != SUCCESS)
     {
@@ -150,12 +164,10 @@ int isSecondOperandImmediateOrRegister(InstructionType_t *instructionId, char *p
     int paramVerificationReturn;
     char opcode[4];
 
-    // if (isSecondOperandNull(instructionId, param2, line_number) == SUCCESS)
-    // {
-    //     getOperandName(*instructionId, opcode);
-    //     printf("Error: %s instruction second parameter should not be null or undefined on line: %d\n", opcode, line_number);
-    //     return INVALID_DATA;
-    // }
+    if(isSecondOperandNotNull(instructionId, param2, line_number) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
 
     if (checkIsNumber(param2) != SUCCESS && findRegister(param2, &paramVerificationReturn) != SUCCESS)
     {
