@@ -141,7 +141,7 @@ Detect and report errors in the assembly code and inform the users of the errors
 
 Here is a visual representation of how the compiler works:
 
-[Compiler Diagram](/documents/.data/pictures/compilerDiagram.png)
+![Compiler Diagram](/documents/.data/pictures/compilerDiagram.png)
 
 ---
 TODO: refactor this part entirely
