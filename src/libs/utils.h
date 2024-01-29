@@ -11,7 +11,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
-} errorType_t;
+} ErrorType_t;
 
 typedef enum InstructionType
 {
@@ -75,11 +75,11 @@ typedef struct line
             int32_t immediate2;
         };
     };
-    char *label_declaration;
-    int *line_number;
+    char *labelDeclaration;
+    int *lineNumber;
 } line_t;
 
-int checkIsNumber(char *str)
+int check_is_number(char *str)
 {
     int i = 0;
     while (str[i] != '\0')
@@ -93,7 +93,7 @@ int checkIsNumber(char *str)
     return SUCCESS;
 }
 
-int checkIsLabel(char *str)
+int check_is_label(char *str) // Missing check for ":"
 {
     if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
     {

@@ -21,10 +21,12 @@ int main()
         {
             filename[i] = tolower(filename[i]);
         } // convert to lowercase
+
         if (strcmp(&filename[strlen(filename) - 4], ".asm") != 0)
         {
             strcat(filename, ".asm");
         }
+
         int i = 0;
         if (get_file_size(filename, &i) != 0)
         {
@@ -33,39 +35,48 @@ int main()
         else
         {
             char *content;
-            int line_count = 1; // File has at least one line if it exists
+            int lineCount = 1; // File has at least one line if it exists
+
             content = (char *)malloc((i + 1) * sizeof(char));
-            char *output_content = (char *)malloc((i + 1) * sizeof(char));
-            read_file(filename, content, i, &line_count);
+            char *outputContent = (char *)malloc((i + 1) * sizeof(char));
+
+            read_file(filename, content, i, &lineCount);
             bool fileHasError = false;
-            for (int j = 0; j < line_count; j++)
+
+            for (int j = 0; j < lineCount; j++)
             {
                 // malloc line content
-                char *line_content = malloc(100 * sizeof(char));
+                char *lineContent = malloc(100 * sizeof(char));
 
-                line_content_from_file_content(content, j, line_content);
+                line_content_from_file_content(content, j, lineContent);
                 line_t *line = malloc(sizeof(line_t));
-                if (preprocess_line(line_content, line, &j) != 0)
+
+                if (preprocess_line(lineContent, line, &j) != 0)
                 {
                     fileHasError = true;
                     continue;
                 }
-                
+
                 // Store in stack
-                // executeInstruction(ope);
+                // execute_instruction(ope);
                 free(line);
-                free(line_content);
+                free(lineContent);
             }
-            if(fileHasError) {
+
+            if (fileHasError)
+            {
                 printf("Failed to compile!\n");
                 continue;
-            } else {
-                printf("Compiled successfully!\n");
-                //Function to output the code into .bin file
-                // output_file(filename, output_content, i);
             }
+            else
+            {
+                printf("Compiled successfully!\n");
+                // Function to output the code into .bin file
+                //  output_file(filename, outputContent, i);
+            }
+
             free(content);
-            free(output_content);
+            free(outputContent); //empty the memory from the 
         }
         printf("Done!\n");
     }

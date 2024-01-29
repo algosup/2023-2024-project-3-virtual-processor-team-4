@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "errors.h"
 
-int findOperand(char *input, InstructionType_t *instruction)
+int find_operand(char *input, InstructionType_t *instruction)
 {
     if (strcmp("skip", input) == 0)
     {
@@ -106,104 +106,25 @@ int findOperand(char *input, InstructionType_t *instruction)
     return SUCCESS;
 };
 
-int getOperandName(InstructionType_t instruction, char *output)
-{
-    switch (instruction)
-    {
-    case SKIP:
-        strcpy(output, "skip");
-        break;
-    case NOOP:
-        strcpy(output, "noop");
-        break;
-    case SET:
-        strcpy(output, "set");
-        break;
-    case COPY:
-        strcpy(output, "copy");
-        break;
-    case LOAD:
-        strcpy(output, "load");
-        break;
-    case STORE:
-        strcpy(output, "store");
-        break;
-    case ADD:
-        strcpy(output, "add");
-        break;
-    case SUB:
-        strcpy(output, "sub");
-        break;
-    case MUL:
-        strcpy(output, "mul");
-        break;
-    case DIV:
-        strcpy(output, "div");
-        break;
-    case NOT:
-        strcpy(output, "not");
-        break;
-    case AND:
-        strcpy(output, "and");
-        break;
-    case OR:
-        strcpy(output, "or");
-        break;
-    case XOR:
-        strcpy(output, "xor");
-        break;
-    case CMPEQ:
-        strcpy(output, "cmpeq");
-        break;
-    case CMPGE:
-        strcpy(output, "cmpge");
-        break;
-    case JTRUE:
-        strcpy(output, "jtrue");
-        break;
-    case JFALSE:
-        strcpy(output, "jfalse");
-        break;
-    case JUMP:
-        strcpy(output, "jump");
-        break;
-    case CALL:
-        strcpy(output, "call");
-        break;
-    case RET:
-        strcpy(output, "ret");
-        break;
-    case HALT:
-        strcpy(output, "halt");
-        break;
-    case INT:
-        strcpy(output, "int");
-        break;
-    default:
-        return GENERIC_ERROR;
-    }
-    return SUCCESS;
-}
-
-int fillLineStruct(line_t *line, InstructionType_t *instType, char *word2, char *word3, int *line_number)
+int fill_line_struct(line_t *line, InstructionType_t *instType, char *word2, char *word3, int *lineNumber)
 {
     line->mnemonic = *instType;
-    line->line_number = line_number;
-    line->label_declaration = NULL;
+    line->lineNumber = lineNumber;
+    line->labelDeclaration = NULL;
     if (word2 != NULL)
     {
-        if (findRegister(word2, &line->register1) == SUCCESS)
+        if (find_register(word2, &line->register1) == SUCCESS)
         {
             line->param1 = REGISTER;
         }
-        else if (checkIsNumber(word2) == SUCCESS)
+        else if (check_is_number(word2) == SUCCESS)
         {
             line->param1 = IMMEDIAT;
         }
-        else if (checkIsLabel(word2) == SUCCESS)
+        else if (check_is_label(word2) == SUCCESS)
         {
             line->param1 = LABEL;
-            line->label_declaration = word2;
+            line->labelDeclaration = word2;
         }
     }
     else
@@ -212,17 +133,17 @@ int fillLineStruct(line_t *line, InstructionType_t *instType, char *word2, char 
     }
     if (word3 != NULL)
     {
-        if (findRegister(word3, &line->register2) == SUCCESS)
+        if (find_register(word3, &line->register2) == SUCCESS)
         {
             line->param2 = REGISTER;
         }
-        else if (checkIsNumber(word3) == SUCCESS)
+        else if (check_is_number(word3) == SUCCESS)
         {
             line->param2 = IMMEDIAT;
         }
         else
         {
-            printf("Error: Invalid operation (unhandled second param) on line %d\n", *line_number);
+            printf("Error: Invalid operation (unhandled second param) on line %d\n", *lineNumber);
             return GENERIC_ERROR;
         }
     }
@@ -233,27 +154,27 @@ int fillLineStruct(line_t *line, InstructionType_t *instType, char *word2, char 
     return SUCCESS;
 }
 
-int areOperationParamsValid(InstructionType_t *instructionId, char *param1, char *param2, int *line_number)
+int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
 {
     switch (*instructionId)
     {
     case SKIP:
     case NOOP:
-        areBothOperandsNull(instructionId, param1, param2, line_number);
+        return are_both_operands_null(instructionId, param1, param2, lineNumber);
         break;
     case SET:
-        isFirstOperandRegisterAndSecondOperandImmediate(instructionId, param1, param2, line_number);
+        return is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
         break;
     case NOT:
-        isFirstOperandRegisterAndSecondOperandNull(instructionId, param1, param2, line_number);
+        return is_first_operand_register_and_second_operand_null(instructionId, param1, param2, lineNumber);
         break;
     case STORE:
-        areBothOperandsImmediateOrRegister(instructionId, param1, param2, line_number);
+        return are_both_operands_immediate_or_register(instructionId, param1, param2, lineNumber);
         break;
     case COPY:
     case MUL:
     case DIV:
-        areBothOperandsRegisters(instructionId, param1, param2, line_number);
+        return are_both_operands_registers(instructionId, param1, param2, lineNumber);
         break;
     case LOAD:
     case ADD:
@@ -261,7 +182,7 @@ int areOperationParamsValid(InstructionType_t *instructionId, char *param1, char
     case AND:
     case OR:
     case XOR:
-        return isFirstOperandRegisterAndSecondOperandRegisterOrImmediate(instructionId, param1, param2, line_number);
+        return is_first_operand_register_and_second_operand_register_or_immediate(instructionId, param1, param2, lineNumber);
         break;
     default:
         printf("Instruction not found");
@@ -271,18 +192,18 @@ int areOperationParamsValid(InstructionType_t *instructionId, char *param1, char
     }
 }
 
-int preprocess_line(char *line_content, line_t *line, int *line_number)
+int preprocess_line(char *lineContent, line_t *line, int *lineNumber)
 {
-    if (line_content[0] == '/' && line_content[1] == '/') // Check if the line is a comment
+    if (lineContent[0] == '/' && lineContent[1] == '/') // Check if the line is a comment
     {
         line->mnemonic = SKIP;
         line->param1 = NULL_;
         line->register1 = NULL_;
-        line->line_number = line_number;
+        line->lineNumber = lineNumber;
         return SUCCESS;
     }
 
-    char *token = strtok(line_content, " ");
+    char *token = strtok(lineContent, " ");
     char *word1, *word2, *word3;
 
     // Extract the first word
@@ -316,35 +237,33 @@ int preprocess_line(char *line_content, line_t *line, int *line_number)
     {
         word3 = NULL;
     }
-    // Add checks for the operands
-    //  Check if operation mnemonic exists => If not, throw error
-    //  Check the arguments for mnemonic
+
     InstructionType_t *instType = malloc(sizeof(InstructionType_t)); // check for free afterwhile
-    if (findOperand(word1, instType) != SUCCESS)
+    if (find_operand(word1, instType) != SUCCESS)
     {
-        printf("Error: Invalid operation on line %d\n", *line_number);
+        printf("Error: Invalid operation on line %d\n", *lineNumber);
         line->mnemonic = SKIP;
-        line->line_number = line_number;
+        line->lineNumber = lineNumber;
         line->param1 = NULL_;
-        line->label_declaration = NULL;
+        line->labelDeclaration = NULL;
         return GENERIC_ERROR;
     }
-    if (areOperationParamsValid(instType, word2, word3, line_number) != SUCCESS)
+    if (are_operation_params_valid(instType, word2, word3, lineNumber) != SUCCESS)
     {
         line->mnemonic = SKIP;
-        line->line_number = line_number;
+        line->lineNumber = lineNumber;
         line->param1 = NULL_;
-        line->label_declaration = NULL;
+        line->labelDeclaration = NULL;
         return GENERIC_ERROR;
     }
-    if (fillLineStruct(line, instType, word2, word3, line_number) != SUCCESS)
+    if (fill_line_struct(line, instType, word2, word3, lineNumber) != SUCCESS)
     {
         return GENERIC_ERROR;
     }
     return SUCCESS;
 }
 
-int read_file(char *filename, char *output, int size, int *number_of_lines)
+int read_file(char *filename, char *output, int size, int *numberOfLines)
 {
     FILE *ptr;
     char ch;
@@ -362,7 +281,7 @@ int read_file(char *filename, char *output, int size, int *number_of_lines)
         ch = fgetc(ptr);
         if (ch == '\n')
         {
-            *number_of_lines += 1;
+            *numberOfLines += 1;
         }
         output[count] = ch;
         count++;
@@ -374,9 +293,9 @@ int read_file(char *filename, char *output, int size, int *number_of_lines)
     return SUCCESS;
 }
 
-int line_content_from_file_content(char *content, int line_number, char *line_content)
+int line_content_from_file_content(char *content, int lineNumber, char *lineContent)
 {
-    // Returns the content of the line_number until next \n
+    // Returns the content of the lineNumber until next \n
     int i = 0;
 
     if (content == NULL)
@@ -385,20 +304,20 @@ int line_content_from_file_content(char *content, int line_number, char *line_co
         return GENERIC_ERROR;
     }
 
-    int content_length = strlen(content);
-    if (line_number >= content_length)
+    int contentLength = strlen(content);
+    if (lineNumber >= contentLength)
     {
-        printf("line_number is out of bounds\n");
+        printf("Line number is out of bounds\n");
         return GENERIC_ERROR;
     }
 
     // Find the starting position of the line
-    int current_line = 0;
-    while (current_line < line_number)
+    int currentLine = 0;
+    while (currentLine < lineNumber)
     {
         if (content[i] == '\n')
         {
-            current_line++;
+            currentLine++;
         }
         i++;
     }
@@ -407,11 +326,11 @@ int line_content_from_file_content(char *content, int line_number, char *line_co
     int j = 0;
     while (content[i] != '\n' && content[i] != '\0')
     {
-        line_content[j++] = content[i++];
+        lineContent[j++] = content[i++];
     }
 
     // Add null terminator to line_content
-    line_content[j] = '\0';
+    lineContent[j] = '\0';
 
     return SUCCESS;
 }

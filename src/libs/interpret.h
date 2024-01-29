@@ -42,10 +42,14 @@ typedef struct stack
     unsigned int size;
 } stack_t;
 
-int findRegister(char *inString, int *registerIndex)
+int find_register(char *inString, int *registerIndex)
 {
     if (inString == NULL || strlen(inString) != 2)
     {
+        return INVALID_DATA;
+    }
+
+    if(inString[0] != 'R' && inString[0] != 'r') {
         return INVALID_DATA;
     }
 
@@ -53,7 +57,6 @@ int findRegister(char *inString, int *registerIndex)
     strcpy(str2, inString);
     char *ptr = str2;
     ptr++;
-
     if ((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f'))
     {
         *registerIndex = (int)strtol(ptr, NULL, 16);
@@ -110,21 +113,21 @@ int pop_from_stack(stack_t *pStack, instruction_t *value)
     return EXIT_SUCCESS;
 }
 
-int addToReturnStack(stack_t *returnStack, instruction_t call)
+int add_to_return_stack(stack_t *returnStack, instruction_t call)
 {
     push_to_stack(returnStack, call);
 
     return 0;
 }
 
-int getReturnLine(stack_t *returnStack, instruction_t *call)
+int get_return_line(stack_t *returnStack, instruction_t *call)
 {
     pop_from_stack(returnStack, call);
 
     return 0;
 }
 
-int checkVal(char *val)
+int check_val(char *val)
 {
     if (val == NULL || strcmp(val, "") == 0)
     {
@@ -140,11 +143,11 @@ int checkVal(char *val)
     {
         return REGISTER;
     }
-    if (checkIsNumber(val) == SUCCESS)
+    if (check_is_number(val) == SUCCESS)
     {
         return IMMEDIAT;
     }
-    if (checkIsLabel(val) == SUCCESS)
+    if (check_is_label(val) == SUCCESS)
     {
         return LABEL;
     }
@@ -165,17 +168,17 @@ int noop(instruction_t instruction)
 int set(instruction_t instruction)
 {
     int i;
-    if (checkVal(instruction.val1) != REGISTER)
+    if (check_val(instruction.val1) != REGISTER)
     {
         printf("Error: at line %d. %s is not a valid register.", instruction.line, instruction.val1);
         return INVALID_DATA;
     }
     else
     {
-        findRegister(instruction.val1, &i);
+        find_register(instruction.val1, &i);
     }
 
-    if (checkVal(instruction.val2) == IMMEDIAT)
+    if (check_val(instruction.val2) == IMMEDIAT)
     {
         registerArr[i] = (int32_t)strtod(instruction.val2, '\0');
         return SUCCESS;
@@ -189,9 +192,9 @@ int copy(instruction_t instruction)
 {
     int i;
     int i2;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
+        find_register(instruction.val1, &i);
     }
     else
     {
@@ -199,9 +202,9 @@ int copy(instruction_t instruction)
         return INVALID_DATA;
     }
 
-    if (checkVal(instruction.val2) == REGISTER)
+    if (check_val(instruction.val2) == REGISTER)
     {
-        findRegister(instruction.val2, &i2);
+        find_register(instruction.val2, &i2);
         registerArr[i] = registerArr[i2];
         return SUCCESS;
     }
@@ -212,7 +215,7 @@ int copy(instruction_t instruction)
     }
 }
 
-int executeInstruction(instruction_t *instruction)
+int execute_instruction(instruction_t *instruction)
 {
     switch (instruction->instT)
     {
@@ -290,14 +293,14 @@ int executeInstruction(instruction_t *instruction)
 int add(instruction_t instruction)
 {
     int i;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
-        switch (checkVal(instruction.val2))
+        find_register(instruction.val1, &i);
+        switch (check_val(instruction.val2))
         {
         case REGISTER:
             int i2;
-            findRegister(instruction.val2, &i2);
+            find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] + registerArr[i2];
             return SUCCESS;
 
@@ -319,14 +322,14 @@ int add(instruction_t instruction)
 int sub(instruction_t instruction)
 {
     int i;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
-        switch (checkVal(instruction.val2))
+        find_register(instruction.val1, &i);
+        switch (check_val(instruction.val2))
         {
         case REGISTER:
             int i2;
-            findRegister(instruction.val2, &i2);
+            find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] - registerArr[i2];
             return SUCCESS;
 
@@ -349,9 +352,9 @@ int mul(instruction_t instruction)
 {
     int i;
     int i2;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
+        find_register(instruction.val1, &i);
     }
     else
     {
@@ -359,9 +362,9 @@ int mul(instruction_t instruction)
         return INVALID_DATA;
     }
 
-    if (checkVal(instruction.val2) == REGISTER)
+    if (check_val(instruction.val2) == REGISTER)
     {
-        findRegister(instruction.val2, &i2);
+        find_register(instruction.val2, &i2);
 
         int64_t bigInt64 = (int64_t)registerArr[i] * registerArr[i2];
         int32_t high32 = (int32_t)(bigInt64 >> 32);
@@ -383,9 +386,9 @@ int div_(instruction_t instruction)
 {
     int i;
     int i2;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
+        find_register(instruction.val1, &i);
     }
     else
     {
@@ -393,7 +396,7 @@ int div_(instruction_t instruction)
         return INVALID_DATA;
     }
 
-    if (checkVal(instruction.val2) == REGISTER)
+    if (check_val(instruction.val2) == REGISTER)
     {
         int32_t tmp = registerArr[i2];
 
@@ -412,14 +415,14 @@ int div_(instruction_t instruction)
 int and_(instruction_t instruction)
 {
     int i;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
-        switch (checkVal(instruction.val2))
+        find_register(instruction.val1, &i);
+        switch (check_val(instruction.val2))
         {
         case REGISTER:
             int i2;
-            findRegister(instruction.val2, &i2);
+            find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] & registerArr[i2];
             return SUCCESS;
 
@@ -441,14 +444,14 @@ int and_(instruction_t instruction)
 int or_(instruction_t instruction)
 {
     int i;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
-        switch (checkVal(instruction.val2))
+        find_register(instruction.val1, &i);
+        switch (check_val(instruction.val2))
         {
         case REGISTER:
             int i2;
-            findRegister(instruction.val2, &i2);
+            find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] | registerArr[i2];
             return SUCCESS;
 
@@ -470,14 +473,14 @@ int or_(instruction_t instruction)
 int xor_(instruction_t instruction)
 {
     int i;
-    if (checkVal(instruction.val1) == REGISTER)
+    if (check_val(instruction.val1) == REGISTER)
     {
-        findRegister(instruction.val1, &i);
-        switch (checkVal(instruction.val2))
+        find_register(instruction.val1, &i);
+        switch (check_val(instruction.val2))
         {
         case REGISTER:
             int i2;
-            findRegister(instruction.val2, &i2);
+            find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] ^ registerArr[i2];
             return SUCCESS;
 
