@@ -50,27 +50,27 @@ The assembly language will also be created and tailored by us.
 
 |Term|Definition|Source|
 |----|----------|------|
-|ALGOSUP|||
-|Assembly language|||
-|Compiler|||
-|C language|||
-|Github|||
-|GNU Compiler Collection (GCC)|||
-|Interpreter|||
-|Linux|||
-|MacOS|||
-|Test case|||
+|Assembly language|In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions|[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language)|
+|Compiler|In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language).|[Wikipedia](https://en.wikipedia.org/wiki/Compiler)|
+|C language|C is a general-purpose computer programming language. C is commonly used on computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.|[Wikipedia](https://en.wikipedia.org/wiki/C_(programming_language))|
+|Github|GitHub, Inc. is an AI-powered developer platform that allows developers to create, store, manage and share their code.|[Wikipedia](https://en.wikipedia.org/wiki/GitHub)|
+|Github Issues|GitHub Issues are items you can create in a repository to plan, discuss and track work. Issues are simple to create and flexible to suit a variety of scenarios. You can use issues to track work, give or receive feedback, collaborate on ideas or tasks, and efficiently communicate with others.|[Github](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues)|
+|GNU Compiler Collection (GCC)|The GNU Compiler Collection (GCC) is an optimizing compiler produced by the GNU Project supporting various programming languages, hardware architectures and operating systems.|[Wikipedia](https://en.wikipedia.org/wiki/GNU_Compiler_Collection)|
+|Interpreter|In computer science, an interpreter is a computer program that directly executes instructions written in a programming or scripting language, without requiring them previously to have been compiled into a machine language program.|[Wikipedia](https://en.wikipedia.org/wiki/Interpreter_(computing))|
+|Linux|Linux is a family of open-source Unix-like operating systems based on the Linux kernel, an operating system kernel first released on September 17, 1991, by Linus Torvalds.|[Wikipedia](https://en.wikipedia.org/wiki/Linux)|
+|MacOS|MacOS, originally Mac OS X, previously shortened as OS X, is an operating system developed and marketed by Apple Inc.|[Wikipedia](https://en.wikipedia.org/wiki/MacOS)|
+|Test case|In software engineering, a test case is a specification of the inputs, execution conditions, testing procedure, and expected results that define a single test to be executed to achieve a particular software testing objective, such as to exercise a particular program path or to verify compliance with a specific requirement.|[Wikipedia](https://en.wikipedia.org/wiki/Test_case)|
 |... Test|||
 |... Test|||
 |... Test|||
-|Visual Studio Code|||
-|Windows|||
+|Visual Studio Code|Visual Studio Code, also commonly referred to as VS Code, is a source-code editor developed by Microsoft for Windows, Linux and macOS. Features include support for debugging, syntax highlighting, intelligent code completion, snippets, code refactoring, and embedded Git.|[Wikipedia](https://en.wikipedia.org/wiki/Visual_Studio_Code)|
+|Windows|Microsoft Windows is a group of several proprietary graphical operating system families developed and marketed by Microsoft. Each family caters to a certain sector of the computing industry.|[Wikipedia](https://en.wikipedia.org/wiki/Microsoft_Windows)|
 
 ## Introduction
 
 ### Overview
 
-Our team was asked to create a virtual processor and an interprete to run assembly language previously created by our team on this same processor. The processor should be totally portable and written in C with standard libraries.
+Our team was asked to create a virtual processor and an interpreter to run assembly language previously created by our team on this same processor. The processor should be totally portable and written in C with standard libraries.
 
 <!-- ### Targeted audiance -->
 
@@ -100,7 +100,7 @@ Having this lot of people will allow our teams to have an external point of view
 
 ## Test cases
 
-This tablewill be used as an example for all of our test cases to test our product. We will create a test case for each test of our product and will define their priority.
+This table will be used as an example for all of our test cases to test our product. We will create a test case for each test of our product and will define their priority.
 
 | Test Case ID              | ID                                                                         |
 |---------------------------|----------------------------------------------------------------------------|
@@ -150,6 +150,36 @@ All the tests will be done on different tools:
 ## Test criteria
 
 ## Bug report
+
+**Github issues report**
+
+To provide a better bug report I chose to create a bug report template that we can apply on github issues. It allows the people that found a bug to report it quickly and effectively with the main information needed. \
+Here is a picture of the template:
+
+![Bug report high](..\pictures\bug_report_high.png)
+![Bug report low](..\pictures\bug_report_low.png)
+
+**Labels**
+
+I also provide to my team labels, permitting us to have a better comprehension of the bug just with the title and the labels. There are 15 of then:
+
+|Label|Description|
+|:-----:|-----------|
+|![Bug Label](..\pictures\bug_label.png)|Something isn't working|
+|![Critical Label](..\pictures\critical_label.png)|Critical Priority|
+|![Dev Label](..\pictures\dev_label.png)|Use for Dev|
+|![Documentation Label](..\pictures\documentation_label.png)|Improvements or additions to documentation|
+|![Duplicate Label](..\pictures\duplicate_label.png)|This issue or pull request already exists|
+|![Enhancement Label](..\pictures\enhancement_label.png)|New feature or request|
+|![Good first issue Label](..\pictures\good_first_issue_label.png)|Good for newcomers|
+|![Help wanted Label](..\pictures\help_wanted_label.png)|Extra attention is needed|
+|![High Label](..\pictures\high_label.png)|High Priority|
+|![Invalid Label](..\pictures\invalid_label.png)|This doesn't seem right|
+|![Low Label](..\pictures\low_label.png)|Low Priority|
+|![medium Label](..\pictures\medium_label.png)|Medium Priority|
+|![Question Label](..\pictures\question_label.png)|Further information is requested|
+|![Test case Label](..\pictures\test_case_label.png)|Use for test case|
+|![Wontfix Label](..\pictures\wontfix_label.png)|This will not be worked on|
 
 ## Testing schedule
 
