@@ -361,29 +361,50 @@ An architecture defining how a microprocessor and its related components should 
 [Wikipedia](https://en.wikipedia.org/wiki/Instruction_set_architecture)
 
 **Virtual processor** \
+Virtual Processor was a virtual machine.
+[Wikipedia](https://en.wikipedia.org/wiki/Virtual_Processor)
 
 <!-- **Interpreter** \
+In computer science, an interpreter is a computer program that directly executes instructions written in a programming or scripting language, without requiring them previously to have been compiled into a machine language program.
+[Wikipedia](https://en.wikipedia.org/wiki/Interpreter_(computing))
 
-**assembly** \ -->
+**assembly** \
+In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions
+[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language) -->
 
 **Machine code** \
+In computer programming, machine code is computer code consisting of machine language instructions, which are used to control a computer's central processing unit (CPU).
+[Wikipedia](https://en.wikipedia.org/wiki/Machine_code)
 
 **Processor / Central Processing Unit (CPU)** \
+In computing and computer science, a processor or processing unit is an electrical component (digital circuit) that performs operations on an external data source, usually memory or some other data stream.
+The term is frequently used to refer to the central processing unit (CPU), the main processor in a system.
+[Wikipedia](https://en.wikipedia.org/wiki/Processor_(computing))
 
 **RAM** \
+Random-access memory is a form of electronic computer memory that can be read and changed in any order, typically used to store working data and machine code. A random-access memory device allows data items to be read or written in almost the same amount of time irrespective of the physical location of data inside the memory.
+[Wikipedia](https://en.wikipedia.org/wiki/Random-access_memory)
 
 **Register** \
+A register is an important component of digital devices that stores data and instructions for quick processing.
+[Total phase](https://www.totalphase.com/blog/2023/05/what-is-register-in-cpu-how-does-it-work/#:~:text=In%20computer%20science%2C%20a%20register,to%20carry%20out%20complex%20tasks.)
 
 **Arithmetic and Logic Unit (ALU)** \
+An arithmetic logic unit (ALU) is a combinational digital circuit that performs arithmetic and bitwise operations on integer binary numbers.
+[Wikipedia](https://en.wikipedia.org/wiki/Arithmetic_logic_unit)
 
 **Immediate value** \
 A constant
 <!-- 
 **Branching** \
 
-**subroutines** \ 
+**subroutines** \
+In computer programming, a function or subroutine is a sequence of program instructions that performs a specific task, packaged as a unit. This unit can then be used in programs wherever that particular task should be performed.
+[Wikipedia](https://en.wikipedia.org/wiki/Function_(computer_programming) )
 
 **compiler** \
+In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language).
+[Wikipedia](https://en.wikipedia.org/wiki/Compiler)
 
 **libraries** \
 
