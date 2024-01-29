@@ -31,7 +31,9 @@ The assembly language will also be created and tailored by us.
         - [Entry criteria](#entry-criteria)
         - [Exit criteria](#exit-criteria)
     - [Bug report](#bug-report)
-    - [Testing schedule](#testing-schedule)
+    - [Testing schedule and estimation](#testing-schedule-and-estimation)
+        - [Tasks time estimation](#tasks-time-estimation)
+        - [Tasks schedule](#tasks-schedule)
     - [Test deliverables](#test-deliverables)
     - [Conclusion and acknowledgements](#conclusion-and-acknowledgements)
     - [Sources](#sources)
@@ -166,7 +168,7 @@ The three main criterias are:
 
 ### Exit criteria
 
-The exit criterias are should specify the requirements to complete before the end of the testing phase.
+The exit criterias are should specify the requirements to complete before the end of the testing phase. \
 These criterias are:
 - We need to have at least 80% of success rate.
 - We need to have no critical or high severity defects during the tests.
@@ -204,9 +206,36 @@ I also provide to my team labels, permitting us to have a better comprehension o
 |![Test case Label](..\pictures\test_case_label.png)|Use for test case|
 |![Wontfix Label](..\pictures\wontfix_label.png)|This will not be worked on|
 
-## Testing schedule
+## Testing schedule and estimation
+
+### Tasks time estimation
+
+|Task|Duration|
+|----|--------|
+|Requirement specification documentation review|5 hours|
+|Test plan writing|20 hours|
+|Test cases creation|10 hours|
+|Assembly testing|15 hours|
+|Quality assurance meeting|4 hours|
+|Test case execution|20 hours|
+|GitHub initialization|2 hours|
+|Bug reports|12 hours|
+|Bug data report|6 hours|
+
+All the duration define here are only an estimation! It could take more or less time according to the advancement of the tasks, the extra hours outside the school or even if the test cases doesn't occur any errors or issues.
+
+### Tasks schedule
+
+|Task|Start date|End date|
+|----|----------|--------|
+||||
 
 ## Test deliverables
+
+- **Test plan:** It will define how the tests should be done and the strategy choosen.
+- **Test cases:** It will contain all the test that will be done to see if the product is functional.
+- **Bug reports:** Each will contain a report about a bug found during the test sessions.
+- **Bug data report:** It will allow to see all of the reports in one place.
 
 ## Conclusion and acknowledgements
 
