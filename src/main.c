@@ -3,8 +3,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include "./libs/interpret.h"
+#include "./libs/utils.h"
 #include "./libs/file.h"
+#include "./libs/interpret.h"
+#include "./libs/errors.h"
 
 int main()
 {
@@ -31,31 +33,39 @@ int main()
         else
         {
             char *content;
-            int line_count = 1; //File has at least one line if it exists
+            int line_count = 1; // File has at least one line if it exists
             content = (char *)malloc((i + 1) * sizeof(char));
+            char *output_content = (char *)malloc((i + 1) * sizeof(char));
             read_file(filename, content, i, &line_count);
+            bool fileHasError = false;
             for (int j = 0; j < line_count; j++)
             {
-                // malloc line content 
+                // malloc line content
                 char *line_content = malloc(100 * sizeof(char));
+
                 line_content_from_file_content(content, j, line_content);
-                instruction_t *ope = malloc(sizeof(instruction_t));
-                if (
-                    parse_content_one_line(line_content, ope, &j) != 0)
+                line_t *line = malloc(sizeof(line_t));
+                if (preprocess_line(line_content, line, &j) != 0)
                 {
+                    fileHasError = true;
                     continue;
                 }
                 
-                if (isLineHavingErrors(ope, &j) != 0)
-                {
-                    break;
-                }
                 // Store in stack
                 // executeInstruction(ope);
-                free(ope);
+                free(line);
                 free(line_content);
             }
+            if(fileHasError) {
+                printf("Failed to compile!\n");
+                continue;
+            } else {
+                printf("Compiled successfully!\n");
+                //Function to output the code into .bin file
+                // output_file(filename, output_content, i);
+            }
             free(content);
+            free(output_content);
         }
         printf("Done!\n");
     }

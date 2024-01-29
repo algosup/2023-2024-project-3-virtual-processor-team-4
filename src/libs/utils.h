@@ -1,5 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
+#include <stdint.h>
+#include <stdio.h>
 
 typedef enum ErrorType // Define all the errors which could happen and their codes
 {
@@ -9,7 +11,6 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
-    LINE_EMPTY,
 } errorType_t;
 
 typedef enum InstructionType
@@ -64,14 +65,14 @@ typedef struct line
         union
         {
             int register1; // 0-15
-            uint32_t immediate1;
+            int32_t immediate1;
             char *label;
         };
         ParameterType_t param2;
         union
         {
-            char register2;
-            uint32_t immediate2;
+            int register2;
+            int32_t immediate2;
         };
     };
     char *label_declaration;
