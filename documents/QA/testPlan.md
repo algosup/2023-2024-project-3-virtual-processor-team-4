@@ -27,6 +27,9 @@ The assembly language will also be created and tailored by us.
         - [Hardware](#hardware)
         - [Software](#software)
     - [Test criteria](#test-criteria)
+        - [Suspension criteria](#suspension-criteria)
+        - [Entry criteria](#entry-criteria)
+        - [Exit criteria](#exit-criteria)
     - [Bug report](#bug-report)
     - [Testing schedule](#testing-schedule)
     - [Test deliverables](#test-deliverables)
@@ -148,6 +151,26 @@ All the tests will be done on different tools:
 - [Gcc](https://en.wikipedia.org/wiki/GNU_Compiler_Collection) for the compilation of the final product on [Windows](https://code.visualstudio.com/docs/cpp/config-mingw), [macOS](https://code.visualstudio.com/docs/cpp/config-clang-mac), [Linux](https://code.visualstudio.com/docs/cpp/config-linux).
 
 ## Test criteria
+
+### Suspension criteria
+
+When a test is done if a suspension criteria is reach we stop the folllowing test and the development team as well as the quality assurance team will work together until the issue met was fixed. This method will allow us to take issues oneby one and to not create program with existing issue in it. It would avoid to generate more issues.
+
+### Entry criteria
+
+The entry criterias are the criteria needed to the well being of the test and to esure to proceed them in the better environment possible. \
+The three main criterias are:
+- Be sure to proceed tests on a valid version of the code.
+- Be sure to have the unit tests required
+- Be sure that the environment is correctly set for the tests
+
+### Exit criteria
+
+The exit criterias are should specify the requirements to complete before the end of the testing phase.
+These criterias are:
+- We need to have at least 80% of success rate.
+- We need to have no critical or high severity defects during the tests.
+- All the little and medium severity issues should be reported.
 
 ## Bug report
 
