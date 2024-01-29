@@ -16,16 +16,13 @@ The assembly language will also be created and tailored by us.
 - [Functional requirements](#functional-requirements)
 - [Deliverables and milestones](#deliverables-and-milestones)
 - [Personas and use cases](#personas-and-use-cases)
-  - [Persona 1 - Pascal Thomas](#persona-1---pascal-thomas)
-    - [Introduction](#introduction)
+  - [Persona 1 - Oceane Thomas](#persona-1---oceane-thomas)
     - [Goals](#goals)
     - [Challenges](#challenges)
-  - [Persona 2 - Violette Mayers](#persona-2---violette-mayers)
-    - [Introduction](#introduction-1)
+  - [Persona 2 - John Mayers](#persona-2---john-mayers)
     - [Goals](#goals-1)
     - [Challenges](#challenges-1)
   - [Persona 3 - Patricia Farmer](#persona-3---patricia-farmer)
-    - [Introduction](#introduction-2)
     - [Goals](#goals-2)
     - [Challenges](#challenges-2)
 - [Acceptance criteria](#acceptance-criteria)
@@ -33,12 +30,12 @@ The assembly language will also be created and tailored by us.
   - [System architecture](#system-architecture)
   - [Assembly syntax](#assembly-syntax)
   - [Assembly instructions](#assembly-instructions)
-    - [Per parameter type](#per-parameter-type)
-  - [Errors](#errors)
   - [Machine code](#machine-code)
+  - [Errors](#errors)
   - [Usage](#usage)
 - [Non-functional requirements](#non-functional-requirements)
   - [Performance](#performance)
+  - [Maintainablility](#maintainablility)
   - [Scalability](#scalability)
   - [Portability](#portability)
   - [Usability](#usability)
@@ -170,29 +167,25 @@ To ensure that the project is viable, all the specifications must be approved by
 
 The architecture will use 32-bit integers to run. Unless otherwise specified, those integers are supposed signed.
 
-We will consider to have 16 registers. Those are denoted by the letter `r` followed by an uppercase hexadecimal digit (r0, r1, ..., rE, rF). This notation allows for easy recognizability and easy expansion if necessary.
+We will consider to have 28 registers. The first 26 are denoted by the letter `r` followed by another letter (ra, rb, ..., ry, rz). \
+The other registers are:
+- `sp`, the address of the stack pointer. Read-only.
+- `ip`, number of the currently executed instruction. Read-only.
 
-The processor will also allow for four flags (boolean outputs from the ALU). They are denoted with the letter `f` followed by an uppercase letter.
-| Representation | Meaning    | Description                                                                                                                                                                    |
-| -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| fC             | Carry flag | When an operation is executed, the flag is set if the unsigned result cannot fit in the register.                                                                              |
-| fS             | Sign flag  | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is strictly negative (i.e. the most significant bit is set). |
-| fZ             | Zero flag  | When a value is moved, when an operation is executed, or when a comparison is done, the flag is set if the result is equal to zero.                                            |
-
-All the flags default to false when the interpreter starts.
-
-Since the overflow flag is set when there is an overflow into the sign bit, we assume the sign flag can be used instead.
+The architecture is flagless. This means that when a comparison is done, the result is stored back in a register rather than a flag. For overflows and carry, those must be checked manually.
 
 <!-- TODO: Memory layout -->
 
 ### Assembly syntax
 
-The syntax for the instructions follows one of those patterns:
-- `mnem`
-- `mnem param`
-- `mnem param1 param2`
+The syntax of the assembly language is case-insensitive. It is recommended to keep the same case throughout the whole program but the user may choose to use either uppercase or lowercase at your preference.
 
-where `mnem` is the mnemonic for the instruction in lowercase and the rest is parameters. For alignment reasons, we allow any number more than one space before the parameters.
+The syntax for the instructions follows this pattern: 
+`mnem param1 param2 param3`
+
+where `mnem` is the mnemonic for the instruction and the rest are parameters when necessary. For alignment reasons, we allow more than one space before the parameters.
+
+
 
 A label should be on a line with no instruction, written in camel case, and followed by a colon: `camelCase:`. A label may only be defined once in a file but jumped to or called any amount of time.
 
@@ -200,56 +193,82 @@ A line only composed with whitespace is to be ignored.
 
 Comments can be added at the end of any line with an instruction or label, starting with a double slash `//`. Any whitespace before the symbol and any text after it until the end of the line is to be ignored.
 
-The immediate values can be written either in decimal or in hexadecimal prefixed with a lowercase `x`.
+Immediate values can be written either in decimal or in hexadecimal prefixed with an `x`.
 
 ### Assembly instructions
 
-| Mnemonic | Parameter 1 | Parameter 2 | Behavior                                                                                                                                                  | Modifies flags (fP, fS, FZ) |
-| -------- | ----------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| noop     |             |             | Does nothing (used for padding or hogging clock cycles).                                                                                                  | No                          |
-| set      | Register    | Immediate   | Sets the value of the register to the specified immediate value.                                                                                          | Yes                         |
-| copy     | Register    | Register    | Copies the value from the second register* to the first.                                                                                                  | Yes                         |
-| load     | Register    | Register    | Loads the value in memory at the address stored in the second register into the first register.                                                           | Yes                         |
-| load     | Register    | Immediate   | Loads the value in memory at the address specified by the immediate value into the register.                                                              | Yes                         |
-| store    | Register    | Register    | Stores the value of the second register to the memory address stored in the first register.                                                               | Yes                         |
-| store    | Immediate   | Register    | Stores the value of the register to the memory address specified by the immediate value.                                                                  | Yes                         |
-| add      | Register    | Register    | Adds the value of the second register to the first register.                                                                                              | Yes (also modifies fC)      |
-| add      | Register    | Immediate   | Adds the immediate value to the register.                                                                                                                 | Yes (also modifies fC)      |
-| sub      | Register    | Register    | Subtracts the value of the second register to the first register.                                                                                         | Yes (also modifies fC)      |
-| sub      | Register    | Immeditate  | Subtracts the immediate value to the register.                                                                                                            | Yes (also modifies fC)      |
-| mul      | Register    | Register    | Multiplies the values of the two registers. The first register gets the lower half of the result while the second one takes the high half.                | Yes (also modifies fC)      |
-| div      | Register    | Register    | Divides the value of the first register by the value of the second register. The first register gets the quotient and the second one takes the remainder. | Yes (also modifies fC)      |
-| not      | Register    |             | Flips all the bits of the value of the register.                                                                                                          | Yes                         |
-| and      | Register    | Register    | Performs a bitwise AND operation on the value of the first register with the value of the second register.                                                | Yes                         |
-| and      | Register    | Immediate   | Performs a bitwise AND operation on the value of the register with the value of the second register.                                                      | Yes                         |
-| or       | Register    | Register    | Performs a bitwise OR operation on the value of the first register with the value of the second register.                                                 | Yes                         |
-| or       | Register    | Immediate   | Performs a bitwise OR operation on the value of the register with the value of the second register.                                                       | Yes                         |
-| xor      | Register    | Register    | Performs a bitwise XOR operation on the value of the first register with the value of the second register.                                                | Yes                         |
-| xor      | Register    | Immediate   | Performs a bitwise XOR operation on the value of the register with the value of the second register.                                                      | Yes                         |
-| cmp      | Register    | Register    | Compares the value in the first register and the value in the second register and sets the flags correspondingly.                                         | Yes                         |
-| cmp      | Register    | Immediate   | Compares the value in the register and the immediate value and sets the flags correspondingly.                                                            | Yes                         |
-| cmp      | Immediate   | Register    | Compares the immediate value and the value in the register and sets the flags correspondingly.                                                            | Yes                         |
-| jeq      | Label       |             | Jumps conditionally to the specified label if the `fZ` flag is true.                                                                                      | No                          |
-| jneq     | Label       |             | Jumps conditionally to the specified label if the `fZ` flag is false.                                                                                     | No                          |
-| jgeq     | Label       |             | Jumps conditionally to the specified label if the `fS` flag is false or the `fZ` flag is true.                                                            | No                          |
-| jgt      | Label       |             | Jumps conditionally to the specified label if the `fS` flag is false and the `fZ` flag is false.                                                          | No                          |
-| jleq     | Label       |             | Jumps conditionally to the specified label if the `fS` flag is true or the `fZ` flag is true.                                                             | No                          |
-| jlt      | Label       |             | Jumps conditionally to the specified label if the `fS` flag is true and the `fZ` flag is false.                                                           | No                          |
-| jc       | Label       |             | Jumps conditionally to the specified label if the `fC` flag is true.                                                                                      | No                          |
-| jnc      | Label       |             | Jumps conditionally to the specified label if the `fC` flag is false.                                                                                     | No                          |
-| jump     | Label       |             | Jumps unconditionally to the specified label.                                                                                                             | No                          |
-| call     | Label       |             | Calls a subroutine by jumping to the specified label.                                                                                                     | No                          |
-| ret      |             |             | Returns from the current subroutine by jumping back right after the call instruction.                                                                     | No                          |
-| push     | Register    |             | Adds the value in the register to the top of the stack.                                                                                                   | Yes                         |
-| pop      | Register    |             | Retrieves and deletes the value from the top of the stack into the register.                                                                              | Yes                         |
-| exit     |             |             | Terminates the execution of the program.                                                                                                                  | No                          |
-
-*For the `copy` instruction, the source register (second parameter) can also be `sp` or `ln`, respectively the address of the stack pointer and the number of the currently executed instruction. Those values are read-only.
+The assembly language consists of the different instructions defined further down.
+Here is a summary of those instructions:
+- Arithmetic and logic: `add`, `sub`, `mul`, `div`, `or`, `and`, `xor`
+- Comparison: `teq`, `tne`, `tlt`, `tle`, `tgt`, `tge`
+- Memory: `push`, `pop`, `str`, `ld`, `strp`, `ldp`, `xchg`
+- Branching: `jz`, `jnz`, `call`, `ret`, `jabs`, `exit`
 
 <!-- TODO: Scancode appendix -->
 
-#### Per parameter type
-<!-- TODO -->
+### Machine code
+
+Here is a quick summary of the different instructions.
+
+| Type | Format                             | Description                                                           |
+| ---- | ---------------------------------- | --------------------------------------------------------------------- |
+| R    | `OOOOOOO??????????SSSSSSSSSSDDDDD` | Opcode (7) - ????? (10) - Source 2 (5) - Source (5) - Destination (5) |
+| I    | `OOOOOOIIIIIIIIIIIIIIIISSSSSDDDDD` | Opcode (6) -      Immediate (16)       - Source (5) - Destination (5) |
+| J    | `OOOOAAAAAAAAAAAAAAAAAAAAAAARRRRR` | Opcode (4) -               Address (23)                - Register (5) |
+
+| Opcode  | Instruction | Type | CPI | Implementation priority | Description                                                                                               |
+| ------- | ----------- | ---- | --- | ----------------------- | --------------------------------------------------------------------------------------------------------- |
+| 0000000 | `add`       | R    |     | High                    |                                                                                                           |
+| 0000001 | `sub`       | R    |     | High                    |                                                                                                           |
+| 0000010 | `mul`       | R    |     | Normal                  |                                                                                                           |
+| 0000011 | `div`       | R    |     | Normal                  |                                                                                                           |
+| 0000100 | `or`        | R    |     | Normal                  |                                                                                                           |
+| 0000101 | `and`       | R    |     | Normal                  |                                                                                                           |
+| 0000110 | `xor`       | R    |     | Normal                  |                                                                                                           |
+| 0000111 | `teq`       | R    |     | High                    |                                                                                                           |
+| 0001000 | `tne`       | R    |     | High                    |                                                                                                           |
+| 0001001 | `tlt`       | R    |     | Normal                  |                                                                                                           |
+| 0001010 | `tle`       | R    |     | Normal                  |                                                                                                           |
+| 0001011 | `tgt`       | R    |     | Normal                  |                                                                                                           |
+| 0001100 | `tge`       | R    |     | Normal                  |                                                                                                           |
+| 0001101 | RESERVED    | R    | -   | -                       | -                                                                                                         |
+| 0001110 | RESERVED    | R    | -   | -                       | -                                                                                                         |
+| 0001111 | RESERVED    | R    | -   | -                       | -                                                                                                         |
+| 0010000 | `push`      | R    |     | Low                     |                                                                                                           |
+| 0010001 | `pop`       | R    |     | Low                     |                                                                                                           |
+| 0010010 | `str`       | R    |     | High                    |                                                                                                           |
+| 0010011 | `ld`        | R    |     | High                    |                                                                                                           |
+| 0010010 | `strp`      | R    |     | Low                     | Stores with indirect addressing.                                                                          |
+| 0010011 | `ldp`       | R    |     | Low                     | Loads with indirect addressing.                                                                           |
+| 0010100 | `xchg`      | R    |     | Low                     |                                                                                                           |
+| 001.... | RESERVED    | R    | -   | -                       | -                                                                                                         |
+| 010001  | `addi`      | I    |     | High                    |                                                                                                           |
+| 010010  | `subi`      | I    |     | High                    |                                                                                                           |
+| 010011  | `ori`       | I    |     | Normal                  |                                                                                                           |
+| 010100  | `andi`      | I    |     | Normal                  |                                                                                                           |
+| 010101  | `xori`      | I    |     | Normal                  |                                                                                                           |
+| 010110  | `teqi`      | I    |     | Normal                  |                                                                                                           |
+| 010111  | `tnei`      | I    |     | Normal                  |                                                                                                           |
+| 011000  | `tlti`      | I    |     | Normal                  |                                                                                                           |
+| 011001  | `tlei`      | I    |     | Normal                  |                                                                                                           |
+| 011010  | `tgti`      | I    |     | Normal                  |                                                                                                           |
+| 011011  | `tgei`      | I    |     | Normal                  |                                                                                                           |
+| 011100  | `stri`      | I    |     | Normal                  |                                                                                                           |
+| 011101  | `ldi`       | I    |     | Normal                  |                                                                                                           |
+| 011110  | RESERVED    | I    | -   | -                       | -                                                                                                         |
+| 011111  | RESERVED    | I    | -   | -                       | -                                                                                                         |
+| 1000    | `jz`        | J    |     | High                    | Relative jump if the value in the register is 0.                                                          |
+| 1001    | `jnz`       | J    |     | High                    | Relative jump if the value in the register is not 0.                                                      |
+| 1010    | RESERVED    | J    | -   | -                       | -                                                                                                         |
+| 1011    | RESERVED    | J    | -   | -                       | -                                                                                                         |
+| 1100    | RESERVED    | J    | -   | -                       | -                                                                                                         |
+| 1101    | `call`      | J    |     | Normal                  | Jumps relatively to the address and links the address of the next instruction in the specified registers. |
+| 1110    | `ret`       | J    |     | Normal                  | Returns to the address in the specified register. Address part is skipped.                                |
+| 1111    | `jabs`      | J    |     | Low                     | Absolute jump, the address continues over the register part.                                              |
+
+Notes:
+- The wait the `exit` mnemonic is assembled has yet to be defined. It will probably be up to the assembler to replace it with a jump to the end of the program.
+- The value of the opcodes may change to align similar instructions.
 
 ### Errors
 
@@ -262,56 +281,11 @@ The execution of the code should stop if:
 - the stack is popped when empty (index error)
 - the user presses Ctrl+C (interrupt error)
 
-### Machine code
-
-Patterns:
-  - Register/Register:  `                ##SSSSDDDD0OOOCC`
-  - Register/Immediate: `IIIIIIIIIIIIIIIIIIIIIIDDDD1OOOCC`
-  - Push/Pop:           `                ######DDDDP#0101`
-  - Label (jump):       `AAAAAAAAAAAAAAAAAAAAAAAAAAAOOO11`
-Bits:
-  - C: Category
-  - O: Opcode
-  - D: Destination
-  - S: Source
-  - I: Immediate
-  - P: Stack direction (0 = push, 1 = pop)
-  - A: Address
-
-| Mnemonic  | Category              | Opcode | Type |
-| --------- | --------------------- | -----: | ---- |
-| add       | Arithmetic/Logic (00) |    000 | R?   |
-| sub       | Arithmetic/Logic (00) |    001 | R?   |
-| mul       | Arithmetic/Logic (00) |    010 | RR   |
-| div       | Arithmetic/Logic (00) |    011 | RR   |
-| and       | Arithmetic/Logic (00) |    100 | R?   |
-| or        | Arithmetic/Logic (00) |    101 | R?   |
-| xor       | Arithmetic/Logic (00) |    110 | R?   |
-| RESERVED  | Arithmetic/Logic (00) |    111 | X    |
-| set/copy  | Memory (01)           |  [0]00 | R?   |
-| push/pop  | Memory (01)           |  [0]01 | R    |
-| load      | Memory (01)           |  [0]10 | R?   |
-| store     | Memory (01)           |  [0]11 | R?   |
-| RESERVED? | Memory (01)           |    100 | X    |
-| RESERVED? | Memory (01)           |    101 | X    |
-| RESERVED? | Memory (01)           |    110 | X    |
-| RESERVED? | Memory (01)           |    111 | X    |
-| jump      | Branching (10)        |     00 | L    |
-| cmp       | Branching (10)        |     01 | R?   |
-| call      | Branching (10)        |     10 | L    |
-| ret       | Branching (10)        |     11 | TBD  |
-| jeq       | Cond branch (11)      |    000 | L    |
-| jneq      | Cond branch (11)      |    001 | L    |
-| jgeq      | Cond branch (11)      |    010 | L    |
-| jgt       | Cond branch (11)      |    011 | L    |
-| jleq      | Cond branch (11)      |    100 | L    |
-| jlt       | Cond branch (11)      |    101 | L    |
-| jc        | Cond branch (11)      |    110 | L    |
-| jnc       | Cond branch (11)      |    111 | L    |
-
 ### Usage
 
-<!-- TODO -->
+A program written using this assembly language should be run in two steps:
+1. The program is first passed through the assembler to obtain a working machine code version
+2. The machine code is then emulated with a second program
 
 Execution of the program starts at the first line and ends when the end of the file is reached, the `exit` instruction is used, or when a runtime error occurs.
 
