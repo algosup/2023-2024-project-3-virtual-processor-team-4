@@ -228,7 +228,19 @@ All the duration define here are only an estimation! It could take more or less 
 
 |Task|Start date|End date|
 |----|----------|--------|
-||||
+|GitHub initialization|01/22/24|01/22/24|
+|Test plan writing|01/22/24|02/16/24|
+|Test cases creation|01/22/24|02/16/24|
+|Assembly testing|01/22/24|01/30/24|
+|Functional specification review|01/29/24|01/30/24|
+|Quality assurance meeting|01/29/24|01/29/24|
+|Functional specification review|02/08/24|02/09/24|
+|Test case execution|01/30/24|02/23/24|
+|Bug reports|01/30/24|02/23/24|
+|Bug data report|01/30/24|02/23/24|
+|Quality assurance meeting|||
+|Quality assurance meeting|||
+|Quality assurance meeting|||
 
 ## Test deliverables
 
