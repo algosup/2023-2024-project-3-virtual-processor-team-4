@@ -9,47 +9,46 @@ The assembly language will also be created and tailored by us.
 <details>
 <summary>Table of Contents</summary>
 
-- [Virtual processor - Functional specifications](#virtual-processor---functional-specifications)
-  - [Stakeholders](#stakeholders)
-    - [Project members](#project-members)
-    - [Other stakeholders](#other-stakeholders)
-  - [Project scope](#project-scope)
-  - [Functional requirements](#functional-requirements)
-  - [Deliverables and milestones](#deliverables-and-milestones)
-  - [Personas and use cases](#personas-and-use-cases)
-    - [Persona 1 - Oceane Thomas](#persona-1---oceane-thomas)
-      - [Goals](#goals)
-      - [Challenges](#challenges)
-    - [Persona 2 - John Mayers](#persona-2---john-mayers)
-      - [Goals](#goals-1)
-      - [Challenges](#challenges-1)
-    - [Persona 3 - Patricia Farmer](#persona-3---patricia-farmer)
-      - [Goals](#goals-2)
-      - [Challenges](#challenges-2)
-  - [Acceptance criteria](#acceptance-criteria)
-  - [Solution overview](#solution-overview)
-    - [System architecture](#system-architecture)
-    - [Assembly syntax](#assembly-syntax)
-    - [Assembly instructions](#assembly-instructions)
-    - [Machine code](#machine-code)
-    - [Errors](#errors)
-    - [Machine code](#machine-code-1)
-      - [2-bits Identifier](#2-bits-identifier)
-      - [Instructions](#instructions)
-      - [Labels and Registers](#labels-and-registers)
-    - [Usage](#usage)
-  - [Non-functional requirements](#non-functional-requirements)
-    - [Performance](#performance)
-    - [Maintainablility](#maintainablility)
-    - [Scalability](#scalability)
-    - [Portability](#portability)
-    - [Usability](#usability)
-  - [Examples](#examples)
-  - [Timeline](#timeline)
-  - [Resources](#resources)
-  - [Risks and assumptions](#risks-and-assumptions)
-  - [Future improvements](#future-improvements)
-  - [Glossary](#glossary)
+- [Stakeholders](#stakeholders)
+  - [Project members](#project-members)
+  - [Other stakeholders](#other-stakeholders)
+- [Project scope](#project-scope)
+- [Functional requirements](#functional-requirements)
+- [Deliverables and milestones](#deliverables-and-milestones)
+- [Personas and use cases](#personas-and-use-cases)
+  - [Persona 1 - Oceane Thomas](#persona-1---oceane-thomas)
+    - [Goals](#goals)
+    - [Challenges](#challenges)
+  - [Persona 2 - John Mayers](#persona-2---john-mayers)
+    - [Goals](#goals-1)
+    - [Challenges](#challenges-1)
+  - [Persona 3 - Patricia Farmer](#persona-3---patricia-farmer)
+    - [Goals](#goals-2)
+    - [Challenges](#challenges-2)
+- [Acceptance criteria](#acceptance-criteria)
+- [Solution overview](#solution-overview)
+  - [System architecture](#system-architecture)
+  - [Assembly syntax](#assembly-syntax)
+  - [Assembly instructions](#assembly-instructions)
+  - [Machine code](#machine-code)
+  - [Errors](#errors)
+  - [Machine code](#machine-code-1)
+    - [2-bits Identifier](#2-bits-identifier)
+    - [Instructions](#instructions)
+    - [Labels and Registers](#labels-and-registers)
+  - [Usage](#usage)
+- [Non-functional requirements](#non-functional-requirements)
+  - [Performance](#performance)
+  - [Maintainablility](#maintainablility)
+  - [Scalability](#scalability)
+  - [Portability](#portability)
+  - [Usability](#usability)
+- [Examples](#examples)
+- [Timeline](#timeline)
+- [Resources](#resources)
+- [Risks and assumptions](#risks-and-assumptions)
+- [Future improvements](#future-improvements)
+- [Glossary](#glossary)
 </summary></details>
 
 ## Stakeholders
@@ -178,7 +177,15 @@ The other registers are:
 
 The architecture is flagless. This means that when a comparison is done, the result is stored back in a register rather than a flag. For overflows and carry, those must be checked manually.
 
-<!-- TODO: Memory layout -->
+The memory mapping we will be using resembles usual ones and is as follows:
+
+| Address range       | Data            |
+| ------------------- | --------------- |
+| E0000000 - FFFFFFFF | Reserved system |
+| A0000000 - DFFFFFFF | Reserved        |
+| 80000000 - 9FFFFFFF | Peripheral      |
+| 20000000 - 7FFFFFFF | [S]RAM          |
+| 00000000 - 1FFFFFFF | User code       |
 
 ### Assembly syntax
 
@@ -263,7 +270,7 @@ Here is a quick summary of the different instructions.
 | 011111  | RESERVED    | I    | -   | -                       |
 | 1000    | `jz`        | J    | 4   | High                    |
 | 1001    | `jnz`       | J    | 4   | High                    |
-| 1010    | RESERVED    | J    | -   | -                       |
+| 1010    | `jr`        | J    | -   | -                       |
 | 1011    | RESERVED    | J    | -   | -                       |
 | 1100    | RESERVED    | J    | -   | -                       |
 | 1101    | `call`      | J    | 5   | Normal                  |
@@ -271,7 +278,7 @@ Here is a quick summary of the different instructions.
 | 1111    | `jabs`      | J    | 3   | Low                     |
 
 Notes:
-- The way the `exit` mnemonic is assembled has yet to be defined. It will probably be up to the assembler to replace it with a jump to the end of the program.
+- The `exit` mnemonic is assembled to a division with an immediate 0 (`divi r? 0`).
 - The value of the opcodes may change to align similar instructions.
 - The cycles per instruction value is just an indicator and is likely not the real value.
 
@@ -280,6 +287,7 @@ Notes:
 The assembly of the code should abort with the program exiting if:
 - a line of code does not fit one of the previously mentioned rules (syntax error)
 - an instruction whose mnemonic is invalid or with parameters not corresponding (syntax error)
+- there is a division by an immediate 0
 
 The execution of the code should stop if:
 - a division by zero occurs (arithmetic error)
