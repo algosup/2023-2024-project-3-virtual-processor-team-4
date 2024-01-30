@@ -1,14 +1,16 @@
 # Virtual Processor - Project charter
 
 ## Table of content
-- [Project definition](#project-definition)
-- [Scope](#scope)
-- [Stakeholders](#stakeholders)
-- [Team members and responsibilities](#team-members-and-responsabilities)
-- [Project Plan](#project-plan)
-- [Milestones](#milestones)
-- [Deliverables](#deliverables)
-- [Budget](#budget)
+- [Virtual Processor - Project charter](#virtual-processor---project-charter)
+  - [Table of content](#table-of-content)
+  - [Project definition](#project-definition)
+  - [Scope](#scope)
+  - [Stakeholders](#stakeholders)
+  - [Team members and responsibilities](#team-members-and-responsibilities)
+  - [Project Plan](#project-plan)
+  - [Milestones](#milestones)
+  - [Deliverables](#deliverables)
+  - [Budget](#budget)
 
 
 ## Project definition
