@@ -377,7 +377,24 @@ This debugger would consist of a way to display the contents of registers and fl
 
 ## Examples
 
-<!-- TODO -->
+Here is an example program which will always output 21, independently from the input and wirtten in our assembly language:
+
+``` asm
+// TODO: Ask for value of c
+sub rc rc
+add rc 8 // Calculate the 8th value
+sub ra ra
+add ra 0
+sub rb rb
+add rb 1
+loop:
+add ra rb
+xchg ra rb
+subi rc 1
+teqi rc 1
+jz loop
+// TODO: Print result (=21)
+```
 
 ## Timeline
 
