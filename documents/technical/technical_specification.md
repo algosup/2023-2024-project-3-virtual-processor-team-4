@@ -9,7 +9,8 @@
   - [Introduction](#introduction)
     - [Overview](#overview)
       - [Audience](#audience)
-    - [Disclaimer](#disclaimer)
+      - [Disclaimer](#disclaimer)
+    - [Requiremnet](#requiremnet)
     - [Content](#content)
   - [Architecture](#architecture)
     - [Technicalities](#technicalities)
@@ -24,7 +25,7 @@
     - [Error Handling](#error-handling)
       - [Error Message Type](#error-message-type)
   - [File Loading](#file-loading)
-  - [Compiler](#compiler)
+  - [Assembler](#assembler)
     - [Line Parsing](#line-parsing)
     - [Binary File](#binary-file)
     - [Diagram](#diagram)
@@ -32,6 +33,7 @@
     - [Parsing](#parsing)
     - [Output](#output)
     - [Diagrams](#diagrams)
+  - [Challenges](#challenges)
   - [Glossary](#glossary)
 
 </details>
@@ -52,13 +54,22 @@ This document is intended for:
 - the QA;
 - the Project Manager;
 
-### Disclaimer
+#### Disclaimer
 
 This document will not describe the assembly[^2] language and it's working, those information will be available in the [functional specification](/documents/functional/functionalSpecification.md).
 
+### Requiremnet
+
+The requirement for this prokect are as follows:
+- invent a minimal assembly language,
+- create a C program that can read our assembly language and run it,
+- the C program must also be able do check the syntax and semantics of the assembly language,
+- implement a virtual terminal to make sure that the program is running and displaying information to the user,
+- write small assembly programs executable by the C program,
+
 ### Content
 
-This document will contain the details of the compiler[^3], the details of the interpreter[^4], the architecture of the project.
+This document will contain the details of the assembler[^3], the details of the interpreter[^4], the architecture of the project.
 
 ---
 
@@ -66,7 +77,7 @@ This document will contain the details of the compiler[^3], the details of the i
 
 ### Technicalities
 
-The program will be develloped in C[^5](no matter the version), with the GCC compiler[^6]. It will be develloped on Windows and Linux, but must support any other OS[^7].
+The program will be develloped in C[^5](no matter the version), with the GCC assembler[^6]. It will be develloped on Windows and Linux, but must support any other OS[^7].
 
 ### Naming Conventions
 
@@ -85,20 +96,29 @@ enum member: ALL_CAPS
 
 ### File Organisation
 ```
-src-----
-        main.c
-        lib------
-                interpret.h
-                file.h
-                utils.h
-                errors.h
-----------------
+📦2023-2024-project3-virtual-processor
+└── 📁 .github
+    └── 📁 ISSUE_TEMPLATE
+        └── 📝 bug_report.md
+└── 📁 documents
+    └── 📁 .data
+        └──pictures
+    └── 📁 QA
+        └── 📝 test_plan.md
+    └── 📁 functional
+        └── 📝 function_specification.md
+    └── 📁 management
+        └──.weekly_report
+    └── 📁 technical
+        └── 📝 technical-specification.md
+    └── 📄 project_charter.md
+└── 📁 src
+    └── 📁 libs
+    └── 📄 main.c
+└── 📄 .gitignore
+└── 📄 LICENCE
+└── 📝 README.md
 ```
-
-- interpret.h will handle the interpreter of the program,
-- file.h will handle the lexical analysis of the compiler,
-- utils.h
-- errors.h will handle all the errors,
 
 ### Endians
 
@@ -124,7 +144,7 @@ The Virtual Terminal is a part of the vitual processor; it will be used to displ
 
 ### Error Handling
 
-For errors that happens in the file loading phase, the program ask for a correct file name/format; in the compiler phase, the program waits for the file to finish compiling before returning all the errors; in the interpreter phase if there is an error, the program stops and return an error.
+For errors that happens in the file loading phase, the program ask for a correct file name/format; in the assembler phase, the program waits for the file to finish assembling before returning all the errors; in the interpreter phase if there is an error, the program stops and return an error.
 
 #### Error Message Type
 
@@ -144,7 +164,7 @@ error + error number: type of error line of the error: '';
 
 --- 
 
-## Compiler
+## Assembler
 
 ### Line Parsing
 
@@ -173,9 +193,9 @@ error + error number: type of error line of the error: '';
 
 ### Diagram
 
-Here is a visual representation of how the compiler works:
+Here is a visual representation of how the assembler works:
 
-![Compiler Diagram](/documents/.data/pictures/UML_preprocessor.png)
+![assembler Diagram](/documents/.data/pictures/UML_preprocessor.png)
 
 ---
 
@@ -206,13 +226,23 @@ Here is a visual representaion of how the intepreter works:
 
 ---
 
+## Challenges
+
+Here are the technical challenges that we must overcome for our project to succeed:
+- making sure our program can handle various assembly programs in terme of complexity,
+- making sure our program can handle various assembly programs in terme of size
+- have our assembler enforce rigorously the syntax and semantics correctness of the assembly programs,
+- making sure our program execute the more complexe instruction, such as  'call' and 'ret',
+
+---
+
 ## Glossary
 [^1]: virtual processor:
 [^2]: assembly:
-[^3]: compiler:
+[^3]: assembler:
 [^4]: interpreter:
 [^5]: C:
-[^6]: GCC compiler:
+[^6]: GCC assembler:
 [^7]: OS:
 [^8]: endian:
 [^9]: CISC:

@@ -57,4 +57,4 @@ Then, unzip it, and follow the instructions below ↓
 This project is under the [MIT License](LICENSE).
 
 <hr>
-<img src="documents/.data/pictures/algosup-logo.png" width="750px">
+<img src="documents/.data/pictures/algosup_logo.png" width="750px">
