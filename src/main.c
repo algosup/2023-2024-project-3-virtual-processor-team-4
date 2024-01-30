@@ -4,9 +4,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include "./libs/utils.h"
-#include "./libs/file.h"
-#include "./libs/interpret.h"
-#include "./libs/errors.h"
+#include "./libs/runtime.h"
+#include "./libs/preprocess.h"
 
 int main()
 {

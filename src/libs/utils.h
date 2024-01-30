@@ -13,7 +13,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     OUT_OF_MEMORY,
 } ErrorType_t;
 
-typedef enum InstructionType
+typedef enum InstructionType // Define all the instructions with a linked identifier
 {
     SKIP = -1,
     NOOP,
@@ -56,7 +56,7 @@ typedef enum ParameterType // Define type of parameters in a function
     NULL_,
 } ParameterType_t;
 
-typedef struct line
+typedef struct line // Definition of a line after parsing and checking all its arguments
 {
     struct
     {
@@ -79,7 +79,7 @@ typedef struct line
     int *lineNumber;
 } line_t;
 
-int check_is_number(char *str)
+int check_is_number(char *str) // Check if a string is a number
 {
     int i = 0;
     while (str[i] != '\0')
@@ -93,7 +93,7 @@ int check_is_number(char *str)
     return SUCCESS;
 }
 
-int check_is_label(char *str) // Missing check for ":"
+int check_is_label(char *str) //Check if the line content is a label
 {
     if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
     {
