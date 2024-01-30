@@ -181,8 +181,8 @@ These criterias are:
 To provide a better bug report I chose to create a bug report template that we can apply on github issues. It allows the people that found a bug to report it quickly and effectively with the main information needed. \
 Here is a picture of the template:
 
-![Bug report high](..\pictures\bug_report_high.png)
-![Bug report low](..\pictures\bug_report_low.png)
+![Bug report high](/documents/pictures/bug_report_high.png)
+![Bug report low](/documents/pictures/bug_report_low.png)
 
 **Labels**
 
@@ -191,20 +191,20 @@ I also provide to my team labels, permitting us to have a better comprehension o
 |Label|Description|
 |:-----:|-----------|
 |![Bug Label](/documents/pictures/bug_label.png)|Something isn't working|
-|![Critical Label](..\pictures\critical_label.png)|Critical Priority|
-|![Dev Label](..\pictures\dev_label.png)|Use for Dev|
-|![Documentation Label](..\pictures\documentation_label.png)|Improvements or additions to documentation|
-|![Duplicate Label](..\pictures\duplicate_label.png)|This issue or pull request already exists|
-|![Enhancement Label](..\pictures\enhancement_label.png)|New feature or request|
-|![Good first issue Label](..\pictures\good_first_issue_label.png)|Good for newcomers|
-|![Help wanted Label](..\pictures\help_wanted_label.png)|Extra attention is needed|
-|![High Label](..\pictures\high_label.png)|High Priority|
-|![Invalid Label](..\pictures\invalid_label.png)|This doesn't seem right|
-|![Low Label](..\pictures\low_label.png)|Low Priority|
-|![medium Label](..\pictures\medium_label.png)|Medium Priority|
-|![Question Label](..\pictures\question_label.png)|Further information is requested|
-|![Test case Label](..\pictures\test_case_label.png)|Use for test case|
-|![Wontfix Label](..\pictures\wontfix_label.png)|This will not be worked on|
+|![Critical Label](/documents/pictures/critical_label.png)|Critical Priority|
+|![Dev Label](/documents/pictures/dev_label.png)|Use for Dev|
+|![Documentation Label](/documents/pictures/documentation_label.png)|Improvements or additions to documentation|
+|![Duplicate Label](/documents/pictures/duplicate_label.png)|This issue or pull request already exists|
+|![Enhancement Label](/documents/pictures/enhancement_label.png)|New feature or request|
+|![Good first issue Label](/documents/pictures/good_first_issue_label.png)|Good for newcomers|
+|![Help wanted Label](/documents/pictures/help_wanted_label.png)|Extra attention is needed|
+|![High Label](/documents/pictures/high_label.png)|High Priority|
+|![Invalid Label](/documents/pictures/invalid_label.png)|This doesn't seem right|
+|![Low Label](/documents/pictures/low_label.png)|Low Priority|
+|![medium Label](/documents/pictures/medium_label.png)|Medium Priority|
+|![Question Label](/documents/pictures/question_label.png)|Further information is requested|
+|![Test case Label](/documents/pictures/test_case_label.png)|Use for test case|
+|![Wontfix Label](/documents/pictures/wontfix_label.png)|This will not be worked on|
 
 ## Testing schedule and estimation
 
