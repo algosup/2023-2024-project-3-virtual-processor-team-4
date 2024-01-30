@@ -215,59 +215,60 @@ Here is a quick summary of the different instructions.
 | I    | `OOOOOOIIIIIIIIIIIIIIIISSSSSDDDDD` | Opcode (6) -      Immediate (16)       - Source (5) - Destination (5) |
 | J    | `OOOOAAAAAAAAAAAAAAAAAAAAAAARRRRR` | Opcode (4) -               Address (23)                - Register (5) |
 
-| Opcode  | Instruction | Type | CPI | Implementation priority | Description                                                                                               |
-| ------- | ----------- | ---- | --- | ----------------------- | --------------------------------------------------------------------------------------------------------- |
-| 0000000 | `add`       | R    |     | High                    |                                                                                                           |
-| 0000001 | `sub`       | R    |     | High                    |                                                                                                           |
-| 0000010 | `mul`       | R    |     | Normal                  |                                                                                                           |
-| 0000011 | `div`       | R    |     | Normal                  |                                                                                                           |
-| 0000100 | `or`        | R    |     | Normal                  |                                                                                                           |
-| 0000101 | `and`       | R    |     | Normal                  |                                                                                                           |
-| 0000110 | `xor`       | R    |     | Normal                  |                                                                                                           |
-| 0000111 | `teq`       | R    |     | High                    |                                                                                                           |
-| 0001000 | `tne`       | R    |     | High                    |                                                                                                           |
-| 0001001 | `tlt`       | R    |     | Normal                  |                                                                                                           |
-| 0001010 | `tle`       | R    |     | Normal                  |                                                                                                           |
-| 0001011 | `tgt`       | R    |     | Normal                  |                                                                                                           |
-| 0001100 | `tge`       | R    |     | Normal                  |                                                                                                           |
-| 0001101 | RESERVED    | R    | -   | -                       | -                                                                                                         |
-| 0001110 | RESERVED    | R    | -   | -                       | -                                                                                                         |
-| 0001111 | RESERVED    | R    | -   | -                       | -                                                                                                         |
-| 0010000 | `push`      | R    |     | Low                     |                                                                                                           |
-| 0010001 | `pop`       | R    |     | Low                     |                                                                                                           |
-| 0010010 | `str`       | R    |     | High                    |                                                                                                           |
-| 0010011 | `ld`        | R    |     | High                    |                                                                                                           |
-| 0010010 | `strp`      | R    |     | Low                     | Stores with indirect addressing.                                                                          |
-| 0010011 | `ldp`       | R    |     | Low                     | Loads with indirect addressing.                                                                           |
-| 0010100 | `xchg`      | R    |     | Low                     |                                                                                                           |
-| 001.... | RESERVED    | R    | -   | -                       | -                                                                                                         |
-| 010001  | `addi`      | I    |     | High                    |                                                                                                           |
-| 010010  | `subi`      | I    |     | High                    |                                                                                                           |
-| 010011  | `ori`       | I    |     | Normal                  |                                                                                                           |
-| 010100  | `andi`      | I    |     | Normal                  |                                                                                                           |
-| 010101  | `xori`      | I    |     | Normal                  |                                                                                                           |
-| 010110  | `teqi`      | I    |     | Normal                  |                                                                                                           |
-| 010111  | `tnei`      | I    |     | Normal                  |                                                                                                           |
-| 011000  | `tlti`      | I    |     | Normal                  |                                                                                                           |
-| 011001  | `tlei`      | I    |     | Normal                  |                                                                                                           |
-| 011010  | `tgti`      | I    |     | Normal                  |                                                                                                           |
-| 011011  | `tgei`      | I    |     | Normal                  |                                                                                                           |
-| 011100  | `stri`      | I    |     | Normal                  |                                                                                                           |
-| 011101  | `ldi`       | I    |     | Normal                  |                                                                                                           |
-| 011110  | RESERVED    | I    | -   | -                       | -                                                                                                         |
-| 011111  | RESERVED    | I    | -   | -                       | -                                                                                                         |
-| 1000    | `jz`        | J    |     | High                    | Relative jump if the value in the register is 0.                                                          |
-| 1001    | `jnz`       | J    |     | High                    | Relative jump if the value in the register is not 0.                                                      |
-| 1010    | RESERVED    | J    | -   | -                       | -                                                                                                         |
-| 1011    | RESERVED    | J    | -   | -                       | -                                                                                                         |
-| 1100    | RESERVED    | J    | -   | -                       | -                                                                                                         |
-| 1101    | `call`      | J    |     | Normal                  | Jumps relatively to the address and links the address of the next instruction in the specified registers. |
-| 1110    | `ret`       | J    |     | Normal                  | Returns to the address in the specified register. Address part is skipped.                                |
-| 1111    | `jabs`      | J    |     | Low                     | Absolute jump, the address continues over the register part.                                              |
+| Opcode  | Instruction | Type | CPI | Implementation priority |
+| ------- | ----------- | ---- | --- | ----------------------- |
+| 0000000 | `add`       | R    | 5   | High                    |
+| 0000001 | `sub`       | R    | 5   | High                    |
+| 0000010 | `mul`       | R    | 5   | Normal                  |
+| 0000011 | `div`       | R    | 5   | Normal                  |
+| 0000100 | `or`        | R    | 5   | Normal                  |
+| 0000101 | `and`       | R    | 5   | Normal                  |
+| 0000110 | `xor`       | R    | 5   | Normal                  |
+| 0000111 | `teq`       | R    | 5   | High                    |
+| 0001000 | `tne`       | R    | 5   | High                    |
+| 0001001 | `tlt`       | R    | 5   | Normal                  |
+| 0001010 | `tle`       | R    | 5   | Normal                  |
+| 0001011 | `tgt`       | R    | 5   | Normal                  |
+| 0001100 | `tge`       | R    | 5   | Normal                  |
+| 0001101 | RESERVED    | R    | -   | -                       |
+| 0001110 | RESERVED    | R    | -   | -                       |
+| 0001111 | RESERVED    | R    | -   | -                       |
+| 0010000 | `push`      | R    | 5   | Low                     |
+| 0010001 | `pop`       | R    | 5   | Low                     |
+| 0010010 | `str`       | R    | 4   | High                    |
+| 0010011 | `ld`        | R    | 4   | High                    |
+| 0010010 | `strp`      | R    | 6   | Low                     |
+| 0010011 | `ldp`       | R    | 6   | Low                     |
+| 0010100 | `xchg`      | R    | 5   | Low                     |
+| 001.... | RESERVED    | R    | -   | -                       |
+| 010001  | `addi`      | I    | 4   | High                    |
+| 010010  | `subi`      | I    | 4   | High                    |
+| 010011  | `ori`       | I    | 4   | Normal                  |
+| 010100  | `andi`      | I    | 4   | Normal                  |
+| 010101  | `xori`      | I    | 4   | Normal                  |
+| 010110  | `teqi`      | I    | 4   | Normal                  |
+| 010111  | `tnei`      | I    | 4   | Normal                  |
+| 011000  | `tlti`      | I    | 4   | Normal                  |
+| 011001  | `tlei`      | I    | 4   | Normal                  |
+| 011010  | `tgti`      | I    | 4   | Normal                  |
+| 011011  | `tgei`      | I    | 4   | Normal                  |
+| 011100  | `stri`      | I    | 4   | Normal                  |
+| 011101  | `ldi`       | I    | 4   | Normal                  |
+| 011110  | RESERVED    | I    | -   | -                       |
+| 011111  | RESERVED    | I    | -   | -                       |
+| 1000    | `jz`        | J    | 4   | High                    |
+| 1001    | `jnz`       | J    | 4   | High                    |
+| 1010    | RESERVED    | J    | -   | -                       |
+| 1011    | RESERVED    | J    | -   | -                       |
+| 1100    | RESERVED    | J    | -   | -                       |
+| 1101    | `call`      | J    | 5   | Normal                  |
+| 1110    | `ret`       | J    | 5   | Normal                  |
+| 1111    | `jabs`      | J    | 3   | Low                     |
 
 Notes:
-- The wait the `exit` mnemonic is assembled has yet to be defined. It will probably be up to the assembler to replace it with a jump to the end of the program.
+- The way the `exit` mnemonic is assembled has yet to be defined. It will probably be up to the assembler to replace it with a jump to the end of the program.
 - The value of the opcodes may change to align similar instructions.
+- The cycles per instruction value is just an indicator and is likely not the real value.
 
 ### Errors
 
