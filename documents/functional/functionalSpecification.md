@@ -111,6 +111,12 @@ This means that if an instruction takes 4 clock cycles and another one takes 7, 
 | 16 February 2023, 5 PM | Test plan                |
 | 23 February 2023, 5 PM | Final product            |
 
+### Final product
+
+The Final product concist of :
+- A assembler that translate our assembly to machine code
+- An emulator that act as a virtual CPU to run our machine code
+
 ## Personas and use cases
 
 <!-- Use Cases:
@@ -294,48 +300,6 @@ The execution of the code should stop if:
 - the stack is popped when empty (index error)
 - the user presses Ctrl+C (interrupt error)
 
-### Machine code
-
-To be understood by a CPU or Virtual Processor, the assembly code needs to be assembled into machine code, which is a binary version of our instructions.
-
-For each instruction, we store both the instruction itself and its parameters. To indicate how many parameters there are and what kind of parameters we are passing, we use the first 2 bits at the start of an instruction.
-An instruction line is at most 32-bits.
-
-- Instructions are saved using 6 bits, with each number corresponding to a specific instruction.
-- Labels and Registers are saved as numbers in a 16-bit register:
-  - Registers occupy the range from 0 to 32.
-  - Labels occupy the range from 0 to 65535 (16bit).
-  - We use the 2-bit identifier to determine whether it is a label or a register.
-- Immediate values are stored in a signed 16-bit register.
-
-#### 2-bits Identifier
-
-This identifier act as folow :
-| number | usage                         |
-| ------ | ----------------------------- |
-| 0      | both parameters are registers |
-| 1      | 2nd parameter is an imediate  |
-| 2      | three parameters              |
-| 3      | uses a label                  |
-
-#### Instructions
-
-Instructions are stored in the same byte as the identifier, leaving 6 bits to store the instructions.
-
-| number | instruction |
-| ------ | ----------- |
-| 0      |             |
-
-#### Labels and Registers
-
-Registers in this system are designated with names ranging from rA to rZ, corresponding to each letter of the alphabet. To represent a specific register, we use its alphabetical position as its numerical identifier
-eg. 
-``rB`` -> 2 -> ``00000010``
-``rV`` -> 22 -> ``00010110``
-
-Labels are translated into numbers during assembly. This numbering starts at 16 and increments with each new label. 
-eg. If ``pacMan`` is the second label mentioned in the assembly file, every instance of ``pacMan`` would be represented as ``00000000 00010001``
-
 ### Usage
 
 A program written using this assembly language should be run in two steps:
@@ -383,6 +347,10 @@ Although a debugger is not required, it might be useful for developers to implem
 
 This debugger would consist of a way to display the contents of registers and flags at a particular point in the execution of the code.
 
+### Security
+
+You can use a moddified machine code to run illegal operation on your CPU. Through the use of the virtual CPU we can mitigate that risk as the user would not be running the code directly on the hardware.
+
 ## Examples
 
 Here is an example program which will always output 21, independently from the input and wirtten in our assembly language:
@@ -404,11 +372,6 @@ jz loop
 // TODO: Print result (=21)
 ```
 
-## Timeline
-
-<!-- TODO -->
-<!-- insert benoi's xcel table -->
-
 ## Resources
 
 Man-hours:
@@ -423,14 +386,15 @@ Budget:
 
 - The 32-bit timestamp ends in 2038
 - The instruction we create could be infringing a patent
-- We assume that every implementation of C follows the C standard close enough to not be a problem
+- We assume that every implementation of C follows the C Standard close enough to not be a problem
 - We assume that any isntruction we create can be implemented in a real hardware
+- Opens security vunerability through code injection
 
 ## Future improvements
 
-- adding lookup table
-- Giving the user direct acess to memory
-- making a system of headerfile
+- making a system of include files
+- Floating point architecture
+- having a system of data declaration
 
 ## Glossary
 
