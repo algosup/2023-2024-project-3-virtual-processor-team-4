@@ -9,42 +9,47 @@ The assembly language will also be created and tailored by us.
 <details>
 <summary>Table of Contents</summary>
 
-- [Stakeholders](#stakeholders)
-  - [Project members](#project-members)
-  - [Other stakeholders](#other-stakeholders)
-- [Project scope](#project-scope)
-- [Functional requirements](#functional-requirements)
-- [Deliverables and milestones](#deliverables-and-milestones)
-- [Personas and use cases](#personas-and-use-cases)
-  - [Persona 1 - Oceane Thomas](#persona-1---oceane-thomas)
-    - [Goals](#goals)
-    - [Challenges](#challenges)
-  - [Persona 2 - John Mayers](#persona-2---john-mayers)
-    - [Goals](#goals-1)
-    - [Challenges](#challenges-1)
-  - [Persona 3 - Patricia Farmer](#persona-3---patricia-farmer)
-    - [Goals](#goals-2)
-    - [Challenges](#challenges-2)
-- [Acceptance criteria](#acceptance-criteria)
-- [Solution overview](#solution-overview)
-  - [System architecture](#system-architecture)
-  - [Assembly syntax](#assembly-syntax)
-  - [Assembly instructions](#assembly-instructions)
-  - [Machine code](#machine-code)
-  - [Errors](#errors)
-  - [Usage](#usage)
-- [Non-functional requirements](#non-functional-requirements)
-  - [Performance](#performance)
-  - [Maintainablility](#maintainablility)
-  - [Scalability](#scalability)
-  - [Portability](#portability)
-  - [Usability](#usability)
-- [Examples](#examples)
-- [Timeline](#timeline)
-- [Resources](#resources)
-- [Risks and assumptions](#risks-and-assumptions)
-- [Future improvements](#future-improvements)
-- [Glossary](#glossary)
+- [Virtual processor - Functional specifications](#virtual-processor---functional-specifications)
+  - [Stakeholders](#stakeholders)
+    - [Project members](#project-members)
+    - [Other stakeholders](#other-stakeholders)
+  - [Project scope](#project-scope)
+  - [Functional requirements](#functional-requirements)
+  - [Deliverables and milestones](#deliverables-and-milestones)
+  - [Personas and use cases](#personas-and-use-cases)
+    - [Persona 1 - Oceane Thomas](#persona-1---oceane-thomas)
+      - [Goals](#goals)
+      - [Challenges](#challenges)
+    - [Persona 2 - John Mayers](#persona-2---john-mayers)
+      - [Goals](#goals-1)
+      - [Challenges](#challenges-1)
+    - [Persona 3 - Patricia Farmer](#persona-3---patricia-farmer)
+      - [Goals](#goals-2)
+      - [Challenges](#challenges-2)
+  - [Acceptance criteria](#acceptance-criteria)
+  - [Solution overview](#solution-overview)
+    - [System architecture](#system-architecture)
+    - [Assembly syntax](#assembly-syntax)
+    - [Assembly instructions](#assembly-instructions)
+    - [Machine code](#machine-code)
+    - [Errors](#errors)
+    - [Machine code](#machine-code-1)
+      - [2-bits Identifier](#2-bits-identifier)
+      - [Instructions](#instructions)
+      - [Labels and Registers](#labels-and-registers)
+    - [Usage](#usage)
+  - [Non-functional requirements](#non-functional-requirements)
+    - [Performance](#performance)
+    - [Maintainablility](#maintainablility)
+    - [Scalability](#scalability)
+    - [Portability](#portability)
+    - [Usability](#usability)
+  - [Examples](#examples)
+  - [Timeline](#timeline)
+  - [Resources](#resources)
+  - [Risks and assumptions](#risks-and-assumptions)
+  - [Future improvements](#future-improvements)
+  - [Glossary](#glossary)
 </summary></details>
 
 ## Stakeholders
@@ -298,20 +303,20 @@ An instruction line is at most 32-bits.
 #### 2-bits Identifier
 
 This identifier act as folow :
-| number | usage |
-|-|-|
-| 0 | both parameters are registers |
-| 1 | 2nd parameter is an imediate |
-| 2 | three parameters |
-| 3 | uses a label |
+| number | usage                         |
+| ------ | ----------------------------- |
+| 0      | both parameters are registers |
+| 1      | 2nd parameter is an imediate  |
+| 2      | three parameters              |
+| 3      | uses a label                  |
 
 #### Instructions
 
 Instructions are stored in the same byte as the identifier, leaving 6 bits to store the instructions.
 
 | number | instruction |
-|-|-|
-| 0 |  |
+| ------ | ----------- |
+| 0      |             |
 
 #### Labels and Registers
 
@@ -326,10 +331,24 @@ eg. If ``pacMan`` is the second label mentioned in the assembly file, every inst
 ### Usage
 
 A program written using this assembly language should be run in two steps:
+
 1. The program is first passed through the assembler to obtain a working machine code version
 2. The machine code is then emulated with a second program
 
 Execution of the program starts at the first line and ends when the end of the file is reached, the `exit` instruction is used, or when a runtime error occurs.
+
+Here is an example of an input file using our Assembly code:
+
+``` asm
+xor r0 r0
+addi r0 r0 3
+mul r0 r0
+subi r0 1
+```
+
+Launching our program following the steps given above would look as follows:
+
+![Program launch on command line](./pictures/launch_program.png)
 
 ## Non-functional requirements
 
@@ -343,7 +362,7 @@ We need to leave some head room to add new instructions or registers in the futu
 
 ### Scalability
 
-The program is single-threaded and does not utilize additional CPU cores available on modern hardware. Users could run multiple instances of the Virtual Processor program to make use of a multicore CPU. 
+The program is single-threaded and does not utilize additional CPU cores available on modern hardware. Users could run multiple instances of the Virtual Processor program to make use of a multicore CPU.
 We should aim to have minimal memory overhead from the virtual CPU to enable the user to run multiple instances of the program efficiently. Our goal should be to keep memory usage under 5 megabits per instance.
 
 ### Portability
