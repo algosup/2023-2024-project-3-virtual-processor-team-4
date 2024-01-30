@@ -73,7 +73,7 @@ The assembly language will also be created and tailored by us.
 ## Project scope
 
 We have multiple objectives for this project:
-- Creation of an assembly language and [Instruction Set Architecture](#glossary) (defined further down in this document)
+- Creation of an assembly language and [Instruction Set Architecture](#glossary) (ISA) (defined further down in this document)
 - Implementation of this ISA in the form of a [virtual processor](#glossary)
 - Implementation of an [interpreter](#glossary) to run code onto this virtual processor (in other words, encode the instructions of the CPU)
 - Provision of sample assembly scripts that can be run by the interpreter
@@ -111,7 +111,7 @@ This means that if an instruction takes 4 clock cycles and another one takes 7, 
 | 16 February 2023, 5 PM | Test plan                |
 | 23 February 2023, 5 PM | Final product            |
 
-### Final product
+#### Final product
 
 The Final product concist of :
 - A assembler that translate our assembly to machine code
@@ -233,7 +233,7 @@ Here is a quick summary of the different instructions.
 | I    | `OOOOOOIIIIIIIIIIIIIIIISSSSSDDDDD` | Opcode (6) -      Immediate (16)       - Source (5) - Destination (5) |
 | J    | `OOOOAAAAAAAAAAAAAAAAAAAAAAARRRRR` | Opcode (4) -               Address (23)                - Register (5) |
 
-| Opcode  | Instruction | Type | CPI | Implementation priority |
+| Opcode  | Instruction | Type | [CPI](#glossary) | Implementation priority |
 | ------- | ----------- | ---- | --- | ----------------------- |
 | 0000000 | `add`       | R    | 5   | High                    |
 | 0000001 | `sub`       | R    | 5   | High                    |
@@ -398,6 +398,50 @@ Budget:
 
 ## Glossary
 
+**Arithmetic and Logic Unit (ALU)** \
+An arithmetic logic unit (ALU) is a combinational digital circuit that performs arithmetic and bitwise operations on integer binary numbers.
+[Wikipedia](https://en.wikipedia.org/wiki/Arithmetic_logic_unit)
+
+**Assembler** \
+A program that changes computer instructions into machine code (= a set of numbers that gives instructions to a computer).
+[Cambridge Dictionary](https://dictionary.cambridge.org/fr/dictionnaire/anglais/assembler)
+
+**Assembly** \
+In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions
+[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language)
+
+**Branching** \
+A branch is an instruction in a computer program that can cause a computer to begin executing a different instruction sequence and thus deviate from its default behavior of executing instructions in order. Branch may also refer to the act of switching execution to a different instruction sequence as a result of executing a branch instruction. Branch instructions are used to implement control flow in program loops and conditionals.
+[Wikipedia](https://en.wikipedia.org/wiki/Branch_(computer_science))
+
+**C Language** \
+C is a general-purpose computer programming language. C is commonly used on computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.
+[Wikipedia](https://en.wikipedia.org/wiki/C_(programming_language))
+
+**C Standards** \
+The C standards are documents that are intended to reduce variation in C language implementation across the different compilers.
+[Quora](https://www.quora.com/What-are-the-C-standards)
+
+**Clock Cycles** \
+The clock cycle is the amount of time between two pulses of an oscillator. It is a single increment of the central processing unit (CPU) clock during which the smallest unit of processor activity is carried out.
+[Technopedia](https://www.techopedia.com/definition/5498/clock-cycle#:~:text=What%20Does%20Clock%20Cycle%20Mean,processor%20activity%20is%20carried%20out.)
+
+**Compiler** \
+In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language).
+[Wikipedia](https://en.wikipedia.org/wiki/Compiler)
+
+**Cycles Per Instruction (CPI)** \
+It is the time (mesured in clock cycles), it takes for the CPU to execute an instruction.
+[Wikipedia](https://en.wikipedia.org/wiki/Cycles_per_instruction)
+
+**Emulating** \
+The use of an application program or device to imitate the behavior of another program or device.
+[TechTarget](https://www.techtarget.com/whatis/definition/emulation#:~:text=1.,it%20was%20not%20originally%20engineered.)
+
+**Immediate value** \
+An "immediate value" is an hardcoded value included in the program. It is all the static values that are present in a program. For example (if translated to C): x = 10; x is a variable and 10 is an immediate value.
+[Reverse engineering](https://reverseengineering.stackexchange.com/questions/17671/what-is-an-immediate-value#:~:text=An%20%22immediate%20value%22%20is%20an,10%20is%20an%20immediate%20value.)
+
 **Instruction Set Architecture (ISA)** \
 An architecture defining how a microprocessor and its related components should work. It includes the instructions to run, the different registers, and memory partitioning among other things.
 [Wikipedia](https://en.wikipedia.org/wiki/Instruction_set_architecture)
@@ -406,22 +450,34 @@ An architecture defining how a microprocessor and its related components should 
 In computer science, an interpreter is a computer program that directly executes instructions written in a programming or scripting language, without requiring them previously to have been compiled into a machine language program.
 [Wikipedia](https://en.wikipedia.org/wiki/Interpreter_(computing))
 
-**assembly** \
-In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions
-[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language)
+**Label** \
+In programming languages, a label is a sequence of characters that identifies a location within source code.
+[Wikipedia](https://en.wikipedia.org/wiki/Label_(computer_science)#:~:text=In%20programming%20languages%2C%20a%20label,(e.g.%2C%20a%20colon).)
+
+**Libraries** \
+A collection of program parts that do common and/or specialized things that save the programmer from needing to "reinvent the wheel" when writing software. It usually consists of functions to call and object classes you can instantiate.
+[Treehouse](https://teamtreehouse.com/community/what-exactly-is-a-library-in-programming#:~:text=A%20%22library%22%20is%20a%20collection,object%20classes%20you%20can%20instantiate.)
 
 **Machine code** \
 In computer programming, machine code is computer code consisting of machine language instructions, which are used to control a computer's central processing unit (CPU).
 [Wikipedia](https://en.wikipedia.org/wiki/Machine_code)
 
+**Mnemonic** \
+A mnemonic is a term, symbol or name used to define or specify a computing function.
+[Technopedia](https://www.techopedia.com/definition/28287/mnemonic#:~:text=A%20mnemonic%20is%20a%20term,to%20perform%20or%20achieve%20it.)
+
+**Opcodes** \
+In computing, an opcode (abbreviated from operation code) is the portion of a machine language instruction that specifies the operation to be performed.
+[Wikipedia](https://en.wikipedia.org/wiki/Opcode#:~:text=In%20computing%2C%20an%20opcode%20(abbreviated,the%20operation%20to%20be%20performed.))
+
+**Operating System** \
+A set of programs that control the way a computer system works, especially how its memory is used and how different programs work together.
+[Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/operating-system)
+
 **Processor / Central Processing Unit (CPU)** \
 In computing and computer science, a processor or processing unit is an electrical component (digital circuit) that performs operations on an external data source, usually memory or some other data stream.
 The term is frequently used to refer to the central processing unit (CPU), the main processor in a system.
 [Wikipedia](https://en.wikipedia.org/wiki/Processor_(computing))
-
-**Virtual processor** \
-Hardware elements are partitioned off into different virtual machines that can provide the same functionality as traditional physical computer workstations. Typically, the hypervisor, the program that hosts and manages virtual machines, uses the resources of a physical system and assign them to a specific Virtual Machine.
-[Technopedia](https://www.techopedia.com/definition/30859/vcpu#:~:text=A%20vCPU%20(virtual%20CPU)%20represents,known%20as%20a%20virtual%20processor.)
 
 **RAM** \
 Random-access memory is a form of electronic computer memory that can be read and changed in any order, typically used to store working data and machine code. A random-access memory device allows data items to be read or written in almost the same amount of time irrespective of the physical location of data inside the memory.
@@ -431,87 +487,27 @@ Random-access memory is a form of electronic computer memory that can be read an
 A register is an important component of digital devices that stores data and instructions for quick processing.
 [Total phase](https://www.totalphase.com/blog/2023/05/what-is-register-in-cpu-how-does-it-work/#:~:text=In%20computer%20science%2C%20a%20register,to%20carry%20out%20complex%20tasks.)
 
-**Arithmetic and Logic Unit (ALU)** \
-An arithmetic logic unit (ALU) is a combinational digital circuit that performs arithmetic and bitwise operations on integer binary numbers.
-[Wikipedia](https://en.wikipedia.org/wiki/Arithmetic_logic_unit)
-
-**Immediate value** \
-An "immediate value" is an hardcoded value included in the program. It is all the static values that are present in a program. For example (if translated to C): x = 10; x is a variable and 10 is an immediate value.
-[Reverse engineering](https://reverseengineering.stackexchange.com/questions/17671/what-is-an-immediate-value#:~:text=An%20%22immediate%20value%22%20is%20an,10%20is%20an%20immediate%20value.)
-
-**Branching** \
-A branch is an instruction in a computer program that can cause a computer to begin executing a different instruction sequence and thus deviate from its default behavior of executing instructions in order. Branch may also refer to the act of switching execution to a different instruction sequence as a result of executing a branch instruction. Branch instructions are used to implement control flow in program loops and conditionals.
-[Wikipedia](https://en.wikipedia.org/wiki/Branch_(computer_science))
-
-**subroutines** \
-In computer programming, a function or subroutine is a sequence of program instructions that performs a specific task, packaged as a unit. This unit can then be used in programs wherever that particular task should be performed.
-[Wikipedia](https://en.wikipedia.org/wiki/Function_(computer_programming) )
-
-**compiler** \
-In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language).
-[Wikipedia](https://en.wikipedia.org/wiki/Compiler)
-
-**assembler** \
-A program that changes computer instructions into machine code (= a set of numbers that gives instructions to a computer).
-[Cambridge Dictionary](https://dictionary.cambridge.org/fr/dictionnaire/anglais/assembler)
-
-**libraries** \
-A collection of program parts that do common and/or specialized things that save the programmer from needing to "reinvent the wheel" when writing software. It usually consists of functions to call and object classes you can instantiate.
-[Treehouse](https://teamtreehouse.com/community/what-exactly-is-a-library-in-programming#:~:text=A%20%22library%22%20is%20a%20collection,object%20classes%20you%20can%20instantiate.)
-
-**operating system** \
-A set of programs that control the way a computer system works, especially how its memory is used and how different programs work together.
-[Cambridge Dictionary](https://dictionary.cambridge.org/dictionary/english/operating-system)
-
-**emulating** \
-The use of an application program or device to imitate the behavior of another program or device.
-[TechTarget](https://www.techtarget.com/whatis/definition/emulation#:~:text=1.,it%20was%20not%20originally%20engineered.)
-
-**clock cycles** \
-The clock cycle is the amount of time between two pulses of an oscillator. It is a single increment of the central processing unit (CPU) clock during which the smallest unit of processor activity is carried out.
-[Technopedia](https://www.techopedia.com/definition/5498/clock-cycle#:~:text=What%20Does%20Clock%20Cycle%20Mean,processor%20activity%20is%20carried%20out.)
-
-**x64 assembly** \
-It is a version of assembly language.
-x86-64 is a 64-bit version of the x86 instruction set. It introduced two new modes of operation, 64-bit mode and compatibility mode, along with a new 4-level paging mode.
-[Wikipedia](https://en.wikipedia.org/wiki/X86-64)
-
-**C language** \
-C is a general-purpose computer programming language. C is commonly used on computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.
-[Wikipedia](https://en.wikipedia.org/wiki/C_(programming_language))
-
-**segmentation fault** \
-A segmentation fault occurs when a program attempts to access a memory location that it is not allowed to access, or attempts to access a memory location in a way that is not allowed (for example, attempting to write to a read-only location, or to overwrite part of the operating system).
-[Wikipedia](https://en.wikipedia.org/wiki/Segmentation_fault#:~:text=A%20segmentation%20fault%20occurs%20when,part%20of%20the%20operating%20system)
-
-**stack** \
-A stack is a pile of data elements where you can remove the last value or add another on top.
-
-OR
-
+**Stack** \
 An abstract data type that serves as a collection of elements with two main operations: Push, which adds an element to the collection, and. Pop, which removes the most recently added element.
 [Wikipedia](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)#:~:text=In%20computer%20science%2C%20a%20stack,the%20most%20recently%20added%20element.)
 
-**stack pointer** \
+**Stack Pointer** \
 A stack pointer is a small register that stores the memory address of the last data element added to the stack or, in some cases, the first available address in the stack.
 [TechTarget](https://www.techtarget.com/whatis/definition/stack-pointer#:~:text=What%20is%20stack%20pointer%3F,available%20address%20in%20the%20stack.)
 
-**mnemonic** \
-A mnemonic is a term, symbol or name used to define or specify a computing function.
-[Technopedia](https://www.techopedia.com/definition/28287/mnemonic#:~:text=A%20mnemonic%20is%20a%20term,to%20perform%20or%20achieve%20it.)
+**Subroutines** \
+In computer programming, a function or subroutine is a sequence of program instructions that performs a specific task, packaged as a unit. This unit can then be used in programs wherever that particular task should be performed.
+[Wikipedia](https://en.wikipedia.org/wiki/Function_(computer_programming) )
 
-**label** \
-In programming languages, a label is a sequence of characters that identifies a location within source code.
-[Wikipedia](https://en.wikipedia.org/wiki/Label_(computer_science)#:~:text=In%20programming%20languages%2C%20a%20label,(e.g.%2C%20a%20colon).)
-
-**opcodes** \
-In computing, an opcode (abbreviated from operation code) is the portion of a machine language instruction that specifies the operation to be performed.
-[Wikipedia](https://en.wikipedia.org/wiki/Opcode#:~:text=In%20computing%2C%20an%20opcode%20(abbreviated,the%20operation%20to%20be%20performed.))
-
-**timestamp** \
+**Timestamp** \
 A timestamp is the current time of an event that a computer records.
 [TechTarget](https://www.techtarget.com/whatis/definition/timestamp)
 
-**C standards** \
-The C standards are documents that are intended to reduce variation in C language implementation across the different compilers.
-[Quora](https://www.quora.com/What-are-the-C-standards)
+**Virtual processor** \
+Hardware elements are partitioned off into different virtual machines that can provide the same functionality as traditional physical computer workstations. Typically, the hypervisor, the program that hosts and manages virtual machines, uses the resources of a physical system and assign them to a specific Virtual Machine.
+[Technopedia](https://www.techopedia.com/definition/30859/vcpu#:~:text=A%20vCPU%20(virtual%20CPU)%20represents,known%20as%20a%20virtual%20processor.)
+
+**x64 Assembly** \
+It is a version of assembly language.
+x86-64 is a 64-bit version of the x86 instruction set. It introduced two new modes of operation, 64-bit mode and compatibility mode, along with a new 4-level paging mode.
+[Wikipedia](https://en.wikipedia.org/wiki/X86-64)
