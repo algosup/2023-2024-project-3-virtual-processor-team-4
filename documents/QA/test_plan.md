@@ -190,7 +190,7 @@ I also provide to my team labels, permitting us to have a better comprehension o
 
 |Label|Description|
 |:-----:|-----------|
-|![Bug Label](..\pictures\bug_label.png)|Something isn't working|
+|![Bug Label](/documents/pictures/bug_label.png)|Something isn't working|
 |![Critical Label](..\pictures\critical_label.png)|Critical Priority|
 |![Dev Label](..\pictures\dev_label.png)|Use for Dev|
 |![Documentation Label](..\pictures\documentation_label.png)|Improvements or additions to documentation|
