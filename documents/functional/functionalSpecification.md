@@ -15,6 +15,7 @@ The assembly language will also be created and tailored by us.
 - [Project scope](#project-scope)
 - [Functional requirements](#functional-requirements)
 - [Deliverables and milestones](#deliverables-and-milestones)
+    - [Final product](#final-product)
 - [Personas and use cases](#personas-and-use-cases)
   - [Persona 1 - Oceane Thomas](#persona-1---oceane-thomas)
     - [Goals](#goals)
@@ -32,10 +33,6 @@ The assembly language will also be created and tailored by us.
   - [Assembly instructions](#assembly-instructions)
   - [Machine code](#machine-code)
   - [Errors](#errors)
-  - [Machine code](#machine-code-1)
-    - [2-bits Identifier](#2-bits-identifier)
-    - [Instructions](#instructions)
-    - [Labels and Registers](#labels-and-registers)
   - [Usage](#usage)
 - [Non-functional requirements](#non-functional-requirements)
   - [Performance](#performance)
@@ -43,8 +40,8 @@ The assembly language will also be created and tailored by us.
   - [Scalability](#scalability)
   - [Portability](#portability)
   - [Usability](#usability)
+  - [Security](#security)
 - [Examples](#examples)
-- [Timeline](#timeline)
 - [Resources](#resources)
 - [Risks and assumptions](#risks-and-assumptions)
 - [Future improvements](#future-improvements)
@@ -73,14 +70,13 @@ The assembly language will also be created and tailored by us.
 ## Project scope
 
 We have multiple objectives for this project:
-- Creation of an assembly language and [Instruction Set Architecture](#glossary) (ISA) (defined further down in this document)
-- Implementation of this ISA in the form of a [virtual processor](#glossary)
-- Implementation of an [interpreter](#glossary) to run code onto this virtual processor (in other words, encode the instructions of the CPU)
-- Provision of sample assembly scripts that can be run by the interpreter
+- Creation of an assembly language and [Instruction Set Architecture](#glossary) (ISA) (defined further down in this document and in the [Appendix](./Appendix_A_-_Instruction_Set_Manual.pdf))
+- Implementation of this ISA in the form of a [virtual processor](#glossary) that can be emulated on a physical computer
+- Implementation of an [assembler](#glossary) to create machine code for this processor from the assembly language
+- Provision of sample assembly scripts that can be assembled and run
 
 ## Functional requirements
 
-<!-- TODO: Update with both compiler and emulator -->
 The instructions of the language must allow for the following actions:
 - Data handling i.e. writing data between a register and
   - an immediate value (a constant),
@@ -95,12 +91,15 @@ The instructions of the language must allow for the following actions:
   - Conditional and unconditional jumping
   - Calling and returning from subroutines
 
-The interpreter must be able to be compiled and run on any real computer architecture. No libraries outside of the standard ones should be used, and the libraries that are operating system-specific must have existing alternatives.
+Both the assembler and emulator must written in the C language, as well as being able to be compiled and run on any real computer architecture.
+No libraries outside of the standard ones should be used, and the libraries that are operating system-specific must have existing alternatives.
 
-The interpreter must also detect syntactical errors such as invalid lines or invalid parameters. When those happen, the interpreter must stop the program and alert the user.
+The assembler must also detect syntactical errors such as invalid lines or invalid parameters. When those happen, it must stop the assembly and alert the user.
 
 Since we are emulating the execution of the machine code, the instructions must be run with a duration similar to what it would be on real hardware.
 This means that if an instruction takes 4 clock cycles and another one takes 7, if the first runs in 1.3ms and the second one 3.7ms, we would have to slow the first instruction to have a time factor closer to the real thing. We allow a 10% margin between the time-to-clock cycles of the fastest and slowest instructions (in terms of clock cycles).
+
+The instructions provided and the ISA as a whole must also take into account the evolution of the technology since the beginning of the programming era as well as solve modern world problems encountered with old assembly languages.
 
 ## Deliverables and milestones
 
@@ -113,16 +112,11 @@ This means that if an instruction takes 4 clock cycles and another one takes 7, 
 
 #### Final product
 
-The Final product concist of :
-- A assembler that translate our assembly to machine code
-- An emulator that act as a virtual CPU to run our machine code
+The Final product consists of:
+- An assembler that translates our assembly to machine code
+- An emulator that acts as a virtual CPU to run our machine code
 
 ## Personas and use cases
-
-<!-- Use Cases:
-Cherche a comprendre comment un CPU peut fonctioné
-CTO d'une boite en system embarqué -> chereche un asm simple et fiable
-Direct d'une banque voulant renouvlé ses system de comunication inter +performant -->
 
 ### Persona 1 - Oceane Thomas
 
@@ -160,15 +154,15 @@ Patricia Farmer is a 31-year-old CTO at a bank. She recently assumed the positio
 
 #### Challenges
   - The language and system architecture must be different from the old one to render existing malware obsolete.
-  - She cannot replace all the hardware at once. A virtual CPU is needed to run the new programs on the old hardware.
+  - She cannot replace all the hardware at once. A virtual CPU is temporarily needed to run the new programs on the old hardware.
 
 ## Acceptance criteria
 
-The sample scripts -- which cover every instruction -- should be executed without any problem and their result should meet the expected output.
+The sample scripts -- which cover every instruction -- should be assembled and executed without any problem and their result should meet the expected output.
 
-The program should be fail-safe with no segmentation fault, memory corruption, or other issue. In the event that those still happen, the program should catch them and alert the user of the error.
+Both programs should be fail-safe with no segmentation fault, memory corruption, or other issue. In the event that those still happen, the program should catch them and alert the user of the error.
 
-To ensure that the project is viable, all the specifications must be approved by the client and the program must also be tested by other teams (and potentially external people) to collect their feedback and improve the software.
+To ensure that the project is viable, all the specifications must be approved by the client and the programs must also be tested by other teams of the school (and potentially external people) to collect their feedback and improve the software.
 
 ## Solution overview
 
@@ -183,7 +177,7 @@ The other registers are:
 
 The architecture is flagless. This means that when a comparison is done, the result is stored back in a register rather than a flag. For overflows and carry, those must be checked manually.
 
-The memory mapping we will be using resembles usual ones and is as follows:
+The memory mapping we will be using resembles the usual ones and is as follows:
 
 | Address range       | Data            |
 | ------------------- | --------------- |
@@ -202,9 +196,9 @@ The syntax for the instructions follows this pattern:
 
 where `mnem` is the mnemonic for the instruction and the rest are parameters when necessary. For alignment reasons, we allow more than one space before the parameters.
 
+The parameters can either be a register, an immediate value or a label depending on the instruction.
 
-
-A label should be on a line with no instruction, written in camel case, and followed by a colon: `camelCase:`. A label may only be defined once in a file but jumped to or called any amount of time.
+A label declaration should be on a line with no instruction, written in camel case, and followed by a colon: `camelCase:`. A label may only be defined once in a file but jumped to or called any amount of time.
 
 A line only composed with whitespace is to be ignored.
 
@@ -284,7 +278,7 @@ Here is a quick summary of the different instructions.
 | 1111    | `jabs`      | J    | 3   | Low                     |
 
 Notes:
-- The `exit` mnemonic is assembled to a division with an immediate 0 (`divi r? 0`).
+- The `exit` mnemonic is assembled to a division with an immediate 0 (`divi ra 0`).
 - The value of the opcodes may change to align similar instructions.
 - The cycles per instruction value is just an indicator and is likely not the real value.
 
@@ -297,7 +291,7 @@ The assembly of the code should abort with the program exiting if:
 
 The execution of the code should stop if:
 - a division by zero occurs (arithmetic error)
-- the stack is popped when empty (index error)
+- there is `pop` when the stack is empty (index error)
 - the user presses Ctrl+C (interrupt error)
 
 ### Usage
@@ -311,7 +305,7 @@ Execution of the program starts at the first line and ends when the end of the f
 
 Here is an example of an input file using our Assembly code:
 
-``` asm
+```
 xor r0 r0
 addi r0 r0 3
 mul r0 r0
@@ -325,12 +319,14 @@ Launching our program following the steps given above would look as follows:
 ## Non-functional requirements
 
 ### Performance
-Since our machine code will be interpreted rather than run natively, our software must execute it rapidly to avoid hindering the user experience. No instruction should take more than 0.1 seconds to execute, and every instruction should take the same amount of time as it would on hardware.
+
+Since our machine code will be emulated rather than run natively, our software must execute it rapidly to avoid hindering the user experience. No instruction should take more than 5 milliseconds to execute (at least 200 instructions per second), and every instruction should take the same relative amount of time as it would on hardware.
 
 ### Maintainablility
+
 In the event that the client decides to change their requirements, or if we realize that the current instruction set is insufficient, we must be able to easily update the list of instructions recognized by the assembler and the machine code.
 
-We need to leave some head room to add new instructions or registers in the future.
+Thus, we need to leave some space in the ISA to add new instructions or registers in the future.
 
 ### Scalability
 
@@ -338,24 +334,24 @@ The program is single-threaded and does not utilize additional CPU cores availab
 We should aim to have minimal memory overhead from the virtual CPU to enable the user to run multiple instances of the program efficiently. Our goal should be to keep memory usage under 5 megabits per instance.
 
 ### Portability
+
 As mentioned earlier, the software must be capable of running on any computer architecture that has a functioning C compiler.
 
-It should operate without the need for recompilation on all operating systems, as long as the hardware remains unchanged. The machine code generated by the assembler program must be able to run on the Virtual Processor, regardless of the hardware used to assemble it or the hardware on which the Virtual CPU is running.
-
 ### Usability
-Although a debugger is not required, it might be useful for developers to implement one for their and the clients debugging needs.
+
+Although a debugger is not required, it might be useful for developers to implement one for their and the clients' debugging needs.
 
 This debugger would consist of a way to display the contents of registers and flags at a particular point in the execution of the code.
 
 ### Security
 
-You can use a moddified machine code to run illegal operation on your CPU. Through the use of the virtual CPU we can mitigate that risk as the user would not be running the code directly on the hardware.
+You can use a modified machine code to run illegal operations on your CPU. Through the use of the virtual CPU, we can mitigate that risk as the user would not be running the code directly on the hardware.
 
 ## Examples
 
-Here is an example program which will always output 21, independently from the input and wirtten in our assembly language:
+Here is an example program that will always output the 8th Fibonacci number (21), and is written in our assembly language:
 
-``` asm
+```
 // TODO: Ask for value of c
 sub rc rc
 add rc 8 // Calculate the 8th value
@@ -385,16 +381,16 @@ Budget:
 ## Risks and assumptions
 
 - The 32-bit timestamp ends in 2038
-- The instruction we create could be infringing a patent
+- The instruction we create could infringe a patent
 - We assume that every implementation of C follows the C Standard close enough to not be a problem
-- We assume that any isntruction we create can be implemented in a real hardware
-- Opens security vunerability through code injection
+- We assume that any instruction we create can be implemented in real hardware
+- Opens security vulnerability through code injection
 
 ## Future improvements
 
-- making a system of include files
-- Floating point architecture
-- having a system of data declaration
+- Importing/including other assembly files
+- Adding support for floating point number (FPU)
+- Being able to declare raw data directly in the assembly file without the use of instructions
 
 ## Glossary
 
@@ -431,7 +427,7 @@ In computing, a compiler is a computer program that translates computer code wri
 [Wikipedia](https://en.wikipedia.org/wiki/Compiler)
 
 **Cycles Per Instruction (CPI)** \
-It is the time (mesured in clock cycles), it takes for the CPU to execute an instruction.
+It is the time (measured in clock cycles), it takes for the CPU to execute an instruction.
 [Wikipedia](https://en.wikipedia.org/wiki/Cycles_per_instruction)
 
 **Emulating** \
@@ -439,7 +435,7 @@ The use of an application program or device to imitate the behavior of another p
 [TechTarget](https://www.techtarget.com/whatis/definition/emulation#:~:text=1.,it%20was%20not%20originally%20engineered.)
 
 **Immediate value** \
-An "immediate value" is an hardcoded value included in the program. It is all the static values that are present in a program. For example (if translated to C): x = 10; x is a variable and 10 is an immediate value.
+An "immediate value" is a hardcoded value included in the program. It is all the static values that are present in a program. For example (if translated to C): x = 10; x is a variable and 10 is an immediate value.
 [Reverse engineering](https://reverseengineering.stackexchange.com/questions/17671/what-is-an-immediate-value#:~:text=An%20%22immediate%20value%22%20is%20an,10%20is%20an%20immediate%20value.)
 
 **Instruction Set Architecture (ISA)** \
@@ -451,7 +447,7 @@ In computer science, an interpreter is a computer program that directly executes
 [Wikipedia](https://en.wikipedia.org/wiki/Interpreter_(computing))
 
 **Label** \
-In programming languages, a label is a sequence of characters that identifies a location within source code.
+In programming languages, a label is a sequence of characters that identifies a location within the source code.
 [Wikipedia](https://en.wikipedia.org/wiki/Label_(computer_science)#:~:text=In%20programming%20languages%2C%20a%20label,(e.g.%2C%20a%20colon).)
 
 **Libraries** \
@@ -504,7 +500,7 @@ A timestamp is the current time of an event that a computer records.
 [TechTarget](https://www.techtarget.com/whatis/definition/timestamp)
 
 **Virtual processor** \
-Hardware elements are partitioned off into different virtual machines that can provide the same functionality as traditional physical computer workstations. Typically, the hypervisor, the program that hosts and manages virtual machines, uses the resources of a physical system and assign them to a specific Virtual Machine.
+Hardware elements are partitioned into different virtual machines that can provide the same functionality as traditional physical computer workstations. Typically, the hypervisor, the program that hosts and manages virtual machines, uses the resources of a physical system and assigns them to a specific Virtual Machine.
 [Technopedia](https://www.techopedia.com/definition/30859/vcpu#:~:text=A%20vCPU%20(virtual%20CPU)%20represents,known%20as%20a%20virtual%20processor.)
 
 **x64 Assembly** \
