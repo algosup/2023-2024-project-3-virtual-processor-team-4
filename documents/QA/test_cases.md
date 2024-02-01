@@ -137,3 +137,45 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Status          | To Test                                   |
 | Test Case Priority        | Medium 2                                  |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+## Least Common Multiple
+
+| Test Case ID              | 10                                        |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | Least Common Multiple                   |
+| Test Case Description     | Verify if `least_common_multiple.asm` comport any errors |
+| Test Case Pre-conditions  | The product is running <br> go to [testing](/documents/QA/testing/) <br> see if `least_common_multiple.asm` exist         |
+| Test Case Steps           | copy the file named `least_common_multiple.asm` <br> paste it in the same file as `main.c` <br> enter `least_common_multiple` in the terminal           |
+| Test Case Expected Result | The product create `least_common_multiple.exe` |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+## Roll
+
+| Test Case ID              | 11                                        |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | Roll                                      |
+| Test Case Description     | Verify if `roll.asm` comport any errors   |
+| Test Case Pre-conditions  | The product is running <br> go to [testing](/documents/QA/testing/) <br> see if `roll.asm` exist                                  |
+| Test Case Steps           | copy the file named `roll.asm` <br> paste it in the same file as `main.c` <br> enter `roll` in the terminal                      |
+| Test Case Expected Result | The product create `roll.exe`             |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+## Fibonacci
+
+| Test Case ID              | 12                                        |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | Fibonacci                                 |
+| Test Case Description     | Verify if `fibonacci.asm` comport any errors|
+| Test Case Pre-conditions  | The product is running <br> go to [testing](/documents/QA/testing/) <br> see if `fibonacci.asm` exist                             |
+| Test Case Steps           | copy the file named `fibonacci.asm` <br> paste it in the same file as `main.c` <br> enter `fibonacci` in the terminal            |
+| Test Case Expected Result | The product create `fibonacci.exe`        |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
