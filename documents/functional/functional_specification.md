@@ -36,7 +36,7 @@ The assembly language will also be created and tailored by us.
   - [Usage](#usage)
 - [Non-functional requirements](#non-functional-requirements)
   - [Performance](#performance)
-  - [Maintainablility](#maintainablility)
+  - [Maintainability](#maintainability)
   - [Scalability](#scalability)
   - [Portability](#portability)
   - [Usability](#usability)
@@ -322,7 +322,7 @@ Launching our program following the steps given above would look as follows:
 
 Since our machine code will be emulated rather than run natively, our software must execute it rapidly to avoid hindering the user experience. No instruction should take more than 5 milliseconds to execute (at least 200 instructions per second), and every instruction should take the same relative amount of time as it would on hardware.
 
-### Maintainablility
+### Maintainability
 
 In the event that the client decides to change their requirements, or if we realize that the current instruction set is insufficient, we must be able to easily update the list of instructions recognized by the assembler and the machine code.
 
@@ -372,8 +372,8 @@ jz loop
 
 Man-hours:
 - 8 weeks
-- 27 half-days (each of 3.5 hours)
-- 567 manhours
+- 29 half-days (each of 3.5 hours)
+- 609 manhours
 
 Budget:
 - None
