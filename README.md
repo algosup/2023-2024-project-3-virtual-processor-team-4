@@ -1,20 +1,22 @@
 # The Project
 
-This project is a student project provided by ALGOSUP, based in Vierzon. ( → see the [**call for tender**](/documents/.data/Call_for_tender_-_2023-2024_Project_3_Virtual_Processor.pdf))
+This project is a student project provided by ALGOSUP, based in Vierzon. ( → see the [**call for tender**](/documents/.data/call_for_tender_2023-2024_project_3_virtual_processor.pdf))
 The objective is to build a virtual processor and its components in C and to create our assembly language to interact with it.
+
+The definition of the project is available in the [Project Charter]()
 
 <hr>
 
 # The Members
 
-| Name            | Role              | Image                                                        | Link                                                         |
-| ---------------- | ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Benoît DE KEYN | Project Manager   | <img src="https://avatars.githubusercontent.com/u/146000855" width="150px"> | [Benoît\'s Github Profile](https://github.com/benoitdekeyn-algosup) |
-| Léo CHARTIER    | Program Manager   | <img src="https://avatars.githubusercontent.com/u/91249751" width="150px"> | [Léo\'s Github Profile](https://github.com/leo-chartier) |
-| Jason GROSSO    | Tech Lead         | <img src="https://avatars.githubusercontent.com/u/114397870" width="150px"> | [Jason\'s Github Profile](https://github.com/jasonGROSSO) |
-| Antoine PREVOST | Software Engineer | <img src="https://avatars.githubusercontent.com/u/81081224" width="150px"> | [Antoine\'s Github Profile](https://github.com/TechXplorerFR) |
-| Max BERNARD     | Software Engineer | <img src="https://avatars.githubusercontent.com/u/80251657?" width="150px"> | [Max\'s Github Profile](https://github.com/maxbernard3) |
-| Maxime THIZEAU  | Quality Assurance | <img src="https://avatars.githubusercontent.com/u/145995586" width="150px"> | [Maxime\'s Github Profile](https://github.com/MaximeTAlgosup) |
+|Name|Role|Image|Link|
+| ------------------------- | --------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------- |
+| Benoît DE KEYN | Project Manager   | <img src="https://avatars.githubusercontent.com/u/146000855" width="100px"> | [Benoît\'s Github Profile](https://github.com/benoitdekeyn-algosup) |
+| Léo CHARTIER    | Program Manager   | <img src="https://avatars.githubusercontent.com/u/91249751" width="100px"> | [Léo\'s Github Profile](https://github.com/leo-chartier) |
+| Jason GROSSO    | Tech Lead         | <img src="https://avatars.githubusercontent.com/u/114397870" width="100px"> | [Jason\'s Github Profile](https://github.com/jasonGROSSO) |
+| Antoine PREVOST | Software Engineer | <img src="https://avatars.githubusercontent.com/u/81081224" width="100px"> | [Antoine\'s Github Profile](https://github.com/TechXplorerFR) |
+| Max BERNARD     | Software Engineer | <img src="https://avatars.githubusercontent.com/u/80251657?" width="100px"> | [Max\'s Github Profile](https://github.com/maxbernard3) |
+| Maxime THIZEAU  | Quality Assurance | <img src="https://avatars.githubusercontent.com/u/145995586" width="100px"> | [Maxime\'s Github Profile](https://github.com/MaximeTAlgosup) |
 
 <hr>
 
@@ -33,12 +35,12 @@ Then, unzip it, and follow the instructions below ↓
 
 # Related documents
 
-- [Functional specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/functionalSpecification.md)
-- [Technical specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/technical/technicalSpecification.md)
-- [Test Plan](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/QA/testPlan.md)
+- [Functional specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/functional_specification.md)
+- [Technical specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/technical/technical_specification.md)
+- [Test Plan](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/QA/test_plan.md)
 - [KPIs](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIBwjEooiU8LSl_ZvGzSR8ylA?e=STmP8k)
-- [Tasks Board](https://trello.com/b/fyHkoXl9/virtual-processor-team-4)
-- [Weekly report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/Weekly%20Report/Cumulative.md)
+- [Management artifacts](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/management_artifacts.md)
+- [Weekly report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weeekly_report/cumulative.md)
 
 <hr>
 
