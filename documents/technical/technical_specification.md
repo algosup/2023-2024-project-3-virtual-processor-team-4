@@ -21,6 +21,7 @@
     - [Principles](#principles)
       - [Libraries](#libraries)
       - [Comments](#comments)
+      - [Header](#header)
     - [Virtual Terminal](#virtual-terminal)
     - [Error Handling](#error-handling)
       - [Error Message Type](#error-message-type)
@@ -69,7 +70,7 @@ The requirement for this prokect are as follows:
 
 ### Content
 
-This document will contain the details of the assembler[^3], the details of the interpreter[^4], the architecture of the project.
+This document will detail the [architecture of the project](#architecture), [the assembler](#assembler) and [the interpreter](#interpreter).
 
 ---
 
@@ -95,6 +96,8 @@ enum member: ALL_CAPS
 ```
 
 ### File Organisation
+
+The GitHub repository will be organised as such:
 ```
 📦2023-2024-project3-virtual-processor
 └── 📁 .github
@@ -119,6 +122,22 @@ enum member: ALL_CAPS
 └── 📄 LICENCE
 └── 📝 README.md
 ```
+Here is a detailled version of the `src` folder:
+```
+└── 📁 src
+    └── 📄 main.c
+    └── 📁 libs
+        └── 📄 assembler.h
+        └── 📄 preprocessor.h
+        └── 📄 processor.h
+        └── 📄 utils.h
+```
+- main.c will contain the main loop and the virtual terminal;
+- assembler.h will contain all the functions pertainning to the assembler and the error handling;
+- preprocessor.h will contain all the functions pertainning to the preprocessor;
+- processor.h will contain all the functions pertainning to the processor;
+- utils.h will contain some miscellianous functions
+
 
 ### Endians
 
@@ -137,6 +156,17 @@ The only libraries[^11] allowed are the [C standard Libraries](https://en.cppref
 #### Comments
 
 Each functions and process are to be explained with comments.
+
+#### Header
+
+The header must be defined as such:
+```
+#ifndef HEADER
+
+// libraries
+
+#endif
+```
 
 ### Virtual Terminal
 
@@ -169,7 +199,7 @@ error + error number: type of error line of the error: '';
 ### Line Parsing
 
 - isolate a line;
-- malloc[^12] the line;
+- allocate memory for the line;
 - extract the operand[^13] and the arguments[^14];
 - add them into the struct line;
 - check if null:
@@ -178,7 +208,7 @@ error + error number: type of error line of the error: '';
     - if incorrect throw an error, free the line and go to the next one;
     - if correct convert to machine code[^16];
 - add to the output array;
-- free[^17] the line;
+- free the allocated memory to the line;
 - if check if EOF[^18]:
   - if not EOF go back to the beginning of the loop
   - if EOF [go to the binary[^19] file](#binary-file)
@@ -206,7 +236,7 @@ Here is a visual representation of how the assembler works:
 - open the binary file;
 - enter the loop;
 - parse the code by chunks of 32 bits[^20] characters(32 characters = 1 instruction[^21]);
-- malloc the chunk;
+- allocate memory to the chunk;
 - parse the x first bits to obtain the operand of the instruction;
 - parse the next x bits to obtain the first argument[^22] of the instruction;
 - parse the remaining bits to obtain the second argument of the instruction;
@@ -214,6 +244,7 @@ Here is a visual representation of how the assembler works:
 ### Output
 
 - add to the output array;
+- free the allocated memory;
 - check EOF:
   - if EOF, indicate the interpretation was succesful;
   - if not EOF, continue the loop; 
@@ -237,25 +268,3 @@ Here are the technical challenges that we must overcome for our project to succe
 ---
 
 ## Glossary
-[^1]: virtual processor:
-[^2]: assembly:
-[^3]: assembler:
-[^4]: interpreter:
-[^5]: C:
-[^6]: GCC assembler:
-[^7]: OS:
-[^8]: endian:
-[^9]: CISC:
-[^10]: RISC:
-[^11]: librarie:
-[^12]: malloc:
-[^13]: operand:
-[^14]: argument:
-[^15]: types:
-[^16]: machine code:
-[^17]: free
-[^18]: EOF:
-[^19]: binary:
-[^20]: bit:
-[^21]: instruction:
-[^22]: argument:
