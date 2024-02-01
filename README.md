@@ -9,14 +9,14 @@ The definition of the project is available in the [Project Charter]()
 
 # The Members
 
-| Name            | Role              | Image                                                        | Link                                                         |
-| ---------------- | ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Benoît DE KEYN | Project Manager   | <img src="https://avatars.githubusercontent.com/u/146000855" width="150px"> | [Benoît\'s Github Profile](https://github.com/benoitdekeyn-algosup) |
-| Léo CHARTIER    | Program Manager   | <img src="https://avatars.githubusercontent.com/u/91249751" width="150px"> | [Léo\'s Github Profile](https://github.com/leo-chartier) |
-| Jason GROSSO    | Tech Lead         | <img src="https://avatars.githubusercontent.com/u/114397870" width="150px"> | [Jason\'s Github Profile](https://github.com/jasonGROSSO) |
-| Antoine PREVOST | Software Engineer | <img src="https://avatars.githubusercontent.com/u/81081224" width="150px"> | [Antoine\'s Github Profile](https://github.com/TechXplorerFR) |
-| Max BERNARD     | Software Engineer | <img src="https://avatars.githubusercontent.com/u/80251657?" width="150px"> | [Max\'s Github Profile](https://github.com/maxbernard3) |
-| Maxime THIZEAU  | Quality Assurance | <img src="https://avatars.githubusercontent.com/u/145995586" width="150px"> | [Maxime\'s Github Profile](https://github.com/MaximeTAlgosup) |
+|Name|Role|Image|Link|
+| ------------------------- | --------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------- |
+| Benoît DE KEYN | Project Manager   | <img src="https://avatars.githubusercontent.com/u/146000855" width="100px"> | [Benoît\'s Github Profile](https://github.com/benoitdekeyn-algosup) |
+| Léo CHARTIER    | Program Manager   | <img src="https://avatars.githubusercontent.com/u/91249751" width="100px"> | [Léo\'s Github Profile](https://github.com/leo-chartier) |
+| Jason GROSSO    | Tech Lead         | <img src="https://avatars.githubusercontent.com/u/114397870" width="100px"> | [Jason\'s Github Profile](https://github.com/jasonGROSSO) |
+| Antoine PREVOST | Software Engineer | <img src="https://avatars.githubusercontent.com/u/81081224" width="100px"> | [Antoine\'s Github Profile](https://github.com/TechXplorerFR) |
+| Max BERNARD     | Software Engineer | <img src="https://avatars.githubusercontent.com/u/80251657?" width="100px"> | [Max\'s Github Profile](https://github.com/maxbernard3) |
+| Maxime THIZEAU  | Quality Assurance | <img src="https://avatars.githubusercontent.com/u/145995586" width="100px"> | [Maxime\'s Github Profile](https://github.com/MaximeTAlgosup) |
 
 <hr>
 
