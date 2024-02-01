@@ -3,7 +3,7 @@
 This project is a student project provided by ALGOSUP, based in Vierzon. ( → see the [**call for tender**](/documents/.data/call_for_tender_2023-2024_project_3_virtual_processor.pdf))
 The objective is to build a virtual processor and its components in C and to create our assembly language to interact with it.
 
-The definition of the project is available in the [Project Charter]()
+The definition of the project is available in the [Project Charter](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/project_charter.md)
 
 <hr>
 
