@@ -3,8 +3,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include "./libs/interpret.h"
-#include "./libs/file.h"
+#include "./libs/utils.h"
+#include "./libs/runtime.h"
+#include "./libs/preprocessor.h"
 
 int main()
 {
@@ -19,10 +20,12 @@ int main()
         {
             filename[i] = tolower(filename[i]);
         } // convert to lowercase
+
         if (strcmp(&filename[strlen(filename) - 4], ".asm") != 0)
         {
             strcat(filename, ".asm");
         }
+
         int i = 0;
         if (get_file_size(filename, &i) != 0)
         {
@@ -31,31 +34,48 @@ int main()
         else
         {
             char *content;
-            int line_count = 1; //File has at least one line if it exists
+            int lineCount = 1; // File has at least one line if it exists
+
             content = (char *)malloc((i + 1) * sizeof(char));
-            read_file(filename, content, i, &line_count);
-            for (int j = 0; j < line_count; j++)
+            char *outputContent = (char *)malloc((i + 1) * sizeof(char));
+
+            read_file(filename, content, i, &lineCount);
+            bool fileHasError = false;
+
+            for (int j = 0; j < lineCount; j++)
             {
-                // malloc line content 
-                char *line_content = malloc(100 * sizeof(char));
-                line_content_from_file_content(content, j, line_content);
-                instruction_t *ope = malloc(sizeof(instruction_t));
-                if (
-                    parse_content_one_line(line_content, ope, &j) != 0)
+                // malloc line content
+                char *lineContent = malloc(100 * sizeof(char));
+
+                line_content_from_file_content(content, j, lineContent);
+                line_t *line = malloc(sizeof(line_t));
+
+                if (preprocess_line(lineContent, line, &j) != 0)
                 {
+                    fileHasError = true;
                     continue;
                 }
-                
-                if (isLineHavingErrors(ope, &j) != 0)
-                {
-                    break;
-                }
+
                 // Store in stack
-                // executeInstruction(ope);
-                free(ope);
-                free(line_content);
+                // execute_instruction(ope);
+                free(line);
+                free(lineContent);
             }
+
+            if (fileHasError)
+            {
+                printf("Failed to compile!\n");
+                continue;
+            }
+            else
+            {
+                printf("Compiled successfully!\n");
+                // Function to output the code into .bin file
+                //  output_file(filename, outputContent, i);
+            }
+
             free(content);
+            free(outputContent); //empty the memory from the 
         }
         printf("Done!\n");
     }
