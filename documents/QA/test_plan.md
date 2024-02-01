@@ -6,7 +6,7 @@ The goal of the project is to create a virtual processor and an interpreter for 
 that processor.
 The assembly language will also be created and tailored by us.
 
-<details>
+<details open>
 <summary>Table of Contents</summary>
 
 - [Test Plan](#test-plan)
@@ -113,7 +113,7 @@ Testing will focus on assembly instruction and the assembler.
 #### In-scope
 
 - Assembly instruction
-  - all the instructions defined in the ```functional_specification.md``` should function as intended.
+  - all the instructions defined in the [Functional Specification](/documents/functional/functional_specification.md) should function as intended.
 - Assembler
   - Absence of significant bug
   - Should run properly
@@ -158,10 +158,10 @@ This table will be used as an example for all of our test cases to test our prod
 | Test Case Expected Result | Result expected after following the steps                                  |
 | Test Case Actual Result   | Actual result of the test (could differ from what's expected)              |
 | Test Case Status          | Status of the test (To Test, Testing, Tested)                              |
-| Test Case Priority        | Defines if a test is important or not. Using symbols: Low / Medium / High |
+| Test Case Priority        | Defines if a test is important or not. Using symbnumbersols: Low  3 / Medium 2 / High 1 |
 | Test Case Assigned To     | Name of the tester                                                         |
 
-All the test cases will be stored in the markdown file ```test_cases.md```
+All the [test cases](/documents/QA/test_cases.md) will be stored in the markdown file ```test_cases.md```
 
 ## Testing tools
 
@@ -297,11 +297,11 @@ We would thank the other quality assurance that we work with, our product would 
 
 <!-- TODO -->
 
-We would also thank our teacher, [], who taught us the fundamentals of a good test plan and the quality assurance role.
+We would also thank our teacher [Caroline CORDIER](https://www.linkedin.com/in/caroline-cordier-dpo/), who taught us the fundamentals of a good test plan and the quality assurance role.
 
 We would also thank the previous project quality assurance, who helped us by giving us hints.
 
-Finally, we would then [ALGOSUP] for this project and this opportunity to develop our skills once again.
+Finally, we would then [ALGOSUP](https://algosup.com) for this project and this opportunity to develop our skills once again.
 
 ## Sources
 
