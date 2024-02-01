@@ -294,7 +294,7 @@ int is_first_operand_null(InstructionType_t *instructionId, char *param1, int *l
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction does not accept first operand on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction does not accept first operand on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -307,7 +307,7 @@ int is_second_operand_null(InstructionType_t *instructionId, char *param2, int *
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction does not accept second operand on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction does not accept second operand on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -320,7 +320,7 @@ int is_second_operand_null(InstructionType_t *instructionId, char *param2, int *
 //     {
 //         char opcode[4];
 //         get_operand_name(*instructionId, opcode);
-//         printf("Error: %s instruction does not accept third operand on line: %d\n", opcode, lineNumber);
+//         printf("Error: %s instruction does not accept third operand on line: %d\n", opcode, *lineNumber);
 //         return INVALID_DATA;
 //     }
 //     return SUCCESS;
@@ -333,7 +333,7 @@ int is_first_operand_not_null(InstructionType_t *instructionId, char *param1, in
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction requires first operand on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction requires first operand on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -346,7 +346,7 @@ int is_second_operand_not_null(InstructionType_t *instructionId, char *param2, i
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction requires second operand on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction requires second operand on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -366,7 +366,7 @@ int is_first_operand_register(InstructionType_t *instructionId, char *param1, in
     {
 
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not an existing register on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction first parameter is not an existing register on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -386,7 +386,7 @@ int is_second_operand_register(InstructionType_t *instructionId, char *param2, i
     {
 
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is not an existing register on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction second parameter is not an existing register on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -405,7 +405,7 @@ int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, i
     if (check_is_number(param1) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not an immediate on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction first parameter is not an immediate on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -424,7 +424,7 @@ int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, 
     if (check_is_number(param2) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is not an immediate on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction second parameter is not an immediate on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -443,7 +443,7 @@ int is_first_operand_immediate_or_register(InstructionType_t *instructionId, cha
     if (check_is_number(param1) != SUCCESS && find_register(param1, &paramVerificationReturn) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is nor an immediate or register on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction first parameter is nor an immediate or register on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -462,7 +462,7 @@ int is_second_operand_immediate_or_register(InstructionType_t *instructionId, ch
     if (check_is_number(param2) != SUCCESS && find_register(param2, &paramVerificationReturn) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is nor an immediate or register on line: %d\n", opcode, lineNumber);
+        printf("Error: %s instruction second parameter is nor an immediate or register on line: %d\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
