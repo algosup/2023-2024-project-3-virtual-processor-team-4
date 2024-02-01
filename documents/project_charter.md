@@ -29,9 +29,9 @@ The client gave us the basic instructions we need to implement for this assembly
 
 Therefore, we will create an assembly compiler in C to build a machine code file from the assembly. Then, another C program containing the virtual processor will interpret the machine code line by line to emulate the assembly program.
 
-Also, the virtual processor will consist of a simulation of the different components like register, memory, and flags and their behavior while executing the machine code. 
+Also, the virtual processor will consist of a simulation of the different components like register, memory, and flags and their behavior while executing the machine code.
 
-
+You can view [the minutes of the meeting](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/communication/minutes_of_the_client_meeting_on_january_24th.md) with the client for a more accurate definition of the customer's expectations for this project.
 
 ## Stakeholders
 
@@ -52,14 +52,14 @@ Also, the virtual processor will consist of a simulation of the different compon
 
 ## Project Plan
 
-A meeting with the client had been organized in the early days. Further discussions will be made via emails/Slack messages and reports will be sent to the client.
+A meeting with the client had been organized in the early days ([here are the minutes](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/communication/minutes_of_the_client_meeting_on_january_24th.md)). Further discussions will be made via emails/Slack messages and reports will be sent to the client.
 
 The project will mainly use the Waterfall method as shown by the deliverables, but will also use SCRUM ideas to improve the quality of development.
 The program will be split into multiple steps which will be incrementally implemented. This will also allow for fast testing iterations, leading to fewer bugs.
 
 For all the files and documents for this project, a GitHub repository is created to allow easy access and collaboration in a centralized system.
 
-The planning will consist of a Trello board where each task will have tags such as the priority, the kind of task, the members who work on it, and the deadlines. There will be some columns containing the remaining tasks by category, and 3 columns as "Doing", "To review" and "Done". An Excel board will deserve the KPI chart and data, and a weekly report will be available on GitHub. All these documents will be available through the readme.md of the repository.
+The planning will consist of a Trello board where each task will have tags such as the priority, the kind of task, the members who work on it, and the deadlines. There will be some columns containing the remaining tasks by category, and 3 columns as "Doing", "To review" and "Done". An Excel board will deserve the KPI chart and data, and a weekly report will be available on GitHub. All these documents will be available through the [README](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/README.md) of the repository.
 
 ## Milestones
 
@@ -92,6 +92,6 @@ Finally, a presentation of our work will be done to the client in the form of a 
 
 Money: Free
 Workforce: 6 team members
-Worktime: 27 half days of 3h15 (at least)
+Worktime: 29 half days of 3h15 (so approximately 82h)
 
-Estimated total man-hours: 527 mh
+Estimated total man-hours: 564 mh

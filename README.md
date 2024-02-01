@@ -1,7 +1,9 @@
 # The Project
 
-This project is a student project provided by ALGOSUP, based in Vierzon. ( → see the [**call for tender**](/documents/.data/Call_for_tender_-_2023-2024_Project_3_Virtual_Processor.pdf))
+This project is a student project provided by ALGOSUP, based in Vierzon. ( → see the [**call for tender**](/documents/.data/call_for_tender_2023-2024_project_3_virtual_processor.pdf))
 The objective is to build a virtual processor and its components in C and to create our assembly language to interact with it.
+
+The definition of the project is available in the [Project Charter]()
 
 <hr>
 
@@ -33,12 +35,12 @@ Then, unzip it, and follow the instructions below ↓
 
 # Related documents
 
-- [Functional specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/functionalSpecification.md)
-- [Technical specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/technical/technicalSpecification.md)
-- [Test Plan](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/QA/testPlan.md)
+- [Functional specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/functional_specification.md)
+- [Technical specifications](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/technical/technical_specification.md)
+- [Test Plan](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/QA/test_plan.md)
 - [KPIs](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIBwjEooiU8LSl_ZvGzSR8ylA?e=STmP8k)
-- [Tasks Board](https://trello.com/b/fyHkoXl9/virtual-processor-team-4)
-- [Weekly report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/Weekly%20Report/Cumulative.md)
+- [Management artifacts](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/management_artifacts.md)
+- [Weekly report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weeekly_report/cumulative.md)
 
 <hr>
 
