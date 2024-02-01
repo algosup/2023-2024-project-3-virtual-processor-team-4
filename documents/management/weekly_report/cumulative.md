@@ -54,7 +54,7 @@ Subsequently, we thought together, led by the Program Manager, about all the bas
 
 
 
-[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_re/week_3__22-01_to_26-01.md)
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/week_3__22-01_to_26-01.md)
 
 # Weekly report - week 3
 
