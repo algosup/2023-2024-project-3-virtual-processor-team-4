@@ -10,7 +10,7 @@
     - [Overview](#overview)
       - [Audience](#audience)
       - [Disclaimer](#disclaimer)
-    - [Requiremnet](#requiremnet)
+    - [Requirement](#requirement)
     - [Content](#content)
   - [Architecture](#architecture)
     - [Technicalities](#technicalities)
@@ -25,8 +25,8 @@
     - [Virtual Terminal](#virtual-terminal)
     - [Error Handling](#error-handling)
       - [Error Message Type](#error-message-type)
-  - [File Loading](#file-loading)
   - [Assembler](#assembler)
+    - [Preprocessing](#preprocessing)
     - [Line Parsing](#line-parsing)
     - [Binary File](#binary-file)
     - [Diagram](#diagram)
@@ -45,7 +45,7 @@
 
 ### Overview
 
-This document is the technical specification of a project commissioned to us by ALGOSUP. The project consist in creating a virtual processor[^1] and it's component.
+This document is the technical specification of a project commissioned to us by ALGOSUP. The project consist in creating a virtual processor[^1] and it's components.
 
 #### Audience
 
@@ -57,15 +57,15 @@ This document is intended for:
 
 #### Disclaimer
 
-This document will not describe the assembly[^2] language and it's working, those information will be available in the [functional specification](/documents/functional/functionalSpecification.md).
+This document will not describe the assembly[^2] language and it's workings, those informations will be available in the [functional specification](/documents/functional/functionalSpecification.md).
 
-### Requiremnet
+### Requirement
 
-The requirement for this prokect are as follows:
+The requirement for this project are as follows:
 - invent a minimal assembly language,
 - create a C[^3] program that can read our assembly language and run it,
 - the C program must also be able do check the syntax and semantics of the assembly language,
-- implement a virtual terminal to make sure that the program is running and displaying information to the user,
+- implement a virtual terminal to make sure that the program is running and displaying informations to the user,
 - write small assembly programs executable by the C program,
 
 ### Content
@@ -78,7 +78,7 @@ This document will detail the [architecture of the project](#architecture), [the
 
 ### Technicalities
 
-The program will be develloped in C(no matter the version), with the GCC compiler[^6]. It will be develloped on Windows and Linux, but must support any other OS[^7].
+The program will be develloped in C, with the GCC compiler[^6]. It will be developed on Windows and Linux, but must support any other OS[^7].
 
 ### Naming Conventions
 
@@ -133,19 +133,19 @@ Here is a detailled version of the `src` folder:
         └── 📄 utils.h
 ```
 - main.c will contain the main loop and the virtual terminal;
-- assembler.h will contain all the functions pertainning to the assembler and the error handling;
-- preprocessor.h will contain all the functions pertainning to the preprocessor[^8];
-- processor.h will contain all the functions pertainning to the processor;
-- utils.h will contain some miscellianous functions
+- assembler.h will contain all the functions pertaining to the assembler and the error handling;
+- preprocessor.h will contain all the functions pertaining to the preprocessor[^8];
+- processor.h will contain all the functions pertaining to the processor;
+- utils.h will contain the miscellianous objects, such as `enum ErrorType` or `enume InstructionType`;
 
 
 ### Endians
 
-The program will use little endians[^9], for it is advantageous in processor architecture and we preshot using our program on a real processor and not a virtual one.
+The program will use little endians[^9], for it is advantageous in processor architecture and we expect at some point to use our virtual processor on a physical processor.
 
 ### CISC/RISC
 
-The program will based itself on the RISC[^10] and not CISK[^11], as a RISC architecture provides less instruction, which in turn allow us to reduce the complexity of the program.
+The program will be based on the RISC[^10] and not CISK[^11], as a RISC architecture provides less instruction, which in turn allow us to reduce the complexity of the program.
 
 ### Principles
 
@@ -170,11 +170,11 @@ The header must be defined as such:
 
 ### Virtual Terminal
 
-The Virtual Terminal is a part of the vitual processor; it will be used to display the inputs and outputs of the program, such as the name of the file the user wish to use.
+The Virtual Terminal is a part of the vitual processor; it will be used to display the inputs and outputs of the program, such as asking the name of the file that the user wish to use.
 
 ### Error Handling
 
-For errors that happens in the file loading phase, the program ask for a correct file name/format; in the assembler phase, the program waits for the file to finish assembling before returning all the errors; in the interpreter phase if there is an error, the program stops and return an error.
+For errors that happens in the preprocessing phase, the program ask for a correct file name/format; in the assembler phase, the program waits for the file to finish assembling before returning all the errors; in the interpreter phase if there is an error, the program stops and return an error.
 
 #### Error Message Type
 
@@ -185,16 +185,14 @@ error + error number: type of error line of the error: '';
 
 --- 
 
-## File Loading
+## Assembler
+
+### Preprocessing
 
 - ask for a file;
 - if it exits, check the format;
 - if it doesn't exist ask again,
 - if it isn't in the right format, throw an error and ask for another file
-
---- 
-
-## Assembler
 
 ### Line Parsing
 
@@ -203,20 +201,19 @@ error + error number: type of error line of the error: '';
 - extract the operand[^13] and the arguments[^14];
 - add them into the struct line;
 - check if null:
-  - if null throw an error free the line and go to the next one;
+  - if null throw an error free the memory allocated to the line and go to the next one;
   - if not null check the types and number:
-    - if incorrect throw an error, free the line and go to the next one;
-    - if correct convert to machine code[^15];
+    - if incorrect throw an error, free the memory allocated to the line and go to the next one;
+    - if correct convert the line to machine code[^15];
 - add to the output array;
-- free the allocated memory to the line;
+- free the memory allocated to the line;
 - if check if EOF[^16]:
   - if not EOF go back to the beginning of the loop
-  - if EOF [go to the binary[^17] file](#binary-file)
 
 ### Binary File
 
- - when EOF:
-   - if there are errors return then;
+ - if EOF:
+   - if there are errors return them;
    - if there are no error indicate that the compilation was successful;
  - return the binary file;
  - start the [Interpretation](#interpreter);
@@ -244,7 +241,7 @@ Here is a visual representation of how the assembler works:
 ### Output
 
 - add to the output array;
-- free the allocated memory;
+- free the memory allocated to the chunk;
 - check EOF:
   - if EOF, indicate the interpretation was succesful;
   - if not EOF, continue the loop; 
@@ -260,9 +257,9 @@ Here is a visual representaion of how the intepreter works:
 ## Challenges
 
 Here are the technical challenges that we must overcome for our project to succeed:
-- making sure our program can handle various assembly programs in terme of complexity,
-- making sure our program can handle various assembly programs in terme of size
-- have our assembler enforce rigorously the syntax and semantics correctness of the assembly programs,
+- making sure our program can handle various assembly programs in terms of complexity,
+- making sure our program can handle various assembly programs in terms of size
+- have our preprocessor enforce rigorously the syntax and semantics correctness of the assembly programs,
 - making sure our program execute the more complexe instruction, such as  'call' and 'ret',
 
 ---
@@ -277,7 +274,7 @@ Here are the technical challenges that we must overcome for our project to succe
  [^6]: GCC compiler: is a compiler system used widely for compiling C, C++ and C#;
  [^7]: OS: or Operating System, is a system software that manages computer hardware and software ressource;
  [^8]: prepocessor: is a program that processes it's input data to produce output that is used a input for another program;
- [^9]: endians: designate the order in which bytes of a word of digitale data are stored in memory;
+ [^9]: little endians: endianness designate the order in which bytes of a word of digitale data are stored in memory and little endians store the least significant byte first;
  [^10]: RISC: or Reduced Instruction Set Computer, is a computer architcture designated to simplify the individual instructions given to a computer;
  [^11]: CISK: or Complex Instruction Set Computer, is a computer architecture in which a single instruction can execute several operations;
  [^12]: library: is a collection of ressources used by computer program, often for computer developement;
