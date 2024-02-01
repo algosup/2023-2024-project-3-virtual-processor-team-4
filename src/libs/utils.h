@@ -16,28 +16,44 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
 typedef enum InstructionType // Define all the instructions with a linked identifier
 {
     SKIP = -1,
-    NOOP,
-    SET,
-    COPY,
-    LOAD,
-    STORE,
     ADD,
     SUB,
     MUL,
     DIV,
-    NOT,
-    AND,
     OR,
+    AND,
     XOR,
-    CMPEQ,
-    CMPGE,
-    JTRUE,
-    JFALSE,
-    JUMP,
+    TEQ,
+    TNE,
+    TLT,
+    TLE,
+    TGT,
+    TGE,
+    PUSH,
+    POP,
+    STR,
+    LD,
+    STRP,
+    LDP,
+    XCHG,
+    ADDI,
+    SUBI,
+    ORI,
+    ANDI,
+    XORI,
+    TEQI,
+    TNEI,
+    TLTI,
+    TLEI,
+    TGTI,
+    TGEI,
+    STRI,
+    LDI,
+    JZ,
+    JNZ,
     CALL,
     RET,
-    HALT,
-    INT
+    JABS
 } InstructionType_t; // etc...
 
 typedef struct instruction // Definition of an instruction after parsing
@@ -50,7 +66,7 @@ typedef struct instruction // Definition of an instruction after parsing
 
 typedef enum ParameterType // Define type of parameters in a function
 {
-    IMMEDIAT,
+    IMMEDIATE,
     REGISTER,
     LABEL,
     NULL_,
@@ -65,18 +81,22 @@ typedef struct line // Definition of a line after parsing and checking all its a
         union
         {
             int register1; // 0-15
-            int32_t immediate1;
             char *label;
         };
         ParameterType_t param2;
         union
         {
             int register2;
-            int32_t immediate2;
+        };
+        ParameterType_t param3;
+        union
+        {
+            int register3;
+            int16_t immediate3;
         };
     };
     char *labelDeclaration;
-    int *lineNumber;
+    int lineNumber;
 } line_t;
 
 int check_is_number(char *str) // Check if a string is a number
@@ -93,7 +113,7 @@ int check_is_number(char *str) // Check if a string is a number
     return SUCCESS;
 }
 
-int check_is_label(char *str) //Check if the line content is a label
+int check_is_label(char *str) // Check if the line content is a label
 {
     if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
     {

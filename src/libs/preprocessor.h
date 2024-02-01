@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 // ************************** FUNCTION DECLARATIONS **************************
 
 int is_first_operand_null(InstructionType_t *instructionId, char *param1, int *lineNumber);
@@ -47,7 +46,7 @@ int preprocess_line(char *lineContent, line_t *line, int *lineNumber) // Functio
         line->mnemonic = SKIP;
         line->param1 = NULL_;
         line->register1 = NULL_;
-        line->lineNumber = lineNumber; // Returns skip instruciton with all params nullified
+        line->lineNumber = *lineNumber; // Returns skip instruciton with all params nullified
         return SUCCESS;
     }
 
@@ -91,7 +90,7 @@ int preprocess_line(char *lineContent, line_t *line, int *lineNumber) // Functio
     {
         printf("Error: Invalid operation on line %d\n", *lineNumber);
         line->mnemonic = SKIP;
-        line->lineNumber = lineNumber;
+        line->lineNumber = *lineNumber;
         line->param1 = NULL_;
         line->labelDeclaration = NULL;
         return GENERIC_ERROR;
@@ -99,7 +98,7 @@ int preprocess_line(char *lineContent, line_t *line, int *lineNumber) // Functio
     if (are_operation_params_valid(instructionType, param1, param2, lineNumber) != SUCCESS)
     {
         line->mnemonic = SKIP;
-        line->lineNumber = lineNumber;
+        line->lineNumber = *lineNumber;
         line->param1 = NULL_;
         line->labelDeclaration = NULL;
         return GENERIC_ERROR;
@@ -111,10 +110,10 @@ int preprocess_line(char *lineContent, line_t *line, int *lineNumber) // Functio
     return SUCCESS;
 }
 
-int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *param1, char *param2, int *lineNumber) //Create the final 
+int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *param1, char *param2, int *lineNumber) // Create the final
 {
     line->mnemonic = *instructionType;
-    line->lineNumber = lineNumber;
+    line->lineNumber = *lineNumber;
     line->labelDeclaration = NULL;
     if (param1 != NULL)
     {
@@ -124,7 +123,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *par
         }
         else if (check_is_number(param1) == SUCCESS)
         {
-            line->param1 = IMMEDIAT;
+            line->param1 = IMMEDIATE;
         }
         else if (check_is_label(param1) == SUCCESS)
         {
@@ -144,11 +143,11 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *par
         }
         else if (check_is_number(param2) == SUCCESS)
         {
-            line->param2 = IMMEDIAT;
+            line->param2 = IMMEDIATE;
         }
         else
         {
-            printf("Error: Invalid operation (unhandled second param) on line %d\n", *lineNumber);
+            printf("Error: Invalid operation (unhandled second param) on line %d\n", lineNumber);
             return GENERIC_ERROR;
         }
     }
@@ -186,7 +185,7 @@ int get_file_size(char *filename, int *size) // Get the number of characters in 
     return SUCCESS;
 }
 
-int read_file(char *filename, char *output, int size, int *numberOfLines) //Read content of specified file and store it in output
+int read_file(char *filename, char *output, int size, int *numberOfLines) // Read content of specified file and store it in output
 {
     FILE *ptr;
     char ch;
@@ -216,7 +215,7 @@ int read_file(char *filename, char *output, int size, int *numberOfLines) //Read
     return SUCCESS;
 }
 
-int line_content_from_file_content(char *content, int lineNumber, char *lineContent) //Extract the content of a specified line from a file content
+int line_content_from_file_content(char *content, int lineNumber, char *lineContent) // Extract the content of a specified line from a file content
 {
     // Returns the content of the lineNumber until next \n
     int i = 0;
@@ -267,24 +266,12 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     switch (*instructionId)
     {
     case SKIP:
-    case NOOP:
         return are_both_operands_null(instructionId, param1, param2, lineNumber);
         break;
-    case SET:
-        return is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
-        break;
-    case NOT:
-        return is_first_operand_register_and_second_operand_null(instructionId, param1, param2, lineNumber);
-        break;
-    case STORE:
-        return are_both_operands_immediate_or_register(instructionId, param1, param2, lineNumber);
-        break;
-    case COPY:
     case MUL:
     case DIV:
         return are_both_operands_registers(instructionId, param1, param2, lineNumber);
         break;
-    case LOAD:
     case ADD:
     case SUB:
     case AND:
@@ -325,6 +312,19 @@ int is_second_operand_null(InstructionType_t *instructionId, char *param2, int *
     }
     return SUCCESS;
 }
+
+// int is_third_operand_null(InstructionType_t *instructionId, char *param3, int *lineNumber)
+// {
+//     // Check if third operand is null
+//     if (param3 != NULL)
+//     {
+//         char opcode[4];
+//         get_operand_name(*instructionId, opcode);
+//         printf("Error: %s instruction does not accept third operand on line: %d\n", opcode, lineNumber);
+//         return INVALID_DATA;
+//     }
+//     return SUCCESS;
+// }
 
 int is_first_operand_not_null(InstructionType_t *instructionId, char *param1, int *lineNumber)
 {
@@ -377,11 +377,11 @@ int is_second_operand_register(InstructionType_t *instructionId, char *param2, i
     int paramVerificationReturn;
     char opcode[4];
 
-    if(is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
+    if (is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
-    
+
     if (find_register(param2, &paramVerificationReturn) != SUCCESS)
     {
 
@@ -397,7 +397,7 @@ int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, i
     int paramVerificationReturn;
     char opcode[4];
 
-    if(is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
+    if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
@@ -416,7 +416,7 @@ int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, 
     int paramVerificationReturn;
     char opcode[4];
 
-    if(is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
+    if (is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
@@ -435,7 +435,7 @@ int is_first_operand_immediate_or_register(InstructionType_t *instructionId, cha
     int paramVerificationReturn;
     char opcode[4];
 
-    if(is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
+    if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
@@ -454,7 +454,7 @@ int is_second_operand_immediate_or_register(InstructionType_t *instructionId, ch
     int paramVerificationReturn;
     char opcode[4];
 
-    if(is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
+    if (is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
@@ -560,70 +560,118 @@ int get_operand_name(InstructionType_t instruction, char *output)
     case SKIP:
         strcpy(output, "skip");
         break;
-    case NOOP:
+    case ADD:
         strcpy(output, "noop");
         break;
-    case SET:
+    case SUB:
         strcpy(output, "set");
         break;
-    case COPY:
+    case MUL:
         strcpy(output, "copy");
         break;
-    case LOAD:
+    case DIV:
         strcpy(output, "load");
         break;
-    case STORE:
+    case OR:
         strcpy(output, "store");
         break;
-    case ADD:
+    case AND:
         strcpy(output, "add");
         break;
-    case SUB:
+    case XOR:
         strcpy(output, "sub");
         break;
-    case MUL:
+    case TEQ:
         strcpy(output, "mul");
         break;
-    case DIV:
+    case TNE:
         strcpy(output, "div");
         break;
-    case NOT:
+    case TLT:
         strcpy(output, "not");
         break;
-    case AND:
+    case TLE:
         strcpy(output, "and");
         break;
-    case OR:
+    case TGT:
         strcpy(output, "or");
         break;
-    case XOR:
+    case TGE:
         strcpy(output, "xor");
         break;
-    case CMPEQ:
+    case PUSH:
         strcpy(output, "cmpeq");
         break;
-    case CMPGE:
+    case POP:
         strcpy(output, "cmpge");
         break;
-    case JTRUE:
+    case STR:
         strcpy(output, "jtrue");
         break;
-    case JFALSE:
+    case LD:
         strcpy(output, "jfalse");
         break;
-    case JUMP:
+    case STRP:
         strcpy(output, "jump");
         break;
-    case CALL:
+    case LDP:
         strcpy(output, "call");
         break;
-    case RET:
+    case XCHG:
         strcpy(output, "ret");
         break;
-    case HALT:
+    case ADDI:
         strcpy(output, "halt");
         break;
-    case INT:
+    case SUBI:
+        strcpy(output, "int");
+        break;
+    case ORI:
+        strcpy(output, "int");
+        break;
+    case ANDI:
+        strcpy(output, "int");
+        break;
+    case XORI:
+        strcpy(output, "int");
+        break;
+    case TEQI:
+        strcpy(output, "int");
+        break;
+    case TNEI:
+        strcpy(output, "int");
+        break;
+    case TLTI:
+        strcpy(output, "int");
+        break;
+    case TLEI:
+        strcpy(output, "int");
+        break;
+    case TGTI:
+        strcpy(output, "int");
+        break;
+    case TGEI:
+        strcpy(output, "int");
+        break;
+    case STRI:
+        strcpy(output, "int");
+        break;
+    case LDI:
+        strcpy(output, "int");
+        break;
+    case JZ:
+        strcpy(output, "int");
+        break;
+    case JNZ:
+        strcpy(output, "int");
+        break;
+    case CALL:
+        strcpy(output, "int");
+        break;
+    case RET:
+        strcpy(output, "int");
+        break;
+    case JABS:
         strcpy(output, "int");
         break;
     default:
@@ -637,26 +685,6 @@ int find_operand(char *input, InstructionType_t *instruction)
     if (strcmp("skip", input) == 0)
     {
         *instruction = SKIP;
-    }
-    else if (strcmp("noop", input) == 0)
-    {
-        *instruction = NOOP;
-    }
-    else if (strcmp("set", input) == 0)
-    {
-        *instruction = SET;
-    }
-    else if (strcmp("copy", input) == 0)
-    {
-        *instruction = COPY;
-    }
-    else if (strcmp("load", input) == 0)
-    {
-        *instruction = LOAD;
-    }
-    else if (strcmp("store", input) == 0)
-    {
-        *instruction = STORE;
     }
     else if (strcmp("add", input) == 0)
     {
@@ -674,41 +702,129 @@ int find_operand(char *input, InstructionType_t *instruction)
     {
         *instruction = DIV;
     }
-    else if (strcmp("not", input) == 0)
+    else if (strcmp("or", input) == 0)
     {
-        *instruction = NOT;
+        *instruction = OR;
     }
     else if (strcmp("and", input) == 0)
     {
         *instruction = AND;
     }
-    else if (strcmp("or", input) == 0)
-    {
-        *instruction = OR;
-    }
     else if (strcmp("xor", input) == 0)
     {
         *instruction = XOR;
     }
-    else if (strcmp("cmpeq", input) == 0)
+    else if (strcmp("teq", input) == 0)
     {
-        *instruction = CMPEQ;
+        *instruction = TEQ;
     }
-    else if (strcmp("cmpge", input) == 0)
+    else if (strcmp("tne", input) == 0)
     {
-        *instruction = CMPGE;
+        *instruction = TNE;
     }
-    else if (strcmp("jtrue", input) == 0)
+    else if (strcmp("tlt", input) == 0)
     {
-        *instruction = JTRUE;
+        *instruction = TLT;
     }
-    else if (strcmp("jfalse", input) == 0)
+    else if (strcmp("tle", input) == 0)
     {
-        *instruction = JFALSE;
+        *instruction = TLE;
     }
-    else if (strcmp("jump", input) == 0)
+    else if (strcmp("tgt", input) == 0)
     {
-        *instruction = JUMP;
+        *instruction = TGT;
+    }
+    else if (strcmp("tge", input) == 0)
+    {
+        *instruction = TGE;
+    }
+    else if (strcmp("push", input) == 0)
+    {
+        *instruction = PUSH;
+    }
+    else if (strcmp("pop", input) == 0)
+    {
+        *instruction = POP;
+    }
+    else if (strcmp("str", input) == 0)
+    {
+        *instruction = STR;
+    }
+    else if (strcmp("ld", input) == 0)
+    {
+        *instruction = LD;
+    }
+    else if (strcmp("strp", input) == 0)
+    {
+        *instruction = STRP;
+    }
+    else if (strcmp("ldp", input) == 0)
+    {
+        *instruction = LDP;
+    }
+    else if (strcmp("xchg", input) == 0)
+    {
+        *instruction = XCHG;
+    }
+    else if (strcmp("addi", input) == 0)
+    {
+        *instruction = ADDI;
+    }
+    else if (strcmp("subi", input) == 0)
+    {
+        *instruction = SUBI;
+    }
+    else if (strcmp("ori", input) == 0)
+    {
+        *instruction = ORI;
+    }
+    else if (strcmp("andi", input) == 0)
+    {
+        *instruction = ANDI;
+    }
+    else if (strcmp("xori", input) == 0)
+    {
+        *instruction = XORI;
+    }
+    else if (strcmp("teqi", input) == 0)
+    {
+        *instruction = TEQI;
+    }
+    else if (strcmp("tnei", input) == 0)
+    {
+        *instruction = TNEI;
+    }
+    else if (strcmp("tlti", input) == 0)
+    {
+        *instruction = TLTI;
+    }
+    else if (strcmp("tlei", input) == 0)
+    {
+        *instruction = TLEI;
+    }
+    else if (strcmp("tgti", input) == 0)
+    {
+        *instruction = TGTI;
+    }
+    else if (strcmp("tgei", input) == 0)
+    {
+        *instruction = TGEI;
+    }
+    else if (strcmp("stri", input) == 0)
+    {
+        *instruction = STRI;
+    }
+    else if (strcmp("ldi", input) == 0)
+    {
+        *instruction = LDI;
+    }
+    else if (strcmp("jz", input) == 0)
+    {
+        *instruction = JZ;
+    }
+    else if (strcmp("jnz", input) == 0)
+    {
+        *instruction = JNZ;
     }
     else if (strcmp("call", input) == 0)
     {
@@ -718,13 +834,9 @@ int find_operand(char *input, InstructionType_t *instruction)
     {
         *instruction = RET;
     }
-    else if (strcmp("halt", input) == 0)
+    else if (strcmp("jabs", input) == 0)
     {
-        *instruction = HALT;
-    }
-    else if (strcmp("int", input) == 0)
-    {
-        *instruction = INT;
+        *instruction = JABS;
     }
     else
     {

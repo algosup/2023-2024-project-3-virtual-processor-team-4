@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdint.h>
 
-int32_t registerArr[16];
+int16_t registerArr[16];
 
 int load(instruction_t instruction);
 int store(instruction_t instruction);
@@ -145,7 +145,7 @@ int check_val(char *val)
     }
     if (check_is_number(val) == SUCCESS)
     {
-        return IMMEDIAT;
+        return IMMEDIATE;
     }
     if (check_is_label(val) == SUCCESS)
     {
@@ -159,7 +159,7 @@ int check_val(char *val)
 
 int noop(instruction_t instruction)
 {
-    if (instruction.instT == NOOP)
+    if (instruction.instT == SKIP)
     {
         return SUCCESS;
     }
@@ -178,9 +178,9 @@ int set(instruction_t instruction)
         find_register(instruction.val1, &i);
     }
 
-    if (check_val(instruction.val2) == IMMEDIAT)
+    if (check_val(instruction.val2) == IMMEDIATE)
     {
-        registerArr[i] = (int32_t)strtod(instruction.val2, '\0');
+        registerArr[i] = (int16_t)strtod(instruction.val2, '\0');
         return SUCCESS;
     }
 
@@ -215,80 +215,132 @@ int copy(instruction_t instruction)
     }
 }
 
-int execute_instruction(instruction_t *instruction)
-{
-    switch (instruction->instT)
-    {
-    case NOOP:
-        break;
-    case SET:
-        set(*instruction);
-        break;
-    case COPY:
-        copy(*instruction);
-        break;
-    case LOAD:
-        load(*instruction);
-        break;
-    case STORE:
-        store(*instruction);
-        break;
-    case ADD:
-        add(*instruction);
-        break;
-    case SUB:
-        sub(*instruction);
-        break;
-    case MUL:
-        mul(*instruction);
-        break;
-    case DIV:
-        div_(*instruction);
-        break;
-    case NOT:
-        not_(*instruction);
-        break;
-    case AND:
-        and_(*instruction);
-        break;
-    case OR:
-        or_(*instruction);
-        break;
-    case XOR:
-        xor_(*instruction);
-        break;
-    case CMPEQ:
-        cmpeq(*instruction);
-        break;
-    case CMPGE:
-        cmpge(*instruction);
-        break;
-    case JTRUE:
-        jtrue(*instruction);
-        break;
-    case JFALSE:
-        jfalse(*instruction);
-        break;
-    case JUMP:
-        jump(*instruction);
-        break;
-    case CALL:
-        call(*instruction);
-        break;
-    case RET:
-        ret(*instruction);
-        break;
-    case HALT:
-        halt(*instruction);
-        break;
-    case INT:
-        int_(*instruction);
-        break;
-    default:
-        break;
-    }
-    return SUCCESS;
-}
+// int execute_instruction(instruction_t *instruction)
+// {
+//     switch (instruction->instT)
+//     {
+//     case SKIP:
+//         return SUCCESS;
+//     case ADD:
+//         add(*instruction);
+//         return SUCCESS;
+//     case SUB:
+//         sub(*instruction);
+//         return SUCCESS;
+//     case MUL:
+//         mul(*instruction);
+//         return SUCCESS;
+//     case DIV:
+//         div_(*instruction);
+//         return SUCCESS;
+//     case OR:
+//         or_(*instruction);
+//         return SUCCESS;
+//     case AND:
+//         and_(*instruction);
+//         return SUCCESS;
+//     case XOR:
+//         xor_(*instruction);
+//         return SUCCESS;
+//     case TEQ:
+//         teq(*instruction);
+//         return SUCCESS;
+//     case TNE:
+//         tne(*instruction);
+//         return SUCCESS;
+//     case TLT:
+//         tlt(*instruction);
+//         return SUCCESS;
+//     case TLE:
+//         tle(*instruction);
+//         return SUCCESS;
+//     case TGT:
+//         tgt(*instruction);
+//         return SUCCESS;
+//     case TGE:
+//         tge(*instruction);
+//         return SUCCESS;
+//     case PUSH:
+//         push(*instruction);
+//         return SUCCESS;
+//     case POP:
+//         pop(*instruction);
+//         return SUCCESS;
+//     case STR:
+//         str(*instruction);
+//         return SUCCESS;
+//     case LD:
+//         ld(*instruction);
+//         return SUCCESS;
+//     case STRP:
+//         strp(*instruction);
+//         return SUCCESS;
+//     case LDP:
+//         ldp(*instruction);
+//         return SUCCESS;
+//     case XCHG:
+//         xchg(*instruction);
+//         return SUCCESS;
+//     case ADDI:
+//         addi(*instruction);
+//         return SUCCESS;
+//     case SUBI:
+//         subi(*instruction);
+//         return SUCCESS;
+//     case ORI:
+//         ori(*instruction);
+//         return SUCCESS;
+//     case ANDI:
+//         andi(*instruction);
+//         return SUCCESS;
+//     case XORI:
+//         add(*instruction);
+//         return SUCCESS;
+//     case TEQI:
+//         teqi(*instruction);
+//         return SUCCESS;
+//     case TNEI:
+//         tnei(*instruction);
+//         return SUCCESS;
+//     case TLTI:
+//         tlti(*instruction);
+//         return SUCCESS;
+//     case TLEI:
+//         tlei(*instruction);
+//         return SUCCESS;
+//     case TGTI:
+//         tgti(*instruction);
+//         return SUCCESS;
+//     case TGEI:
+//         tgei(*instruction);
+//         return SUCCESS;
+//     case STRI:
+//         stri(*instruction);
+//         return SUCCESS;
+//     case LDI:
+//         ldi(*instruction);
+//         return SUCCESS;
+//     case JZ:
+//         jz(*instruction);
+//         return SUCCESS;
+//     case JNZ:
+//         jnz(*instruction);
+//         return SUCCESS;
+//     case CALL:
+//         call(*instruction);
+//         return SUCCESS;
+//     case RET:
+//         ret(*instruction);
+//         return SUCCESS;
+//     case JABS:
+//         jabs(*instruction);
+//         return SUCCESS;
+//     default:
+//         printf("Error : line %d. Not a valid operation\n", instruction->line_number);
+//         return GENERIC_ERROR;
+//     }
+//     return GENERIC_ERROR;
+// }
 
 int add(instruction_t instruction)
 {
@@ -304,8 +356,8 @@ int add(instruction_t instruction)
             registerArr[i] = registerArr[i] + registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
-            registerArr[i] = registerArr[i] + (int32_t)strtod(instruction.val2, '\0');
+        case IMMEDIATE:
+            registerArr[i] = registerArr[i] + (int16_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -333,8 +385,8 @@ int sub(instruction_t instruction)
             registerArr[i] = registerArr[i] - registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
-            registerArr[i] = registerArr[i] - (int32_t)strtod(instruction.val2, '\0');
+        case IMMEDIATE:
+            registerArr[i] = registerArr[i] - (int16_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -367,8 +419,8 @@ int mul(instruction_t instruction)
         find_register(instruction.val2, &i2);
 
         int64_t bigInt64 = (int64_t)registerArr[i] * registerArr[i2];
-        int32_t high32 = (int32_t)(bigInt64 >> 32);
-        int32_t low32 = (int32_t)bigInt64;
+        int16_t high32 = (int16_t)(bigInt64 >> 32);
+        int16_t low32 = (int16_t)bigInt64;
 
         registerArr[i] = low32;
         registerArr[i2] = high32;
@@ -398,7 +450,7 @@ int div_(instruction_t instruction)
 
     if (check_val(instruction.val2) == REGISTER)
     {
-        int32_t tmp = registerArr[i2];
+        int16_t tmp = registerArr[i2];
 
         registerArr[i2] = registerArr[i] % registerArr[i2];
         registerArr[i] = registerArr[i] / tmp;
@@ -426,8 +478,8 @@ int and_(instruction_t instruction)
             registerArr[i] = registerArr[i] & registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
-            registerArr[i] = registerArr[i] & (int32_t)strtod(instruction.val2, '\0');
+        case IMMEDIATE:
+            registerArr[i] = registerArr[i] & (int16_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -455,8 +507,8 @@ int or_(instruction_t instruction)
             registerArr[i] = registerArr[i] | registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
-            registerArr[i] = registerArr[i] | (int32_t)strtod(instruction.val2, '\0');
+        case IMMEDIATE:
+            registerArr[i] = registerArr[i] | (int16_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
@@ -484,8 +536,8 @@ int xor_(instruction_t instruction)
             registerArr[i] = registerArr[i] ^ registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
-            registerArr[i] = registerArr[i] ^ (int32_t)strtod(instruction.val2, '\0');
+        case IMMEDIATE:
+            registerArr[i] = registerArr[i] ^ (int16_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
             printf("Error: at line %d. %s is not a valid input", instruction.line, instruction.val2);
