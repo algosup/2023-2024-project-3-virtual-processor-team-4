@@ -40,7 +40,7 @@ Then, unzip it, and follow the instructions below ↓
 - [Test Plan](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/QA/test_plan.md)
 - [KPIs](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIBwjEooiU8LSl_ZvGzSR8ylA?e=STmP8k)
 - [Management artifacts](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/management_artifacts.md)
-- [Weekly report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weeekly_report/cumulative.md)
+- [Weekly Report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/cumulative.md)
 
 <hr>
 
