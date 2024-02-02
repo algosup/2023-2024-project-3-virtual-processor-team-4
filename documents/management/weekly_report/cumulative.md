@@ -3,12 +3,13 @@
 *Project: Virtual Processor*
 *Team: 4*
 
-*PS: The weekly reports begin from the day 1 aka the week 2 of the project period*
+*PS: The weekly reports begin from day 1 aka week 2 of the project period*
 
 #### Quick access
 
 - [Week 2](#weekly-report---day-1)
 - [Week 3](#weekly-report---week-3)
+- [Week 4](#weekly-report---week-4)
 
 <br><hr><br>
 
@@ -54,7 +55,7 @@ Subsequently, we thought together, led by the Program Manager, about all the bas
 
 
 
-[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_re/week_3__22-01_to_26-01.md)
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/week_3__22-01_to_26-01.md)
 
 # Weekly report - week 3
 
@@ -82,7 +83,7 @@ During the two first days of this week, we continued to define the functional sp
 
 ### Challenges
 
-   - The meeting with the client had a huge impact on the project: We planned to have a program a direct assembly to emulation interpreter, while now we'll have a machine code file. Consequently, the functional and the the start of the program we had too.
+   - The meeting with the client had a huge impact on the project: We planned to have a direct assembly to emulation interpreter, so now we'll pass by a machine code file. Consequently, the functional and the beginning of the code we had, will be impacted.
    - We will need a lot more time than expected.
    - We are late regarding the expectations.
    - Employees are quite discouraged by all the work to do, particularly about all the new functional specifications seeing the deadline.
@@ -94,5 +95,41 @@ During the two first days of this week, we continued to define the functional sp
 - Management: I will finish the charts of the KPIs, then, make the RACI and Gant chart, to finally complete the readme about how to run our project.
 - QA: Continue the test plan, and the tests' strategy, and also create the bug report's template.
 - Tech Lead: move forward on the technical specifications, in parallel with the functional ones.
+
+<br><hr><br>
+
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/week_4__29-01_to_02-02.md)
+
+# Weekly report - week 4
+
+*From --- Monday, January 29th ---  to  --- Friday, February 2nd ---*
+
+### Overview of the week
+
+During this week, we first finished the functional specification and began to code in C while continuing the documents each other like the technical or the test plan. We have almost finished the assembler program which reads assembly files to machine code, and we are also on the documentation of the new language.
+
+We think we are still on time for this project, we caught up.
+
+<hr>
+
+
+### Accomplishments
+
+
+- We finished the functional specifications and worked on the documentation of the assembly.
+- We worked on the assembler program which first gets the algorithm from an assembly file, then encrypts it into machine code.
+- We finished the KPI dashboard and the RACI matrix and completed the list of tasks.
+- We created the bug report template on GitHub and continued the test plan.
+- We still worked on the technical specifications.
+
+### Plan for Next Week
+
+Next week contains only 3h15 of the project, so we won't be able to progress a lot.
+
+- Finish the assembler program
+- Continue the Gantt Chart
+- Continue the Test Plan
+- Finish the technical
+- Continue the Documentation of the assembly language.
 
 <br><hr><br>
