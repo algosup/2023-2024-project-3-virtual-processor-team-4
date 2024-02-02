@@ -63,7 +63,7 @@ Subsequently, we thought together, led by the Program Manager, about all the bas
 
 ### Overview of the week
 
-During the two first days of this week, we continued to define the functional specifications of our new assembly language and began to code an interpreter from Assembly to direct emulation in a virtual processor. Then, on Wednesday, we had a meeting with the client, and we understood many things, particularly, the expectation to have on one hand a compiler from assembly to machine code, and on the other hand, an emulator and interpreter of the machine code in the virtual processor. Also, we rethought the instructions and their parameters, regarding the machine code aspect. Also, we advanced on the management, technical, and quality assurance documents.
+During the two first days of this week, we continued to define the functional specifications of our new assembly language and began to code an interpreter from Assembly to direct emulation in a virtual processor. Then, on Wednesday, we had a meeting with the client, and we understood many things, particularly the expectation to have on one hand a compiler from assembly language to machine code, and on the other hand, an emulator and interpreter of the machine code in the virtual processor. Also, we rethought the instructions and their parameters, regarding the machine code aspect. Also, we advanced on the management, technical, and quality assurance documents.
 
 <hr>
 
@@ -76,10 +76,10 @@ During the two first days of this week, we continued to define the functional sp
 - With these registers, we were able to code the first instructions for the emulator like basic operations and logic operands.
 - We had a meeting with the client and redacted the minutes of it.
 - We worked a lot on functional specifications, particularly about the syntax, the mnemonics, and the behavior of the instructions, as well as the machine code encoding of the algorithm for each instruction.
-- We have the complete list of tasks and the KPI data, with 3 charts for now.
-- We have the final project charter adapted from the new understanding of the client's expectations we get with the meeting.
+- We have done the complete list of tasks and the KPI data, with three charts for now.
+- We have done the final project charter adapted from the new understanding of the client's expectations we get with the meeting.
 - We specified the architecture implementation details and the coding conventions in the technical specifications and began to work on the compiler and interpreter part of the document. 
-- The QA has already coded some assembly programs with our assembly to put it to the test.
+- The QA has already coded some assembly programs with our assembly language to put it to the test.
 
 ### Challenges
 
@@ -91,9 +91,9 @@ During the two first days of this week, we continued to define the functional sp
 ### Plan for Next Week
 
 - Functional: Progress on the functional specifications, to give some clear instructions to the tech lead and the developers.
-- Developer: First, help with the functional specifications, especially the machine code part. Then as soon as the instructions are well defined, they will code these.
-- Management: I will finish the charts of the KPIs, then, make the RACI and Gant chart, to finally complete the readme about how to run our project.
-- QA: Continue the test plan, and the tests' strategy, and also create the bug report's template.
+- Developer: First, help with the functional specifications, especially the machine code part. Then, as soon as the instructions are well defined, they will code these.
+- Management: I will finish the charts of the KPIs, then make the RACI and Gant chart, to finally complete the readme about how to run our project.
+- QA: Continue the test plan, the tests' strategy, and also create the bug report's template.
 - Tech Lead: move forward on the technical specifications, in parallel with the functional ones.
 
 <br><hr><br>
@@ -106,9 +106,7 @@ During the two first days of this week, we continued to define the functional sp
 
 ### Overview of the week
 
-During this week, we first finished the functional specification and began to code in C while continuing the documents each other like the technical or the test plan. We have almost finished the assembler program which reads assembly files to machine code, and we are also on the documentation of the new language.
-
-We think we are still on time for this project, we caught up.
+During this week, we first finished the functional specification and began to code in C while continuing the documents each other like the technical or the test plan. We have almost finished the assembler program, which reads assembly files to machine code, and we are also on the documentation of the new language.
 
 <hr>
 
@@ -116,20 +114,21 @@ We think we are still on time for this project, we caught up.
 ### Accomplishments
 
 
-- We finished the functional specifications and worked on the documentation of the assembly.
-- We worked on the assembler program which first gets the algorithm from an assembly file, then encrypts it into machine code.
+- We finished the functional specifications and worked on the assembly's documentation.
+- We worked on the assembler program.
 - We finished the KPI dashboard and the RACI matrix and completed the list of tasks.
-- We created the bug report template on GitHub and continued the test plan.
-- We still worked on the technical specifications.
+- We created the bug report template and continued the test plan.
+- We kept working on the technical specifications.
 
 ### Plan for Next Week
 
 Next week contains only 3h15 of the project, so we won't be able to progress a lot.
 
-- Finish the assembler program
-- Continue the Gantt Chart
-- Continue the Test Plan
-- Finish the technical
-- Continue the Documentation of the assembly language.
+We plan to:
+- finish the assembler program,
+- continue the Gantt Chart,
+- continue the Test Plan,
+- finish the technical specification, and
+- continue the documentation of the assembly language.
 
 <br><hr><br>
