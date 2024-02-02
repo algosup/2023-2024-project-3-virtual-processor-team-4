@@ -72,9 +72,8 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
         param2 = token;
 
-    if(check_label_declaration(opcode) == SUCCESS) // Checking if the line only contains a label declaration
+    if (check_label_declaration(opcode) == SUCCESS) // Checking if the line only contains a label declaration
     {
-        printf("Label found on line %d\n", *lineNumber);
         line->label = opcode;
         line->mnemonic = LABEL_;
         line->lineNumber = *lineNumber;
@@ -120,7 +119,6 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             line->dest_t = REGISTER;
         }
-        //Label should be checked before I believe
     }
     else
     {
@@ -137,7 +135,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             line->param1 = IMMEDIATE;
         }
-        else if(check_is_label(param1) == SUCCESS)
+        else if (check_is_label(param1) == SUCCESS)
         {
             line->label = param1;
         }
@@ -152,7 +150,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         line->param1 = NULL_;
     }
 
-    if(param2 != NULL)
+    if (param2 != NULL)
     {
         if (find_register(param2, &line->register2) == SUCCESS)
         {
@@ -293,18 +291,36 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     switch (*instructionId)
     {
     case SKIP:
-        // return are_all_operand_null(instructionId, param1, param2, lineNumber);
-        break;
-    case MUL:
-    case DIV:
-        // return are_all_operand_null(instructionId, param1, param2, lineNumber);
+        return are_all_operand_null(instructionId, param1, param2, param3, lineNumber);
         break;
     case ADD:
     case SUB:
+    case MUL:
+    case DIV:
     case AND:
     case OR:
     case XOR:
-        // return is_first_operand_register_and_second_operand_register_or_immediate(instructionId, param1, param2, lineNumber);
+    case TEQ:
+    case TNE:
+    case TLT:
+    case TLE:
+    case TGT:
+    case TGE:
+        // return are_all_operand_null(instructionId, param1, param2, lineNumber);
+        break;
+    case ADDI:
+    case SUBI:
+    case ORI:
+    case XORI:
+    case TEQI:
+    case TNEI:
+    case TLTI:
+    case TLEI:
+    case TGTI:
+    case TGEI:
+    case STRI:
+    case LDI:
+        // To determine
         break;
     default:
         printf("Instruction not found");
@@ -655,119 +671,131 @@ int get_operand_name(InstructionType_t instruction, char *output)
     case SKIP:
         strcpy(output, "skip");
         break;
+    case ABS:
+        strcpy(output, "abs");
+        break;
     case ADD:
-        strcpy(output, "noop");
-        break;
-    case SUB:
-        strcpy(output, "set");
-        break;
-    case MUL:
-        strcpy(output, "copy");
-        break;
-    case DIV:
-        strcpy(output, "load");
-        break;
-    case OR:
-        strcpy(output, "store");
-        break;
-    case AND:
         strcpy(output, "add");
         break;
-    case XOR:
-        strcpy(output, "sub");
+    case ADDI:
+        strcpy(output, "addi");
         break;
-    case TEQ:
-        strcpy(output, "mul");
-        break;
-    case TNE:
-        strcpy(output, "div");
-        break;
-    case TLT:
-        strcpy(output, "not");
-        break;
-    case TLE:
+    case AND:
         strcpy(output, "and");
         break;
-    case TGT:
-        strcpy(output, "or");
+    case B:
+        strcpy(output, "b");
         break;
-    case TGE:
-        strcpy(output, "xor");
+    case BI:
+        strcpy(output, "bi");
         break;
-    case PUSH:
-        strcpy(output, "cmpeq");
+    case BNZ:
+        strcpy(output, "bnz");
         break;
-    case POP:
-        strcpy(output, "cmpge");
-        break;
-    case STR:
-        strcpy(output, "jtrue");
-        break;
-    case LD:
-        strcpy(output, "jfalse");
-        break;
-    case STRP:
-        strcpy(output, "jump");
-        break;
-    case LDP:
-        strcpy(output, "call");
-        break;
-    case XCHG:
-        strcpy(output, "ret");
-        break;
-    case ADDI:
-        strcpy(output, "halt");
-        break;
-    case SUBI:
-        strcpy(output, "int");
-        break;
-    case ORI:
-        strcpy(output, "int");
-        break;
-    case ANDI:
-        strcpy(output, "int");
-        break;
-    case XORI:
-        strcpy(output, "int");
-        break;
-    case TEQI:
-        strcpy(output, "int");
-        break;
-    case TNEI:
-        strcpy(output, "int");
-        break;
-    case TLTI:
-        strcpy(output, "int");
-        break;
-    case TLEI:
-        strcpy(output, "int");
-        break;
-    case TGTI:
-        strcpy(output, "int");
-        break;
-    case TGEI:
-        strcpy(output, "int");
-        break;
-    case STRI:
-        strcpy(output, "int");
-        break;
-    case LDI:
-        strcpy(output, "int");
-        break;
-    case JZ:
-        strcpy(output, "int");
-        break;
-    case JNZ:
-        strcpy(output, "int");
+    case BZ:
+        strcpy(output, "bz");
         break;
     case CALL:
-        strcpy(output, "int");
+        strcpy(output, "call");
+        break;
+    case CALLI:
+        strcpy(output, "calli");
+        break;
+    case DIV:
+        strcpy(output, "div");
+        break;
+    case JMP:
+        strcpy(output, "jmp");
+        break;
+    case LD:
+        strcpy(output, "ld");
+        break;
+    case LDI:
+        strcpy(output, "ldi");
+        break;
+    case LDP:
+        strcpy(output, "ldp");
+        break;
+    case MUL:
+        strcpy(output, "mul");
+        break;
+    case OR:
+        strcpy(output, "or");
+        break;
+    case ORI:
+        strcpy(output, "ori");
+        break;
+    case POP:
+        strcpy(output, "pop");
+        break;
+    case PUSH:
+        strcpy(output, "push");
         break;
     case RET:
-        strcpy(output, "int");
+        strcpy(output, "ret");
         break;
-    case JABS:
-        strcpy(output, "int");
+    case SET:
+        strcpy(output, "set");
+        break;
+    case STR:
+        strcpy(output, "str");
+        break;
+    case STRI:
+        strcpy(output, "stri");
+        break;
+    case STRP:
+        strcpy(output, "strp");
+        break;
+    case SUB:
+        strcpy(output, "sub");
+        break;
+    case SUBI:
+        strcpy(output, "subi");
+        break;
+    case TEQ:
+        strcpy(output, "teq");
+        break;
+    case TEQI:
+        strcpy(output, "teqi");
+        break;
+    case TGE:
+        strcpy(output, "tge");
+        break;
+    case TGEI:
+        strcpy(output, "tgei");
+        break;
+    case TGT:
+        strcpy(output, "tgt");
+        break;
+    case TGTI:
+        strcpy(output, "tgti");
+        break;
+    case TLE:
+        strcpy(output, "tle");
+        break;
+    case TLEI:
+        strcpy(output, "tlei");
+        break;
+    case TLT:
+        strcpy(output, "tlt");
+        break;
+    case TLTI:
+        strcpy(output, "tlti");
+        break;
+    case TNE:
+        strcpy(output, "tne");
+        break;
+    case TNEI:
+        strcpy(output, "tnei");
+        break;
+    case XCHG:
+        strcpy(output, "xchg");
+        break;
+    case XOR:
+        strcpy(output, "xor");
+        break;
+    case XORI:
+        strcpy(output, "xori");
         break;
     default:
         return GENERIC_ERROR;
@@ -781,157 +809,173 @@ int find_operand(char *input, InstructionType_t *instruction)
     {
         *instruction = SKIP;
     }
+    else if (strcmp("abs", input) == 0)
+    {
+        *instruction = ABS;
+    }
     else if (strcmp("add", input) == 0)
     {
         *instruction = ADD;
-    }
-    else if (strcmp("sub", input) == 0)
-    {
-        *instruction = SUB;
-    }
-    else if (strcmp("mul", input) == 0)
-    {
-        *instruction = MUL;
-    }
-    else if (strcmp("div", input) == 0)
-    {
-        *instruction = DIV;
-    }
-    else if (strcmp("or", input) == 0)
-    {
-        *instruction = OR;
-    }
-    else if (strcmp("and", input) == 0)
-    {
-        *instruction = AND;
-    }
-    else if (strcmp("xor", input) == 0)
-    {
-        *instruction = XOR;
-    }
-    else if (strcmp("teq", input) == 0)
-    {
-        *instruction = TEQ;
-    }
-    else if (strcmp("tne", input) == 0)
-    {
-        *instruction = TNE;
-    }
-    else if (strcmp("tlt", input) == 0)
-    {
-        *instruction = TLT;
-    }
-    else if (strcmp("tle", input) == 0)
-    {
-        *instruction = TLE;
-    }
-    else if (strcmp("tgt", input) == 0)
-    {
-        *instruction = TGT;
-    }
-    else if (strcmp("tge", input) == 0)
-    {
-        *instruction = TGE;
-    }
-    else if (strcmp("push", input) == 0)
-    {
-        *instruction = PUSH;
-    }
-    else if (strcmp("pop", input) == 0)
-    {
-        *instruction = POP;
-    }
-    else if (strcmp("str", input) == 0)
-    {
-        *instruction = STR;
-    }
-    else if (strcmp("ld", input) == 0)
-    {
-        *instruction = LD;
-    }
-    else if (strcmp("strp", input) == 0)
-    {
-        *instruction = STRP;
-    }
-    else if (strcmp("ldp", input) == 0)
-    {
-        *instruction = LDP;
-    }
-    else if (strcmp("xchg", input) == 0)
-    {
-        *instruction = XCHG;
     }
     else if (strcmp("addi", input) == 0)
     {
         *instruction = ADDI;
     }
-    else if (strcmp("subi", input) == 0)
+    else if (strcmp("and", input) == 0)
     {
-        *instruction = SUBI;
+        *instruction = AND;
     }
-    else if (strcmp("ori", input) == 0)
+    else if (strcmp("b", input) == 0)
     {
-        *instruction = ORI;
+        *instruction = B;
     }
-    else if (strcmp("andi", input) == 0)
+    else if (strcmp("bi", input) == 0)
     {
-        *instruction = ANDI;
+        *instruction = BI;
     }
-    else if (strcmp("xori", input) == 0)
+    else if (strcmp("bnz", input) == 0)
     {
-        *instruction = XORI;
+        *instruction = BNZ;
     }
-    else if (strcmp("teqi", input) == 0)
+    else if (strcmp("bz", input) == 0)
     {
-        *instruction = TEQI;
-    }
-    else if (strcmp("tnei", input) == 0)
-    {
-        *instruction = TNEI;
-    }
-    else if (strcmp("tlti", input) == 0)
-    {
-        *instruction = TLTI;
-    }
-    else if (strcmp("tlei", input) == 0)
-    {
-        *instruction = TLEI;
-    }
-    else if (strcmp("tgti", input) == 0)
-    {
-        *instruction = TGTI;
-    }
-    else if (strcmp("tgei", input) == 0)
-    {
-        *instruction = TGEI;
-    }
-    else if (strcmp("stri", input) == 0)
-    {
-        *instruction = STRI;
-    }
-    else if (strcmp("ldi", input) == 0)
-    {
-        *instruction = LDI;
-    }
-    else if (strcmp("jz", input) == 0)
-    {
-        *instruction = JZ;
-    }
-    else if (strcmp("jnz", input) == 0)
-    {
-        *instruction = JNZ;
+        *instruction = BZ;
     }
     else if (strcmp("call", input) == 0)
     {
         *instruction = CALL;
     }
+    else if (strcmp("calli", input) == 0)
+    {
+        *instruction = CALLI;
+    }
+    else if (strcmp("div", input) == 0)
+    {
+        *instruction = DIV;
+    }
+    else if (strcmp("jmp", input) == 0)
+    {
+        *instruction = JMP;
+    }
+    else if (strcmp("ld", input) == 0)
+    {
+        *instruction = LD;
+    }
+    else if (strcmp("ldi", input) == 0)
+    {
+        *instruction = LDI;
+    }
+    else if (strcmp("ldp", input) == 0)
+    {
+        *instruction = LDP;
+    }
+    else if (strcmp("mul", input) == 0)
+    {
+        *instruction = MUL;
+    }
+    else if (strcmp("or", input) == 0)
+    {
+        *instruction = OR;
+    }
+    else if (strcmp("ori", input) == 0)
+    {
+        *instruction = ORI;
+    }
+    else if (strcmp("pop", input) == 0)
+    {
+        *instruction = POP;
+    }
+    else if (strcmp("push", input) == 0)
+    {
+        *instruction = PUSH;
+    }
     else if (strcmp("ret", input) == 0)
     {
         *instruction = RET;
     }
-    else if (strcmp("jabs", input) == 0)
+    else if (strcmp("set", input) == 0)
     {
-        *instruction = JABS;
+        *instruction = SET;
+    }
+    else if (strcmp("str", input) == 0)
+    {
+        *instruction = STR;
+    }
+    else if (strcmp("stri", input) == 0)
+    {
+        *instruction = STRI;
+    }
+    else if (strcmp("strp", input) == 0)
+    {
+        *instruction = STRP;
+    }
+    else if (strcmp("sub", input) == 0)
+    {
+        *instruction = SUB;
+    }
+    else if (strcmp("subi", input) == 0)
+    {
+        *instruction = SUBI;
+    }
+    else if (strcmp("teq", input) == 0)
+    {
+        *instruction = TEQ;
+    }
+    else if (strcmp("teqi", input) == 0)
+    {
+        *instruction = TEQI;
+    }
+    else if (strcmp("tge", input) == 0)
+    {
+        *instruction = TGE;
+    }
+    else if (strcmp("tgei", input) == 0)
+    {
+        *instruction = TGEI;
+    }
+    else if (strcmp("tgt", input) == 0)
+    {
+        *instruction = TGT;
+    }
+    else if (strcmp("tgti", input) == 0)
+    {
+        *instruction = TGTI;
+    }
+    else if (strcmp("tle", input) == 0)
+    {
+        *instruction = TLE;
+    }
+    else if (strcmp("tlei", input) == 0)
+    {
+        *instruction = TLEI;
+    }
+    else if (strcmp("tlt", input) == 0)
+    {
+        *instruction = TLT;
+    }
+    else if (strcmp("tlti", input) == 0)
+    {
+        *instruction = TLTI;
+    }
+    else if (strcmp("tne", input) == 0)
+    {
+        *instruction = TNE;
+    }
+    else if (strcmp("tnei", input) == 0)
+    {
+        *instruction = TNEI;
+    }
+    else if (strcmp("xchg", input) == 0)
+    {
+        *instruction = XCHG;
+    }
+    else if (strcmp("xor", input) == 0)
+    {
+        *instruction = XOR;
+    }
+    else if (strcmp("xori", input) == 0)
+    {
+        *instruction = XORI;
     }
     else
     {
