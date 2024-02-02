@@ -9,78 +9,6 @@
 
 char* outputFile = "../compiled.bin";
 
-int16_t registerArr[32];
-
-typedef enum InstructionType
-{
-    SKIP = -1,
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    OR,
-    AND,
-    XOR,
-    TEQ,
-    TNE,
-    TLT,
-    TLE,
-    TGT,
-    TGE,
-    PUSH,
-    POP,
-    STR,
-    LD,
-    STRP,
-    LDP,
-    XCHG,
-    ADDI,
-    SUBI,
-    ORI,
-    ANDI,
-    XORI,
-    TEQI,
-    TNEI,
-    TLTI,
-    TLEI,
-    TGTI,
-    TGEI,
-    STRI,
-    LDI,
-    JZ,
-    JNZ,
-    CALL,
-    RET,
-    JABS
-} InstructionType_t;
-
-typedef struct line // Definition of a line after parsing and checking all its arguments
-{
-    struct
-    {
-        InstructionType_t mnemonic;
-        ParameterType_t param1;
-        union
-        {
-            int register1; // 0-32
-            char *label;
-        };
-        ParameterType_t param2;
-        union
-        {
-            int register2;
-        };
-        ParameterType_t param3;
-        union
-        {
-            int register3;
-            int16_t immediate3;
-        };
-    };
-    char *labelDeclaration;
-    int lineNumber;
-} line_t;
-
 typedef struct stackNode
 { // Item of linked list
     struct stackNode *previous;
@@ -150,22 +78,23 @@ typedef struct binInstruction
             int8_t source2; //5bits
             int8_t source;
             int8_t destination;
-        };
+        }typeR;
         struct typeI
         {
             int8_t opcode; //6bits
             int16_t immediate; //16bits
             int8_t source; //5bits
             int8_t destination;
-        };
+        }typeI;
         struct typeJ
         {
             int8_t opcode; //4bits
             int32_t addres; //23bits
             int8_t register_; //5bits
-        };
+        }typeJ;
     };
 } binInstruction_t;
+
 
 int write_to_bin(binInstruction_t);
 int create_bin();
@@ -373,24 +302,54 @@ int execute_instruction(line_t *instruction)
 
 //generate .bin
 int write_to_bin(binInstruction_t input){
-    /*FILE* fPtr = fopen(outputFile, "ab");
+    FILE* fPtr = fopen(outputFile, "ab");
     if(fPtr == NULL){
         printf("Error: binary file could not be opened");
         return GENERIC_ERROR;
     }
 
-    int8_t firstByte = input.inst | input.isRegister2 << 5;
-    firstByte = firstByte | input.isRegister1 << 6;
-    firstByte = firstByte | input.isLabel << 7;
-    
-    fwrite(&firstByte, sizeof(int8_t), 1, fPtr);
-    fwrite(&input.val1, sizeof(int16_t), 1, fPtr);
-    fwrite(&input.val2, sizeof(int16_t), 1, fPtr);
+    unsigned char byteArr[4] = {0, 0, 0, 0};
+
+    switch (input.type)
+    {
+    case R:
+        byteArr[0] = byteArr[0] | input.typeR.opcode << 1;
+        byteArr[2] = byteArr[2] | input.typeR.source2 << 2;
+        byteArr[2] = byteArr[2] | input.typeR.source >> 3;
+        byteArr[3] = byteArr[3] | input.typeR.source << 5;
+        byteArr[3] = byteArr[3] | input.typeR.destination;
+        break;
+    case I:
+        byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
+        byteArr[0] = byteArr[0] | input.typeI.immediate >> 14;
+        byteArr[1] = byteArr[1] | input.typeI.immediate >> 6;
+        byteArr[2] = byteArr[2] | input.typeI.immediate << 2;
+        byteArr[2] = byteArr[2] | input.typeI.source >> 3;
+        byteArr[3] = byteArr[3] | input.typeI.source << 5;
+        byteArr[3] = byteArr[3] | input.typeI.destination;
+        break;
+    case J:
+        byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
+        byteArr[0] = byteArr[0] | input.typeJ.addres >> 19;
+        byteArr[1] = byteArr[1] | input.typeJ.addres >> 11;
+        byteArr[2] = byteArr[2] | input.typeJ.addres >> 3;
+        byteArr[3] = byteArr[3] | input.typeJ.addres << 5;
+        byteArr[3] = byteArr[3] | input.typeJ.register_;
+        break;
+    default:
+        printf("Error: writing binary file. Invalid input");
+        return INVALID_DATA;
+        break;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        fwrite(&byteArr[i], sizeof(int8_t), 1, fPtr);
+    }
 
     if(fclose(fPtr) != 0){
         printf("Error: binary file could not be closed");
         return GENERIC_ERROR;
-    }*/
+    }
 
     return SUCCESS;
 }
@@ -412,6 +371,15 @@ int create_bin(){
 // --- Operations ---
 
 int add(line_t instruction){
+    binInstruction_t bin;
+    bin.type = R;
+    bin.typeR.opcode = SUB;
+    bin.typeR.destination = instruction.dest;
+    bin.typeR.source = instruction.param1;
+    bin.typeR.source2 = instruction.register2;
+
+    write_to_bin(bin);
+
     return GENERIC_ERROR;
 }
 
@@ -492,6 +460,15 @@ int xchg(line_t instruction){
 }
 
 int addi(line_t instruction){
+    binInstruction_t bin;
+    bin.type = I;
+    bin.typeI.opcode = ADDI;
+    bin.typeI.destination = instruction.dest;
+    bin.typeI.source = instruction.param1;
+    bin.typeI.immediate = instruction.immediate2;
+
+    write_to_bin(bin);
+
     return GENERIC_ERROR;
 }
 
@@ -552,6 +529,14 @@ int jnz(line_t instruction){
 }
 
 int call(line_t instruction){
+    binInstruction_t bin;
+    bin.type = J;
+    bin.typeJ.opcode = CALL ;
+    bin.typeJ.register_ = instruction.dest;
+    bin.typeJ.addres = 8388607;
+
+    write_to_bin(bin);
+
     return GENERIC_ERROR;
 }
 
