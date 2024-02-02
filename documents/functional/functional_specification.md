@@ -220,6 +220,7 @@ Here is a summary of those instructions:
 ### Machine code
 
 Here is a quick summary of the different instructions.
+For the full manual, please refer to the [Appendix A](./appendix_a_instruction_set_manual.pdf).
 
 | Type | Format                             | Description                                                           |
 | ---- | ---------------------------------- | --------------------------------------------------------------------- |
@@ -228,54 +229,55 @@ Here is a quick summary of the different instructions.
 | J    | `OOOOAAAAAAAAAAAAAAAAAAAAAAARRRRR` | Opcode (4) -               Address (23)                - Register (5) |
 
 | Opcode  | Instruction | Type | [CPI](#glossary) | Implementation priority |
-| ------- | ----------- | ---- | --- | ----------------------- |
-| 0000000 | `add`       | R    | 5   | High                    |
-| 0000001 | `sub`       | R    | 5   | High                    |
-| 0000010 | `mul`       | R    | 5   | Normal                  |
-| 0000011 | `div`       | R    | 5   | Normal                  |
-| 0000100 | `or`        | R    | 5   | Normal                  |
-| 0000101 | `and`       | R    | 5   | Normal                  |
-| 0000110 | `xor`       | R    | 5   | Normal                  |
-| 0000111 | `teq`       | R    | 5   | High                    |
-| 0001000 | `tne`       | R    | 5   | High                    |
-| 0001001 | `tlt`       | R    | 5   | Normal                  |
-| 0001010 | `tle`       | R    | 5   | Normal                  |
-| 0001011 | `tgt`       | R    | 5   | Normal                  |
-| 0001100 | `tge`       | R    | 5   | Normal                  |
-| 0001101 | RESERVED    | R    | -   | -                       |
-| 0001110 | RESERVED    | R    | -   | -                       |
-| 0001111 | RESERVED    | R    | -   | -                       |
-| 0010000 | `push`      | R    | 5   | Low                     |
-| 0010001 | `pop`       | R    | 5   | Low                     |
-| 0010010 | `str`       | R    | 4   | High                    |
-| 0010011 | `ld`        | R    | 4   | High                    |
-| 0010010 | `strp`      | R    | 6   | Low                     |
-| 0010011 | `ldp`       | R    | 6   | Low                     |
-| 0010100 | `xchg`      | R    | 5   | Low                     |
-| 001.... | RESERVED    | R    | -   | -                       |
-| 010001  | `addi`      | I    | 4   | High                    |
-| 010010  | `subi`      | I    | 4   | High                    |
-| 010011  | `ori`       | I    | 4   | Normal                  |
-| 010100  | `andi`      | I    | 4   | Normal                  |
-| 010101  | `xori`      | I    | 4   | Normal                  |
-| 010110  | `teqi`      | I    | 4   | Normal                  |
-| 010111  | `tnei`      | I    | 4   | Normal                  |
-| 011000  | `tlti`      | I    | 4   | Normal                  |
-| 011001  | `tlei`      | I    | 4   | Normal                  |
-| 011010  | `tgti`      | I    | 4   | Normal                  |
-| 011011  | `tgei`      | I    | 4   | Normal                  |
-| 011100  | `stri`      | I    | 4   | Normal                  |
-| 011101  | `ldi`       | I    | 4   | Normal                  |
-| 011110  | RESERVED    | I    | -   | -                       |
-| 011111  | RESERVED    | I    | -   | -                       |
-| 1000    | `jz`        | J    | 4   | High                    |
-| 1001    | `jnz`       | J    | 4   | High                    |
-| 1010    | `jr`        | J    | -   | -                       |
-| 1011    | RESERVED    | J    | -   | -                       |
-| 1100    | RESERVED    | J    | -   | -                       |
-| 1101    | `call`      | J    | 5   | Normal                  |
-| 1110    | `ret`       | J    | 5   | Normal                  |
-| 1111    | `jabs`      | J    | 3   | Low                     |
+| ------- | ----------- | ---- | ---------------- | ----------------------- |
+| 0000000 | `add`       | R    | 5                | High                    |
+| 0000001 | `sub`       | R    | 5                | High                    |
+| 0000010 | `mul`       | R    | 5                | Normal                  |
+| 0000011 | `div`       | R    | 5                | Normal                  |
+| 0000100 | `or`        | R    | 5                | Normal                  |
+| 0000101 | `and`       | R    | 5                | Normal                  |
+| 0000110 | `xor`       | R    | 5                | Normal                  |
+| 0000111 | `abs`       | R    | 4                | Normal                  |
+| 0001000 | `tlt`       | R    | 5                | Normal                  |
+| 0001001 | `tle`       | R    | 5                | Normal                  |
+| 0001010 | `tgt`       | R    | 5                | Normal                  |
+| 0001011 | `tge`       | R    | 5                | Normal                  |
+| 0001100 | `teq`       | R    | 5                | High                    |
+| 0001101 | `tne`       | R    | 5                | High                    |
+| 0001110 | RESERVED    | R    | -                | -                       |
+| 0001111 | RESERVED    | R    | -                | -                       |
+| 0010000 | `str`       | R    | 4                | High                    |
+| 0010001 | `ld`        | R    | 4                | High                    |
+| 0010010 | `strp`      | R    | 6                | Low                     |
+| 0010011 | `ldp`       | R    | 6                | Low                     |
+| 0010010 | `push`      | R    | 5                | Low                     |
+| 0010011 | `pop`       | R    | 5                | Low                     |
+| 0010100 | `xchg`      | R    | 5                | Low                     |
+| 001.... | RESERVED    | R    | -                | -                       |
+| 010000  | `addi`      | I    | 4                | High                    |
+| 010001  | `subi`      | I    | 4                | High                    |
+| 010010  | `stri`      | I    | 4                | Normal                  |
+| 010011  | `ldi`       | I    | 4                | Normal                  |
+| 010100  | `ori`       | I    | 4                | Normal                  |
+| 010101  | `andi`      | I    | 4                | Normal                  |
+| 010110  | `xori`      | I    | 4                | Normal                  |
+| 010111  | `set`       | I    | 3                | High                    |
+| 011000  | `tlti`      | I    | 4                | Normal                  |
+| 011001  | `tlei`      | I    | 4                | Normal                  |
+| 011010  | `tgti`      | I    | 4                | Normal                  |
+| 011011  | `tgei`      | I    | 4                | Normal                  |
+| 011100  | `teqi`      | I    | 4                | Normal                  |
+| 011101  | `tnei`      | I    | 4                | Normal                  |
+| 011110  | RESERVED    | I    | -                | -                       |
+| 011111  | RESERVED    | I    | -                | -                       |
+| 1000    | `b`         | J    | 4                | Low                     | 
+| 1001    | `bi`        | J    | 4                | Normal                  |
+| 1010    | `bz`        | J    | 4                | High                    |
+| 1011    | `bnz`       | J    | 4                | High                    |
+| 1100    | `call`      | J    | 4                | Normal                  |
+| 1101    | `calli`     | J    | 4                | Low                     |
+| 1110    | `ret`       | J    | 4                | Normal                  |
+| 1111    | `jmp`       | J    | 3                | High                    |
 
 Notes:
 - The `exit` mnemonic is assembled to a division with an immediate 0 (`divi ra 0`).
