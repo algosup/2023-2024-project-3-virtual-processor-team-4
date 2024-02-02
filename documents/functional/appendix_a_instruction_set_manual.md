@@ -2,6 +2,8 @@
 
 <!-- TODO: Fix opcodes -->
 
+In this document, all optional parameters in the assembly are denoted in square brackets. For example, the absolute value (`abs [rd] rs`) using the same register as the destination and source (`abs ra ra`) can be shortened without specifying the destination (`abs ra`).
+
 Note for all immediate instruction: Since the difference between a register and an immediate value can easily be made, the mnemonics with immediate values (I type) can be written like their register (R type) counterpart. Example `addi ra 5` can be written `add ra 5`.
 
 <style>
@@ -58,7 +60,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-4)
   - [Restrictions](#restrictions-4)
   - [Example](#example-4)
-- [B - Relative jump with register ](#b---relative-jump-with-register-)
+- [B - Relative indirect jump](#b---relative-indirect-jump)
   - [Description](#description-5)
   - [Syntax](#syntax-5)
   - [Operands](#operands-5)
@@ -66,7 +68,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-5)
   - [Restrictions](#restrictions-5)
   - [Example](#example-5)
-- [BI - Relative jump ](#bi---relative-jump-)
+- [BI - Relative jump](#bi---relative-jump)
   - [Description](#description-6)
   - [Syntax](#syntax-6)
   - [Operands](#operands-6)
@@ -74,7 +76,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-6)
   - [Restrictions](#restrictions-6)
   - [Example](#example-6)
-- [BNZ - Relative jump if not zero ](#bnz---relative-jump-if-not-zero-)
+- [BNZ - Relative jump if not zero](#bnz---relative-jump-if-not-zero)
   - [Description](#description-7)
   - [Syntax](#syntax-7)
   - [Operands](#operands-7)
@@ -82,7 +84,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-7)
   - [Restrictions](#restrictions-7)
   - [Example](#example-7)
-- [BZ - Relative jump if zero ](#bz---relative-jump-if-zero-)
+- [BZ - Relative jump if zero](#bz---relative-jump-if-zero)
   - [Description](#description-8)
   - [Syntax](#syntax-8)
   - [Operands](#operands-8)
@@ -90,7 +92,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-8)
   - [Restrictions](#restrictions-8)
   - [Example](#example-8)
-- [CALL - Call indirect subroutine (Jump and link) ](#call---call-indirect-subroutine-jump-and-link-)
+- [CALL - Call indirect subroutine (Jump and link)](#call---call-indirect-subroutine-jump-and-link)
   - [Description](#description-9)
   - [Syntax](#syntax-9)
   - [Operands](#operands-9)
@@ -98,7 +100,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-9)
   - [Restrictions](#restrictions-9)
   - [Example](#example-9)
-- [CALLI - Call subroutine (Jump and link) ](#calli---call-subroutine-jump-and-link-)
+- [CALLI - Call subroutine (Jump and link)](#calli---call-subroutine-jump-and-link)
   - [Description](#description-10)
   - [Syntax](#syntax-10)
   - [Operands](#operands-10)
@@ -114,7 +116,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-11)
   - [Restrictions](#restrictions-11)
   - [Example](#example-11)
-- [JMP - Absolute jump ](#jmp---absolute-jump-)
+- [JMP - Absolute jump](#jmp---absolute-jump)
   - [Description](#description-12)
   - [Syntax](#syntax-12)
   - [Operands](#operands-12)
@@ -566,222 +568,243 @@ and rz 26 // rz &= 26
 
 
 
-## B - Relative jump with register <!-- TODO ########## -->
+## B - Relative indirect jump
 
 ### Description
 
-Here is a short description of what the instruction does.
+Branches from the current address by the base in the specified register and a specific offset.
 
 ### Syntax
 
-`temp rd rs rt`
+`b rb [off]`
 
 ### Operands
 
-- `rd`: Destination register
+- `rb`: Base address register
+- `off`: Optional offset, defaults to `0`
 
 ### Operation
 
-`yes <- "Hello world"`
+`ip <- rb + offset`
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`1000OOOO OOOOOOOO OOOOOOOO OOORRRRR`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+None
 
 ### Example
 
 ```
-Just a sample program
-that uses the instruction
+// switch case
+tgei rb ra 3
+jmp rb default
+b ra 1
+jmp case_0
+jmp case_1
+jmp case_2
+switch_return:
 ```
 
 
 
 
 
-## BI - Relative jump <!-- TODO ########## -->
+## BI - Relative jump
 
 ### Description
 
-Here is a short description of what the instruction does.
+Branches from the current address by the specified amount.
 
 ### Syntax
 
-`temp rd rs rt`
+`bi imm`
 
 ### Operands
 
-- `rd`: Destination register
+- `imm`: Signed offset for the address
 
 ### Operation
 
-`yes <- "Hello world"`
+`ip <- ip + imm`
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`1000AAAA AAAAAAAA AAAAAAAA AAARRRRR`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+None
+
+### Example
+
+<!-- TODO -->
+```
+```
+
+
+
+
+
+## BNZ - Relative jump if not zero
+
+### Description
+
+Branches to the address if the value in the specified register is different from zero. 
+
+### Syntax
+
+`bnz reg imm`
+
+### Operands
+
+- `reg`: Comparison register
+- `imm`: Signed offset for the address
+
+### Operation
+
+
+```
+if (reg != 0)
+  ip <- ip + imm
+```
+
+### Machine code
+
+`1000AAAA AAAAAAAA AAAAAAAA AAARRRRR`
+
+### Restrictions
+
+None
 
 ### Example
 
 ```
-Just a sample program
-that uses the instruction
+bnz ra afterInitialization
+// Initialize the value
+afterInitialization:
 ```
 
 
 
 
 
-## BNZ - Relative jump if not zero <!-- TODO ########## -->
+## BZ - Relative jump if zero
 
 ### Description
 
-Here is a short description of what the instruction does.
+Branches to the address if the value in the specified register is equal to zero. 
 
 ### Syntax
 
-`temp rd rs rt`
+`bz reg imm`
 
 ### Operands
 
-- `rd`: Destination register
+- `reg`: Comparison register
+- `imm`: Signed offset for the address
 
 ### Operation
 
-`yes <- "Hello world"`
+
+```
+if (reg = 0)
+  ip <- ip + imm
+```
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`1000AAAA AAAAAAAA AAAAAAAA AAARRRRR`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+None
 
 ### Example
 
 ```
-Just a sample program
-that uses the instruction
+bz ra dealWithDivisionByZero
+div rb ra
 ```
 
 
 
 
 
-## BZ - Relative jump if zero <!-- TODO ########## -->
+## CALL - Call indirect subroutine (Jump and link)
 
 ### Description
 
-Here is a short description of what the instruction does.
+Branches from the current address by the base in the specified register and a specific offset. Stores the address of the next current instruction on the top of the stack.
 
 ### Syntax
 
-`temp rd rs rt`
+`call rb [off]`
 
 ### Operands
 
-- `rd`: Destination register
+- `rb`: Base address register
+- `off`: Optional offset, defaults to `0`
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+[sp] <- ip + 1
+sp <- sp + 1
+ip <- rb + offset
+```
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`1000OOOO OOOOOOOO OOOOOOOO OOORRRRR`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+None
 
 ### Example
 
+<!-- TODO -->
+
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## CALL - Call indirect subroutine (Jump and link) <!-- TODO ########## -->
+## CALLI - Call subroutine (Jump and link)
 
 ### Description
 
-Here is a short description of what the instruction does.
+Branches from the current address by the specified amount. Stores the address of the next current instruction on the top of the stack.
 
 ### Syntax
 
-`temp rd rs rt`
+`calli imm`
 
 ### Operands
 
-- `rd`: Destination register
+- `imm`: Signed offset for the address
 
 ### Operation
 
-`yes <- "Hello world"`
+`ip <- ip + imm`
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`1000AAAA AAAAAAAA AAAAAAAA AAARRRRR`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+None
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
-```
-
-
-
-
-
-## CALLI - Call subroutine (Jump and link) <!-- TODO ########## -->
-
-### Description
-
-Here is a short description of what the instruction does.
-
-### Syntax
-
-`temp rd rs rt`
-
-### Operands
-
-- `rd`: Destination register
-
-### Operation
-
-`yes <- "Hello world"`
-
-### Machine code
-
-`???????? ???????? ???????? ????????`
-
-### Restrictions
-
-`rd` cannot be `sp` or `ip`
-
-### Example
-
-```
-Just a sample program
-that uses the instruction
 ```
 
 
@@ -821,45 +844,46 @@ The value of `rt` must be different than 0.
 ### Example
 
 ```
-div rc ra rb // rc = ra / rb
-div rz sp // rz /= sp
+[sp] <- ip + 1
+sp <- sp + 1
+ip <- ip + imm
 ```
 
 
 
 
 
-## JMP - Absolute jump <!-- TODO ########## -->
+## JMP - Absolute jump
 
 ### Description
 
-Here is a short description of what the instruction does.
+Jumps to the specified absolute address.
 
 ### Syntax
 
-`temp rd rs rt`
+`jmp addr`
 
 ### Operands
 
-- `rd`: Destination register
+- `addr`: Absolute address to jump to
 
 ### Operation
 
-`yes <- "Hello world"`
+`ip <- addr`
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`1000AAAA AAAAAAAA AAAAAAAA AAAAAAAA`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+None
 
 ### Example
 
 ```
-Just a sample program
-that uses the instruction
+infiniteLoop:
+jmp infiniteLoop
 ```
 
 
