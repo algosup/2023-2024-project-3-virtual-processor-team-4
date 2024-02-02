@@ -3,7 +3,7 @@
 --- 
  
 <details>
-<summary>Table of Content</summary>
+<summary>Table of Contents</summary>
 
 - [Technical Specification Document  Team 4](#technical-specification-document--team-4)
   - [Introduction](#introduction)
@@ -26,15 +26,16 @@
     - [Error Handling](#error-handling)
       - [Error Message Type](#error-message-type)
   - [Assembler](#assembler)
-    - [Preprocessing](#preprocessing)
+    - [File Processing](#file-processing)
     - [Line Parsing](#line-parsing)
-    - [Binary File](#binary-file)
+    - [Output](#output)
     - [Diagram](#diagram)
   - [Interpreter](#interpreter)
     - [Parsing](#parsing)
-    - [Output](#output)
+    - [Output](#output-1)
     - [Diagrams](#diagrams)
   - [Challenges](#challenges)
+  - [Clock](#clock)
   - [Glossary](#glossary)
 
 </details>
@@ -57,20 +58,20 @@ This document is intended for:
 
 #### Disclaimer
 
-This document will not describe the assembly[^2] language and its workings, those information will be available in the [functional specification](/documents/functional/functional_specification.md).
+This document will not describe the assembly language and its workings, those information will be available in the [functional specification](/documents/functional/functional_specification.md).
 
 ### Requirement
 
 The requirements for this project are as follows:
 - invent a minimal assembly language;
-- create a C[^3] program that can read our assembly language and run it;
+- create a C[^2] program that can read our assembly language and run it;
 - the C program must also be able to check the syntax and semantics of the assembly language;
 - implement a virtual terminal to make sure that the program is running and displaying information to the user;
 - write small assembly programs executable by the C program;
 
 ### Content
 
-This document will detail the [architecture of the project](#architecture), [the assembler[^4]](#assembler) and [the interpreter[^5]](#interpreter).
+This document will detail the [architecture of the project](#architecture), [the assembler[^3]](#assembler) and [the interpreter[^4]](#interpreter).
 
 ---
 
@@ -78,7 +79,11 @@ This document will detail the [architecture of the project](#architecture), [the
 
 ### Technicalities
 
-The program will be developed in C, with the GCC compiler[^6]. It will be developed on Windows and Linux but must support any other OS[^7].
+we will use:
+- [VSCode](https://code.visualstudio.com/) as our IDE(Intergrated Developement Environement);
+- C[^5] as our programming language;
+- [GCC](https://gcc.gnu.org/) as our compiler;
+- [GitHub](https://github.com/) as our source control management;
 
 ### Naming Conventions
 
@@ -134,28 +139,28 @@ Here is a detailed version of the `src` folder:
 ```
 - main.c will contain the main loop and the virtual terminal;
 - assembler.h will contain all the functions pertaining to the assembler and the error handling;
-- preprocessor.h will contain all the functions pertaining to the preprocessor[^8];
+- preprocessor.h will contain all the functions pertaining to the preprocessor[^6];
 - processor.h will contain all the functions pertaining to the processor;
 - utils.h will contain the miscellaneous objects, such as `enum ErrorType` or `enum InstructionType`;
 
 
 ### Endians
 
-The program will use little-endian[^9], for it is advantageous in processor architecture and we expect at some point to use our virtual processor on a physical processor.
+The program will use little-endian[^7], for it is advantageous in processor architecture and we expect at some point to use our virtual processor on a physical processor.
 
 ### CISC/RISC
 
-The program will be based on the RISC[^10] and not CISC[^11], as a RISC architecture provides less instruction, which in turn allows us to reduce the complexity of the program.
+The program will be based on the RISC[^8] and not CISC[^9], as a RISC architecture provides less instruction, which in turn allows us to reduce the complexity of the program.
 
 ### Principles
 
 #### Libraries
 
-The only libraries[^12] allowed are the [C standard Libraries](https://en.cppreference.com/w/c/header).
+The only libraries allowed are the [C standard Libraries](https://en.cppreference.com/w/c/header).
 
 #### Comments
 
-Each function and process are to be explained with comments.
+The code will be documented and explained via comments, and will covert all the functions.
 
 #### Header
 
@@ -187,7 +192,7 @@ error + error number: type of error line of the error: '';
 
 ## Assembler
 
-### Preprocessing
+### File Processing
 
 - ask for a file;
 - if it exits, check the format;
@@ -198,19 +203,19 @@ error + error number: type of error line of the error: '';
 
 - isolate a line;
 - allocate memory for the line;
-- extract the operand[^13] and the arguments[^14];
+- extract the operand and the arguments;
 - add them into the struct line;
 - check if null:
   - if null, throw an error, free the memory allocated to the line, and go to the next one;
   - if not null, check the types and numbers:
     - if incorrect, throw an error, free the memory allocated to the line, and go to the next one;
-    - if correct, convert the line to machine code[^15];
+    - if correct, convert the line to machine code;
 - add to the output array;
 - free the memory allocated to the line;
-- if check if EOF[^16]:
+- if check if EOF[^10]:
   - if not EOF, go back to the beginning of the loop;
 
-### Binary File
+### Output
 
  - if EOF:
    - if there are errors return them;
@@ -232,7 +237,7 @@ Here is a visual representation of how the assembler works:
 
 - open the binary file;
 - enter the loop;
-- parse the code by chunks of 32 bits[^17] characters(32 characters = 1 instruction[^18]);
+- parse the code by chunks of 32 bits characters(32 characters = 1 instruction);
 - allocate memory to the chunk;
 - parse the x first bits to obtain the operand of the instruction;
 - parse the next x bits to obtain the first argument of the instruction;
@@ -264,39 +269,29 @@ Here are the technical challenges that we must overcome for our project to succe
 
 ---
 
+## Clock
+
+
+---
+
 ## Glossary
  
  [^1]: virtual processor: is a program that simulates the inner workings of a physical processor;
 
- [^2]: assembly: or assembly language is a low-level language or a language that is very close to the language of the machine;
+ [^2]: C: is a general-purpose programming language;
 
- [^3]: C: is a general-purpose programming language;
+ [^3]: assembler: is a program that transforms a file in assembly into machine code;
 
- [^4]: assembler: is a program that transforms a file in assembly into machine code;
+ [^4]: interpreter: is a program that executes a file line by line(in our case it's a binary file);
 
- [^5]: interpreter: is a program that executes a file line by line(in our case it's a binary file);
+ [^5]: OS: or Operating System, is a system software that manages computer hardware and software resources;
 
- [^6]: GCC compiler: is a compiler system used widely for compiling C, C++, and C#;
+ [^6]: preprocessor: is a program that processes its input data to produce output that is used as input for another program;
 
- [^7]: OS: or Operating System, is a system software that manages computer hardware and software resources;
+ [^7]: little-endian: endianness designates the order in which bytes of a word of digital data are stored in memory, and little-endian stores the least significant byte first;
 
- [^8]: preprocessor: is a program that processes its input data to produce output that is used as input for another program;
+ [^8]: RISC: or Reduced Instruction Set Computer, is a computer architecture designated to simplify the individual instructions given to a computer;
 
- [^9]: little-endian: endianness designates the order in which bytes of a word of digital data are stored in memory, and little-endian stores the least significant byte first;
+ [^9]: CISC: or Complex Instruction Set Computer, is a computer architecture in which a single instruction can execute several operations;
 
- [^10]: RISC: or Reduced Instruction Set Computer, is a computer architecture designated to simplify the individual instructions given to a computer;
-
- [^11]: CISC: or Complex Instruction Set Computer, is a computer architecture in which a single instruction can execute several operations;
-
- [^12]: library: is a collection of resources used by a computer program, often for computer development;
-
- [^13]: operand: is a representation of a data type: a variable, a constant, or a function's result;
-
- [^14]: argument: is a value that is passed between programs, subroutines, or functions;
-
- [^15]: machine code: is the name of the language of machines(can also be called binary);
-
- [^16]: EOF: short for End Of File, indicates the end of a file;
- [^17]: bit: unit of measure for the memory;
-
- [^18]: instruction: is an order given to a processor by a program;  
+ [^10]: EOF: short for End Of File, indicates the end of a file;
