@@ -26,7 +26,7 @@ int main()
             strcat(filename, ".asm");
         }
 
-        int i = 0;
+        uint64_t i = 0;
         if (get_file_size(filename, &i) != 0)
         {
             continue; // Go back to the beginning of the loop
@@ -34,7 +34,7 @@ int main()
         else
         {
             char *content;
-            int lineCount = 1; // File has at least one line if it exists
+            uint64_t lineCount = 1; // File has at least one line if it exists
 
             content = (char *)malloc((i + 1) * sizeof(char));
             char *outputContent = (char *)malloc((i + 1) * sizeof(char));
@@ -42,7 +42,7 @@ int main()
             read_file(filename, content, i, &lineCount);
             bool fileHasError = false;
 
-            for (int j = 0; j < lineCount; j++)
+            for (uint64_t j = 0; j < lineCount; j++)
             {
                 // malloc line content
                 char *lineContent = malloc(100 * sizeof(char));

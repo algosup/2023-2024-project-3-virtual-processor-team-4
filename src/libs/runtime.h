@@ -42,7 +42,7 @@ typedef struct stack
     unsigned int size;
 } stack_t;
 
-int find_register(char *inString, int *registerIndex)
+int find_register(char *inString, uint8_t *registerIndex)
 {
     if (inString == NULL || strlen(inString) != 2)
     {
@@ -59,7 +59,7 @@ int find_register(char *inString, int *registerIndex)
     ptr++;
     if ((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f'))
     {
-        *registerIndex = (int)strtol(ptr, NULL, 16);
+        *registerIndex = (uint8_t)strtol(ptr, NULL, 16);
         return SUCCESS;
     }
     else
@@ -167,7 +167,7 @@ int noop(instruction_t instruction)
 
 int set(instruction_t instruction)
 {
-    int i;
+    uint8_t i;
     if (check_val(instruction.val1) != REGISTER)
     {
         printf("Error: at line %d. %s is not a valid register.", instruction.line, instruction.val1);
@@ -190,8 +190,8 @@ int set(instruction_t instruction)
 
 int copy(instruction_t instruction)
 {
-    int i;
-    int i2;
+    uint8_t i;
+    uint8_t i2;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
@@ -344,14 +344,14 @@ int copy(instruction_t instruction)
 
 int add(instruction_t instruction)
 {
-    int i;
+    uint8_t i;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
         switch (check_val(instruction.val2))
         {
         case REGISTER:
-            int i2;
+            uint8_t i2;
             find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] + registerArr[i2];
             return SUCCESS;
@@ -373,14 +373,14 @@ int add(instruction_t instruction)
 
 int sub(instruction_t instruction)
 {
-    int i;
+    uint8_t i;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
         switch (check_val(instruction.val2))
         {
         case REGISTER:
-            int i2;
+            uint8_t i2;
             find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] - registerArr[i2];
             return SUCCESS;
@@ -402,8 +402,8 @@ int sub(instruction_t instruction)
 
 int mul(instruction_t instruction)
 {
-    int i;
-    int i2;
+    uint8_t i;
+    uint8_t i2;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
@@ -436,8 +436,8 @@ int mul(instruction_t instruction)
 
 int div_(instruction_t instruction)
 {
-    int i;
-    int i2;
+    uint8_t i;
+    uint8_t i2;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
@@ -466,14 +466,14 @@ int div_(instruction_t instruction)
 
 int and_(instruction_t instruction)
 {
-    int i;
+    uint8_t i;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
         switch (check_val(instruction.val2))
         {
         case REGISTER:
-            int i2;
+            uint8_t i2;
             find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] & registerArr[i2];
             return SUCCESS;
@@ -495,14 +495,14 @@ int and_(instruction_t instruction)
 
 int or_(instruction_t instruction)
 {
-    int i;
+    uint8_t i;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
         switch (check_val(instruction.val2))
         {
         case REGISTER:
-            int i2;
+            uint8_t i2;
             find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] | registerArr[i2];
             return SUCCESS;
@@ -524,14 +524,14 @@ int or_(instruction_t instruction)
 
 int xor_(instruction_t instruction)
 {
-    int i;
+    uint8_t i;
     if (check_val(instruction.val1) == REGISTER)
     {
         find_register(instruction.val1, &i);
         switch (check_val(instruction.val2))
         {
         case REGISTER:
-            int i2;
+            uint8_t i2;
             find_register(instruction.val2, &i2);
             registerArr[i] = registerArr[i] ^ registerArr[i2];
             return SUCCESS;

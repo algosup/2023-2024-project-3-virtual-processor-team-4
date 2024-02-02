@@ -15,6 +15,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
 
 typedef enum InstructionType // Define all the instructions with a linked identifier
 {
+    LABEL_ = -2,
     SKIP = -1,
     ADD,
     SUB,
@@ -74,29 +75,28 @@ typedef enum ParameterType // Define type of parameters in a function
 
 typedef struct line // Definition of a line after parsing and checking all its arguments
 {
-    struct
+    uint64_t lineNumber;
+    InstructionType_t mnemonic;
+    ParameterType_t dest_t;
+    uint8_t dest;
+    union
     {
-        InstructionType_t mnemonic;
-        ParameterType_t param1;
-        union
+        struct
         {
-            int register1; // 0-15
+            uint8_t param1;
+            ParameterType_t param2_t;
+            union
+            {
+                uint8_t register2;
+                int16_t immediate2;
+            };
+        };
+        struct
+        {
             char *label;
         };
-        ParameterType_t param2;
-        union
-        {
-            int register2;
-        };
-        ParameterType_t param3;
-        union
-        {
-            int register3;
-            int16_t immediate3;
-        };
     };
-    char *labelDeclaration;
-    int lineNumber;
+
 } line_t;
 
 int check_is_number(char *str) // Check if a string is a number

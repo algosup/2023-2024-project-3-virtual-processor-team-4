@@ -7,117 +7,129 @@
 
 // ************************** FUNCTION DECLARATIONS **************************
 
-int is_first_operand_null(InstructionType_t *instructionId, char *param1, int *lineNumber);
-int is_second_operand_null(InstructionType_t *instructionId, char *param2, int *lineNumber);
-int is_first_operand_not_null(InstructionType_t *instructionId, char *param1, int *lineNumber);
-int is_second_operand_not_null(InstructionType_t *instructionId, char *param2, int *lineNumber);
-int is_first_operand_register(InstructionType_t *instructionId, char *param1, int *lineNumber);
-int is_second_operand_register(InstructionType_t *instructionId, char *param2, int *lineNumber);
-int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, int *lineNumber);
-int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, int *lineNumber);
-int is_first_operand_immediate_or_register(InstructionType_t *instructionId, char *param1, int *lineNumber);
-int is_second_operand_immediate_or_register(InstructionType_t *instructionId, char *param2, int *lineNumber);
-int are_both_operands_registers(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int are_both_operands_null(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int are_both_operands_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int are_both_operands_immediate_or_register(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int is_first_operand_register_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int is_first_operand_register_and_second_operand_null(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int is_first_operand_register_or_immediate_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int is_first_operand_register_or_immediate_and_second_operand_null(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int is_first_operand_register_and_second_operand_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
+int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber);
+int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *dest, char *param1, char *param2, uint64_t *lineNumber);
+int get_file_size(char *filename, uint64_t *size);
+int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLines);
+int line_content_from_file_content(char *content, int lineNumber, char *lineContent);
+int check_label_declaration(char *label);
+int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
+int is_first_operand_null(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
+int is_second_operand_null(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
+int is_third_operand_null(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
+int is_first_operand_not_null(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
+int is_second_operand_not_null(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
+int is_third_operand_not_null(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
+int is_first_operand_register(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
+int is_second_operand_register(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
+int is_third_operand_register(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
+int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
+int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
+int is_third_operand_immediate(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
+int is_first_operand_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
+int is_second_operand_label(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
+int is_first_operand_immediate_or_register(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
+int is_second_operand_immediate_or_register(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
+int is_third_operand_immediate_or_register(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
+int are_all_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
+int are_all_operand_null(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
+int is_first_two_operands_register_and_third_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
+int is_first_operand_register_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
+int is_first_operand_register_and_second_operand_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
 int get_operand_name(InstructionType_t instruction, char *output);
 int find_operand(char *input, InstructionType_t *instruction);
-int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *word2, char *word3, int *lineNumber);
-int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber);
-int preprocess_line(char *lineContent, line_t *line, int *lineNumber);
-int read_file(char *filename, char *output, int size, int *numberOfLines);
-int line_content_from_file_content(char *content, int lineNumber, char *lineContent);
-int get_file_size(char *filename, int *size);
 
 // ************************** END FUNCTION DECLARATIONS **************************
 
 // ************************** PREPROCESS AND DATA STRUCTURE FUNCTIONS **************************
 
-int preprocess_line(char *lineContent, line_t *line, int *lineNumber) // Function to handle the whole preprocessing of a line
+int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Function to handle the whole preprocessing of a line
 {
     if (lineContent[0] == '/' && lineContent[1] == '/') // Check if the line is a comment
     {
         line->mnemonic = SKIP;
-        line->param1 = NULL_;
-        line->register1 = NULL_;
+        line->label = "\0";
+        line->dest_t = NULL_;
         line->lineNumber = *lineNumber; // Returns skip instruciton with all params nullified
         return SUCCESS;
     }
 
-    char *token = strtok(lineContent, " ");
-    char *opcode, *param1, *param2;
+    char *saveptr; // Position in the line
+    char *token = strtok_r(lineContent, " ", &saveptr);
+    char *opcode, *dest = NULL, *param1 = NULL, *param2 = NULL; // Size of 8 bytes will be changed because of labels in the future
 
-    // Extract the opcode
-    if (token != NULL)
-    {
-        opcode = token;
-        token = strtok(NULL, " ");
-    }
-    else
-    {
-        opcode = "skip"; // By default, we skip the line if it is empty
-    }
+    opcode = (token != NULL) ? token : "skip";
 
     // Extract the second word
-    if (token != NULL)
-    {
-        param1 = token;
-        token = strtok(NULL, " ");
-    }
-    else
-    {
-        param1 = NULL; // By default, undefined arguments are nullified
-    }
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+        dest = token;
 
     // Extract the third word
-    if (token != NULL)
-    {
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+        param1 = token;
+
+    // Extract the fourth word
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
         param2 = token;
-    }
-    else
+
+    if(check_label_declaration(opcode) == SUCCESS) // Checking if the line only contains a label declaration
     {
-        param2 = NULL; // By default, undefined arguments are nullified
+        printf("Label found on line %d\n", *lineNumber);
+        line->label = opcode;
+        line->mnemonic = LABEL_;
+        line->lineNumber = *lineNumber;
+        line->param1 = NULL_;
+        return SUCCESS;
     }
 
     InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t)); // check for free afterwhile
     if (find_operand(opcode, instructionType) != SUCCESS)
     {
-        printf("Error: Invalid operation on line %d\n", *lineNumber);
+        printf("Error: Could not find a matching opcode on line %ld\n", *lineNumber);
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1 = NULL_;
-        line->labelDeclaration = NULL;
+        line->label = NULL;
         return GENERIC_ERROR;
     }
-    if (are_operation_params_valid(instructionType, param1, param2, lineNumber) != SUCCESS)
+
+    if (are_operation_params_valid(instructionType, dest, param1, param2, lineNumber) != SUCCESS)
     {
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1 = NULL_;
-        line->labelDeclaration = NULL;
+        line->label = NULL;
         return GENERIC_ERROR;
     }
-    if (fill_line_struct(line, instructionType, param1, param2, lineNumber) != SUCCESS)
+    if (fill_line_struct(line, instructionType, dest, param1, param2, lineNumber) != SUCCESS)
     {
         return GENERIC_ERROR;
     }
     return SUCCESS;
 }
 
-int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *param1, char *param2, int *lineNumber) // Create the final
+int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *dest, char *param1, char *param2, uint64_t *lineNumber) // Create the final
 {
     line->mnemonic = *instructionType;
     line->lineNumber = *lineNumber;
-    line->labelDeclaration = NULL;
+    line->label = NULL;
+
+    if (dest != NULL)
+    {
+        if (find_register(param1, &line->dest) == SUCCESS)
+        {
+            line->dest_t = REGISTER;
+        }
+        //Label should be checked before I believe
+    }
+    else
+    {
+        line->param1 = NULL_;
+    }
+
     if (param1 != NULL)
     {
-        if (find_register(param1, &line->register1) == SUCCESS)
+        if (find_register(param1, &line->register2) == SUCCESS)
         {
             line->param1 = REGISTER;
         }
@@ -125,35 +137,41 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *par
         {
             line->param1 = IMMEDIATE;
         }
-        else if (check_is_label(param1) == SUCCESS)
+        else if(check_is_label(param1) == SUCCESS)
         {
-            line->param1 = LABEL;
-            line->labelDeclaration = param1;
+            line->label = param1;
+        }
+        else
+        {
+            printf("Error: Invalid operation (unhandled second param) on line %ld\n", *lineNumber);
+            return GENERIC_ERROR;
         }
     }
     else
     {
         line->param1 = NULL_;
     }
-    if (param2 != NULL)
+
+    if(param2 != NULL)
     {
         if (find_register(param2, &line->register2) == SUCCESS)
         {
-            line->param2 = REGISTER;
+            line->param2_t = REGISTER;
         }
         else if (check_is_number(param2) == SUCCESS)
         {
-            line->param2 = IMMEDIATE;
+            line->param2_t = IMMEDIATE;
+            line->immediate2 = atoi(param2);
         }
         else
         {
-            printf("Error: Invalid operation (unhandled second param) on line %d\n", lineNumber);
+            printf("Error: Invalid operation (unhandled third param) on line %ld\n", *lineNumber);
             return GENERIC_ERROR;
         }
     }
     else
     {
-        line->param2 = NULL_;
+        line->param2_t = NULL_;
     }
     return SUCCESS;
 }
@@ -162,7 +180,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *par
 
 // ************************** FILE READING AND DATA EXTRACTION FUNCTIONS **************************
 
-int get_file_size(char *filename, int *size) // Get the number of characters in the file to malloc the correct number of bytes
+int get_file_size(char *filename, uint64_t *size) // Get the number of characters in the file to malloc the correct number of bytes
 {
     FILE *fp;
 
@@ -185,7 +203,7 @@ int get_file_size(char *filename, int *size) // Get the number of characters in 
     return SUCCESS;
 }
 
-int read_file(char *filename, char *output, int size, int *numberOfLines) // Read content of specified file and store it in output
+int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLines) // Read content of specified file and store it in output
 {
     FILE *ptr;
     char ch;
@@ -261,23 +279,32 @@ int line_content_from_file_content(char *content, int lineNumber, char *lineCont
 
 // ********************* INSTRUCTION PARAMS VERIFICATION *********************
 
-int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
+int check_label_declaration(char *label)
+{
+    if (label[strlen(label) - 1] != ':')
+    {
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
 {
     switch (*instructionId)
     {
     case SKIP:
-        return are_both_operands_null(instructionId, param1, param2, lineNumber);
+        // return are_all_operand_null(instructionId, param1, param2, lineNumber);
         break;
     case MUL:
     case DIV:
-        return are_both_operands_registers(instructionId, param1, param2, lineNumber);
+        // return are_all_operand_null(instructionId, param1, param2, lineNumber);
         break;
     case ADD:
     case SUB:
     case AND:
     case OR:
     case XOR:
-        return is_first_operand_register_and_second_operand_register_or_immediate(instructionId, param1, param2, lineNumber);
+        // return is_first_operand_register_and_second_operand_register_or_immediate(instructionId, param1, param2, lineNumber);
         break;
     default:
         printf("Instruction not found");
@@ -287,74 +314,87 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     }
 }
 
-int is_first_operand_null(InstructionType_t *instructionId, char *param1, int *lineNumber)
+int is_first_operand_null(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
 {
     // Check if first operand is null
     if (param1 != NULL)
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction does not accept first operand on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction does not accept first operand on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_second_operand_null(InstructionType_t *instructionId, char *param2, int *lineNumber)
+int is_second_operand_null(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
     // Check if second operand is null
     if (param2 != NULL)
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction does not accept second operand on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction does not accept second operand on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-// int is_third_operand_null(InstructionType_t *instructionId, char *param3, int *lineNumber)
-// {
-//     // Check if third operand is null
-//     if (param3 != NULL)
-//     {
-//         char opcode[4];
-//         get_operand_name(*instructionId, opcode);
-//         printf("Error: %s instruction does not accept third operand on line: %d\n", opcode, *lineNumber);
-//         return INVALID_DATA;
-//     }
-//     return SUCCESS;
-// }
+int is_third_operand_null(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber)
+{
+    // Check if third operand is null
+    if (param3 != NULL)
+    {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction does not accept third operand on line: %d\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
 
-int is_first_operand_not_null(InstructionType_t *instructionId, char *param1, int *lineNumber)
+int is_first_operand_not_null(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
 {
     // Check if first operand is not null
     if (param1 == NULL)
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction requires first operand on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction requires first operand on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_second_operand_not_null(InstructionType_t *instructionId, char *param2, int *lineNumber)
+int is_second_operand_not_null(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
     // Check if second operand is not null
     if (param2 == NULL)
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction requires second operand on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction requires second operand on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_first_operand_register(InstructionType_t *instructionId, char *param1, int *lineNumber)
+int is_third_operand_not_null(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber)
 {
-    int paramVerificationReturn;
+    // Check if third operand is not null
+    if (param3 == NULL)
+    {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction requires third operand on line: %d\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_first_operand_register(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
+{
+    uint8_t paramVerificationReturn;
     char opcode[4];
 
     if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
@@ -366,15 +406,15 @@ int is_first_operand_register(InstructionType_t *instructionId, char *param1, in
     {
 
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not an existing register on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction first parameter is not an existing register on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_second_operand_register(InstructionType_t *instructionId, char *param2, int *lineNumber)
+int is_second_operand_register(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
-    int paramVerificationReturn;
+    uint8_t paramVerificationReturn;
     char opcode[4];
 
     if (is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
@@ -386,15 +426,34 @@ int is_second_operand_register(InstructionType_t *instructionId, char *param2, i
     {
 
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is not an existing register on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction second parameter is not an existing register on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, int *lineNumber)
+int is_third_operand_register(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber)
 {
-    int paramVerificationReturn;
+    uint8_t paramVerificationReturn;
+    char opcode[4];
+
+    if (is_third_operand_not_null(instructionId, param3, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    if (find_register(param3, &paramVerificationReturn) != SUCCESS)
+    {
+
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction third parameter is not an existing register on line: %ld\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
+{
     char opcode[4];
 
     if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
@@ -405,15 +464,14 @@ int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, i
     if (check_is_number(param1) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not an immediate on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction first parameter is not an immediate on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, int *lineNumber)
+int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
-    int paramVerificationReturn;
     char opcode[4];
 
     if (is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
@@ -424,15 +482,69 @@ int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, 
     if (check_is_number(param2) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is not an immediate on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction second parameter is not an immediate on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_first_operand_immediate_or_register(InstructionType_t *instructionId, char *param1, int *lineNumber)
+int is_third_operand_immediate(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber)
 {
-    int paramVerificationReturn;
+    char opcode[4];
+
+    if (is_third_operand_not_null(instructionId, param3, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    if (check_is_number(param3) != SUCCESS)
+    {
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction third parameter is not an immediate on line: %ld\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_first_operand_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
+{
+    char opcode[4];
+
+    if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    if (check_is_label(param1) != SUCCESS)
+    {
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction first parameter is not a label on line: %ld\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_second_operand_label(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
+{
+    char opcode[4];
+
+    if (is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    if (check_is_label(param2) != SUCCESS)
+    {
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction second parameter is not a label on line: %ld\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_first_operand_immediate_or_register(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
+{
+    uint8_t paramVerificationReturn;
     char opcode[4];
 
     if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
@@ -443,15 +555,15 @@ int is_first_operand_immediate_or_register(InstructionType_t *instructionId, cha
     if (check_is_number(param1) != SUCCESS && find_register(param1, &paramVerificationReturn) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is nor an immediate or register on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction first parameter is nor an immediate or register on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int is_second_operand_immediate_or_register(InstructionType_t *instructionId, char *param2, int *lineNumber)
+int is_second_operand_immediate_or_register(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
-    int paramVerificationReturn;
+    uint8_t paramVerificationReturn;
     char opcode[4];
 
     if (is_second_operand_not_null(instructionId, param2, lineNumber) != SUCCESS)
@@ -462,49 +574,59 @@ int is_second_operand_immediate_or_register(InstructionType_t *instructionId, ch
     if (check_is_number(param2) != SUCCESS && find_register(param2, &paramVerificationReturn) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is nor an immediate or register on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction second parameter is nor an immediate or register on line: %ld\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int are_both_operands_registers(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
+int is_third_operand_immediate_or_register(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber)
 {
-    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_register(instructionId, param2, lineNumber) != SUCCESS)
+    uint8_t paramVerificationReturn;
+    char opcode[4];
+
+    if (is_third_operand_not_null(instructionId, param3, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    if (check_is_number(param3) != SUCCESS && find_register(param3, &paramVerificationReturn) != SUCCESS)
+    {
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction third parameter is nor an immediate or register on line: %ld\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int are_all_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
+{
+    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_register(instructionId, param2, lineNumber) != SUCCESS || is_third_operand_register(instructionId, param3, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int are_both_operands_null(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
+int are_all_operand_null(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
 {
-    if (is_first_operand_null(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_null(instructionId, param2, lineNumber) != SUCCESS)
+    if (is_first_operand_null(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_null(instructionId, param2, lineNumber) != SUCCESS || is_third_operand_null(instructionId, param3, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int are_both_operands_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
+int is_first_two_operands_register_and_third_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
 {
-    if (is_first_operand_immediate(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_immediate(instructionId, param2, lineNumber) != SUCCESS)
+    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_register(instructionId, param2, lineNumber) != SUCCESS || is_third_operand_immediate_or_register(instructionId, param3, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
     return SUCCESS;
 }
 
-int are_both_operands_immediate_or_register(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
-{
-    if (is_first_operand_immediate_or_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_immediate_or_register(instructionId, param2, lineNumber) != SUCCESS)
-    {
-        return INVALID_DATA;
-    }
-    return SUCCESS;
-}
-
-int is_first_operand_register_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
+int is_first_operand_register_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
 {
     if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_immediate_or_register(instructionId, param2, lineNumber) != SUCCESS)
     {
@@ -513,36 +635,9 @@ int is_first_operand_register_and_second_operand_register_or_immediate(Instructi
     return SUCCESS;
 }
 
-int is_first_operand_register_and_second_operand_null(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
+int is_first_operand_register_and_second_operand_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
 {
-    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_null(instructionId, param2, lineNumber) != SUCCESS)
-    {
-        return INVALID_DATA;
-    }
-    return SUCCESS;
-}
-
-int is_first_operand_register_or_immediate_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
-{
-    if (is_first_operand_immediate_or_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_immediate_or_register(instructionId, param2, lineNumber) != SUCCESS)
-    {
-        return INVALID_DATA;
-    }
-    return SUCCESS;
-}
-
-int is_first_operand_register_or_immediate_and_second_operand_null(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
-{
-    if (is_first_operand_immediate_or_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_null(instructionId, param2, lineNumber) != SUCCESS)
-    {
-        return INVALID_DATA;
-    }
-    return SUCCESS;
-}
-
-int is_first_operand_register_and_second_operand_immediate(InstructionType_t *instructionId, char *param1, char *param2, int *lineNumber)
-{
-    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_immediate(instructionId, param2, lineNumber) != SUCCESS)
+    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_label(instructionId, param2, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
