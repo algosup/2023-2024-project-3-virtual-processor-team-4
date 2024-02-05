@@ -13,32 +13,53 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     OUT_OF_MEMORY,
 } ErrorType_t;
 
-typedef enum InstructionType // Define all the instructions with a linked identifier
+typedef enum InstructionType
 {
+    LABEL_ = -2,
     SKIP = -1,
-    NOOP,
-    SET,
-    COPY,
-    LOAD,
-    STORE,
+    ABS,
     ADD,
-    SUB,
-    MUL,
-    DIV,
-    NOT,
+    ADDI,
     AND,
-    OR,
-    XOR,
-    CMPEQ,
-    CMPGE,
-    JTRUE,
-    JFALSE,
-    JUMP,
+    B,
+    BI,
+    BNZ,
+    BZ,
     CALL,
+    CALLI,
+    DIV,
+    JMP,
+    LD,
+    LDI,
+    LDP,
+    MUL,
+    OR,
+    ORI,
+    POP,
+    PUSH,
     RET,
-    HALT,
-    INT
-} InstructionType_t; // etc...
+    SET,
+    STR,
+    STRI,
+    STRP,
+    SUB,
+    SUBI,
+    TEQ,
+    TEQI,
+    TGE,
+    TGEI,
+    TGT,
+    TGTI,
+    TLE,
+    TLEI,
+    TLT,
+    TLTI,
+    TNE,
+    TNEI,
+    XCHG,
+    XOR,
+    XORI
+} InstructionType_t;
 
 typedef struct instruction // Definition of an instruction after parsing
 {
@@ -58,25 +79,27 @@ typedef enum ParameterType // Define type of parameters in a function
 
 typedef struct line // Definition of a line after parsing and checking all its arguments
 {
-    struct
+    uint64_t lineNumber;
+    InstructionType_t mnemonic;
+    ParameterType_t dest_t;
+    uint8_t dest;
+    union
     {
-        InstructionType_t mnemonic;
-        ParameterType_t param1;
-        union
+        struct
         {
-            int register1; // 0-15
-            int32_t immediate1;
+            uint8_t param1;
+            ParameterType_t param2_t;
+            union
+            {
+                uint8_t register2;
+                int16_t immediate2;
+            };
+        };
+        struct
+        {
             char *label;
         };
-        ParameterType_t param2;
-        union
-        {
-            int register2;
-            int32_t immediate2;
-        };
     };
-    char *labelDeclaration;
-    int *lineNumber;
 } line_t;
 
 int check_is_number(char *str) // Check if a string is a number
@@ -135,6 +158,63 @@ int check_val(char* val){
     }
 
     return INVALID_DATA;
+}
+
+typedef struct label
+{
+    uint32_t line;
+    char* labelStr;
+}label_t;
+
+
+typedef struct nodeLabel{
+    struct nodeLabel* previous;
+    label_t val;
+    struct nodeLabel* next;
+}nodeLabel_t;
+
+typedef struct listLabel {
+    nodeLabel_t* head;
+    unsigned int size;
+    nodeLabel_t* tail;
+} listLabel_t;
+
+int get_list_str(listLabel_t* pList, label_t* value, int index){
+    if(index >= 0){
+        nodeLabel_t* current = pList -> head;
+        for(int i = 0; i < index; i++){
+            current = current -> next;
+        }
+        strcpy(value->labelStr, current -> val.labelStr);
+        value->line = current -> val.line;
+    }else{
+        nodeLabel_t* current = pList -> tail;
+        for(int i = -1; i > index; i--){
+            current = current -> previous;
+        }
+        strcpy(value->labelStr, current -> val.labelStr);
+        value->line = current -> val.line;
+    }
+    return SUCCESS;
+};
+
+int add_to_list_str(listLabel_t* pList, label_t value){
+    if(pList -> head == NULL){
+        nodeLabel_t node = {NULL, value, NULL};
+        nodeLabel_t* p = (nodeLabel_t*)malloc(sizeof(nodeLabel_t));
+        memcpy(p, &node, sizeof(nodeLabel_t));
+        pList -> size++;
+        pList -> head = p;
+        pList -> tail = p; 
+    }else{        
+        nodeLabel_t node = {pList -> tail, value, NULL};
+        nodeLabel_t* p = (nodeLabel_t*)malloc(sizeof(nodeLabel_t));
+        memcpy(p, &node, sizeof(nodeLabel_t));
+        pList -> size++;
+        pList -> tail -> next = p;
+        pList -> tail = p;
+    }
+    return SUCCESS;
 }
 
 #endif
