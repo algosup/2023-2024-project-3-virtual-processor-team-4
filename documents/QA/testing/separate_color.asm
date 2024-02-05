@@ -1,44 +1,35 @@
-sub ra ra
-add ra xFFFFFF
-sub rb rb
-add rb 32
-sub rc rc
-add rc 64
+set ra xFFFFFF
+set rb 32
+set rc 64
 SeparateRGB:
-teqi ra xFFFFFF
-jnz redComponent
-teqi ra x00FFFF
-jnz greenComponent
-teqi ra x0000FF
-jnz blueComponent
+teqi rt ra xFFFFFF
+bnz rt redComponent
+teqi rt ra x00FFFF
+bnz rt greenComponent
+teqi rt ra x0000FF
+bnz rt blueComponent
 exit
 
 
 redComponent:
 // Isolate the red component from ra in rz
-sub rz rz
-add rz ra
+addi rz ra 0
 andi rz xFF0000
-sub rd rd
-add rd rc
+addi rd rc 0
 div rz rc
 andi ra 0x00FFFF
 
 greenComponent:
 // Isolate the red component from ra in ry
-sub ry ry
-add ry ra
+addi ry ra 0
 andi ry x00FF00
-sub rd rd
-add rd rb
+addi rd rb 0
 div ry rd
 andi ra x0000FF
 
 blueComponent:
 // Isolate the red component from ra in rx
-sub rx rx
-add rx ra
-sub rd rd
-add rd rb
+addi rx ra 0
+addi rd rb 0
 div ra rd
 exit

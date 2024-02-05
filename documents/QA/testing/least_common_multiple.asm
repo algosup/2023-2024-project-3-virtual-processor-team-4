@@ -1,37 +1,27 @@
-sub ra ra
-addi ra ...
-sub rb rb
-addi rb ...
+set ra 30
+set rb 40
 
-tgt ra rb
-jnz greaterThan
+tgt rt ra rb
+bnz rt greaterThan
 // rc will be the greater and rd the smallest
-sub rc rc
-add rc rb
-sub rd rd
-add rd ra
+addi rc rb 0
+addi rd ra 0
 // set the incrementation
-sub rz rz
-add rz rb
-jabs next
+addi rz rb 0
+jmp next
 greaterThan:
-sub rc rc
-add rc ra
-sub rd rd
-add rd rb
-sub rz rz
-add rz ra
+addi rc ra 0
+addi rd rb 0
+addi rz ra 0
 
 next:
-sub re re
-add re rc
-sub rf rf
-add rf rd
-div re rf
-teqi rf 0
-jnz end
+addi re rc 0
+addi rf rd 0
+div re rf          // TODO MODULO
+teqi rt rf 0
+bnz rt end
 add rc rz
-jabs next
+jump next
 
 end:
 exit

@@ -1,61 +1,48 @@
-sub ra ra
-addi ra x234561
+set ra x234561
 
-tleq ra xF
-jnz end
-sub rb rb
-add rb ra
-sub rc rc
-add rc ra
-tleq ra xFF
-jnz twoDigits
-tleq ra xFFF
-jnz threeDigits
-tleq ra xFFFF
-jnz fourDigits
-tleq ra xFFFFF
-jnz fiveDigits
-tleq ra xFFFFFF
-jnz sixDigits
+tle rt ra xF
+bnz rt end
+addi rb ra 0
+addi rc ra 0
+tle rt ra xFF
+bnz rt twoDigits
+tle rt ra xFFF
+bnz rt threeDigits
+tle rt ra xFFFF
+bnz rt fourDigits
+tle rt ra xFFFFF
+bnz rt fiveDigits
+tle rt ra xFFFFFF
+bnz rt sixDigits
 exit
 
 twoDigits:
-sub rd rd
-addi rd 16
-sub re re
-add re rd
+set rd 16
+addi re rd 0
 call roll
 exit
 
 threeDigits:
-sub rd rd
-addi rd 32
-sub re re
-addi re 16
+set rd 32
+set re 16
 call roll
 exit
 
 fourDigits:
-sub rd rd
-addi rd 48
-sub re re
-addi re 16
+set rd 48
+set re 16
 call roll
 exit
 
 fiveDigits:
-sub rd rd
-addi rd 64
-sub re re
-addi re 16
+set rd 64
+set re 16
 call roll
 exit
 
 sixDigits:
-sub rd rd
-addi rd 80
-sub re re
-addi re 16
+set rd 80
+set re 16
 call roll
 exit
 

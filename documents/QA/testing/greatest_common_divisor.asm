@@ -1,40 +1,32 @@
-sub ra ra
-addi ra ...
-sub rb rb
-addi rb ...
+set ra 30
+set rb 40
 
-tgeq ra rb
-jnz greaterOrEqual
-sub rc rc
-add rc rb
-jabs next
+tge rt ra rb
+bnz rt greaterOrEqual
+addi rc rb 0
+jmp next
 greatetOrEqual:
-sub rc rc
-add rc ra
+addi rc ra 0
 
 next:
-teqi rc 0
-jnz end
-sub ry ry
-add ry ra
-sub rz rz
-add rz rb
-sub rd rd
-add rd rc
-div ry rd
-teqi rd 0
-jnz secondTest
+teqi rt rc 0
+bnz rt end
+addi ry ra 0
+addi rz rb 0
+addi rd rc 0
+div ry rd           // TODO MODULO
+teqi rt rd 0
+bnz rt secondTest
 subi rc 1
-jabs next
+jmp next
 
 secondTest:
-sub rd rd
-add rd rc
-div rz rd
-teqi rd 0
-jnz end
+addi rd rc 0
+div rz rd           // TODO MODULO
+teqi rt rd 0
+bnz rt end
 subi rc 1
-jabs next
+jmp next
 
 end:
 exit

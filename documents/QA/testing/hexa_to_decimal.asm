@@ -1,98 +1,86 @@
 // set a random number
-sub ra ra
-addi ra xFFFFFF
+set ra xFFFFFF
 
 // set the length of the number
-sub ry ry
-add ry 6
+set ry 6
 
 // set the power
-sub rz rz
-add rz 0
+set rz 0
 
 // set the division/multiplication
-sub rd rd
-add rd 16
+set rd 16
 
 loop:
 // check if there is any other hexadecimal digit
-teqi ry 0
-jnz exitProg
+teqi rt ry 0
+bnz rt exitProg
 subi ry 1
-sub rb rb
-add rb ra
+addi rb ra 0
 // select the last digit
 andi rb x0F
 // check the value of the digit
-tlei rb x9
-jnz addNum
-teqi rb xA
-jnz isA
-teqi rb xB
-jnz xB
-teqi rb xC
-jnz isC
-teqi rb xD
-jnz isD
-teqi rb xE
-jnz isE
-teqi rb xF
-jnz isF
+tli rt rb x9
+bnz rt addNum
+teqi rt rb xA
+bnz rt isA
+teqi rt rb xB
+bnz rt xB
+teqi rt rb xC
+bnz rt isC
+teqi rt rb xD
+bnz rt isD
+teqi rt rb xE
+bnz rt isE
+teqi rt rb xF
+bnz rt isF
 
 exitProg:
 exit
 
 isA:
 // convert hexa digit in decimal number
-sub rb rb
-addi rb 10
-jabs addNum
+set rb 10
+jmp addNum
 
 isB:
 // convert hexa digit in decimal number
-sub rb rb
-addi rb 11
-jabs addNum
+set rb 11
+jmp addNum
 
 isC:
 // convert hexa digit in decimal number
-sub rb rb
-addi rb 12
-jabs addNum
+set rb 12
+jmp addNum
 
 isD:
 // convert hexa digit in decimal number
-sub rb rb
-addi rb 13
-jabs addNum
+set rb 13
+jmp addNum
 
 isE:
 // convert hexa digit in decimal number
-sub rb rb
-addi rb 14
-jabs addNum
+set rb 14
+jmp addNum
 
 isF:
 // convert hexa digit in decimal number
-sub rb rb
-addi rb 15
+set rb 15
 
 addNum:
-sub rc rc
-add rc rz
+addi rc rz 0
 // check the rank of the digit
-tnei rc 0
-jnz innerLoop
+tnei rt rc 0
+bnz rt innerLoop
 // if rc = 0 add the value without modification
 add rs rb
-jabs shift
+jmp shift
 innerLoop:
 // loop that multiply by 16 rb until the rc become null
-teqi rc 0
-jnz endInnerLoop
+teqi rt rc 0
+bnz rt endInnerLoop
 mul rb rd
 subi rc 1
-jabs innerLoop
+jmp innerLoop
 endInnerLoop:
 add rs rb
 
@@ -100,4 +88,4 @@ shift:
 // increment rz, shift to the right, return to loop
 addi rz 1
 div ra rd
-jabs loop
+jmp loop
