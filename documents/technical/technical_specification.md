@@ -64,14 +64,14 @@ This document will not describe the assembly language and its workings, those in
 
 The requirements for this project are as follows:
 - invent a minimal assembly language;
-- create a C[^2] program that can read our assembly language and run it;
+- create a C program that can read our assembly language and run it;
 - the C program must also be able to check the syntax and semantics of the assembly language;
 - implement a virtual terminal to make sure that the program is running and displaying information to the user;
 - write small assembly programs executable by the C program;
 
 ### Content
 
-This document will detail the [architecture of the project](#architecture), [the assembler[^3]](#assembler) and [the interpreter[^4]](#interpreter).
+This document will detail the [architecture of the project](#architecture), [the assembler[^2]](#assembler) and [the interpreter[^3]](#interpreter).
 
 ---
 
@@ -81,8 +81,8 @@ This document will detail the [architecture of the project](#architecture), [the
 
 we will use:
 - [VSCode](https://code.visualstudio.com/) as our IDE(Intergrated Developement Environement);
-- C[^5] as our programming language;
-- [GCC](https://gcc.gnu.org/) as our compiler;
+- C 17[^4] as our programming language;
+- [GCC](https://gcc.gnu.org/) as our compiler(we use v13.2 for Windows and 12.0 for Linux);
 - [GitHub](https://github.com/) as our source control management;
 
 ### Naming Conventions
@@ -139,18 +139,18 @@ Here is a detailed version of the `src` folder:
 ```
 - main.c will contain the main loop and the virtual terminal;
 - assembler.h will contain all the functions pertaining to the assembler and the error handling;
-- preprocessor.h will contain all the functions pertaining to the preprocessor[^6];
+- preprocessor.h will contain all the functions pertaining to the preprocessor[^5];
 - processor.h will contain all the functions pertaining to the processor;
 - utils.h will contain the miscellaneous objects, such as `enum ErrorType` or `enum InstructionType`;
 
 
 ### Endians
 
-The program will use little-endian[^7], for it is advantageous in processor architecture and we expect at some point to use our virtual processor on a physical processor.
+The program will use little-endian[^6], for it is advantageous in processor architecture and we expect at some point to use our virtual processor on a physical processor.
 
 ### CISC/RISC
 
-The program will be based on the RISC[^8] and not CISC[^9], as a RISC architecture provides less instruction, which in turn allows us to reduce the complexity of the program.
+The program will be based on the RISC[^7] and not CISC[^8], as a RISC architecture provides less instruction, which in turn allows us to reduce the complexity of the program.
 
 ### Principles
 
@@ -212,7 +212,7 @@ error + error number: type of error line of the error: '';
     - if correct, convert the line to machine code;
 - add to the output array;
 - free the memory allocated to the line;
-- if check if EOF[^10]:
+- if check if EOF[^9]:
   - if not EOF, go back to the beginning of the loop;
 
 ### Output
@@ -272,26 +272,25 @@ Here are the technical challenges that we must overcome for our project to succe
 ## Clock
 
 
+
 ---
 
 ## Glossary
  
  [^1]: virtual processor: is a program that simulates the inner workings of a physical processor;
 
- [^2]: C: is a general-purpose programming language;
+ [^2]: C: is a general-purpose programming language, 17 is the version of C that we use;
 
  [^3]: assembler: is a program that transforms a file in assembly into machine code;
 
  [^4]: interpreter: is a program that executes a file line by line(in our case it's a binary file);
 
- [^5]: OS: or Operating System, is a system software that manages computer hardware and software resources;
+ [^5]: preprocessor: is a program that processes its input data to produce output that is used as input for another program;
 
- [^6]: preprocessor: is a program that processes its input data to produce output that is used as input for another program;
+ [^6]: little-endian: endianness designates the order in which bytes of a word of digital data are stored in memory, and little-endian stores the least significant byte first;
 
- [^7]: little-endian: endianness designates the order in which bytes of a word of digital data are stored in memory, and little-endian stores the least significant byte first;
+ [^7]: RISC: or Reduced Instruction Set Computer, is a computer architecture designated to simplify the individual instructions given to a computer;
 
- [^8]: RISC: or Reduced Instruction Set Computer, is a computer architecture designated to simplify the individual instructions given to a computer;
+ [^8]: CISC: or Complex Instruction Set Computer, is a computer architecture in which a single instruction can execute several operations;
 
- [^9]: CISC: or Complex Instruction Set Computer, is a computer architecture in which a single instruction can execute several operations;
-
- [^10]: EOF: short for End Of File, indicates the end of a file;
+ [^9]: EOF: short for End Of File, indicates the end of a file;
