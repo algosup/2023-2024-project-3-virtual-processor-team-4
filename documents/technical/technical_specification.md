@@ -79,8 +79,8 @@ This document will detail the [architecture of the project](#architecture), [the
 
 ### Technicalities
 
-we will use:
-- [VSCode](https://code.visualstudio.com/) as our IDE(Intergrated Developement Environement);
+We will use:
+- [VSCode](https://code.visualstudio.com/) as our IDE(Integrated Development Environment);
 - C 17[^4] as our programming language;
 - [GCC](https://gcc.gnu.org/) as our compiler(we use v13.2 for Windows and 12.0 for Linux);
 - [GitHub](https://github.com/) as our source control management;
@@ -146,7 +146,7 @@ Here is a detailed version of the `src` folder:
 
 ### Endians
 
-The program will use little-endian[^6], for it is advantageous in processor architecture and we expect at some point to use our virtual processor on a physical processor.
+The program will use little-endian[^6], for it is advantageous in processor architecture, and we expect at some point to use our virtual processor on a physical processor.
 
 ### CISC/RISC
 
@@ -160,7 +160,7 @@ The only libraries allowed are the [C standard Libraries](https://en.cppreferenc
 
 #### Comments
 
-The code will be documented and explained via comments, and will covert all the functions.
+The code will be documented and explained via comments and will cover all the functions.
 
 #### Header
 
@@ -218,8 +218,8 @@ error + error number: type of error line of the error: '';
 ### Output
 
  - if EOF:
-   - if there are errors return them;
-   - if there is no error indicate that the compilation was successful;
+   - if there are errors, return them;
+   - if there is no error, indicate that the compilation was successful;
  - return the binary file;
  - start the [Interpretation](#interpreter);
 
