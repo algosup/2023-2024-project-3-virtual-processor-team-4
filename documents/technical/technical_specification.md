@@ -271,7 +271,7 @@ Here are the technical challenges that we must overcome for our project to succe
 
 ## Clock
 
-
+We implemented a clock system to smooth the number of instruction executed per second and making it consistent; at the start of the compiling we create a second thread apart from the execution thread, we execute a huge number of operations every second, by doing so we limit the number of operation the CPU can do. This clock is also used in the execution thread for the compare.
 
 ---
 
