@@ -59,7 +59,7 @@ The assembly language will also be created and tailored by us.
 |----|----------|------|
 |Agile testing|A software development practice that promotes frequent, automated testing of new code as it is completed and stipulates that defects should be fixed as soon as they are found.|[Informatica](https://www.informatica.com/in/services-and-training/glossary-of-terms/agile-testing-definition.html#:~:text=Agile%20testing%20is%20a%20software,soon%20as%20they%20are%20found.)|
 |Assembler|A program that changes computer instructions into machine code (= a set of numbers that gives instructions to a computer).|[Cambridge Dictionary](https://dictionary.cambridge.org/fr/dictionnaire/anglais/assembler)|
-|Assembly language|In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions|[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language)|
+|Assembly language|In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions.|[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language)|
 |Compiler|In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language).|[Wikipedia](https://en.wikipedia.org/wiki/Compiler)|
 |C language|C is a general-purpose computer programming language. C is commonly used on computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.|[Wikipedia](https://en.wikipedia.org/wiki/C_(programming_language))|
 |GitHub|GitHub, Inc. is an AI-powered developer platform that allows developers to create, store, manage and share their code.|[Wikipedia](https://en.wikipedia.org/wiki/GitHub)|
@@ -92,7 +92,7 @@ Our testing strategy will be based on three different testing types. At first, w
 
 **Documentation testing strategy**
 
-As for the documentation, I will principally do the test as soon as a new version is released or updated and the majority of the test will be down before the release date.
+For the documentation, I will mainly do the tests as soon as a new version is released or updated and the majority of the test will be down before the release date.
 
 ### Quality Assurance team
 
@@ -135,7 +135,7 @@ Testing will focus on assembly instruction and the assembler.
 
 #### Smoke testing
 
-The quality assurance is going to use a smoke testing strategy for the assembler, like this he would be sure that it works as intended by doing some easy tests each time he ran the code.
+The quality assurance would use a smoke testing strategy for the assembler, like this he would be sure that it would work as intended by doing some easy tests each time he would run the code.
 
 #### Unit testing
 
@@ -158,7 +158,7 @@ This table will be used as an example for all of our test cases to test our prod
 | Test Case Expected Result | Result expected after following the steps                                  |
 | Test Case Actual Result   | Actual result of the test (could differ from what's expected)              |
 | Test Case Status          | Status of the test (To Test, Testing, Tested)                              |
-| Test Case Priority        | Defines if a test is important or not. Using symbnumbersols: Low  3 / Medium 2 / High 1 |
+| Test Case Priority        | Defines if a test is important or not. Using numbers: Low  3 / Medium 2 / High 1 |
 | Test Case Assigned To     | Name of the tester                                                         |
 
 All the [test cases](/documents/QA/test_cases.md) will be stored in the markdown file ```test_cases.md```
@@ -190,9 +190,9 @@ All the tests will be done on different tools:
 
 ### Software
 
-- [Visual Studio Code](https://code.visualstudio.com/) for the development of the game.
+- [Visual Studio Code](https://code.visualstudio.com/) for the development of the product.
 - [GitHub](https://github.com) for the version control and to track the defects.
-- [Gcc](https://en.wikipedia.org/wiki/GNU_Compiler_Collection) for the compilation of the final product on [Windows](https://code.visualstudio.com/docs/cpp/config-mingw), [macOS](https://code.visualstudio.com/docs/cpp/config-clang-mac), [Linux](https://code.visualstudio.com/docs/cpp/config-linux).
+- [GCC](https://en.wikipedia.org/wiki/GNU_Compiler_Collection) for the compilation of the final product on [Windows](https://code.visualstudio.com/docs/cpp/config-mingw), [macOS](https://code.visualstudio.com/docs/cpp/config-clang-mac), [Linux](https://code.visualstudio.com/docs/cpp/config-linux).
 
 ## Test criteria
 
@@ -293,7 +293,7 @@ All the durations defined here are only estimations! It could take more or less 
 The testing part of a project is one of the most important ones. If the quality isn't assured, then the product would not work as intended, this is why this part is such an important one.
 
 We would thank all the members of the team who worked on this project.
-We would thank the other quality assurance that we work with, our product would have been less good without their help.
+We would thank the other quality assurances that we work with, our product would have been less good without their help.
 
 <!-- TODO -->
 
@@ -301,7 +301,7 @@ We would also thank our teacher [Caroline CORDIER](https://www.linkedin.com/in/c
 
 We would also thank the previous project quality assurance, who helped us by giving us hints.
 
-Finally, we would then [ALGOSUP](https://algosup.com) for this project and this opportunity to develop our skills once again.
+Finally, we would then thank [ALGOSUP](https://algosup.com) for this project and this opportunity to develop our skills once again.
 
 ## Sources
 
