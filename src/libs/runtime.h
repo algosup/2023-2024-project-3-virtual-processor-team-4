@@ -127,34 +127,6 @@ int get_return_line(stack_t *returnStack, instruction_t *call)
     return 0;
 }
 
-int check_val(char *val)
-{
-    if (val == NULL || strcmp(val, "") == 0)
-    {
-        return NULL_;
-    }
-
-    char str2[3];
-    strcpy(str2, val);
-    char *ptr = str2;
-    ptr++;
-
-    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r'))
-    {
-        return REGISTER;
-    }
-    if (check_is_number(val) == SUCCESS)
-    {
-        return IMMEDIAT;
-    }
-    if (check_is_label(val) == SUCCESS)
-    {
-        return LABEL;
-    }
-
-    return INVALID_DATA;
-}
-
 // --- Operations ---
 
 int noop(instruction_t instruction)
@@ -178,7 +150,7 @@ int set(instruction_t instruction)
         find_register(instruction.val1, &i);
     }
 
-    if (check_val(instruction.val2) == IMMEDIAT)
+    if (check_val(instruction.val2) == IMMEDIATE)
     {
         registerArr[i] = (int32_t)strtod(instruction.val2, '\0');
         return SUCCESS;
@@ -304,7 +276,7 @@ int add(instruction_t instruction)
             registerArr[i] = registerArr[i] + registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
+        case IMMEDIATE:
             registerArr[i] = registerArr[i] + (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
@@ -333,7 +305,7 @@ int sub(instruction_t instruction)
             registerArr[i] = registerArr[i] - registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
+        case IMMEDIATE:
             registerArr[i] = registerArr[i] - (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
@@ -426,7 +398,7 @@ int and_(instruction_t instruction)
             registerArr[i] = registerArr[i] & registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
+        case IMMEDIATE:
             registerArr[i] = registerArr[i] & (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
@@ -455,7 +427,7 @@ int or_(instruction_t instruction)
             registerArr[i] = registerArr[i] | registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
+        case IMMEDIATE:
             registerArr[i] = registerArr[i] | (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:
@@ -484,7 +456,7 @@ int xor_(instruction_t instruction)
             registerArr[i] = registerArr[i] ^ registerArr[i2];
             return SUCCESS;
 
-        case IMMEDIAT:
+        case IMMEDIATE:
             registerArr[i] = registerArr[i] ^ (int32_t)strtod(instruction.val2, '\0');
             return SUCCESS;
         default:

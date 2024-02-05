@@ -3,14 +3,74 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <pthread.h>
 #include "./libs/utils.h"
 #include "./libs/runtime.h"
 #include "./libs/preprocessor.h"
+
+// #define TARGET_OPS_PER_SEC 10000
+
+// Global vars for sync between threads
+pthread_mutex_t mutex;
+long long int loopCounter = 0;
+int operationsCounter = 0;
+
+// Funtion to use processor time and set a more consistent clock
+void performWorkload()
+{
+    while (1)
+    {
+
+        for (int i = 0; i < 58000; ++i)
+        {
+        }
+
+        pthread_mutex_lock(&mutex);
+        operationsCounter++;
+        pthread_mutex_unlock(&mutex);
+    }
+}
+
+// Function to print the operations per second
+void printOperations()
+{
+    while (1)
+    {
+        sleep(1);
+        pthread_mutex_lock(&mutex);
+        int opsInLastSecond = operationsCounter;
+        operationsCounter = 0;
+        pthread_mutex_unlock(&mutex);
+
+        printf("Operations performed in the last second: %d\n", opsInLastSecond);
+    }
+}
 
 int main()
 {
     system("cls");
     printf("Welcome to the Team 4 virtual processor interpreter!\n"); // Notify we enter into the processor interpreter
+                                                                      // Initialize mutex
+    pthread_mutex_init(&mutex, NULL);
+
+    // Create threads
+    pthread_t workloadThread, printThread;
+
+    // Create thread for clock workload
+    if (pthread_create(&workloadThread, NULL, (void *)performWorkload, NULL) != 0)
+    {
+        perror("Error creating workload thread");
+        return 1;
+    }
+
+    // Create thread for printing operations
+    // if (pthread_create(&printThread, NULL, (void *)printOperations, NULL) != 0)
+    // {
+    //     perror("Error creating print thread");
+    //     return 1;
+    // }
+
     while (true)
     {
         printf("\n> ");
@@ -75,9 +135,17 @@ int main()
             }
 
             free(content);
-            free(outputContent); //empty the memory from the 
+            free(outputContent); // empty the memory from the
         }
         printf("Done!\n");
     }
+
+    // Wait for threads to finish (this will never happen, as threads run indefinitely)
+    pthread_join(workloadThread, NULL);
+    pthread_join(printThread, NULL);
+
+    // Cleanup
+    pthread_mutex_destroy(&mutex);
+
     return SUCCESS;
 }
