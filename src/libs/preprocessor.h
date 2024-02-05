@@ -12,7 +12,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
 int get_file_size(char *filename, uint64_t *size);
 int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLines);
 int line_content_from_file_content(char *content, int lineNumber, char *lineContent);
-int check_label_declaration(char *label);
+int check_label_declaration(InstructionType_t *instructionId, char *label);
 int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int is_first_operand_null(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_second_operand_null(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
@@ -72,16 +72,19 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
         param2 = token;
 
-    if (check_label_declaration(opcode) == SUCCESS) // Checking if the line only contains a label declaration
-    {
-        line->label = opcode;
-        line->mnemonic = LABEL_;
-        line->lineNumber = *lineNumber;
-        line->param1 = NULL_;
-        return SUCCESS;
-    }
-
     InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t)); // check for free afterwhile
+
+    if (check_label_declaration(instructionType, opcode) == SUCCESS) // Checking if the line only contains a label declaration
+    {
+        if (*instructionType == LABEL_)
+        {
+            line->label = opcode;
+            line->mnemonic = *instructionType;
+            line->lineNumber = *lineNumber;
+            line->param1 = NULL_;
+            return SUCCESS;
+        }
+    }
     if (find_operand(opcode, instructionType) != SUCCESS)
     {
         printf("Error: Could not find a matching opcode on line %ld\n", *lineNumber);
@@ -94,6 +97,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
 
     if (are_operation_params_valid(instructionType, dest, param1, param2, lineNumber) != SUCCESS)
     {
+        printf("Params invalid");
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1 = NULL_;
@@ -102,6 +106,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     }
     if (fill_line_struct(line, instructionType, dest, param1, param2, lineNumber) != SUCCESS)
     {
+        printf("Generic error");
         return GENERIC_ERROR;
     }
     return SUCCESS;
@@ -277,11 +282,12 @@ int line_content_from_file_content(char *content, int lineNumber, char *lineCont
 
 // ********************* INSTRUCTION PARAMS VERIFICATION *********************
 
-int check_label_declaration(char *label)
+int check_label_declaration(InstructionType_t *instructionId, char *label)
 {
-    if (label[strlen(label) - 1] != ':')
+    if (label[strlen(label) - 1] == ':')
     {
-        return INVALID_DATA;
+        *instructionId = LABEL_;
+        return SUCCESS;
     }
     return SUCCESS;
 }
@@ -306,6 +312,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     case TLE:
     case TGT:
     case TGE:
+        return SUCCESS;
         // return are_all_operand_null(instructionId, param1, param2, lineNumber);
         break;
     case ADDI:
@@ -320,11 +327,13 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     case TGEI:
     case STRI:
     case LDI:
+        return SUCCESS;
         // To determine
         break;
     default:
         printf("Instruction not found");
-        return GENERIC_ERROR;
+        // return GENERIC_ERROR;
+        return SUCCESS;
         break;
         // Following instructions are not implemented yet
     }
@@ -683,6 +692,9 @@ int get_operand_name(InstructionType_t instruction, char *output)
     case AND:
         strcpy(output, "and");
         break;
+    case ANDI:
+        strcpy(output, "andi");
+        break;
     case B:
         strcpy(output, "b");
         break;
@@ -824,6 +836,10 @@ int find_operand(char *input, InstructionType_t *instruction)
     else if (strcmp("and", input) == 0)
     {
         *instruction = AND;
+    }
+    else if (strcmp("andi", input) == 0)
+    {
+        *instruction = ANDI;
     }
     else if (strcmp("b", input) == 0)
     {

@@ -21,6 +21,7 @@ typedef enum InstructionType // Define all the instructions with a linked identi
     ADD,
     ADDI,
     AND,
+    ANDI,
     B,
     BI,
     BNZ,
