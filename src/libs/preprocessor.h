@@ -124,7 +124,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *par
         }
         else if (check_is_number(param1) == SUCCESS)
         {
-            line->param1 = IMMEDIAT;
+            line->param1 = IMMEDIATE;
         }
         else if (check_is_label(param1) == SUCCESS)
         {
@@ -144,7 +144,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *par
         }
         else if (check_is_number(param2) == SUCCESS)
         {
-            line->param2 = IMMEDIAT;
+            line->param2 = IMMEDIATE;
         }
         else
         {
