@@ -238,7 +238,7 @@ error + error number: type of error line of the error: '';
 
 Here is a visual representation of how the assembler works:
 
-![assembler Diagram](/documents/.data/pictures/UML_interpreter.png)
+![assembler Diagram](/documents/.data/pictures/UML_preprocessor.png)
 
 ---
 
