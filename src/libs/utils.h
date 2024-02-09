@@ -21,6 +21,7 @@ typedef enum InstructionType
     ADD,
     ADDI,
     AND,
+    ANDI,
     B,
     BI,
     BNZ,

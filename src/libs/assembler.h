@@ -21,49 +21,50 @@ typedef struct stack
     unsigned int size;
 } stack_t;
 
-int label(line_t instruction);
-int abs(line_t instruction);
-int add(line_t instruction);
-int addi(line_t instruction);
-int and_(line_t instruction);
-int b(line_t instruction);
-int bi(line_t instruction);
-int bnz(line_t instruction);
-int bz(line_t instruction);
-int call(line_t instruction);
-int calli(line_t instruction);
-int div(line_t instruction);
-int jmp(line_t instruction);
-int ld(line_t instruction);
-int ldi(line_t instruction);
-int ldp(line_t instruction);
-int mul(line_t instruction);
-int or_(line_t instruction);
-int ori(line_t instruction);
-int pop(line_t instruction);
-int push(line_t instruction);
-int ret(line_t instruction);
-int set(line_t instruction);
-int str(line_t instruction);
-int stri(line_t instruction);
-int strp(line_t instruction);
-int sub(line_t instruction);
-int subi(line_t instruction);
-int teq(line_t instruction);
-int teqi(line_t instruction);
-int tge(line_t instruction);
-int tgei(line_t instruction);
-int tgt(line_t instruction);
-int tgti(line_t instruction);
-int tle(line_t instruction);
-int tlei(line_t instruction);
-int tlt(line_t instruction);
-int tlti(line_t instruction);
-int tne(line_t instruction);
-int tnei(line_t instruction);
-int xchg(line_t instruction);
-int xor_(line_t instruction);
-int xori(line_t instruction);
+int label(line_t);
+int abs_(line_t);
+int add(line_t);
+int addi(line_t);
+int and_(line_t);
+int andi(line_t);
+int b(line_t);
+int bi(line_t);
+int bnz(line_t);
+int bz(line_t);
+int call(line_t);
+int calli(line_t);
+int div_(line_t);
+int jmp(line_t);
+int ld(line_t);
+int ldi(line_t);
+int ldp(line_t);
+int mul(line_t);
+int or_(line_t);
+int ori(line_t);
+int pop(line_t);
+int push(line_t);
+int ret(line_t);
+int set(line_t);
+int str(line_t);
+int stri(line_t);
+int strp(line_t);
+int sub(line_t);
+int subi(line_t);
+int teq(line_t);
+int teqi(line_t);
+int tge(line_t);
+int tgei(line_t);
+int tgt(line_t);
+int tgti(line_t);
+int tle(line_t);
+int tlei(line_t);
+int tlt(line_t);
+int tlti(line_t);
+int tne(line_t);
+int tnei(line_t);
+int xchg(line_t);
+int xor_(line_t);
+int xori(line_t);
 // Added _ to avoid conflict with existing keywords
 
 typedef enum binType{
@@ -94,7 +95,11 @@ typedef struct binInstruction
         struct typeJ
         {
             uint8_t opcode; //4bits
-            uint32_t addres; //23bits
+            union
+            {
+                uint32_t addres;
+                int16_t immediate;
+            };
             uint8_t register_; //5bits
         }typeJ;
     };
@@ -102,6 +107,7 @@ typedef struct binInstruction
 
 listLabel_t labelList = {NULL, 0, NULL};
 uint32_t machineCodeLine = 0;
+bool firstPass;
 
 int write_to_bin(binInstruction_t);
 int create_bin();
@@ -188,8 +194,8 @@ int label_to_int(char* labelStr, uint32_t* lineOut){
     for (int i = 0; i < labelList.size; i++)
     {
         get_list_str(&labelList, &label, i);
-        if(strcmp(&label.labelStr, labelStr) == 0){
-            lineOut = label.line;
+        if(strcmp(label.labelStr, labelStr) == 0){
+            *lineOut = label.line;
             return SUCCESS;
         }
     }
@@ -206,15 +212,21 @@ int execute_instruction(line_t *instruction)
     case SKIP:
         return SUCCESS;
     case LABEL_:
-        return label(*instruction);
+        if(firstPass == true){
+            return label(*instruction);
+        }else{
+            return SUCCESS;
+        }
     case ABS:
-        return abs(*instruction);
+        return abs_(*instruction);
     case ADD:
         return add(*instruction);
     case ADDI:
         return addi(*instruction);
     case AND:
         return and_(*instruction);
+    case ANDI:
+        return andi(*instruction);
     case B:
         return b(*instruction);
     case BI:
@@ -228,7 +240,7 @@ int execute_instruction(line_t *instruction)
     case CALLI:
         return calli(*instruction);
     case DIV:
-        return div(*instruction);
+        return div_(*instruction);
     case JMP:
         return jmp(*instruction);
     case LD:
@@ -301,60 +313,63 @@ int execute_instruction(line_t *instruction)
 
 
 int write_to_bin(binInstruction_t input){
-    FILE* fPtr = fopen(outputFile, "ab");
-    if(fPtr == NULL){
-        printf("Error: binary file could not be opened\n");
-        return GENERIC_ERROR;
+    if(firstPass == false){
+        FILE* fPtr = fopen(outputFile, "ab");
+        if(fPtr == NULL){
+            printf("Error: binary file could not be opened\n");
+            return GENERIC_ERROR;
+        }
+
+        // 4 8bit to make a 32bit instruction.
+        unsigned char byteArr[4] = {0, 0, 0, 0};
+
+        //big blocks of byteshift to organise the bytes for the machine code
+        switch (input.type)
+        {
+        case R:
+            byteArr[0] = byteArr[0] | input.typeR.opcode << 1;
+            byteArr[2] = byteArr[2] | input.typeR.source2 << 2;
+            byteArr[2] = byteArr[2] | input.typeR.source >> 3;
+            byteArr[3] = byteArr[3] | input.typeR.source << 5;
+            byteArr[3] = byteArr[3] | input.typeR.destination;
+            break;
+
+        case I:
+            byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
+            byteArr[0] = byteArr[0] | input.typeI.immediate >> 14;
+            byteArr[1] = byteArr[1] | input.typeI.immediate >> 6;
+            byteArr[2] = byteArr[2] | input.typeI.immediate << 2;
+            byteArr[2] = byteArr[2] | input.typeI.source >> 3;
+            byteArr[3] = byteArr[3] | input.typeI.source << 5;
+            byteArr[3] = byteArr[3] | input.typeI.destination;
+            break;
+
+        case J:
+            byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
+            byteArr[0] = byteArr[0] | input.typeJ.addres >> 19;
+            byteArr[1] = byteArr[1] | input.typeJ.addres >> 11;
+            byteArr[2] = byteArr[2] | input.typeJ.addres >> 3;
+            byteArr[3] = byteArr[3] | input.typeJ.addres << 5;
+            byteArr[3] = byteArr[3] | input.typeJ.register_;
+            break;
+
+        default:
+            printf("Error: writing binary file. Invalid input\n");
+            return INVALID_DATA;
+            break;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            fwrite(&byteArr[i], sizeof(int8_t), 1, fPtr);
+        }
+
+        if(fclose(fPtr) != 0){
+            printf("Error: binary file could not be closed\n");
+            return GENERIC_ERROR;
+        }
+    }else{
+        machineCodeLine++;
     }
-
-    // 4 8bit to make a 32bit instruction.
-    unsigned char byteArr[4] = {0, 0, 0, 0};
-
-    switch (input.type)
-    {
-    case R:
-        byteArr[0] = byteArr[0] | input.typeR.opcode << 1;
-        byteArr[2] = byteArr[2] | input.typeR.source2 << 2;
-        byteArr[2] = byteArr[2] | input.typeR.source >> 3;
-        byteArr[3] = byteArr[3] | input.typeR.source << 5;
-        byteArr[3] = byteArr[3] | input.typeR.destination;
-        break;
-
-    case I:
-        byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
-        byteArr[0] = byteArr[0] | input.typeI.immediate >> 14;
-        byteArr[1] = byteArr[1] | input.typeI.immediate >> 6;
-        byteArr[2] = byteArr[2] | input.typeI.immediate << 2;
-        byteArr[2] = byteArr[2] | input.typeI.source >> 3;
-        byteArr[3] = byteArr[3] | input.typeI.source << 5;
-        byteArr[3] = byteArr[3] | input.typeI.destination;
-        break;
-
-    case J:
-        byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
-        byteArr[0] = byteArr[0] | input.typeJ.addres >> 19;
-        byteArr[1] = byteArr[1] | input.typeJ.addres >> 11;
-        byteArr[2] = byteArr[2] | input.typeJ.addres >> 3;
-        byteArr[3] = byteArr[3] | input.typeJ.addres << 5;
-        byteArr[3] = byteArr[3] | input.typeJ.register_;
-        break;
-
-    default:
-        printf("Error: writing binary file. Invalid input\n");
-        return INVALID_DATA;
-        break;
-    }
-
-    for (int i = 0; i < 4; i++) {
-        fwrite(&byteArr[i], sizeof(int8_t), 1, fPtr);
-    }
-
-    if(fclose(fPtr) != 0){
-        printf("Error: binary file could not be closed\n");
-        return GENERIC_ERROR;
-    }
-
-    machineCodeLine++;
     return SUCCESS;
 }
 
@@ -371,10 +386,21 @@ int create_bin(){
     }
 }
 
-int check_type_R(line_t instruction, binInstruction_t* bin){
+int check_type_R(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
     bool error = false;
-    if(instruction.dest < 32 && instruction.dest >= 0){
+
+    bin->type = R;
+    if(instruction.mnemonic == inst){
+        bin->typeR.opcode = opcode;
+    }else{
+        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
+        return INVALID_DATA;
+    }
+
+    if(instruction.dest < 32 && instruction.dest >= 0 && instruction.dest_t == REGISTER){
         bin->typeR.destination = instruction.dest;
+    }else if (instruction.dest_t == NULL_){
+        bin->typeI.destination = 0;
     }else{
         printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
         error = true;
@@ -398,10 +424,21 @@ int check_type_R(line_t instruction, binInstruction_t* bin){
     }
 }
 
-int check_type_I(line_t instruction, binInstruction_t* bin){
+int check_type_I(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
     bool error = false;
-    if(instruction.dest < 32 && instruction.dest >= 0){
+
+    bin->type = I;
+    if(instruction.mnemonic == inst){
+        bin->typeI.opcode = opcode;
+    }else{
+        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
+        return INVALID_DATA;
+    }
+
+    if(instruction.dest < 32 && instruction.dest >= 0 && instruction.dest_t == REGISTER){
         bin->typeI.destination = instruction.dest;
+    }else if (instruction.dest_t == NULL_){
+        bin->typeI.destination = 0;
     }else{
         printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
         error = true;
@@ -425,20 +462,40 @@ int check_type_I(line_t instruction, binInstruction_t* bin){
     }
 }
 
-int check_type_J(line_t instruction, binInstruction_t* bin){
+int check_type_J(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
     bool error = false;
-    if(instruction.dest < 32 && instruction.dest >= 0){
+
+    bin->type = J;
+
+    if(instruction.mnemonic == inst){
+        bin->typeI.opcode = opcode;
+    }else{
+        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
+        return INVALID_DATA;
+    }
+
+    bool isImmediate = false;
+    if(instruction.param2_t == IMMEDIATE){
+        isImmediate = true;
+    }
+
+    if(instruction.dest < 32 && instruction.dest >= 0 && instruction.dest_t == REGISTER){
         bin->typeJ.register_ = instruction.dest;
+    }else if (instruction.dest_t == NULL_){
+        bin->typeI.destination = 0;
     }else{
         printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
         error = true;
     }
 
     uint32_t addres;
-    if(label_to_int(instruction.label, &addres) != SUCCESS){
-        error = true;
-    }else{
+    if((instruction.immediate2 < 32768 && instruction.immediate2 >= -32768) && isImmediate){
+        bin->typeJ.immediate = instruction.immediate2;
+    }else if(label_to_int(instruction.label, &addres) == SUCCESS && !isImmediate){
         bin->typeJ.addres = addres;
+    }
+    else{
+        error = true;
     }
 
     if(error == false){
@@ -467,208 +524,391 @@ int label(line_t instruction){
     }
 }
 
-int abs(line_t instruction){
-    return GENERIC_ERROR;
+int abs_(line_t instruction){
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, ABS, 7);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int add(line_t instruction){
     binInstruction_t bin;
-    bin.type = R;
-    if(instruction.mnemonic == ADD){
-        bin.typeR.opcode = 0;
-    }else{
-        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
-        return INVALID_DATA;
+    ErrorType_t err = check_type_R(instruction, &bin, ADD, 0);
+    if(err != SUCCESS){
+        return err;
     }
-    if(check_type_R(instruction, &bin) != SUCCESS){
-        return GENERIC_ERROR;
-    }
-
     return write_to_bin(bin);
 }
 
 int addi(line_t instruction){
     binInstruction_t bin;
-    bin.type = I;
-    if(instruction.mnemonic == ADDI){
-        bin.typeI.opcode = 16;
-    }else{
-        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
-        return INVALID_DATA;
+    ErrorType_t err = check_type_I(instruction, &bin, ADDI, 16);
+    if(err != SUCCESS){
+        return err;
     }
-    if(check_type_I(instruction, &bin) != SUCCESS){
-        return GENERIC_ERROR;
-    }
-
     return write_to_bin(bin);
 }
 
 int and_(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, AND, 5);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
+}
+
+int andi(line_t instruction){
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, ANDI, 21);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int b(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_J(instruction, &bin, B, 8);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int bi(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_J(instruction, &bin, BI, 9);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int bnz(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int bz(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 10);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int call(line_t instruction){
     binInstruction_t bin;
-    bin.type = J;
-    if(instruction.mnemonic == CALL){
-        bin.typeI.opcode = 12;
-    }else{
-        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
-        return INVALID_DATA;
+    ErrorType_t err = check_type_J(instruction, &bin, CALL, 12);
+    if(err != SUCCESS){
+        return err;
     }
-    if(check_type_J(instruction, &bin) != SUCCESS){
-        return GENERIC_ERROR;
-    }
-
     return write_to_bin(bin);
 }
 
 int calli(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
-int div(line_t instruction){
-    return GENERIC_ERROR;
+int div_(line_t instruction){
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, DIV, 3);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int jmp(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int ld(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, LD, 17);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int ldi(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, LDI, 19);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int ldp(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, LDP, 19);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int mul(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, MUL, 2);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int or_(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, OR, 4);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int ori(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, ORI, 20);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int pop(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, POP, 21);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int push(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, PUSH, 20);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int ret(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int set(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, SET, 23);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int str(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, STR, 16);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int stri(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, STRI, 18);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int strp(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, STRP, 18);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int sub(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, SUB, 1);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int subi(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, SUBI, 17);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int teq(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, TEQ, 12);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int teqi(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, TEQI, 28);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tge(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, TGE, 11);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tgei(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, TGEI, 27);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tgt(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, TGT, 10);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tgti(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, TGTI, 26);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tle(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, TLE, 9);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tlei(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, TLEI, 25);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tlt(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, TLT, 8);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tlti(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, TLTI, 24);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tne(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, TNE, 13);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int tnei(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, TNEI, 29);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int xchg(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, XCHG, 22);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int xor_(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_R(instruction, &bin, XOR, 6);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 int xori(line_t instruction){
-    return GENERIC_ERROR;
+    binInstruction_t bin;
+    ErrorType_t err = check_type_I(instruction, &bin, XORI, 22);
+    if(err != SUCCESS){
+        return err;
+    }
+    return write_to_bin(bin);
 }
 
 #endif
