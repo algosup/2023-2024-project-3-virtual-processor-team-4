@@ -111,13 +111,19 @@ The GitHub repository will be organized as such:
         └── 📝 bug_report.md
 └── 📁 documents
     └── 📁 .data
-        └──pictures
+        └── 📁 pictures
     └── 📁 QA
         └── 📝 test_plan.md
+    └──communication
+        └── 📝 minutes_of_the_client_meeting_on_january_24th.md
     └── 📁 functional
+        └── 📁 pictures
+        └── 📝 appendix_a_instruction_set_manual.md
+        └── 📝 appendix_a_instruction_set_manual.pdf
         └── 📝 function_specification.md
     └── 📁 management
-        └──.weekly_report
+        └── 📁 weekly_report
+        └── 📝 mangement_artifact.md
     └── 📁 technical
         └── 📝 technical_specification.md
     └── 📄 project_charter.md
@@ -135,13 +141,13 @@ Here is a detailed version of the `src` folder:
     └── 📁 libs
         └── 📄 assembler.h
         └── 📄 preprocessor.h
-        └── 📄 processor.h
+        └── 📄 runtime.h
         └── 📄 utils.h
 ```
 - main.c will contain the main loop and the virtual terminal;
 - assembler.h will contain all the functions pertaining to the assembler and the error handling;
 - preprocessor.h will contain all the functions pertaining to the preprocessor[^5];
-- processor.h will contain all the functions pertaining to the processor;
+- runtime.h will contain all the functions pertaining to the processor;
 - utils.h will contain the miscellaneous objects, such as `enum ErrorType` or `enum InstructionType`;
 
 
