@@ -96,7 +96,7 @@ functions: snake_case
 struct/typedef: camelCase
 struct/union object: camelCase
 macros: ALL_CAPS
-file: snake_case
+files: snake_case
 enum/typedef: PascalCase
 enum member: ALL_CAPS
 ```
@@ -180,7 +180,7 @@ The Virtual Terminal is a part of the virtual processor; it will be used to disp
 
 ### Virtual Memory
 
-For our virtual memory we will use a array of char of size 1.610.612.735 bits or 201.326.591 bytes accessible to the user.
+For our virtual memory, we will use an array of char of size 1.610.612.735 bits or 201.326.591 bytes accessible to the user.
 
 ### Error Handling
 
@@ -276,16 +276,16 @@ Here are the technical challenges that we must overcome for our project to succe
 
 ## Clock
 
-We implemented a clock system to smooth the number of instruction executed per second and making it consistent; at the start of the compiling we create a second thread apart from the execution thread, we execute a huge number of operations every second, by doing so we limit the number of operation the CPU can do. This clock is also used in the execution thread for the compare.
+We implemented a clock system to smooth the number of instructions executed per second and make it consistent; at the start of the compiling we create a second thread apart from the execution thread, we execute a huge number of operations every second, by doing so we limit the number of operation the CPU can do. This clock is also used in the execution thread for the comparison.
 
 
-pseudo code of the clock:
+pseudo-code of the clock:
 ```
 CONST TARGET_OPS_PER_SEC = 10000 // here we chose 10000 but it can be another number
 
 pthread_mutex_t mutex;
-int loopCounter = 0; // the number of second spent in the program
-int operationCounter = 0; // the number of operation in one loop
+int loopCounter = 0; // the number of seconds spent in the program
+int operationCounter = 0; // the number of operations in one loop
 
 void perform_workload()
 {
@@ -303,7 +303,7 @@ void print_operations()
     {
       wait for 1 second;
       lock the thread;
-      opsInLastSecond = operationCounter; // save the number of operation for the print before reset
+      opsInLastSecond = operationCounter; // save the number of operations for the print before reset
       operationCounter = 0; // reset the operation counter for the next loop
       unlock the thread;
 
