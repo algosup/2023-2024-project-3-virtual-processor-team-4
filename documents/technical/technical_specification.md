@@ -23,6 +23,7 @@
       - [Comments](#comments)
       - [Header](#header)
     - [Virtual Terminal](#virtual-terminal)
+    - [Virtual Memory](#virtual-memory)
     - [Error Handling](#error-handling)
       - [Error Message Type](#error-message-type)
   - [Assembler](#assembler)
@@ -177,6 +178,10 @@ The header must be defined as such:
 
 The Virtual Terminal is a part of the virtual processor; it will be used to display the inputs and outputs of the program, such as asking for the name of the file that the user wishes to use.
 
+### Virtual Memory
+
+For our virtual memory we will use a array of char of size 1.610.612.735 bits or 201.326.591 bytes accessible to the user.
+
 ### Error Handling
 
 For errors that happen in the preprocessing phase, the program asks for a correct file name/format; in the assembler phase, the program waits for the file to finish assembling before returning all the errors; in the interpreter phase, if there is an error, the program stops and return an error.
@@ -273,6 +278,39 @@ Here are the technical challenges that we must overcome for our project to succe
 
 We implemented a clock system to smooth the number of instruction executed per second and making it consistent; at the start of the compiling we create a second thread apart from the execution thread, we execute a huge number of operations every second, by doing so we limit the number of operation the CPU can do. This clock is also used in the execution thread for the compare.
 
+
+pseudo code of the clock:
+```
+CONST TARGET_OPS_PER_SEC = 10000 // here we chose 10000 but it can be another number
+
+pthread_mutex_t mutex;
+int loopCounter = 0; // the number of second spent in the program
+int operationCounter = 0; // the number of operation in one loop
+
+void perform_workload()
+{
+  loop
+    {
+      lock the thread;
+      operationCounter++;
+      unlock the thread;
+    }
+}
+
+void print_operations()
+{
+  loop
+    {
+      wait for 1 second;
+      lock the thread;
+      opsInLastSecond = operationCounter; // save the number of operation for the print before reset
+      operationCounter = 0; // reset the operation counter for the next loop
+      unlock the thread;
+
+      print(opsInLastSecond) // 
+    }
+}
+```
 ---
 
 ## Glossary
