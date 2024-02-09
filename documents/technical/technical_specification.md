@@ -34,7 +34,7 @@
   - [Interpreter](#interpreter)
     - [Parsing](#parsing)
     - [Output](#output-1)
-    - [Diagrams](#diagrams)
+    - [Diagram](#diagram-1)
   - [Challenges](#challenges)
   - [Clock](#clock)
   - [Glossary](#glossary)
@@ -262,7 +262,7 @@ Here is a visual representation of how the assembler works:
   - if EOF, indicates the interpretation was successful;
   - if not EOF, continue the loop; 
 
-### Diagrams
+### Diagram
 
 Here is a visual representation of how the interpreter works:
 
