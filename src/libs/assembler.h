@@ -9,18 +9,6 @@
 
 char* outputFile = "../compiled.bin";
 
-typedef struct stackNode
-{ // Item of linked list
-    struct stackNode *previous;
-    line_t val;
-} stackNode_t;
-
-typedef struct stack
-{ // Linked list = stack
-    stackNode_t *head;
-    unsigned int size;
-} stack_t;
-
 int label(line_t);
 int abs_(line_t);
 int add(line_t);
@@ -386,7 +374,7 @@ int create_bin(){
     }
 }
 
-int check_type_R(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
+ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
     bool error = false;
 
     bin->type = R;
@@ -424,7 +412,7 @@ int check_type_R(line_t instruction, binInstruction_t* bin, InstructionType_t in
     }
 }
 
-int check_type_I(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
+ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
     bool error = false;
 
     bin->type = I;
@@ -462,7 +450,7 @@ int check_type_I(line_t instruction, binInstruction_t* bin, InstructionType_t in
     }
 }
 
-int check_type_J(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
+ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
     bool error = false;
 
     bin->type = J;

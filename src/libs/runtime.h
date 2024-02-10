@@ -30,18 +30,6 @@ int int_(instruction_t instruction); // Added _ to avoid conflict with existing 
 
 // int memory[2048];
 
-typedef struct stackNode
-{ // Item of linked list
-    struct stackNode *previous;
-    instruction_t val;
-} stackNode_t;
-
-typedef struct stack
-{ // Linked list = stack
-    stackNode_t *head;
-    unsigned int size;
-} stack_t;
-
 int find_register(char *inString, uint8_t *registerIndex)
 {
     if (inString == NULL || strlen(inString) != 2)
@@ -68,66 +56,66 @@ int find_register(char *inString, uint8_t *registerIndex)
     }
 };
 
-int push_to_stack(stack_t *pStack, instruction_t value)
-{
-    if (pStack->head == NULL)
-    {
-        stackNode_t node = {NULL, value};
-        stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
-        memcpy(p, &node, sizeof(stackNode_t));
-        pStack->size++;
-        pStack->head = p;
-    }
-    else
-    {
-        stackNode_t node = {NULL, value};
-        stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
-        memcpy(p, &node, sizeof(stackNode_t));
-        pStack->size++;
-        pStack->head->previous = p;
-        pStack->head = p;
-    }
-    return EXIT_SUCCESS;
-}
+// int push_to_stack(stack_t *pStack, instruction_t value)
+// {
+//     if (pStack->head == NULL)
+//     {
+//         stackNode_t node = {NULL, value};
+//         stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
+//         memcpy(p, &node, sizeof(stackNode_t));
+//         pStack->size++;
+//         pStack->head = p;
+//     }
+//     else
+//     {
+//         stackNode_t node = {NULL, value};
+//         stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
+//         memcpy(p, &node, sizeof(stackNode_t));
+//         pStack->size++;
+//         pStack->head->previous = p;
+//         pStack->head = p;
+//     }
+//     return EXIT_SUCCESS;
+// }
 
-int pop_from_stack(stack_t *pStack, instruction_t *value)
-{
-    if (pStack->head == NULL)
-    {
-        return EXIT_FAILURE;
-    }
-    else if (pStack->size == 1)
-    {
-        *value = pStack->head->val;
-        free(pStack->head);
-        pStack->size--;
-        pStack->head = NULL;
-    }
-    else
-    {
-        *value = pStack->head->val;
-        free(pStack->head);
-        pStack->size--;
-        pStack->head->previous = NULL;
-    }
-    return EXIT_SUCCESS;
-}
+// int pop_from_stack(stack_t *pStack, instruction_t *value)
+// {
+//     if (pStack->head == NULL)
+//     {
+//         return EXIT_FAILURE;
+//     }
+//     else if (pStack->size == 1)
+//     {
+//         *value = pStack->head->val;
+//         free(pStack->head);
+//         pStack->size--;
+//         pStack->head = NULL;
+//     }
+//     else
+//     {
+//         *value = pStack->head->val;
+//         free(pStack->head);
+//         pStack->size--;
+//         pStack->head->previous = NULL;
+//     }
+//     return EXIT_SUCCESS;
+// }
 
-int add_to_return_stack(stack_t *returnStack, instruction_t call)
-{
-    push_to_stack(returnStack, call);
+// int add_to_return_stack(stack_t *returnStack, instruction_t call)
+// {
+//     push_to_stack(returnStack, call);
 
-    return 0;
-}
+//     return 0;
+// }
 
-int get_return_line(stack_t *returnStack, instruction_t *call)
-{
-    pop_from_stack(returnStack, call);
+// int get_return_line(stack_t *returnStack, instruction_t *call)
+// {
+//     pop_from_stack(returnStack, call);
 
-    return 0;
-}
+//     return 0;
+// }
 
-int check_val(char *val)
+int check_val_(char *val)
 {
     if (val == NULL || strcmp(val, "") == 0)
     {

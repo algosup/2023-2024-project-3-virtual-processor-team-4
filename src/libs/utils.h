@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+// ************************** ENUM DECLARATIONS **************************
+
 typedef enum ErrorType // Define all the errors which could happen and their codes
 {
     SUCCESS,
@@ -62,14 +64,6 @@ typedef enum InstructionType
     XORI
 } InstructionType_t; // etc...
 
-typedef struct instruction // Definition of an instruction after parsing
-{
-    InstructionType_t instT;
-    char *val1;
-    char *val2;
-    int line;
-} instruction_t;
-
 typedef enum ParameterType // Define type of parameters in a function
 {
     IMMEDIATE,
@@ -77,6 +71,18 @@ typedef enum ParameterType // Define type of parameters in a function
     LABEL,
     NULL_,
 } ParameterType_t;
+
+// ************************** END ENUM DECLARATIONS **************************
+
+// ************************** STRUCT DECLARATIONS **************************
+
+typedef struct instruction // Definition of an instruction after parsing
+{
+    InstructionType_t instT;
+    char *val1;
+    char *val2;
+    int line;
+} instruction_t;
 
 typedef struct line // Definition of a line after parsing and checking all its arguments
 {
@@ -102,6 +108,43 @@ typedef struct line // Definition of a line after parsing and checking all its a
         };
     };
 } line_t;
+
+typedef struct label
+{
+    uint32_t line;
+    char *labelStr;
+} label_t;
+
+typedef struct nodeLabel
+{
+    struct nodeLabel *previous;
+    label_t val;
+    struct nodeLabel *next;
+} nodeLabel_t;
+
+typedef struct listLabel
+{
+    nodeLabel_t *head;
+    unsigned int size;
+    nodeLabel_t *tail;
+} listLabel_t;
+
+typedef struct stackNode
+{ // Item of linked list
+    struct stackNode *previous;
+    line_t val;
+} stackNode_t;
+
+typedef struct stack
+{ // Linked list = stack
+    stackNode_t *head;
+    unsigned int size;
+} stack_t;
+
+// ************************** END STRUCT DECLARATIONS **************************
+
+// ************************** FUNCTION DECLARATIONS **************************s
+// The functions contained in this section are of general purpose and can be used in any part of the code
 
 int check_is_number(char *str) // Check if a string is a number
 {
@@ -135,87 +178,81 @@ int check_is_label(char *str) // Check if the line content is a label
     return SUCCESS;
 }
 
-//Used to know what kind of input value we're working with
-int check_val(char* val){
-    if(val == NULL || strcmp(val, "") == 0){
+int check_val(char *val) // Used to know what kind of input value we're working with
+{
+    if (val == NULL || strcmp(val, "") == 0)
+    {
         return NULL_;
     }
 
     char str2[3];
     strcpy(str2, val);
-    char* ptr = str2;
+    char *ptr = str2;
     ptr++;
 
-    if(((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) 
-    && strlen(val) == 2
-    && (val[0] == 'R' || val[0] == 'r')){
+    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r'))
+    {
         return REGISTER;
     }
-    if(check_is_number(val) == SUCCESS){
+    if (check_is_number(val) == SUCCESS)
+    {
         return IMMEDIATE;
     }
-    if(check_is_number(val) == SUCCESS){
+    if (check_is_number(val) == SUCCESS)
+    {
         return LABEL;
     }
 
     return INVALID_DATA;
 }
 
-typedef struct label
+int get_list_str(listLabel_t *pList, label_t *value, int index)
 {
-    uint32_t line;
-    char* labelStr;
-}label_t;
-
-
-typedef struct nodeLabel{
-    struct nodeLabel* previous;
-    label_t val;
-    struct nodeLabel* next;
-}nodeLabel_t;
-
-typedef struct listLabel {
-    nodeLabel_t* head;
-    unsigned int size;
-    nodeLabel_t* tail;
-} listLabel_t;
-
-int get_list_str(listLabel_t* pList, label_t* value, int index){
-    if(index >= 0){
-        nodeLabel_t* current = pList -> head;
-        for(int i = 0; i < index; i++){
-            current = current -> next;
+    if (index >= 0)
+    {
+        nodeLabel_t *current = pList->head;
+        for (int i = 0; i < index; i++)
+        {
+            current = current->next;
         }
-        strcpy(value->labelStr, current -> val.labelStr);
-        value->line = current -> val.line;
-    }else{
-        nodeLabel_t* current = pList -> tail;
-        for(int i = -1; i > index; i--){
-            current = current -> previous;
+        strcpy(value->labelStr, current->val.labelStr);
+        value->line = current->val.line;
+    }
+    else
+    {
+        nodeLabel_t *current = pList->tail;
+        for (int i = -1; i > index; i--)
+        {
+            current = current->previous;
         }
-        strcpy(value->labelStr, current -> val.labelStr);
-        value->line = current -> val.line;
+        strcpy(value->labelStr, current->val.labelStr);
+        value->line = current->val.line;
     }
     return SUCCESS;
 };
 
-int add_to_list_str(listLabel_t* pList, label_t value){
-    if(pList -> head == NULL){
+int add_to_list_str(listLabel_t *pList, label_t value)
+{
+    if (pList->head == NULL)
+    {
         nodeLabel_t node = {NULL, value, NULL};
-        nodeLabel_t* p = (nodeLabel_t*)malloc(sizeof(nodeLabel_t));
+        nodeLabel_t *p = (nodeLabel_t *)malloc(sizeof(nodeLabel_t));
         memcpy(p, &node, sizeof(nodeLabel_t));
-        pList -> size++;
-        pList -> head = p;
-        pList -> tail = p; 
-    }else{        
-        nodeLabel_t node = {pList -> tail, value, NULL};
-        nodeLabel_t* p = (nodeLabel_t*)malloc(sizeof(nodeLabel_t));
+        pList->size++;
+        pList->head = p;
+        pList->tail = p;
+    }
+    else
+    {
+        nodeLabel_t node = {pList->tail, value, NULL};
+        nodeLabel_t *p = (nodeLabel_t *)malloc(sizeof(nodeLabel_t));
         memcpy(p, &node, sizeof(nodeLabel_t));
-        pList -> size++;
-        pList -> tail -> next = p;
-        pList -> tail = p;
+        pList->size++;
+        pList->tail->next = p;
+        pList->tail = p;
     }
     return SUCCESS;
 }
 
+// ************************** END FUNCTION DECLARATIONS **************************
 #endif
