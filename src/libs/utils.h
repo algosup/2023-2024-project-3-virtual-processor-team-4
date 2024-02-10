@@ -60,7 +60,7 @@ typedef enum InstructionType
     XCHG,
     XOR,
     XORI
-} InstructionType_t;
+} InstructionType_t; // etc...
 
 typedef struct instruction // Definition of an instruction after parsing
 {
@@ -117,7 +117,7 @@ int check_is_number(char *str) // Check if a string is a number
     return SUCCESS;
 }
 
-int check_is_label(char *str) //Check if the line content is a label
+int check_is_label(char *str) // Check if the line content is a label
 {
     if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
     {
