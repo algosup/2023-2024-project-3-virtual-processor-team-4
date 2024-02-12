@@ -106,53 +106,6 @@ int find_register(char*, int*);
 int execute_instruction(line_t*);
 int label_to_int(char*, uint32_t*);
 
-// --- Stack ---
-
-int push_to_stack(stack_t *pStack, line_t value)
-{
-    if (pStack->head == NULL)
-    {
-        stackNode_t node = {NULL, value};
-        stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
-        memcpy(p, &node, sizeof(stackNode_t));
-        pStack->size++;
-        pStack->head = p;
-    }
-    else
-    {
-        stackNode_t node = {NULL, value};
-        stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
-        memcpy(p, &node, sizeof(stackNode_t));
-        pStack->size++;
-        pStack->head->previous = p;
-        pStack->head = p;
-    }
-    return EXIT_SUCCESS;
-}
-
-int pop_from_stack(stack_t *pStack, line_t *value)
-{
-    if (pStack->head == NULL)
-    {
-        return EXIT_FAILURE;
-    }
-    else if (pStack->size == 1)
-    {
-        *value = pStack->head->val;
-        free(pStack->head);
-        pStack->size--;
-        pStack->head = NULL;
-    }
-    else
-    {
-        *value = pStack->head->val;
-        free(pStack->head);
-        pStack->size--;
-        pStack->head->previous = NULL;
-    }
-    return EXIT_SUCCESS;
-}
-
 // --- manipulate register ---
 
 int find_register(char *inString, int *registerIndex)
