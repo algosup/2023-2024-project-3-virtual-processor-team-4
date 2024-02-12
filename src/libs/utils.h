@@ -136,4 +136,30 @@ int check_is_label(char *str) // Check if the line content is a label
     return SUCCESS;
 }
 
+//Used to know what kind of input value we're working with
+int check_val(char* val){
+    if(val == NULL || strcmp(val, "") == 0){
+        return NULL_;
+    }
+
+    char str2[3];
+    strcpy(str2, val);
+    char* ptr = str2;
+    ptr++;
+
+    if(((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) 
+    && strlen(val) == 2
+    && (val[0] == 'R' || val[0] == 'r')){
+        return REGISTER;
+    }
+    if(check_is_number(val) == SUCCESS){
+        return IMMEDIATE;
+    }
+    if(check_is_number(val) == SUCCESS){
+        return LABEL;
+    }
+
+    return INVALID_DATA;
+}
+
 #endif
