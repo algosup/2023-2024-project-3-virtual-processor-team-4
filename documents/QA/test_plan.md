@@ -119,7 +119,10 @@ Testing will focus on assembly instruction and the assembler.
 - Assembler:
   - Absence of significant bug;
   - Should run properly;
-  - Should compile the files;
+  - Should assemble the files;
+- Emulator:
+  - Absence of significant bug;
+  - Should run properly;
   - Should interpret ASM files;
 - Documentation:
   - Spelling accuracy;
@@ -193,7 +196,7 @@ All the tests will be done on different tools:
 ### Software
 
 - [Visual Studio Code](https://code.visualstudio.com/) for the development of the product.
-- [GitHub](https://github.com) for the version control and to track the defects.
+- [Git](https://git-scm.com/) for the version control and to track the defects.
 - [GCC](https://en.wikipedia.org/wiki/GNU_Compiler_Collection) for the compilation of the final product on [Windows](https://code.visualstudio.com/docs/cpp/config-mingw), [macOS](https://code.visualstudio.com/docs/cpp/config-clang-mac), [Linux](https://code.visualstudio.com/docs/cpp/config-linux).
 
 ## Test criteria
