@@ -17,10 +17,10 @@ The assembly language will also be created and tailored by us.
         <!-- - [Targetted audiance](#target-audiance) -->
     - [Testing Strategy](#testing-strategy)
         - [QA team](#quality-assurance-team)
-        - [testing scope](#testing-scope)
+        - [Testing scope](#testing-scope)
             - [In-scope](#in-scope)
             - [Out-of-scope](#out-of-scope)
-        - [testing type](#testing-type)
+        - [Testing type](#testing-type)
             - [Smoke testing](#smoke-testing)
             - [Unit testing](#unit-testing)
             - [Agile testing](#agile-testing)
@@ -37,7 +37,7 @@ The assembly language will also be created and tailored by us.
         - [Tasks time estimation](#tasks-time-estimation)
         - [Tasks schedule](#tasks-schedule)
     - [Test deliverables](#test-deliverables)
-    - [Conclusion and acknowledgements](#conclusion-and-acknowledgements)
+    - [Conclusion and acknowledgments](# conclusion-and-acknowledgments)
     - [Sources](#sources)
     
 </details>
@@ -62,7 +62,7 @@ The assembly language will also be created and tailored by us.
 |Assembly language|In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions.|[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language)|
 |Compiler|In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language).|[Wikipedia](https://en.wikipedia.org/wiki/Compiler)|
 |C language|C is a general-purpose computer programming language. C is commonly used on computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.|[Wikipedia](https://en.wikipedia.org/wiki/C_(programming_language))|
-|GitHub|GitHub, Inc. is an AI-powered developer platform that allows developers to create, store, manage and share their code.|[Wikipedia](https://en.wikipedia.org/wiki/GitHub)|
+|GitHub|GitHub, Inc. is an AI-powered developer platform that allows developers to create, store, manage, and share their code.|[Wikipedia](https://en.wikipedia.org/wiki/GitHub)|
 |GitHub Issues|GitHub Issues are items you can create in a repository to plan, discuss, and track work. Issues are simple to create and flexible to suit a variety of scenarios. You can use issues to track work, give or receive feedback, collaborate on ideas or tasks, and efficiently communicate with others.|[GitHub](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues)|
 |GNU Compiler Collection (GCC)|The GNU Compiler Collection (GCC) is an optimizing compiler produced by the GNU Project supporting various programming languages, hardware architectures, and operating systems.|[Wikipedia](https://en.wikipedia.org/wiki/GNU_Compiler_Collection)|
 |Interpreter|In computer science, an interpreter is a computer program that directly executes instructions written in a programming or scripting language, without requiring them previously to have been compiled into a machine language program.|[Wikipedia](https://en.wikipedia.org/wiki/Interpreter_(computing))|
@@ -86,7 +86,7 @@ Our team was asked to create a virtual processor and an interpreter to run assem
 
 As a quality assurance, I need to test the quality of the code produced by the software engineering team but also the quality of the documentation.
 
-**code testing strategy**
+**Code testing strategy**
 
 Our testing strategy will be based on three different testing types. At first, we will use [smoke testing](#smoke-testing) to see basic functionalities. Then we will use some [unit tests](#unit-testing) to see in more detail if the code runs as expected. We will also use some [agile testing](#agile-testing) to test the code before each push on GitHub.
 
@@ -98,40 +98,42 @@ For the documentation, I will mainly do the tests as soon as a new version is re
 
 The testing team will be composed of 5 Quality assurance members from 5 different teams:
 
-- Serena BAVAROIS from the team 1 (Windows)
-- Enzo GUILLOUCHE from the team 2 (Windows)
-- Arthur LEMOINE from the team 3 (macOS)
-- Maxime THIZEAU from the team 4 (Windows)
-- Atifa AMIRI from the team 5 (Windows)
+- Serena BAVAROIS from the team 1 (Windows);
+- Enzo GUILLOUCHE from the team 2 (Windows);
+- Arthur LEMOINE from the team 3 (macOS);
+- Maxime THIZEAU from the team 4 (Windows);
+- Atifa AMIRI from the team 5 (Windows);
 
 Having this lot of people will allow our teams to have an external point of view on our product and to define if we are on the right path or not. Moreover, this association allows us to test our product with different operating systems such as macOS and Windows. Finally, it could help us to create a better testing of the product.
 
-### testing scope
+You can see the minutes of our meetings in the markdown file: "[quality_assurance_meeting_minutes.md](quality_assurance_meeting_minutes.md)".
+
+### Testing scope
 
 Testing will focus on assembly instruction and the assembler.
 
 #### In-scope
 
-- Assembly instruction
-  - all the instructions defined in the [Functional Specification](/documents/functional/functional_specification.md) should function as intended.
-- Assembler
-  - Absence of significant bug
-  - Should run properly
-  - Should compile the files
-  - Should interpret ASM files
-- Documentation
-  - Spelling accuracy
-  - Typographical errors
-  - naming conventions
+- Assembly instruction:
+  - All the instructions defined in the [Functional Specification](/documents/functional/functional_specification.md) should function as intended.
+- Assembler:
+  - Absence of significant bug;
+  - Should run properly;
+  - Should compile the files;
+  - Should interpret ASM files;
+- Documentation:
+  - Spelling accuracy;
+  - Typographical errors;
+  - Naming conventions;
 
 #### Out-of-Scope
 
-- font details
-- interrupt instruction
+- Font details;
+- Interrupt instruction;
 <!-- TODO
 - ... -->
 
-### testing type
+### Testing type
 
 #### Smoke testing
 
@@ -204,17 +206,17 @@ When a test is done, if a suspension criteria is reached, we stop the following 
 
 The entry criteria are the criteria needed for the well-being of the test and to ensure to proceed in the best environment possible. \
 The three main criteria are:
-- Be sure to proceed with the tests on a valid version of the code.
-- Be sure to have the unit tests required
-- Be sure that the environment is correctly set for the tests
+- Be sure to proceed with the tests on a valid version of the code;
+- Be sure to have the unit tests required;
+- Be sure that the environment is correctly set for the tests;
 
 ### Exit criteria
 
 The exit criteria should specify the requirements to complete before the end of the testing phase. \
 These criteria are:
-- We need to have at least an 80% success rate.
-- We need to have no critical or high-severity defects during the tests.
-- All the little and medium severity issues should be reported.
+- We need to have at least an 80% success rate;
+- We need to have no critical or high-severity defects during the tests;
+- All the little and medium severity issues should be reported;
 
 ## Bug report
 
@@ -288,14 +290,12 @@ All the durations defined here are only estimations! It could take more or less 
 - **Bug reports:** Each will contain a report about a bug found during the test sessions.
 - **Bug data report:** It will allow us to see all of the reports in one place.
 
-## Conclusion and acknowledgements
+## Conclusion and acknowledgments
 
 The testing part of a project is one of the most important ones. If the quality isn't assured, then the product would not work as intended, this is why this part is such an important one.
 
 We would thank all the members of the team who worked on this project.
 We would thank the other quality assurances that we work with, our product would have been less good without their help.
-
-<!-- TODO -->
 
 We would also thank our teacher [Caroline CORDIER](https://www.linkedin.com/in/caroline-cordier-dpo/), who taught us the fundamentals of a good test plan and the quality assurance role.
 
