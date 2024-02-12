@@ -28,7 +28,7 @@ Initially, we found ourselves somewhat disoriented when reviewing the call for t
 
 In light of this confusion, our Program Manager was on the verge of drafting an email to our client. However, as we started discussing and explaining our understandings, we got progressively the shape of what the client wanted until it was clear to everybody.
 
-Subsequently, we thought together, led by the Program Manager, about all the bases of functional specifications, trying to bring real added value to the creation of yet another assembly language.
+Subsequently, we thought together, led by the Program Manager, about all the bases of functional specification, trying to bring real added value to the creation of yet another assembly language.
 
 <hr>
 
@@ -46,11 +46,11 @@ Subsequently, we thought together, led by the Program Manager, about all the bas
 
 ### Plan for Next Week
 
-- Progress on the functional specifications, to give some clear instructions to the tech lead and the developers.
+- Progress on the functional specification, to give some clear instructions to the tech lead and the developers.
 - For the dev: Begin to develop the bases of the code in C, the reading functions of the ASM file.
 - Management: Build and begin to fill the KPIs dashboard and the documentation on GitHub.
 - QA: Begin the test plan, and the test strategy.
-- Tech Lead: Define all the conventions for the developers and begin the technical specifications.
+- Tech Lead: Define all the conventions for the developers and begin the technical specification.
 
 <br><hr><br>
 
@@ -64,7 +64,7 @@ Subsequently, we thought together, led by the Program Manager, about all the bas
 
 ### Overview of the week
 
-During the two first days of this week, we continued to define the functional specifications of our new assembly language and began to code an interpreter from Assembly to direct emulation in a virtual processor. Then, on Wednesday, we had a meeting with the client, and we understood many things, particularly the expectation to have on one hand a compiler from assembly language to machine code, and on the other hand, an emulator and interpreter of the machine code in the virtual processor. Also, we rethought the instructions and their parameters, regarding the machine code aspect. Also, we advanced on the management, technical, and quality assurance documents.
+During the two first days of this week, we continued to define the functional specification of our new assembly language and began to code an interpreter from Assembly to direct emulation in a virtual processor. Then, on Wednesday, we had a meeting with the client, and we understood many things, particularly the expectation to have on one hand a compiler from assembly language to machine code, and on the other hand, an emulator and interpreter of the machine code in the virtual processor. Also, we rethought the instructions and their parameters, regarding the machine code aspect. Also, we advanced on the management, technical, and quality assurance documents.
 
 <hr>
 
@@ -72,14 +72,14 @@ During the two first days of this week, we continued to define the functional sp
 ### Accomplishments
 
 - We made a C program to read an assembly file and get the algorithm from text.
-- We worked as far as possible (waiting for the complete functional specifications) on the error handling in the compilation.
+- We worked as far as possible (waiting for the complete functional specification) on the error handling in the compilation.
 - We built the first virtual components (the registers) of the processor and the way to read/write in them.
 - With these registers, we were able to code the first instructions for the emulator like basic operations and logic operands.
 - We had a meeting with the client and redacted the minutes of it.
-- We worked a lot on functional specifications, particularly about the syntax, the mnemonics, and the behavior of the instructions, as well as the machine code encoding of the algorithm for each instruction.
+- We worked a lot on functional specification, particularly about the syntax, the mnemonics, and the behavior of the instructions, as well as the machine code encoding of the algorithm for each instruction.
 - We have done the complete list of tasks and the KPI data, with three charts for now.
 - We have done the final project charter adapted from the new understanding of the client's expectations we get with the meeting.
-- We specified the architecture implementation details and the coding conventions in the technical specifications and began to work on the compiler and interpreter part of the document. 
+- We specified the architecture implementation details and the coding conventions in the technical specification and began to work on the compiler and interpreter part of the document. 
 - The QA has already coded some assembly programs with our assembly language to put it to the test.
 
 ### Challenges
@@ -87,15 +87,15 @@ During the two first days of this week, we continued to define the functional sp
    - The meeting with the client had a huge impact on the project: We planned to have a direct assembly to emulation interpreter, so now we'll pass by a machine code file. Consequently, the functional and the beginning of the code we had, will be impacted.
    - We will need a lot more time than expected.
    - We are late regarding the expectations.
-   - Employees are quite discouraged by all the work to do, particularly about all the new functional specifications seeing the deadline.
+   - Employees are quite discouraged by all the work to do, particularly about all the new functional specification seeing the deadline.
 
 ### Plan for Next Week
 
-- Functional: Progress on the functional specifications, to give some clear instructions to the tech lead and the developers.
-- Developer: First, help with the functional specifications, especially the machine code part. Then, as soon as the instructions are well defined, they will code these.
+- Functional: Progress on the functional specification, to give some clear instructions to the tech lead and the developers.
+- Developer: First, help with the functional specification, especially the machine code part. Then, as soon as the instructions are well defined, they will code these.
 - Management: I will finish the charts of the KPIs, then make the RACI and Gant chart, to finally complete the readme about how to run our project.
 - QA: Continue the test plan, the tests' strategy, and also create the bug report's template.
-- Tech Lead: move forward on the technical specifications, in parallel with the functional ones.
+- Tech Lead: move forward on the technical specification, in parallel with the functional ones.
 
 <br><hr><br>
 
@@ -115,11 +115,11 @@ During this week, we first finished the functional specification and began to co
 ### Accomplishments
 
 
-- We finished the functional specifications and worked on the assembly's documentation.
+- We finished the functional specification and worked on the assembly's documentation.
 - We worked on the assembler program.
 - We finished the KPI dashboard and the RACI matrix and completed the list of tasks.
 - We created the bug report template and continued the test plan.
-- We kept working on the technical specifications.
+- We kept working on the technical specification.
 
 ### Plan for Next Week
 
@@ -143,15 +143,14 @@ We plan to:
 
 ### Overview of the week
 
-During this short week of one half-day, we almost finished the assembler program which reads the assembly code and return machine code. The tech leader finished to details his specifications and the program manager also continued to write the assembly documentation.
+During this short week of one half-day, we almost finished the assembler program which reads the assembly code and returns the machine code. The tech leader finished to details his specification and the program manager also continued to write the assembly documentation.
 
 <hr>
 
-
 ### Accomplishments
 
-- We finished the technical specifications.
-- We worked both on the reading of an assembly file and the generation of machine code.
+- We finished the technical specification.
+- We worked both on the reading of an assembly file and the generation of the machine code.
 - We worked on the documentation of our assembly language.
 - In parallel, we continued to review the documents and update the management content.
 
@@ -160,7 +159,7 @@ During this short week of one half-day, we almost finished the assembler program
 Next week we plan to:
 
 - finish the assembler program,
-- continue the Test Plan,
+- finish the Test Plan,
 - continue the documentation of the assembly language,
 - begin to decode the binary file in the v-processor,
 - make the functions corresponding to the instructions, in C.
