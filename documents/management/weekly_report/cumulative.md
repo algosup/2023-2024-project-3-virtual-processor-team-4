@@ -10,6 +10,7 @@
 - [Week 2](#weekly-report---day-1)
 - [Week 3](#weekly-report---week-3)
 - [Week 4](#weekly-report---week-4)
+- [Week 5](#weekly-report---week-5)
 
 <br><hr><br>
 
@@ -130,5 +131,38 @@ We plan to:
 - continue the Test Plan,
 - finish the technical specification, and
 - continue the documentation of the assembly language.
+
+<br><hr><br>
+
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/week_5__05-02_to_09-02.md)
+
+# Weekly report - week 5
+
+*From --- Monday, February 5th ---  to  --- Friday, February 9th ---*
+*Actually only **3h15 of project** on Monday morning*
+
+### Overview of the week
+
+During this short week of one half-day, we almost finished the assembler program which reads the assembly code and return machine code. The tech leader finished to details his specifications and the program manager also continued to write the assembly documentation.
+
+<hr>
+
+
+### Accomplishments
+
+- We finished the technical specifications.
+- We worked both on the reading of an assembly file and the generation of machine code.
+- We worked on the documentation of our assembly language.
+- In parallel, we continued to review the documents and update the management content.
+
+### Plan for Next Week
+
+Next week we plan to:
+
+- finish the assembler program,
+- continue the Test Plan,
+- continue the documentation of the assembly language,
+- begin to decode the binary file in the v-processor,
+- make the functions corresponding to the instructions, in C.
 
 <br><hr><br>
