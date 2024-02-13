@@ -23,25 +23,25 @@ call roll
 exit
 
 threeDigits:
-set rd 32
+set rd 256
 set re 16
 call roll
 exit
 
 fourDigits:
-set rd 48
+set rd 4096
 set re 16
 call roll
 exit
 
 fiveDigits:
-set rd 64
+set rd 65536
 set re 16
 call roll
 exit
 
 sixDigits:
-set rd 80
+set rd 1048576
 set re 16
 call roll
 exit

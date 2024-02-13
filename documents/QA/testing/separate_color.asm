@@ -1,6 +1,6 @@
 set ra xFFFFFF
-set rb 32
-set rc 64
+set rb 256
+set rc 65536
 SeparateRGB:
 teqi rt ra xFFFFFF
 bnz rt redComponent

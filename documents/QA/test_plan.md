@@ -14,7 +14,6 @@ The assembly language will also be created and tailored by us.
     - [Glossary](#glossary)
     - [Introduction](#introduction)
         - [Overview](#overview)
-        <!-- - [Targetted audiance](#target-audiance) -->
     - [Testing Strategy](#testing-strategy)
         - [QA team](#quality-assurance-team)
         - [Testing scope](#testing-scope)
@@ -62,6 +61,7 @@ The assembly language will also be created and tailored by us.
 |Assembly language|In computer programming, assembly language is any low-level programming language with a very strong correspondence between the instructions in the language and the architecture's machine code instructions.|[Wikipedia](https://en.wikipedia.org/wiki/Assembly_language)|
 |Compiler|In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language).|[Wikipedia](https://en.wikipedia.org/wiki/Compiler)|
 |C language|C is a general-purpose computer programming language. C is commonly used on computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.|[Wikipedia](https://en.wikipedia.org/wiki/C_(programming_language))|
+|Git|A distributed version control system that tracks changes in any set of computer files, usually used for coordinating work among programmers who are collaboratively developing source code during software development.|[Wikipedia](https://en.wikipedia.org/wiki/Git)|
 |GitHub|GitHub, Inc. is an AI-powered developer platform that allows developers to create, store, manage, and share their code.|[Wikipedia](https://en.wikipedia.org/wiki/GitHub)|
 |GitHub Issues|GitHub Issues are items you can create in a repository to plan, discuss, and track work. Issues are simple to create and flexible to suit a variety of scenarios. You can use issues to track work, give or receive feedback, collaborate on ideas or tasks, and efficiently communicate with others.|[GitHub](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues)|
 |GNU Compiler Collection (GCC)|The GNU Compiler Collection (GCC) is an optimizing compiler produced by the GNU Project supporting various programming languages, hardware architectures, and operating systems.|[Wikipedia](https://en.wikipedia.org/wiki/GNU_Compiler_Collection)|
@@ -79,8 +79,6 @@ The assembly language will also be created and tailored by us.
 ### Overview
 
 Our team was asked to create a virtual processor and an interpreter to run assembly language previously created by our team on this same processor. The processor should be portable and written in C with standard libraries.
-
-<!-- ### Targeted audiance -->
 
 ## Testing Strategy
 
@@ -133,8 +131,6 @@ Testing will focus on assembly instruction and the assembler.
 
 - Font details;
 - Interrupt instruction;
-<!-- TODO
-- ... -->
 
 ### Testing type
 
