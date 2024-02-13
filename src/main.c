@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include <unistd.h>
 #include <pthread.h>
 #include "./libs/utils.h"
 #include "./libs/runtime.h"
@@ -29,6 +28,15 @@ void performWorkload()
         pthread_mutex_lock(&mutex);
         operationsCounter++;
         pthread_mutex_unlock(&mutex);
+    }
+}
+
+void sleep(int seconds) {
+    struct timespec req = {seconds, 0};
+    struct timespec rem = {0, 0}; // Remaining time unused, but it is still necessary for nanosleep
+    while (nanosleep(&req, &rem) == -1) {
+        // If interrupted, sleep again with remaining time
+        req = rem;
     }
 }
 

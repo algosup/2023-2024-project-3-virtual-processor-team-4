@@ -323,23 +323,20 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     case ORI:
     case SUBI:
     case XORI:
-        is_first_operand_register_and_second_operand_immediate_or_are_two_first_operands_registers_and_third_immediate(instructionId, param1, param2, param3, lineNumber, count_non_null_params(param1, param2, param3));
-        return SUCCESS;
+        return is_first_operand_register_and_second_operand_immediate_or_are_two_first_operands_registers_and_third_immediate(instructionId, param1, param2, param3, lineNumber, count_non_null_params(param1, param2, param3));
         break;
     case B:
     case CALL:
-        is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber, count_non_null_params(param1, param2, param3));
-        return SUCCESS;
+        return is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber, count_non_null_params(param1, param2, param3));
         break;
     case BI:
     case CALLI:
-        is_first_operand_immediate(instructionId, param1, lineNumber);
-        return SUCCESS;
+        return is_first_operand_immediate(instructionId, param1, lineNumber);
         break;
     case BNZ:
     case BZ:
-        is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
         return SUCCESS;
+        is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
         break;
     case JMP:
         // Check if first operand is address (WIP: missing example in functional)
