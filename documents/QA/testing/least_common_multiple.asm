@@ -17,11 +17,20 @@ addi rz ra 0
 next:
 addi re rc 0
 addi rf rd 0
-div re rf          // TODO MODULO
-teqi rt rf 0
+addi rm re 0
+call modulo
+teqi rt rm 0
 bnz rt end
 add rc rz
 jump next
+
+modulo:
+tlt rt rm rf
+bnz rt endModulo
+sub rm rf
+jmp modulo
+endModulo:
+ret
 
 end:
 exit

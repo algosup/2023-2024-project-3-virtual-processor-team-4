@@ -13,5 +13,15 @@ addi rf rb 0
 addi rg rc 0
 mul re rg
 add re rd
-div re rf           // TODO MODULO
+addi rm re 0
+call modulo
 addi re rf 0
+end
+
+modulo:
+tlt rt rm rf
+bnz rt endModulo
+sub rm rf
+jmp modulo
+endModulo:
+ret
