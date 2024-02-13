@@ -335,8 +335,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case BNZ:
     case BZ:
-        return SUCCESS;
-        is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
+        return is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
         break;
     case JMP:
         // Check if first operand is address (WIP: missing example in functional)
