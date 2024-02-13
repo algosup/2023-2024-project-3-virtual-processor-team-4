@@ -12,7 +12,37 @@ This document will have the entire test cases created to ensure the well-functio
 |2     |Medium  |
 |3     |Low     |
 
-## Run the product
+## Test Cases Assembler
+
+### Assembler compilation
+
+| Test Case ID              | 1                                                                               |
+|---------------------------|---------------------------------------------------------------------------------|
+| Test case Name            | Assembler compilation                                                           |
+| Test Case Description     | Verify if the assembly ```main.c``` could be run without errors.                |
+| Test Case Pre-conditions  | The product isn't running.                                                      |
+| Test Case Steps           | 1. Open ```main.c``` in Visual Studio Code. 2. Run the file with GCC.           |
+| Test Case Expected Result | The file run without errors and you get another file named ```assembler.exe```. |
+| Test Case Actual Result   | ---                                                                             |
+| Test Case Status          | To Test                                                                         |
+| Test Case Priority        | High 1                                                                          |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                                                             |
+
+### No parameter
+
+| Test Case ID              | 2                                                                  |
+|---------------------------|--------------------------------------------------------------------|
+| Test case Name            | No parameter                                                       |
+| Test Case Description     | Help the user to use the ```assembler.exe```                       |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.                                 |
+| Test Case Steps           | 1. Type ```assembler.exe``` in the terminal. 2. Press ```enter```. |
+| Test Case Expected Result | A help message should be sent.                                     |
+| Test Case Actual Result   | ---                                                                |
+| Test Case Status          | To Test                                                            |
+| Test Case Priority        | Low 3                                                              |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                                                |
+
+<!-- ## Run the product
 
 | Test Case ID              | 1                                         |
 |---------------------------|-------------------------------------------|
@@ -178,4 +208,4 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Actual Result   | ---                                       |
 | Test Case Status          | To Test                                   |
 | Test Case Priority        | Medium 2                                  |
-| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       | -->
