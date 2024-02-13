@@ -124,7 +124,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-12)
   - [Restrictions](#restrictions-12)
   - [Example](#example-12)
-- [LD - Load with direct addressing ](#ld---load-with-direct-addressing-)
+- [LD - Load with direct addressing](#ld---load-with-direct-addressing)
   - [Description](#description-13)
   - [Syntax](#syntax-13)
   - [Operands](#operands-13)
@@ -132,7 +132,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-13)
   - [Restrictions](#restrictions-13)
   - [Example](#example-13)
-- [LDI - Load with direct immediate addressing ](#ldi---load-with-direct-immediate-addressing-)
+- [LDI - Load with direct immediate addressing](#ldi---load-with-direct-immediate-addressing)
   - [Description](#description-14)
   - [Syntax](#syntax-14)
   - [Operands](#operands-14)
@@ -140,7 +140,7 @@ Note for all immediate instruction: Since the difference between a register and 
   - [Machine code](#machine-code-14)
   - [Restrictions](#restrictions-14)
   - [Example](#example-14)
-- [LDP - Load with indirect addressing ](#ldp---load-with-indirect-addressing-)
+- [LDP - Load with indirect addressing](#ldp---load-with-indirect-addressing)
   - [Description](#description-15)
   - [Syntax](#syntax-15)
   - [Operands](#operands-15)
@@ -890,27 +890,28 @@ jmp infiniteLoop
 
 
 
-## LD - Load with direct addressing <!-- TODO ########## -->
+## LD - Load with direct addressing
 
 ### Description
 
-Here is a short description of what the instruction does.
+Reads the address stored in the source register and loads the value at that address in the destination register.
 
 ### Syntax
 
-`temp rd rs rt`
+`ld rd rs`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register holding the address
 
 ### Operation
 
-`yes <- "Hello world"`
+`rd <- [rs]`
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`00OOOOO? ???????? ??????SS SSSDDDDD`
 
 ### Restrictions
 
@@ -919,35 +920,41 @@ Here is a short description of what the instruction does.
 ### Example
 
 ```
-Just a sample program
-that uses the instruction
+// rp: pointer to a 0-ended array of integers
+set ra 0
+sum:
+ld rt rp
+add ra ra rt
+bnz rt sum
+// ra: holds the sum
 ```
 
 
 
 
 
-## LDI - Load with direct immediate addressing <!-- TODO ########## -->
+## LDI - Load with direct immediate addressing
 
 ### Description
 
-Here is a short description of what the instruction does.
+Loads the value stored at the immediate address and stores it in the destination register.
 
 ### Syntax
 
-`temp rd rs rt`
+`ldi rd imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `imm`: Immediate address of the value
 
 ### Operation
 
-`yes <- "Hello world"`
+`rd <- [imm]`
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`01OOOOII IIIIIIII IIIIIIII IIIDDDDD`
 
 ### Restrictions
 
@@ -955,46 +962,52 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## LDP - Load with indirect addressing <!-- TODO ########## -->
+## LDP - Load with indirect addressing
 
 ### Description
 
-Here is a short description of what the instruction does.
+Reads the address of the pointer stored in the source register and loads the value at the address pointed by the register into the destination register.
 
 ### Syntax
 
-`temp rd rs rt`
+`ld rd rs`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register holding the address
 
 ### Operation
 
-`yes <- "Hello world"`
+`rd <- [[rs]]`
+
+or 
+
+```
+temp <- [rs]
+rd <- [temp]
+```
 
 ### Machine code
 
-`???????? ???????? ???????? ????????`
+`00OOOOO? ???????? ??????SS SSSDDDDD`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+Neither `rd` nor `rs` can be `sp` or `ip`
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 

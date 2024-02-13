@@ -250,9 +250,9 @@ For the full manual, please refer to the [Appendix A](./appendix_a_instruction_s
 | 0010001 | `ld`        | R    | 4                | High                    |
 | 0010010 | `strp`      | R    | 6                | Low                     |
 | 0010011 | `ldp`       | R    | 6                | Low                     |
-| 0010010 | `push`      | R    | 5                | Low                     |
-| 0010011 | `pop`       | R    | 5                | Low                     |
-| 0010100 | `xchg`      | R    | 5                | Low                     |
+| 0010100 | `push`      | R    | 5                | Low                     |
+| 0010101 | `pop`       | R    | 5                | Low                     |
+| 0010110 | `xchg`      | R    | 5                | Low                     |
 | 001.... | RESERVED    | R    | -                | -                       |
 | 010000  | `addi`      | I    | 4                | High                    |
 | 010001  | `subi`      | I    | 4                | High                    |
