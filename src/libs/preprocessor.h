@@ -2,6 +2,7 @@
 #define PREPROCESS_H
 #include "utils.h"
 #include "runtime.h"
+#include <inttypes.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -94,7 +95,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     }
     if (find_operand(opcode, instructionType) != SUCCESS)
     {
-        printf("Error: Could not find a matching opcode on line %ld\n", *lineNumber);
+        printf("Error: Could not find a matching opcode on line: %" PRIu64 "\n", *lineNumber);
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1 = NULL_;
@@ -104,7 +105,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
 
     if (are_operation_params_valid(instructionType, dest, param1, param2, lineNumber) != SUCCESS)
     {
-        printf("Params invalid");
+        printf("Params invalid\n");
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1 = NULL_;
@@ -153,7 +154,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         }
         else
         {
-            printf("Error: Invalid operation (unhandled second param) on line %ld\n", *lineNumber);
+            printf("Error: Invalid operation (unhandled second param) on line: %" PRIu64 "\n", *lineNumber);
             return GENERIC_ERROR;
         }
     }
@@ -175,7 +176,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         }
         else
         {
-            printf("Error: Invalid operation (unhandled third param) on line %ld\n", *lineNumber);
+            printf("Error: Invalid operation (unhandled third param) on line: %" PRIu64 "\n", *lineNumber);
             return GENERIC_ERROR;
         }
     }
@@ -370,7 +371,7 @@ int is_first_operand_null(InstructionType_t *instructionId, char *param1, uint64
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction does not accept first operand on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction does not accept first operand on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -383,7 +384,7 @@ int is_second_operand_null(InstructionType_t *instructionId, char *param2, uint6
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction does not accept second operand on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction does not accept second operand on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -396,7 +397,7 @@ int is_third_operand_null(InstructionType_t *instructionId, char *param3, uint64
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction does not accept third operand on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction does not accept third operand on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -409,7 +410,7 @@ int is_first_operand_not_null(InstructionType_t *instructionId, char *param1, ui
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction requires first operand on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction requires first operand on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -422,7 +423,7 @@ int is_second_operand_not_null(InstructionType_t *instructionId, char *param2, u
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction requires second operand on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction requires second operand on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -435,7 +436,7 @@ int is_third_operand_not_null(InstructionType_t *instructionId, char *param3, ui
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction requires third operand on line: %d\n", opcode, *lineNumber);
+        printf("Error: %s instruction requires third operand on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -455,7 +456,7 @@ int is_first_operand_register(InstructionType_t *instructionId, char *param1, ui
     {
 
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not an existing register on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction first parameter is not an existing register on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -475,7 +476,7 @@ int is_second_operand_register(InstructionType_t *instructionId, char *param2, u
     {
 
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is not an existing register on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction second parameter is not an existing register on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -495,7 +496,7 @@ int is_third_operand_register(InstructionType_t *instructionId, char *param3, ui
     {
 
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction third parameter is not an existing register on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction third parameter is not an existing register on line: %" PRIu64 "RIu64\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -513,7 +514,7 @@ int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, u
     if (check_is_number(param1) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not an immediate on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction first parameter is not an immediate on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -531,7 +532,7 @@ int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, 
     if (check_is_number(param2) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is not an immediate on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction second parameter is not an immediate on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -549,7 +550,7 @@ int is_third_operand_immediate(InstructionType_t *instructionId, char *param3, u
     if (check_is_number(param3) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction third parameter is not an immediate on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction third parameter is not an immediate on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -567,7 +568,7 @@ int is_first_operand_label(InstructionType_t *instructionId, char *param1, uint6
     if (check_is_label(param1) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not a label on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction first parameter is not a label on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -585,7 +586,7 @@ int is_second_operand_label(InstructionType_t *instructionId, char *param2, uint
     if (check_is_label(param2) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is not a label on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction second parameter is not a label on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -604,7 +605,7 @@ int is_first_operand_immediate_or_register(InstructionType_t *instructionId, cha
     if (check_is_number(param1) != SUCCESS && find_register(param1, &paramVerificationReturn) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is nor an immediate or register on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction first parameter is nor an immediate or register on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -623,7 +624,7 @@ int is_second_operand_immediate_or_register(InstructionType_t *instructionId, ch
     if (check_is_number(param2) != SUCCESS && find_register(param2, &paramVerificationReturn) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction second parameter is nor an immediate or register on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction second parameter is nor an immediate or register on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -642,7 +643,7 @@ int is_third_operand_immediate_or_register(InstructionType_t *instructionId, cha
     if (check_is_number(param3) != SUCCESS && find_register(param3, &paramVerificationReturn) != SUCCESS)
     {
         get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction third parameter is nor an immediate or register on line: %ld\n", opcode, *lineNumber);
+        printf("Error: %s instruction third parameter is nor an immediate or register on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
@@ -708,11 +709,11 @@ int is_first_operand_register_and_second_operand_immediate_or_are_two_first_oper
         get_operand_name(*instructionId, opcode);
         if (paramsNumber < 2)
         {
-            printf("Error: %s instruction is missing at least one parameter on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction is missing at least one parameter on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
         else if (paramsNumber > 3)
         {
-            printf("Error: %s instruction has been provided too much arguments on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
     }
 }
@@ -759,11 +760,11 @@ int are_two_first_operand_registers_or_are_all_operands_registers(InstructionTyp
         get_operand_name(*instructionId, opcode);
         if (paramsNumber < 2)
         {
-            printf("Error: %s instruction is missing at least one parameter on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction is missing at least one parameter on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
         else if (paramsNumber > 3)
         {
-            printf("Error: %s instruction has been provided too much arguments on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
     }
 }
@@ -801,11 +802,11 @@ int is_first_operand_register_or_is_first_operand_register_and_second_operand_im
         get_operand_name(*instructionId, opcode);
         if (paramsNumber < 1)
         {
-            printf("Error: %s instruction is missing at least one parameter on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction is missing at least one parameter on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
         else if (paramsNumber > 2)
         {
-            printf("Error: %s instruction has been provided too much arguments on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
     }
 }
@@ -834,11 +835,11 @@ int are_first_two_operands_register_and_third_register_or_immediate_or_is_first_
         get_operand_name(*instructionId, opcode);
         if (paramsNumber < 2)
         {
-            printf("Error: %s instruction is missing at least one parameter on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction is missing at least one parameter on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
         else if (paramsNumber > 3)
         {
-            printf("Error: %s instruction has been provided too much arguments on line: %ld\n", opcode, *lineNumber);
+            printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
     }
 }
