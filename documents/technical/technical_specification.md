@@ -186,7 +186,26 @@ The Virtual Terminal is a part of the virtual processor; it will be used to disp
 
 ### Virtual Memory
 
-For our virtual memory, we will use an array of char of size 1.610.612.735 bits or 201.326.591 bytes accessible to the user.
+Memory Map:
+
+- Code Section:
+  - Encoding: [in the functional](/documents/functional/functional_specification.md)
+  - Size: 32 MB
+- Data Section:
+  - Encoding: byte per byte
+  - Size: 1 GB
+- Peripheric Section:
+  - Input Section:
+    - Encoding: ASCII-8
+    - Size: 32 KB
+  - Output Section:
+    - Encoding: ASCII-8
+    - Size: 1 KB
+  - Video Memory:
+    - Encoding: (1000x500px) x 4bit/pixel
+    - Size: 256 KB
+
+
 
 ### Error Handling
 
