@@ -88,7 +88,11 @@ typedef struct line // Definition of a line after parsing and checking all its a
     {
         struct
         {
-            uint8_t param1;
+            ParameterType_t param1_t;
+            union {
+                uint8_t register1;
+                int16_t immediate1;
+            };
             ParameterType_t param2_t;
             union
             {
@@ -101,7 +105,6 @@ typedef struct line // Definition of a line after parsing and checking all its a
             char *label;
         };
     };
-
 } line_t;
 
 int check_is_number(char *str) // Check if a string is a number
