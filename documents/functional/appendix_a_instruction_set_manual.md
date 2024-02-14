@@ -34,10 +34,10 @@ Note for all immediate instruction: Since the difference between a register and 
 - [POP - Pop register from stack](#pop---pop-register-from-stack)
 - [PUSH - Push register on stack](#push---push-register-on-stack)
 - [RET - Return from subroutine](#ret---return-from-subroutine)
-- [SET - Set register to immediate ](#set---set-register-to-immediate-)
-- [STR - Store with direct addressing ](#str---store-with-direct-addressing-)
-- [STRI - Store with direct immediate addressing ](#stri---store-with-direct-immediate-addressing-)
-- [STRP - Store with indirect addressing ](#strp---store-with-indirect-addressing-)
+- [SET - Set register to immediate](#set---set-register-to-immediate)
+- [STR - Store with direct addressing](#str---store-with-direct-addressing)
+- [STRI - Store with direct immediate addressing](#stri---store-with-direct-immediate-addressing)
+- [STRP - Store with indirect addressing](#strp---store-with-indirect-addressing)
 - [SUB - Subtraction](#sub---subtraction)
 - [SUBI - Subtraction with immediate](#subi---subtraction-with-immediate)
 - [TEQ - Test if equal ](#teq---test-if-equal-)
@@ -968,27 +968,28 @@ If an overflow occurs, the behavior is undefined and depends on hardware impleme
 
 
 
-## SET - Set register to immediate <!-- TODO ########## -->
+## SET - Set register to immediate
 
 ### Description
 
-Here is a short description of what the instruction does.
+Sets a register to an immediate value.
 
 ### Syntax
 
-`temp rd rs rt`
+`set rd imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `imm`: Immediate value
 
 ### Operation
 
-`yes <- "Hello world"`
+`rd <- imm`
 
 ### Machine code
 
-`010111?? ???????? ???????? ????????`
+`010111II IIIIIIII IIIIIIII IIIDDDDD`
 
 ### Restrictions
 
@@ -996,36 +997,119 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## STR - Store with direct addressing <!-- TODO ########## -->
+## STR - Store with direct addressing
 
 ### Description
 
-Here is a short description of what the instruction does.
+Reads the address stored in the destination register and writes the value in the source register at that address.
 
 ### Syntax
 
-`temp rd rs rt`
+`str rd rs`
 
 ### Operands
 
-- `rd`: Destination register
+- `rd`: Destination register holding the address
+- `rs`: Source register
 
 ### Operation
 
-`yes <- "Hello world"`
+`[rd] <- rs`
 
 ### Machine code
 
-`0010000? ???????? ???????? ????????`
+`0010000? ???????? ??????SS SSSDDDDD`
+
+### Restrictions
+
+None
+
+### Example
+
+```
+// Writes the values from 0 to n-1 in memory
+// rp: pointer to an array of integers
+// rl: length of the array (>= 1)
+set ra 0
+loop:
+str rp ra 
+addi rp rp 1
+addi ra ra 1
+tlt rt ra rl
+jz loop
+```
+
+
+
+
+
+## STRI - Store with direct immediate addressing
+
+### Description
+
+Writes the value in the source register at the immediate address.
+
+### Syntax
+
+`stri rs imm`
+
+### Operands
+
+- `rs`: Source register
+- `imm`: Immediate address of the value
+
+### Operation
+
+`[imm] <- rs`
+
+### Machine code
+
+`010010II IIIIIIII IIIIIIII IIISSSSS`
+
+### Restrictions
+
+None
+
+### Example
+
+<!-- TODO -->
+```
+```
+
+
+
+
+
+## STRP - Store with indirect addressing
+
+### Description
+
+Reads the address of the pointer stored in the destination register and writes the value of the source register at the address pointed by the pointer.
+
+### Syntax
+
+`strp rd rs`
+
+### Operands
+
+- `rd`: Destination register holding the address
+- `rs`: Source register
+
+### Operation
+
+`[[rd]] <- rs`
+
+### Machine code
+
+`0010010? ???????? ??????SS SSSDDDDD`
 
 ### Restrictions
 
@@ -1033,83 +1117,8 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
-```
-
-
-
-
-
-## STRI - Store with direct immediate addressing <!-- TODO ########## -->
-
-### Description
-
-Here is a short description of what the instruction does.
-
-### Syntax
-
-`temp rd rs rt`
-
-### Operands
-
-- `rd`: Destination register
-
-### Operation
-
-`yes <- "Hello world"`
-
-### Machine code
-
-`010010?? ???????? ???????? ????????`
-
-### Restrictions
-
-`rd` cannot be `sp` or `ip`
-
-### Example
-
-```
-Just a sample program
-that uses the instruction
-```
-
-
-
-
-
-## STRP - Store with indirect addressing <!-- TODO ########## -->
-
-### Description
-
-Here is a short description of what the instruction does.
-
-### Syntax
-
-`temp rd rs rt`
-
-### Operands
-
-- `rd`: Destination register
-
-### Operation
-
-`yes <- "Hello world"`
-
-### Machine code
-
-`0010010? ???????? ???????? ????????`
-
-### Restrictions
-
-`rd` cannot be `sp` or `ip`
-
-### Example
-
-```
-Just a sample program
-that uses the instruction
 ```
 
 
