@@ -177,6 +177,8 @@ The other registers are:
 
 The architecture is flagless. This means that when a comparison is done, the result is stored back in a register rather than a flag. For overflows and carry, those must be checked manually.
 
+The stack starts at the address `0xFFFFFFFF` and grows downwards.
+
 The memory mapping we will be using resembles the usual ones and is as follows:
 
 | Address range       | Data            |

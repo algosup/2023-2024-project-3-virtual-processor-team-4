@@ -31,9 +31,9 @@ Note for all immediate instruction: Since the difference between a register and 
 - [MUL - Multiplication](#mul---multiplication)
 - [OR - Logical OR](#or---logical-or)
 - [ORI - Logical OR with immediate](#ori---logical-or-with-immediate)
-- [POP - Pop register from stack ](#pop---pop-register-from-stack-)
-- [PUSH - Push register on stack ](#push---push-register-on-stack-)
-- [RET - Return from subroutine ](#ret---return-from-subroutine-)
+- [POP - Pop register from stack](#pop---pop-register-from-stack)
+- [PUSH - Push register on stack](#push---push-register-on-stack)
+- [RET - Return from subroutine](#ret---return-from-subroutine)
 - [SET - Set register to immediate ](#set---set-register-to-immediate-)
 - [STR - Store with direct addressing ](#str---store-with-direct-addressing-)
 - [STRI - Store with direct immediate addressing ](#stri---store-with-direct-immediate-addressing-)
@@ -444,7 +444,7 @@ Branches from the current address by the base in the specified register and a sp
 
 ```
 [sp] <- ip + 1
-sp <- sp + 1
+sp <- sp - 1
 ip <- rb + offset
 ```
 
@@ -483,7 +483,11 @@ Branches from the current address by the specified amount. Stores the address of
 
 ### Operation
 
-`ip <- ip + imm`
+```
+[sp] <- ip + 1
+sp <- sp - 1
+ip <- imm
+```
 
 ### Machine code
 
@@ -825,15 +829,15 @@ or rz 26 // rz |= 26
 
 
 
-## POP - Pop register from stack <!-- TODO ########## -->
+## POP - Pop register from stack
 
 ### Description
 
-Here is a short description of what the instruction does.
+Loads the value stored at the address in the `sp` register into the destination register and increments the value of `sp` (aligned on 4 bytes).
 
 ### Syntax
 
-`temp rd rs rt`
+`pop rd`
 
 ### Operands
 
@@ -841,81 +845,108 @@ Here is a short description of what the instruction does.
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+sp <- sp + 4
+rd <- [sp]
+```
 
 ### Machine code
 
-`0010101? ???????? ???????? ????????`
+`0010101? ???????? ???????? ???DDDDD`
 
 ### Restrictions
 
 `rd` cannot be `sp` or `ip`
 
+If an overflow occurs, the behavior is undefined and depends on hardware implementation.
+
 ### Example
 
 ```
-Just a sample program
-that uses the instruction
+set ra 8
+push ra // Keep for later
+call overwrite
+pop ra // Retrieve the value
+exit
+
+// A subroutine that would overwrite ra
+overwrite:
+set ra 5
+ret
 ```
 
 
 
 
 
-## PUSH - Push register on stack <!-- TODO ########## -->
+## PUSH - Push register on stack
 
 ### Description
 
-Here is a short description of what the instruction does.
+Loads the value stored in the source register at the address in the `sp` register and decrements the value of `sp` (aligned on 4 bytes).
 
 ### Syntax
 
-`temp rd rs rt`
+`push rs`
 
 ### Operands
 
-- `rd`: Destination register
+- `rs`: Source register
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+[sp] <- rs
+sp <- sp - 4
+```
 
 ### Machine code
 
-`0010100? ???????? ???????? ????????`
+`0010100? ???????? ??????SS SSS?????`
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`
+If the stack pointer goes past the stack bound (stack overflow), the behavior is undefined and depends on hardware implementation.
 
 ### Example
 
 ```
-Just a sample program
-that uses the instruction
+set ra 8
+push ra // Keep for later
+call overwrite
+pop ra // Retrieve the value
+exit
+
+// A subroutine that would overwrite ra
+overwrite:
+set ra 5
+ret
 ```
 
 
 
 
 
-## RET - Return from subroutine <!-- TODO ########## -->
+## RET - Return from subroutine
 
 ### Description
 
-Here is a short description of what the instruction does.
+Pops the absolute address stored on top of the stack and jumps to this address.
 
 ### Syntax
 
-`temp rd rs rt`
+`ret`
 
 ### Operands
 
-- `rd`: Destination register
+None
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+sp <- sp + 1
+ip <- [sp]
+```
 
 ### Machine code
 
@@ -925,11 +956,12 @@ Here is a short description of what the instruction does.
 
 `rd` cannot be `sp` or `ip`
 
+If an overflow occurs, the behavior is undefined and depends on hardware implementation.
+
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
