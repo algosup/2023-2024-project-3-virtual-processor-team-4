@@ -15,29 +15,51 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
 
 typedef enum InstructionType // Define all the instructions with a linked identifier
 {
+    LABEL_ = -2,
     SKIP = -1,
-    NOOP,
-    SET,
-    COPY,
-    LOAD,
-    STORE,
+    ABS,
     ADD,
-    SUB,
-    MUL,
-    DIV,
-    NOT,
+    ADDI,
     AND,
-    OR,
-    XOR,
-    CMPEQ,
-    CMPGE,
-    JTRUE,
-    JFALSE,
-    JUMP,
+    ANDI,
+    B,
+    BI,
+    BNZ,
+    BZ,
     CALL,
+    CALLI,
+    DIV,
+    JMP,
+    LD,
+    LDI,
+    LDP,
+    MUL,
+    OR,
+    ORI,
+    POP,
+    PUSH,
     RET,
-    HALT,
-    INT
+    SET,
+    STR,
+    STRI,
+    STRP,
+    SUB,
+    SUBI,
+    TEQ,
+    TEQI,
+    TGE,
+    TGEI,
+    TGT,
+    TGTI,
+    TLE,
+    TLEI,
+    TLT,
+    TLTI,
+    TNE,
+    TNEI,
+    XCHG,
+    XOR,
+    XORI
 } InstructionType_t; // etc...
 
 typedef struct instruction // Definition of an instruction after parsing
@@ -58,25 +80,28 @@ typedef enum ParameterType // Define type of parameters in a function
 
 typedef struct line // Definition of a line after parsing and checking all its arguments
 {
-    struct
+    uint64_t lineNumber;
+    InstructionType_t mnemonic;
+    ParameterType_t dest_t;
+    uint8_t dest;
+    union
     {
-        InstructionType_t mnemonic;
-        ParameterType_t param1;
-        union
+        struct
         {
-            int register1; // 0-15
-            int32_t immediate1;
+            uint8_t param1;
+            ParameterType_t param2_t;
+            union
+            {
+                uint8_t register2;
+                int16_t immediate2;
+            };
+        };
+        struct
+        {
             char *label;
         };
-        ParameterType_t param2;
-        union
-        {
-            int register2;
-            int32_t immediate2;
-        };
     };
-    char *labelDeclaration;
-    int *lineNumber;
+
 } line_t;
 
 int check_is_number(char *str) // Check if a string is a number
@@ -93,7 +118,7 @@ int check_is_number(char *str) // Check if a string is a number
     return SUCCESS;
 }
 
-int check_is_label(char *str) //Check if the line content is a label
+int check_is_label(char *str) // Check if the line content is a label
 {
     if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
     {
