@@ -11,10 +11,9 @@ uint16_t registerArr[32];
 uint8_t memory[201326591];
 
 
-int read_bin(char* inputFile, uint8_t** output){
+int read_bin(char* inputFile, uint32_t** outputPtr){
     FILE *f = fopen(inputFile, "rb");
-    if (f == NULL)
-    {
+    if (f == NULL) {
         perror("Error: Failed to open file");
         return FILE_NOT_FOUND;
     }
@@ -23,23 +22,27 @@ int read_bin(char* inputFile, uint8_t** output){
     long size = ftell(f);
     rewind(f);
 
-    *output = (uint8_t*)malloc(sizeof(uint8_t)*size);
-    if (*output == NULL) {
+    // Adjust allocation size for uint32_t and ensure it is a multiple of 4
+    long adjustedSize = size - (size % 4);
+    *outputPtr = (uint32_t*)malloc(sizeof(uint32_t) * (adjustedSize / 4));
+    if (*outputPtr == NULL) {
         perror("Error: Memory allocation failed");
         fclose(f);
         return GENERIC_ERROR;
     }
 
-    size_t read = fread(*output, 1, size, f);
-    if (read < size) {
+    size_t read = fread(*outputPtr, 4, adjustedSize / 4, f);
+    if (read < (adjustedSize / 4)) {
         perror("Error: Failed to read file");
-        free(*output);
+        free(*outputPtr);
         fclose(f);
         return GENERIC_ERROR;
     }
 
     fclose(f);
+
     return SUCCESS;
 }
+
 
 #endif
