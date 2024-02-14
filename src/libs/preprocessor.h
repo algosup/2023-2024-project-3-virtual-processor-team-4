@@ -715,6 +715,7 @@ int is_first_operand_register_and_second_operand_immediate_or_are_two_first_oper
         {
             printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
+        return GENERIC_ERROR;
     }
 }
 
@@ -766,6 +767,7 @@ int are_two_first_operand_registers_or_are_all_operands_registers(InstructionTyp
         {
             printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
+        return GENERIC_ERROR;
     }
 }
 
@@ -808,6 +810,7 @@ int is_first_operand_register_or_is_first_operand_register_and_second_operand_im
         {
             printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
+        return GENERIC_ERROR;
     }
 }
 
@@ -841,6 +844,7 @@ int are_first_two_operands_register_and_third_register_or_immediate_or_is_first_
         {
             printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         }
+        return GENERIC_ERROR;
     }
 }
 
