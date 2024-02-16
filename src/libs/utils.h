@@ -115,7 +115,15 @@ typedef struct line // Definition of a line after parsing and checking all its a
 
 int check_is_number(char *str) // Check if a string is a number
 {
+    if(str == NULL || strlen(str) == 0)
+    {
+        return INVALID_DATA;
+    }
     int i = 0;
+    if(str[i] == '-')
+    {
+        i++;
+    }
     while (str[i] != '\0')
     {
         if (!(str[i] >= '0' && str[i] <= '9'))
