@@ -14,26 +14,26 @@ This document will have the entire test cases created to ensure the well-functio
 
 ## Test Cases Assembler
 
-### Assembler compilation
+### Assembler: Compilation
 
 | Test Case ID              | 1                                                                               |
 |---------------------------|---------------------------------------------------------------------------------|
-| Test case Name            | Assembler compilation                                                           |
-| Test Case Description     | Verify if the assembly ```main.c``` could be run without errors.                |
+| Test case Name            | Assembler: Compilation                                                          |
+| Test Case Description     | Verify if the file ```main.c``` could create ```assembler.exe``` and could be run without errors.               |
 | Test Case Pre-conditions  | The product isn't running.                                                      |
-| Test Case Steps           | 1. Open ```main.c``` in Visual Studio Code. <br> 2. Run the file with GCC.      |
-| Test Case Expected Result | The file run without errors and you get another file named ```assembler.exe```. |
+| Test Case Steps           | 1. Open ```main.c``` in Visual Studio Code. <br> 2. Compile the file with GCC, and run it.      |
+| Test Case Expected Result | The file runs without errors and you get another file named ```assembler.exe```. |
 | Test Case Actual Result   | ---                                                                             |
 | Test Case Status          | To Test                                                                         |
 | Test Case Priority        | High 1                                                                          |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                             |
 
-### No parameter
+### Assembler: No parameter
 
 | Test Case ID              | 2                                                                       |
 |---------------------------|-------------------------------------------------------------------------|
-| Test case Name            | No parameter                                                            |
-| Test Case Description     | Help the user to use the ```assembler.exe```                            |
+| Test case Name            | Assembler: No parameter                                                 |
+| Test Case Description     | Help the user to use the ```assembler.exe```.                           |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                      |
 | Test Case Steps           | 1. Type ```assembler.exe``` in the terminal. <br> 2. Press ```enter```. |
 | Test Case Expected Result | A help message should be sent.                                          |
@@ -42,12 +42,12 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Priority        | Low 3                                                                   |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                     |
 
-### One parameter
+### Assembler: One parameter
 
 | Test Case ID              | 3                                                                                   |
 |---------------------------|-------------------------------------------------------------------------------------|
-| Test case Name            | One parameter                                                                       |
-| Test Case Description     | Help the user to use the ```assembler.exe```                                        |
+| Test case Name            | Assembler: One parameter                                                            |
+| Test Case Description     | Help the user to use the ```assembler.exe```.                                       |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build. <br> ```example.asm``` must exist.               |
 | Test Case Steps           | 1. Type ```assembler.exe example.asm``` in the terminal. <br> 2. Press ```enter```. |
 | Test Case Expected Result | A help message should be sent but the product should run.                           |
@@ -56,12 +56,12 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Priority        | Low 3                                                                               |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                 |
 
-### File not found for the assembler
+### Assembler: File not found
 
 | Test Case ID              | 4                                                                                              |
 |---------------------------|------------------------------------------------------------------------------------------------|
-| Test case Name            | File not found for the assembler                                                               |
-| Test Case Description     | Search if the assembly file already exist or not.                                              |
+| Test case Name            | Assembler: File not found                                                                      |
+| Test Case Description     | Search if the assembly file already exists or not.                                             |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build. <br> ```example.asm``` must not exist.                      |
 | Test Case Steps           | 1. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 2. Press ```enter```. |
 | Test Case Expected Result | An error must be sent.                                                                         |
@@ -75,7 +75,7 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case ID              | 5                                                                                                                                                       |
 |---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Test case Name            | Invalid parameter                                                                                                                                       |
-| Test Case Description     | Search if an error happens when invalid parameter.                                                                                                      |
+| Test Case Description     | Search if an error happens when an invalid parameter.                                                                                                      |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                      |
 | Test Case Steps           | 1. Create ```example.asm``` containing ```add 0```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```. |
 | Test Case Expected Result | An error must be sent.                                                                                                                                  |
@@ -126,12 +126,12 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Priority        | High 1                                                                                                                                                       |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                                                                                          |
 
-### Too much parameters
+### Too many parameters
 
 | Test Case ID              | 9                                                                                                                                                                  |
 |---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Test case Name            | Too much parameters                                                                                                                                                |
-| Test Case Description     | Search if it contains too much parameters in a line.                                                                                                               |
+| Test Case Description     | Search if it contains too many parameters in a line.                                                                                                               |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                                 |
 | Test Case Steps           | 1. Create ```example.asm``` containing ```add ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
 | Test Case Expected Result | An error must be sent.                                                                                                                                             |
@@ -210,7 +210,7 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Priority        | High 1                                                                                                                                                |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                                                                                   |
 
-### No immediate as second parameter
+### No immediate as the second parameter
 
 | Test Case ID              | 15                                                                                                                                                            |
 |---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -224,12 +224,12 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Priority        | High 1                                                                                                                                                        |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                                                                                           |
 
-### No immediate as third parameter
+### No immediate as the third parameter
 
 | Test Case ID              | 16                                                                                                                                                            |
 |---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Test case Name            | No immediate as third parameter                                                                                                                                                 |
-| Test Case Description     | Search if there is missing an immediate value as the the third parameter.                                                                                                                |
+| Test Case Description     | Search if there is missing an immediate value as the third parameter.                                                                                                                |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                            |
 | Test Case Steps           | 1. Create ```example.asm``` containing ```addi ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
 | Test Case Expected Result | An error must be sent.                                                                                                                                        |
@@ -348,7 +348,7 @@ jump to over 8 million to test label number -->
 | Test Case Description     | Check if the product can handle commentaries.                                                                                                                               |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                                          |
 | Test Case Steps           | 1. Create ```example.asm``` containing ```// This is a commentary.```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
-| Test Case Expected Result | The product should run without any error.                                                                                                                                   |
+| Test Case Expected Result | The product should run without any errors.                                                                                                                                   |
 | Test Case Actual Result   | ---                                                                                                                                                                         |
 | Test Case Status          | To Test                                                                                                                                                                     |
 | Test Case Priority        | High 1                                                                                                                                                                      |
@@ -362,7 +362,7 @@ jump to over 8 million to test label number -->
 | Test Case Description     | Check if the product can handle tabulations.                                                                                                              |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                        |
 | Test Case Steps           | 1. Create ```example.asm``` containing a tabulation. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
-| Test Case Expected Result | The product should run without any error.                                                                                                                 |
+| Test Case Expected Result | The product should run without any errors.                                                                                                                 |
 | Test Case Actual Result   | ---                                                                                                                                                       |
 | Test Case Status          | To Test                                                                                                                                                   |
 | Test Case Priority        | High 1                                                                                                                                                    |
@@ -376,7 +376,7 @@ jump to over 8 million to test label number -->
 | Test Case Description     | Check if the product can handle white space.                                                                                                               |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                         |
 | Test Case Steps           | 1. Create ```example.asm``` containing a white space. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
-| Test Case Expected Result | The product should run without any error.                                                                                                                  |
+| Test Case Expected Result | The product should run without any errors.                                                                                                                  |
 | Test Case Actual Result   | ---                                                                                                                                                        |
 | Test Case Status          | To Test                                                                                                                                                    |
 | Test Case Priority        | High 1                                                                                                                                                     |
@@ -390,13 +390,13 @@ jump to over 8 million to test label number -->
 | Test Case Description     | Check if the product can handle return carriage.                                                                                                               |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                             |
 | Test Case Steps           | 1. Create ```example.asm``` containing a return carriage. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
-| Test Case Expected Result | The product should run without any error.                                                                                                                      |
+| Test Case Expected Result | The product should run without any errors.                                                                                                                      |
 | Test Case Actual Result   | ---                                                                                                                                                            |
 | Test Case Status          | To Test                                                                                                                                                        |
 | Test Case Priority        | High 1                                                                                                                                                         |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                                                                                            |
 
-### Specific character in commentary
+### Specific character in Commentary
 
 | Test Case ID              | 27                                                                                                                                                                                             |
 |---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -404,7 +404,7 @@ jump to over 8 million to test label number -->
 | Test Case Description     | Check if the product can handle specific characters in commentaries.                                                                                                                           |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                                                             |
 | Test Case Steps           | 1. Create ```example.asm``` containing a commentary with one or many specific characters. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
-| Test Case Expected Result | The product should run without any error.                                                                                                                                                      |
+| Test Case Expected Result | The product should run without any errors.                                                                                                                                                      |
 | Test Case Actual Result   | ---                                                                                                                                                                                            |
 | Test Case Status          | To Test                                                                                                                                                                                        |
 | Test Case Priority        | High 1                                                                                                                                                                                         |
@@ -432,74 +432,61 @@ jump to over 8 million to test label number -->
 | Test Case Description     | Check if the product can handle hexadecimal value.                                                                                                            |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                            |
 | Test Case Steps           | 1. Create ```example.asm``` containing ```set ra xFF```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
-| Test Case Expected Result | The product should run without any error.                                                                                                                     |
+| Test Case Expected Result | The product should run without any errors.                                                                                                                     |
 | Test Case Actual Result   | ---                                                                                                                                                           |
 | Test Case Status          | To Test                                                                                                                                                       |
 | Test Case Priority        | High 1                                                                                                                                                        |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                                                                                           |
 
+## Test Cases Emulator
 
-<!-- ## Run the product
+### Emulator: Compilation
 
-| Test Case ID              | 1                                         |
-|---------------------------|-------------------------------------------|
-| Test Case Name            | Run the product                           |
-| Test Case Description     | Verify that the product can be run        |
-| Test Case Pre-conditions  | The product isn't running                 |
-| Test Case Steps           | Run the file `main.c`                     |
-| Test Case Expected Result | The product run without segmentation fault |
-| Test Case Actual Result   | ---                                       |
-| Test Case Status          | To Test                                   |
-| Test Case Priority        | High 1                                    |
-| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+| Test Case ID              | 30                                                                              |
+|---------------------------|---------------------------------------------------------------------------------|
+| Test case Name            | Emulator: Compilation                                                           |
+| Test Case Description     | Verify if the file ```main.c``` could create ```emulator.exe``` and could be run without errors.                |
+| Test Case Pre-conditions  | The product isn't running.                                                      |
+| Test Case Steps           | 1. Open ```main.c``` in Visual Studio Code. <br> 2. Compile the file with GCC, and run it.      |
+| Test Case Expected Result | The file runs without errors and you get another file named ```emulator.exe```. |
+| Test Case Actual Result   | ---                                                                             |
+| Test Case Status          | To Test                                                                         |
+| Test Case Priority        | High 1                                                                          |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                                                             |
 
-## Search a file
+### Emulator: No parameter
 
-| Test Case ID              | 2                                         |
-|---------------------------|-------------------------------------------|
-| Test Case Name            | Search a file                             |
-| Test Case Description     | Verify if the file exist                  |
-| Test Case Pre-conditions  | The product is running                    |
-| Test Case Steps           | Enter any file name in the terminal       |
-| Test Case Expected Result | The product sends an error text saying file not found |
-| Test Case Actual Result   | ---                                       |
-| Test Case Status          | To Test                                   |
-| Test Case Priority        | High 1                                    |
-| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+| Test Case ID              | 31                                                                      |
+|---------------------------|-------------------------------------------------------------------------|
+| Test case Name            | Emulator: No parameter                                                  |
+| Test Case Description     | Help the user to use the ```emulator.exe```.                            |
+| Test Case Pre-conditions  | ```emulator.exe``` must be build.                                       |
+| Test Case Steps           | 1. Type ```emulator.exe``` in the terminal. <br> 2. Press ```enter```.  |
+| Test Case Expected Result | A help message should be sent.                                          |
+| Test Case Actual Result   | ---                                                                     |
+| Test Case Status          | To Test                                                                 |
+| Test Case Priority        | Low 3                                                                   |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                                                     |
 
-## Assemble a file
+### Emulator: File not found
 
-| Test Case ID              | 3                                         |
-|---------------------------|-------------------------------------------|
-| Test Case Name            | Assemble a file                           |
-| Test Case Description     | Verify that the product can assemble a .asm file       |
-| Test Case Pre-conditions  | The product is running <br> a file name `example.asm` is created and placed in the same file as `main.c`          |
-| Test Case Steps           | Enter `example` in the terminal           |
-| Test Case Expected Result | The product finds the file and creates a `.exe` file |
-| Test Case Actual Result   | ---                                       |
-| Test Case Status          | To Test                                   |
-| Test Case Priority        | High 1                                    |
-| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
-
-## Find an error
-
-| Test Case ID              | 4                                         |
-|---------------------------|-------------------------------------------|
-| Test Case Name            | Find an error                             |
-| Test Case Description     | Verify if the `.asm` file comports any errors |
-| Test Case Pre-conditions  | The product is running <br> a file name `example.asm` is created and placed in the same file as `main.c`         |
-| Test Case Steps           | Enter `example` in the terminal           |
-| Test Case Expected Result | The product send an error                 |
-| Test Case Actual Result   | ---                                       |
-| Test Case Status          | To Test                                   |
-| Test Case Priority        | High 1                                    |
-| Test Case Assigned To     | QA (Maxime THIZEAU)                       | -->
+| Test Case ID              | 32                                                                                             |
+|---------------------------|------------------------------------------------------------------------------------------------|
+| Test case Name            | Emulator: File not found                                                                       |
+| Test Case Description     | Search if the assembly file already exists or not.                                             |
+| Test Case Pre-conditions  | ```emulator.exe``` must be build. <br> ```example.bin``` must not exist.                       |
+| Test Case Steps           | 1. Type ```emulator.exe example.bin``` in the terminal. <br> 2. Press ```enter```.             |
+| Test Case Expected Result | An error must be sent.                                                                         |
+| Test Case Actual Result   | ---                                                                                            |
+| Test Case Status          | To Test                                                                                        |
+| Test Case Priority        | Medium 2                                                                                       |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                                                                            |
 
 ## File testing
 
 ### Separate color
 
-| Test Case ID              | 30                                         |
+| Test Case ID              | 33                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Separate color                            |
 | Test Case Description     | Verify if ```separate_color.asm``` comport any errors and return the expected result.|
@@ -513,7 +500,7 @@ jump to over 8 million to test label number -->
 
 ### Convert Hexa to Decimal
 
-| Test Case ID              | 31                                         |
+| Test Case ID              | 34                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Convert Hexa to Decimal                   |
 | Test Case Description     | Verify if ```hexa_to_decimal.asm``` comport any errors and return the expected result. |
@@ -527,7 +514,7 @@ jump to over 8 million to test label number -->
 
 ### Temperature convertor
 
-| Test Case ID              | 32                                         |
+| Test Case ID              | 35                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Temperature convertor                     |
 | Test Case Description     | Verify if ```temperature_convertor.asm``` comport any errors and return the expected result.|
@@ -541,7 +528,7 @@ jump to over 8 million to test label number -->
 
 ### Randomizer
 
-| Test Case ID              | 33                                         |
+| Test Case ID              | 36                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Randomizer                                |
 | Test Case Description     | Verify if ```random_generator.asm``` comport any errors and return the expected result.|
@@ -555,7 +542,7 @@ jump to over 8 million to test label number -->
 
 ### Greatest Common Divisor
 
-| Test Case ID              | 34                                         |
+| Test Case ID              | 37                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Greatest Common Divisor                   |
 | Test Case Description     | Verify if ```greatest_common_divisor.asm``` comport any errors and return the expected result.|
@@ -569,9 +556,9 @@ jump to over 8 million to test label number -->
 
 ### Least Common Multiple
 
-| Test Case ID              | 35                                        |
+| Test Case ID              | 38                                        |
 |---------------------------|-------------------------------------------|
-| Test Case Name            | Least Common Multiple                   |
+| Test Case Name            | Least Common Multiple                     |
 | Test Case Description     | Verify if ```least_common_multiple.asm``` comport any errors and return the expected result.|
 | Test Case Pre-conditions  | ```assembler.exe``` must be build. <br> ```emulator.exe``` must be build. <br> Go to [testing](/documents/QA/testing/). <br> See if ```least_common_multiple.asm``` exists.         |
 | Test Case Steps           | 1. Type ```assembler.exe least_common_multiple.asm least_common_multiple.bin``` in the terminal. <br> 2. Press ```enter```. <br> 3. Type ```emulator.exe least_common_multiple.bin > least_common_multiple.txt```. <br> 4. Press ```enter```.       |
@@ -583,7 +570,7 @@ jump to over 8 million to test label number -->
 
 ### Roll
 
-| Test Case ID              | 36                                        |
+| Test Case ID              | 39                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Roll                                      |
 | Test Case Description     | Verify if ```roll.asm``` comports any errors and return the expected result.|
@@ -597,7 +584,7 @@ jump to over 8 million to test label number -->
 
 ### Fibonacci
 
-| Test Case ID              | 37                                        |
+| Test Case ID              | 40                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Fibonacci                                 |
 | Test Case Description     | Verify if ```fibonacci.asm``` comport any errors and return the expected result.|
