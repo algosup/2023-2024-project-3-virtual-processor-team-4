@@ -1,7 +1,6 @@
 #ifndef PREPROCESS_H
 #define PREPROCESS_H
 #include "utils.h"
-#include "runtime.h"
 #include <inttypes.h>
 #include <string.h>
 #include <stdlib.h>
@@ -307,6 +306,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     switch (*instructionId)
     {
     case SKIP:
+    case RET:
         return are_all_operand_null(instructionId, param1, param2, param3, lineNumber);
         break;
     case ABS:
@@ -338,11 +338,25 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case BNZ:
     case BZ:
+    case LDI:
+    case SET:
+    case STRI:
         return is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
+        break;
+    case POP:
+    case PUSH:
+        return is_first_operand_register(instructionId, param1, lineNumber);
         break;
     case JMP:
         // Check if first operand is address (WIP: missing example in functional)
         return SUCCESS;
+        break;
+    case XCHG:
+    case LD:
+    case LDP:
+    case STR:
+    case STRP:
+        return are_two_first_operand_registers(instructionId, param1, param2, lineNumber);
         break;
         // Following instructions are not implemented yet
     default:

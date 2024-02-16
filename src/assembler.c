@@ -5,9 +5,8 @@
 #include <ctype.h>
 #include <pthread.h> // Include pthread library for threading
 #include "./libs/utils.h"
-#include "./libs/runtime.h"
 #include "./libs/preprocessor.h"
-#include "./libs/clock.h"
+#include "./libs/assembler.h"
 
 int main(int argc, char **argv)
 {
@@ -33,24 +32,6 @@ int main(int argc, char **argv)
 
     char *input_file = malloc(strlen(argv[1]) + 1);
     strcpy(input_file, argv[1]);
-
-    // ********************** THREADING ************************
-
-    // Initialize mutex for multithreading
-    pthread_mutex_t mutex;
-    pthread_mutex_init(&mutex, NULL);
-
-    // Create clock thread
-    pthread_t clockThread;
-
-    // Create thread for clock workload
-    if (pthread_create(&clockThread, NULL, (void *)perform_workload, NULL) != 0)
-    {
-        perror("Error creating workload thread");
-        return 1;
-    }
-
-    // ********************** END OF THREADING ************************
 
     // Convert input file to lowercase
     for (int i = 0; i < strlen(input_file); i++)
@@ -128,12 +109,7 @@ int main(int argc, char **argv)
         // Free file content
         free(content);
     }
-    terminateClockThread = true;
-    // Wait for threads to finish (this will never happen, as threads run indefinitely)
-    pthread_join(clockThread, NULL);
 
-    // Cleanup
-    pthread_mutex_destroy(&mutex);
 
     return SUCCESS;
 }
