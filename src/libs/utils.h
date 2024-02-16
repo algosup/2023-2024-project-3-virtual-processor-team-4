@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef enum ErrorType // Define all the errors which could happen and their codes
 {
@@ -13,6 +14,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
+    REGISTER_INSTEAD_OF_LABEL
 } ErrorType_t;
 
 typedef enum InstructionType // Define all the instructions with a linked identifier
@@ -129,18 +131,13 @@ int check_is_label(char *str) // Check if the line content is a label
 {
     if (!(str[0] == 'r' && str[0] == 'R') && (!(str[1] <= 'a' && str[1] >= 'z') && !(str[1] <= 'A' && str[1] >= 'Z')) && strlen(str) == 2)
     {
-        return INVALID_DATA;
+        return REGISTER_INSTEAD_OF_LABEL;
     } // Check for register
 
-    if (str[0] == '0' && str[1] == 'x')
-    {
-        return INVALID_DATA;
-    } // Check for hexadecimal values
-
-    int i = 2;
+    int i = 0;
     while (str[i] != '\0')
     {
-        //Check if character is in alphabet
+        // Check if character is in alphabet
         if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
         {
             return INVALID_DATA;

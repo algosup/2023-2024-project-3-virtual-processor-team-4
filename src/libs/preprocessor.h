@@ -97,8 +97,10 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
 
     InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t)); // check for free afterwhile
 
-    if (check_label_declaration(instructionType, opcode) == SUCCESS) // Checking if the line only contains a label declaration
+    int labelDeclarationCode = check_label_declaration(instructionType, opcode);
+    switch (labelDeclarationCode)
     {
+    case SUCCESS:
         if (*instructionType == LABEL_)
         {
             line->label = opcode;
@@ -109,7 +111,17 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
             // printf("%s", opcode);
             return SUCCESS;
         }
+        break;
+    case REGISTER_INSTEAD_OF_LABEL:
+        printf("Error: Register instead of label on line: %" PRIu64 "\n", *lineNumber);
+        line->mnemonic = SKIP;
+        line->lineNumber = *lineNumber;
+        line->param1_t = NULL_;
+        line->label = NULL;
+        return GENERIC_ERROR;
+        break;
     }
+
     if (find_operand(opcode, instructionType) != SUCCESS)
     {
         printf("Error: Could not find a matching opcode on line: %" PRIu64 "\n", *lineNumber);
@@ -315,15 +327,20 @@ int check_label_declaration(InstructionType_t *instructionId, char *label)
         char *newLabel = (char *)malloc((strlen(label) - 1) * sizeof(char));
         strcpy(newLabel, label);
         newLabel[strlen(newLabel) - 1] = '\0';
-        if (check_is_label(newLabel) == SUCCESS)
+        int returnedCode = check_is_label(newLabel);
+        switch (returnedCode)
         {
+        case SUCCESS:
             *instructionId = LABEL_;
             return SUCCESS;
-        }
-        else
-        {
+            break;
+        case REGISTER_INSTEAD_OF_LABEL:
             *instructionId = SKIP;
+            return REGISTER_INSTEAD_OF_LABEL;
+            break;
+        default:
             return GENERIC_ERROR;
+            break;
         }
     }
     else
