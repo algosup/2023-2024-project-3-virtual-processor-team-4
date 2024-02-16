@@ -245,7 +245,7 @@ This document will have the entire test cases created to ensure the well-functio
 | Test case Name            | Undefined label                                                                                                                                              |
 | Test Case Description     | Search if there is a label not defined.                                                                                                                      |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                           |
-| Test Case Steps           | 1. Create ```example.asm``` containing ```jump next```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```jmp next```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
 | Test Case Expected Result | An error must be sent.                                                                                                                                       |
 | Test Case Actual Result   | ---                                                                                                                                                          |
 | Test Case Status          | To Test                                                                                                                                                      |
@@ -287,7 +287,7 @@ This document will have the entire test cases created to ensure the well-functio
 | Test case Name            | Label or immediate value expected                                                                                                                          |
 | Test Case Description     | Search if there is a label or an immediate value where it is expected.                                                                                     |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                         |
-| Test Case Steps           | 1. Create ```example.asm``` containing ```jump ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```jmp ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
 | Test Case Expected Result | An error must be sent.                                                                                                                                     |
 | Test Case Actual Result   | ---                                                                                                                                                        |
 | Test Case Status          | To Test                                                                                                                                                    |
@@ -385,7 +385,7 @@ This document will have the entire test cases created to ensure the well-functio
 | Test case Name            | Return carriage                                                                                                                                                |
 | Test Case Description     | Check if the product can handle return carriage.                                                                                                               |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                             |
-| Test Case Steps           | 1. Create ```example.asm``` containing a return carriage. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
+| Test Case Steps           | 1. Create ```example.asm``` containing a return carriage between 2 lines of code. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.  |
 | Test Case Expected Result | The product should run without any errors.                                                                                                                      |
 | Test Case Actual Result   | ---                                                                                                                                                            |
 | Test Case Status          | To Test                                                                                                                                                        |
