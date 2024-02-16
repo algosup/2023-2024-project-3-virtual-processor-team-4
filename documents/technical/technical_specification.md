@@ -31,7 +31,7 @@
     - [Line Parsing](#line-parsing)
     - [Output](#output)
     - [Diagram](#diagram)
-  - [Interpreter](#interpreter)
+  - [Emulator](#emulator)
     - [Parsing](#parsing)
     - [Output](#output-1)
     - [Diagram](#diagram-1)
@@ -128,25 +128,25 @@ The GitHub repository will be organized as such:
         └── 📝 technical_specification.md
     └── 📄 project_charter.md
 └── 📁 src
+    └── 📄 assembleur.c
+    └── 📄 emulator.c
     └── 📁 libs
-    └── 📄 main.c
+        └── 📄 assembler.h
+        └── 📄 clock.h
+        └── 📄 preprocessor.h
+        └── 📄 runtime.h
+        └── 📄 utils.h
 └── 📄 .gitignore
 └── 📄 LICENCE
 └── 📝 README.md
 ```
-Here is a detailed version of the `src` folder:
-```
-└── 📁 src
-    └── 📄 main.c
-    └── 📁 libs
-        └── 📄 assembler.h
-        └── 📄 preprocessor.h
-        └── 📄 runtime.h
-        └── 📄 utils.h
-```
-- main.c will contain the main loop and the virtual terminal;
-- assembler.h will contain all the functions pertaining to the assembler and the error handling;
-- preprocessor.h will contain all the functions pertaining to the preprocessor[^5];
+Here is an explanation of the `src` folder:
+
+- assembleur.c is the main file for the assembler it includes assembler.h and preprocessor.h
+- emulator.c is the main file for the emulator, it includes runtime.h and clock.h
+- assembler.h will contain all the functions pertaining to the assembler;
+- clock.h will house the workload of the clock;
+- preprocessor.h will contain all the functions pertaining to the preprocessor[^5] and the error handling;
 - runtime.h will contain all the functions pertaining to the processor;
 - utils.h will contain the miscellaneous objects, such as `enum ErrorType` or `enum InstructionType`;
 
@@ -261,7 +261,7 @@ Here is a visual representation of how the assembler works:
 
 ---
 
-## Interpreter
+## Emulator
 
 ### Parsing
 
