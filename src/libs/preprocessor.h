@@ -1,7 +1,6 @@
 #ifndef PREPROCESS_H
 #define PREPROCESS_H
 #include "utils.h"
-#include "runtime.h"
 #include <inttypes.h>
 #include <string.h>
 #include <stdlib.h>
@@ -64,21 +63,33 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
 
     char *saveptr; // Position in the line
     char *token = strtok_r(lineContent, " ", &saveptr);
-    char *opcode, *dest = NULL, *param1 = NULL, *param2 = NULL; // Size of 8 bytes will be changed because of labels in the future
+    char *dest = NULL, *param1 = NULL, *param2 = NULL; // Size of 8 bytes will be changed because of labels in the future
 
-    opcode = (token != NULL) ? token : "skip";
+    char *opcode = (token != NULL) ? token : "skip";
 
     // Extract the second word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
-        dest = token;
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL) {
+        dest = token; // Change to pointer in file
+    }
 
     // Extract the third word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
-        param1 = token;
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL){
+        param1 = token; // Change to pointer in file
+    }
 
     // Extract the fourth word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
-        param2 = token;
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL){
+        param2 = token; // Change to pointer in file
+    }
+
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL) {
+        printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
+        line->mnemonic = SKIP;
+        line->lineNumber = *lineNumber;
+        line->param1_t = NULL_;
+        line->label = NULL;
+        return GENERIC_ERROR;
+    }
 
     InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t)); // check for free afterwhile
 
@@ -89,7 +100,9 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
             line->label = opcode;
             line->mnemonic = *instructionType;
             line->lineNumber = *lineNumber;
-            line->param1 = NULL_;
+            line->param1_t = LABEL;
+            line->label = opcode;
+            // printf("%s", opcode);
             return SUCCESS;
         }
     }
@@ -98,7 +111,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         printf("Error: Could not find a matching opcode on line: %" PRIu64 "\n", *lineNumber);
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
-        line->param1 = NULL_;
+        line->param1_t = NULL_;
         line->label = NULL;
         return GENERIC_ERROR;
     }
@@ -108,7 +121,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         printf("Params invalid\n");
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
-        line->param1 = NULL_;
+        line->param1_t = NULL_;
         line->label = NULL;
         return GENERIC_ERROR;
     }
@@ -135,18 +148,18 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
     }
     else
     {
-        line->param1 = NULL_;
+        line->param1_t = NULL_;
     }
 
     if (param1 != NULL)
     {
         if (find_register(param1, &line->register2) == SUCCESS)
         {
-            line->param1 = REGISTER;
+            line->param1_t = REGISTER;
         }
         else if (check_is_number(param1) == SUCCESS)
         {
-            line->param1 = IMMEDIATE;
+            line->param1_t = IMMEDIATE;
         }
         else if (check_is_label(param1) == SUCCESS)
         {
@@ -160,7 +173,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
     }
     else
     {
-        line->param1 = NULL_;
+        line->param1_t = NULL_;
     }
 
     if (param2 != NULL)
@@ -305,6 +318,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     switch (*instructionId)
     {
     case SKIP:
+    case RET:
         return are_all_operand_null(instructionId, param1, param2, param3, lineNumber);
         break;
     case ABS:
@@ -336,11 +350,25 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case BNZ:
     case BZ:
+    case LDI:
+    case SET:
+    case STRI:
         return is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber);
+        break;
+    case POP:
+    case PUSH:
+        return is_first_operand_register(instructionId, param1, lineNumber);
         break;
     case JMP:
         // Check if first operand is address (WIP: missing example in functional)
         return SUCCESS;
+        break;
+    case XCHG:
+    case LD:
+    case LDP:
+    case STR:
+    case STRP:
+        return are_two_first_operand_registers(instructionId, param1, param2, lineNumber);
         break;
         // Following instructions are not implemented yet
     default:

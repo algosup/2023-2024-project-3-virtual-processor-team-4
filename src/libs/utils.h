@@ -2,6 +2,8 @@
 #define UTILS_H
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef enum ErrorType // Define all the errors which could happen and their codes
 {
@@ -88,7 +90,13 @@ typedef struct line // Definition of a line after parsing and checking all its a
     {
         struct
         {
-            uint8_t param1;
+            ParameterType_t param1_t;
+            union
+            {
+                uint8_t register1;
+                int16_t immediate1;
+                char *label1;
+            };
             ParameterType_t param2_t;
             union
             {
@@ -101,7 +109,6 @@ typedef struct line // Definition of a line after parsing and checking all its a
             char *label;
         };
     };
-
 } line_t;
 
 int check_is_number(char *str) // Check if a string is a number
@@ -136,30 +143,60 @@ int check_is_label(char *str) // Check if the line content is a label
     return SUCCESS;
 }
 
-//Used to know what kind of input value we're working with
-int check_val(char* val){
-    if(val == NULL || strcmp(val, "") == 0){
+// Used to know what kind of input value we're working with
+int check_val(char *val)
+{
+    if (val == NULL || strcmp(val, "") == 0)
+    {
         return NULL_;
     }
 
     char str2[3];
     strcpy(str2, val);
-    char* ptr = str2;
+    char *ptr = str2;
     ptr++;
 
-    if(((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) 
-    && strlen(val) == 2
-    && (val[0] == 'R' || val[0] == 'r')){
+    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r'))
+    {
         return REGISTER;
     }
-    if(check_is_number(val) == SUCCESS){
+    if (check_is_number(val) == SUCCESS)
+    {
         return IMMEDIATE;
     }
-    if(check_is_number(val) == SUCCESS){
+    if (check_is_number(val) == SUCCESS)
+    {
         return LABEL;
     }
 
     return INVALID_DATA;
 }
+
+int find_register(char *inString, uint8_t *registerIndex)
+{
+    if (inString == NULL || strlen(inString) != 2)
+    {
+        return INVALID_DATA;
+    }
+
+    if (inString[0] != 'R' && inString[0] != 'r')
+    {
+        return INVALID_DATA;
+    }
+
+    char str2[3];
+    strcpy(str2, inString);
+    char *ptr = str2;
+    ptr++;
+    if ((*ptr >= 'A' && *ptr <= 'Z') || (*ptr >= 'a' && *ptr <= 'z'))
+    {
+        *registerIndex = (uint8_t)strtol(ptr, NULL, 16);
+        return SUCCESS;
+    }
+    else
+    {
+        return INVALID_DATA;
+    }
+};
 
 #endif
