@@ -167,14 +167,14 @@ int check_is_number(char *str) // Check if a string is a number
 
 int check_is_label(char *str) // Check if the line content is a label
 {
-    if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
+    if (!(str[0] >= 'A' && str[0] <= 'Z') || !(str[0] >= 'a' && str[0] <= 'z'))
     {
         return INVALID_DATA;
     }
     int i = 1;
     while (str[i] != '\0')
     {
-        if (!(str[i] >= '0' && str[i] <= '9') || !(str[i] >= 'A' && str[i] <= 'F') || !(str[i] >= 'a' && str[i] <= 'f'))
+        if (!(str[i] >= '0' && str[i] <= '9') || !(str[i] >= 'A' && str[i] <= 'Z') || !(str[i] >= 'a' && str[i] <= 'z'))
         {
             return INVALID_DATA;
         }

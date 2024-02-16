@@ -104,6 +104,26 @@ int execute_instruction(line_t*);
 int find_label_line(char*, uint32_t*);
 int get_labels(line_t*, uint64_t);
 
+int iterate_through_all_line(line_t* instructions, uint64_t arrSize){
+    create_bin();
+    get_labels(instructions, arrSize);
+
+    bool error = false;
+
+    for (int i = 0; i < labelList.size; i++)
+    {
+        if(execute_instruction(&instructions[i]) != SUCCESS){
+            error = true;
+        };
+    }
+
+    if(error == false){
+        return SUCCESS;
+    }else{
+        return GENERIC_ERROR;
+    }
+};
+
 // --- manipulate Labels ---
 
 //A function to translate labels to int.
@@ -125,16 +145,16 @@ int find_label_line(char* labelStr, uint32_t* lineOut){
 }
 
 //iterate through the list of instruction to get label and the places they jump to
-int get_labels(line_t* instruction, uint64_t arrSize){
+int get_labels(line_t* instructions, uint64_t arrSize){
     int machineCodeLineNumber = 0;
 
     for(int i = 0; i < arrSize; i++){
-        if(instruction[i].mnemonic == LABEL_){
-            label_t tmp = {machineCodeLineNumber+1, &instruction[i].label};
+        if(instructions[i].mnemonic == LABEL_){
+            label_t tmp = {machineCodeLineNumber+1, &instructions[i].label};
             add_to_list_label(&labelList, tmp);
-        }else if(instruction[i].mnemonic != SKIP){
+        }else if(instructions[i].mnemonic != SKIP){
             machineCodeLineNumber++;
-            instruction[i].lineNumber = machineCodeLineNumber;
+            instructions[i].lineNumber = machineCodeLineNumber;
         }
     }
 }
