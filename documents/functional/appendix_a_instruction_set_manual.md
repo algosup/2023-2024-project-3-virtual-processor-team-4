@@ -40,18 +40,18 @@ Note for all immediate instruction: Since the difference between a register and 
 - [STRP - Store with indirect addressing](#strp---store-with-indirect-addressing)
 - [SUB - Subtraction](#sub---subtraction)
 - [SUBI - Subtraction with immediate](#subi---subtraction-with-immediate)
-- [TEQ - Test if equal ](#teq---test-if-equal-)
-- [TEQI - Test if equal with immediate ](#teqi---test-if-equal-with-immediate-)
-- [TGE - Test if greater or equal ](#tge---test-if-greater-or-equal-)
-- [TGEI - Test if greater or equal with immediate ](#tgei---test-if-greater-or-equal-with-immediate-)
-- [TGT - Test if strictly greater ](#tgt---test-if-strictly-greater-)
-- [TGTI - Test if strictly greater with immediate ](#tgti---test-if-strictly-greater-with-immediate-)
-- [TLE - Test if lower or equal ](#tle---test-if-lower-or-equal-)
-- [TLEI - Test if lower or equal with immediate ](#tlei---test-if-lower-or-equal-with-immediate-)
-- [TLT - Test if strictly lower ](#tlt---test-if-strictly-lower-)
-- [TLTI - Test if strictly lower with immediate ](#tlti---test-if-strictly-lower-with-immediate-)
-- [TNE - Test if not equal ](#tne---test-if-not-equal-)
-- [TNEI - Test if not equal with immediate ](#tnei---test-if-not-equal-with-immediate-)
+- [TEQ - Test if equal](#teq---test-if-equal)
+- [TEQI - Test if equal with immediate](#teqi---test-if-equal-with-immediate)
+- [TGE - Test if greater or equal](#tge---test-if-greater-or-equal)
+- [TGEI - Test if greater or equal with immediate](#tgei---test-if-greater-or-equal-with-immediate)
+- [TGT - Test if strictly greater](#tgt---test-if-strictly-greater)
+- [TGTI - Test if strictly greater with immediate](#tgti---test-if-strictly-greater-with-immediate)
+- [TLE - Test if lower or equal](#tle---test-if-lower-or-equal)
+- [TLEI - Test if lower or equal with immediate](#tlei---test-if-lower-or-equal-with-immediate)
+- [TLT - Test if strictly lower](#tlt---test-if-strictly-lower)
+- [TLTI - Test if strictly lower with immediate](#tlti---test-if-strictly-lower-with-immediate)
+- [TNE - Test if not equal](#tne---test-if-not-equal)
+- [TNEI - Test if not equal with immediate](#tnei---test-if-not-equal-with-immediate)
 - [XCHG - Exchange registers](#xchg---exchange-registers)
 - [XOR - Logical XOR](#xor---logical-xor)
 - [XORI - Logical XOR with immediate](#xori---logical-xor-with-immediate)
@@ -1201,27 +1201,34 @@ sub rz -26 // rz -= -26
 
 
 
-## TEQ - Test if equal <!-- TODO ########## -->
+## TEQ - Test if equal
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the values in both source registers and sets the destination register to 1 if the values are equal and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`teq rd rs rt`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: First source register
+- `rt`: Second source register
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs == rt
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`0001100? ???????? ???????? ????????`
+`0001100? ???????? ?TTTTTSS SSSDDDDD`
 
 ### Restrictions
 
@@ -1229,36 +1236,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TEQI - Test if equal with immediate <!-- TODO ########## -->
+## TEQI - Test if equal with immediate
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the value in the source register and the immediate value and sets the destination register to 1 if the values are equal and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`teqi rd rs imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register
+- `imm`: Immediate value
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs == imm
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`011100?? ???????? ???????? ????????`
+`011100II IIIIIIII IIIIIISS SSSDDDDD`
 
 ### Restrictions
 
@@ -1266,36 +1279,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TGE - Test if greater or equal <!-- TODO ########## -->
+## TGE - Test if greater or equal
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the value in the source register and the immediate value and sets the destination register to 1 if the first value is greater or equal to the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tge rd rs rt`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: First source register
+- `rt`: Second source register
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs >= rt
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`0001011? ???????? ???????? ????????`
+`0001011? ???????? ?TTTTTSS SSSDDDDD`
 
 ### Restrictions
 
@@ -1303,36 +1322,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TGEI - Test if greater or equal with immediate <!-- TODO ########## -->
+## TGEI - Test if greater or equal with immediate
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the values in both source registers and sets the destination register to 1 if the first value is greater or equal to the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tgei rd rs imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register
+- `imm`: Immediate value
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs == imm
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`011011?? ???????? ???????? ????????`
+`011011II IIIIIIII IIIIIISS SSSDDDDD`
 
 ### Restrictions
 
@@ -1340,36 +1365,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TGT - Test if strictly greater <!-- TODO ########## -->
+## TGT - Test if strictly greater
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the value in the source register and the immediate value and sets the destination register to 1 if the first value is strictly greater than the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tgt rd rs rt`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: First source register
+- `rt`: Second source register
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs > rt
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`0001010?? ???????? ???????? ????????`
+`0001010? ???????? ?TTTTTSS SSSDDDDD`
 
 ### Restrictions
 
@@ -1377,36 +1408,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TGTI - Test if strictly greater with immediate <!-- TODO ########## -->
+## TGTI - Test if strictly greater with immediate
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the values in both source registers and sets the destination register to 1 if the first value is strictly greater than the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tgti rd rs imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register
+- `imm`: Immediate value
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs > imm
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`011010?? ???????? ???????? ????????`
+`011011II IIIIIIII IIIIIISS SSSDDDDD`
 
 ### Restrictions
 
@@ -1414,36 +1451,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TLE - Test if lower or equal <!-- TODO ########## -->
+## TLE - Test if lower or equal
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the value in the source register and the immediate value and sets the destination register to 1 if the first value is lower or equal to the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tle rd rs rt`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: First source register
+- `rt`: Second source register
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs <= rt
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`0001001? ???????? ???????? ????????`
+`0001001? ???????? ?TTTTTSS SSSDDDDD`
 
 ### Restrictions
 
@@ -1451,36 +1494,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TLEI - Test if lower or equal with immediate <!-- TODO ########## -->
+## TLEI - Test if lower or equal with immediate
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the values in both source registers and sets the destination register to 1 if the first value is lower or equal to the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tlei rd rs imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register
+- `imm`: Immediate value
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs <= imm
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`011001?? ???????? ???????? ????????`
+`011001II IIIIIIII IIIIIISS SSSDDDDD`
 
 ### Restrictions
 
@@ -1488,36 +1537,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TLT - Test if strictly lower <!-- TODO ########## -->
+## TLT - Test if strictly lower
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the value in the source register and the immediate value and sets the destination register to 1 if the first value is strictly lower than the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tgt rd rs rt`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: First source register
+- `rt`: Second source register
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs < rt
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`0001000? ???????? ???????? ????????`
+`0001000? ???????? ?TTTTTSS SSSDDDDD`
 
 ### Restrictions
 
@@ -1525,36 +1580,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TLTI - Test if strictly lower with immediate <!-- TODO ########## -->
+## TLTI - Test if strictly lower with immediate
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the values in both source registers and sets the destination register to 1 if the first value is strictly lower than the second one and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tlti rd rs imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register
+- `imm`: Immediate value
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs < imm
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`011000?? ???????? ???????? ????????`
+`011000II IIIIIIII IIIIIISS SSSDDDDD`
 
 ### Restrictions
 
@@ -1562,36 +1623,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TNE - Test if not equal <!-- TODO ########## -->
+## TNE - Test if not equal
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the values in both source registers and sets the destination register to 1 if the values are different and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tne rd rs rt`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: First source register
+- `rt`: Second source register
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs != rt
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`0001101? ???????? ???????? ????????`
+`0001101? ???????? ?TTTTTSS SSSDDDDD`
 
 ### Restrictions
 
@@ -1599,36 +1666,42 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
 
 
 
-## TNEI - Test if not equal with immediate <!-- TODO ########## -->
+## TNEI - Test if not equal with immediate
 
 ### Description
 
-Here is a short description of what the instruction does.
+Performs a comparison between the value in the source register and the immediate value and sets the destination register to 1 if the values are different and 0 if not.
 
 ### Syntax
 
-`temp rd rs rt`
+`tnei rd rs imm`
 
 ### Operands
 
 - `rd`: Destination register
+- `rs`: Source register
+- `imm`: Immediate value
 
 ### Operation
 
-`yes <- "Hello world"`
+```
+if rs != imm
+  rd = 1
+else
+  rd = 0
+```
 
 ### Machine code
 
-`011101?? ???????? ???????? ????????`
+`011101II IIIIIIII IIIIIISS SSSDDDDD`
 
 ### Restrictions
 
@@ -1636,9 +1709,8 @@ Here is a short description of what the instruction does.
 
 ### Example
 
+<!-- TODO -->
 ```
-Just a sample program
-that uses the instruction
 ```
 
 
