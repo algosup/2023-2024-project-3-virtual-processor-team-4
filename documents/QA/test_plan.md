@@ -162,7 +162,7 @@ This table will be used as an example for all of our test cases to test our prod
 | Test Case Priority        | Defines if a test is important or not. Using numbers: Low  3 / Medium 2 / High 1 |
 | Test Case Assigned To     | Name of the tester                                                         |
 
-All the [test cases](/documents/QA/test_cases.md) will be stored in the markdown file ```test_cases.md``` and in a [google spreadsheet](https://docs.google.com/spreadsheets/d/1id9PyyKNDIzwIkmHkIvDcmPQQQDkbxNhASC-tRrBGfk/edit#gid=0).
+All the [test cases](/documents/QA/test_cases.md) will be stored in the markdown file ```test_cases.md``` and they will also be visible in a [google spreadsheet](https://docs.google.com/spreadsheets/d/1id9PyyKNDIzwIkmHkIvDcmPQQQDkbxNhASC-tRrBGfk/edit#gid=0).
 
 ## Testing tools
 

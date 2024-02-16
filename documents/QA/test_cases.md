@@ -252,10 +252,6 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Priority        | High 1                                                                                                                                                       |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                                                                                          |
 
-<!-- ### Label Number
-
-jump to over 8 million to test label number -->
-
 ### Label unexpected
 
 | Test Case ID              | 18                                                                                                                                                              |
@@ -384,7 +380,7 @@ jump to over 8 million to test label number -->
 
 ### Return carriage
 
-| Test Case ID              | 26                                                                                                                                                             |
+| Test Case ID              | 27                                                                                                                                                             |
 |---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Test case Name            | Return carriage                                                                                                                                                |
 | Test Case Description     | Check if the product can handle return carriage.                                                                                                               |
@@ -396,9 +392,9 @@ jump to over 8 million to test label number -->
 | Test Case Priority        | High 1                                                                                                                                                         |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                                                                                                                                            |
 
-### Specific character in Commentary
+### Specific character in commentary
 
-| Test Case ID              | 27                                                                                                                                                                                             |
+| Test Case ID              | 28                                                                                                                                                                                             |
 |---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Test case Name            | Specific character in commentary                                                                                                                                                               |
 | Test Case Description     | Check if the product can handle specific characters in commentaries.                                                                                                                           |
@@ -412,7 +408,7 @@ jump to over 8 million to test label number -->
 
 ### Specific character out commentary
 
-| Test Case ID              | 28                                                                                                                                                                                                |
+| Test Case ID              | 29                                                                                                                                                                                                |
 |---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Test case Name            | Specific character out commentary                                                                                                                                                                 |
 | Test Case Description     | Check if the product can handle specific characters outside commentaries.                                                                                                                         |
@@ -426,7 +422,7 @@ jump to over 8 million to test label number -->
 
 ### Hexadecimal value
 
-| Test Case ID              | 29                                                                                                                                                            |
+| Test Case ID              | 30                                                                                                                                                            |
 |---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Test case Name            | Hexadecimal value                                                                                                                                             |
 | Test Case Description     | Check if the product can handle hexadecimal value.                                                                                                            |
@@ -442,7 +438,7 @@ jump to over 8 million to test label number -->
 
 ### Emulator: Compilation
 
-| Test Case ID              | 30                                                                              |
+| Test Case ID              | 31                                                                              |
 |---------------------------|---------------------------------------------------------------------------------|
 | Test case Name            | Emulator: Compilation                                                           |
 | Test Case Description     | Verify if the file ```main.c``` could create ```emulator.exe``` and could be run without errors.                |
@@ -456,7 +452,7 @@ jump to over 8 million to test label number -->
 
 ### Emulator: No parameter
 
-| Test Case ID              | 31                                                                      |
+| Test Case ID              | 32                                                                      |
 |---------------------------|-------------------------------------------------------------------------|
 | Test case Name            | Emulator: No parameter                                                  |
 | Test Case Description     | Help the user to use the ```emulator.exe```.                            |
@@ -470,7 +466,7 @@ jump to over 8 million to test label number -->
 
 ### Emulator: File not found
 
-| Test Case ID              | 32                                                                                             |
+| Test Case ID              | 33                                                                                             |
 |---------------------------|------------------------------------------------------------------------------------------------|
 | Test case Name            | Emulator: File not found                                                                       |
 | Test Case Description     | Search if the assembly file already exists or not.                                             |
@@ -486,7 +482,7 @@ jump to over 8 million to test label number -->
 
 ### Separate color
 
-| Test Case ID              | 33                                        |
+| Test Case ID              | 34                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Separate color                            |
 | Test Case Description     | Verify if ```separate_color.asm``` comport any errors and return the expected result.|
@@ -500,7 +496,7 @@ jump to over 8 million to test label number -->
 
 ### Convert Hexa to Decimal
 
-| Test Case ID              | 34                                        |
+| Test Case ID              | 35                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Convert Hexa to Decimal                   |
 | Test Case Description     | Verify if ```hexa_to_decimal.asm``` comport any errors and return the expected result. |
@@ -514,7 +510,7 @@ jump to over 8 million to test label number -->
 
 ### Temperature convertor
 
-| Test Case ID              | 35                                        |
+| Test Case ID              | 36                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Temperature convertor                     |
 | Test Case Description     | Verify if ```temperature_convertor.asm``` comport any errors and return the expected result.|
@@ -528,7 +524,7 @@ jump to over 8 million to test label number -->
 
 ### Randomizer
 
-| Test Case ID              | 36                                        |
+| Test Case ID              | 37                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Randomizer                                |
 | Test Case Description     | Verify if ```random_generator.asm``` comport any errors and return the expected result.|
@@ -542,7 +538,7 @@ jump to over 8 million to test label number -->
 
 ### Greatest Common Divisor
 
-| Test Case ID              | 37                                        |
+| Test Case ID              | 38                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Greatest Common Divisor                   |
 | Test Case Description     | Verify if ```greatest_common_divisor.asm``` comport any errors and return the expected result.|
@@ -556,7 +552,7 @@ jump to over 8 million to test label number -->
 
 ### Least Common Multiple
 
-| Test Case ID              | 38                                        |
+| Test Case ID              | 39                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Least Common Multiple                     |
 | Test Case Description     | Verify if ```least_common_multiple.asm``` comport any errors and return the expected result.|
@@ -570,7 +566,7 @@ jump to over 8 million to test label number -->
 
 ### Roll
 
-| Test Case ID              | 39                                        |
+| Test Case ID              | 40                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Roll                                      |
 | Test Case Description     | Verify if ```roll.asm``` comports any errors and return the expected result.|
@@ -584,7 +580,7 @@ jump to over 8 million to test label number -->
 
 ### Fibonacci
 
-| Test Case ID              | 40                                        |
+| Test Case ID              | 41                                        |
 |---------------------------|-------------------------------------------|
 | Test Case Name            | Fibonacci                                 |
 | Test Case Description     | Verify if ```fibonacci.asm``` comport any errors and return the expected result.|
