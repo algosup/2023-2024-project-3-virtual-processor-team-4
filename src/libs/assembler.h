@@ -100,11 +100,11 @@ int create_bin();
 
 int push_to_stack(stack_t*, line_t);
 int pop_from_stack(stack_t*, line_t*);
-int find_register(char*, int*);
 int execute_instruction(line_t*);
 int find_label_line(char*, uint32_t*);
+int get_labels(line_t*, uint64_t);
 
-// --- manipulate register ---
+// --- manipulate Labels ---
 
 //A function to translate labels to int.
 int find_label_line(char* labelStr, uint32_t* lineOut){
@@ -132,7 +132,7 @@ int get_labels(line_t* instruction, uint64_t arrSize){
         if(instruction[i].mnemonic == LABEL_){
             label_t tmp = {machineCodeLineNumber+1, &instruction[i].label};
             add_to_list_label(&labelList, tmp);
-        }else{
+        }else if(instruction[i].mnemonic != SKIP){
             machineCodeLineNumber++;
             instruction[i].lineNumber = machineCodeLineNumber;
         }
