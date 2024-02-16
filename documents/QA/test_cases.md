@@ -19,9 +19,9 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case ID              | 1                                                                               |
 |---------------------------|---------------------------------------------------------------------------------|
 | Test case Name            | Assembler: Compilation                                                          |
-| Test Case Description     | Verify if the file ```main.c``` could create ```assembler.exe``` and could be run without errors.               |
+| Test Case Description     | Verify if the file ```assembler.c``` could create ```assembler.exe``` and could be run without errors.               |
 | Test Case Pre-conditions  | The product isn't running.                                                      |
-| Test Case Steps           | 1. Open ```main.c``` in Visual Studio Code. <br> 2. Compile the file with GCC, and run it.      |
+| Test Case Steps           | 1. Open ```assembler.c``` in Visual Studio Code. <br> 2. Compile the file with GCC, and run it.      |
 | Test Case Expected Result | The file runs without errors and you get another file named ```assembler.exe```. |
 | Test Case Actual Result   | ---                                                                             |
 | Test Case Status          | To Test                                                                         |
@@ -441,9 +441,9 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case ID              | 31                                                                              |
 |---------------------------|---------------------------------------------------------------------------------|
 | Test case Name            | Emulator: Compilation                                                           |
-| Test Case Description     | Verify if the file ```main.c``` could create ```emulator.exe``` and could be run without errors.                |
+| Test Case Description     | Verify if the file ```emulator.c``` could create ```emulator.exe``` and could be run without errors.                |
 | Test Case Pre-conditions  | The product isn't running.                                                      |
-| Test Case Steps           | 1. Open ```main.c``` in Visual Studio Code. <br> 2. Compile the file with GCC, and run it.      |
+| Test Case Steps           | 1. Open ```emulator.c``` in Visual Studio Code. <br> 2. Compile the file with GCC, and run it.      |
 | Test Case Expected Result | The file runs without errors and you get another file named ```emulator.exe```. |
 | Test Case Actual Result   | ---                                                                             |
 | Test Case Status          | To Test                                                                         |
