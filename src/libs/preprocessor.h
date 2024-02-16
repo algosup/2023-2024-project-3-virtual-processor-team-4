@@ -68,16 +68,28 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     char *opcode = (token != NULL) ? token : "skip";
 
     // Extract the second word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL) {
         dest = token; // Change to pointer in file
+    }
 
     // Extract the third word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL){
         param1 = token; // Change to pointer in file
+    }
 
     // Extract the fourth word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL){
         param2 = token; // Change to pointer in file
+    }
+
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL) {
+        printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
+        line->mnemonic = SKIP;
+        line->lineNumber = *lineNumber;
+        line->param1_t = NULL_;
+        line->label = NULL;
+        return GENERIC_ERROR;
+    }
 
     InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t)); // check for free afterwhile
 
