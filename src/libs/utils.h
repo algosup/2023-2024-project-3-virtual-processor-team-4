@@ -95,6 +95,7 @@ typedef struct line // Definition of a line after parsing and checking all its a
             {
                 uint8_t register1;
                 int16_t immediate1;
+                char *label1;
             };
             ParameterType_t param2_t;
             union
@@ -187,7 +188,7 @@ int find_register(char *inString, uint8_t *registerIndex)
     strcpy(str2, inString);
     char *ptr = str2;
     ptr++;
-    if ((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f'))
+    if ((*ptr >= 'A' && *ptr <= 'Z') || (*ptr >= 'a' && *ptr <= 'z'))
     {
         *registerIndex = (uint8_t)strtol(ptr, NULL, 16);
         return SUCCESS;

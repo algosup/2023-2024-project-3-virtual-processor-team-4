@@ -68,7 +68,7 @@ int main(int argc, char **argv)
             return 1;
         }
 
-        for (long long int j = 0; j <= lineCount; j++)
+        for (uint64_t j = 0; j <= lineCount; j++)
         {
             // malloc line content
             char *lineContent = malloc(100 * sizeof(char));
@@ -109,7 +109,6 @@ int main(int argc, char **argv)
         // Free file content
         free(content);
     }
-
 
     return SUCCESS;
 }

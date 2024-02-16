@@ -11,18 +11,6 @@ char *outputFile = "../compiled.bin";
 
 int16_t registerArr[32];
 
-typedef struct stackNode
-{ // Item of linked list
-    struct stackNode *previous;
-    line_t val;
-} stackNode_t;
-
-typedef struct stack
-{ // Linked list = stack
-    stackNode_t *head;
-    unsigned int size;
-} stack_t;
-
 int add(line_t instruction);
 int sub(line_t instruction);
 int mul(line_t instruction);
@@ -104,56 +92,7 @@ typedef struct binInstruction
 
 int write_to_bin(binInstruction_t);
 int create_bin();
-int push_to_stack(stack_t *, line_t);
-int pop_from_stack(stack_t *, line_t *);
 int execute_instruction(line_t *);
-
-// --- Stack ---
-
-int push_to_stack(stack_t *pStack, line_t value)
-{
-    if (pStack->head == NULL)
-    {
-        stackNode_t node = {NULL, value};
-        stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
-        memcpy(p, &node, sizeof(stackNode_t));
-        pStack->size++;
-        pStack->head = p;
-    }
-    else
-    {
-        stackNode_t node = {NULL, value};
-        stackNode_t *p = (stackNode_t *)malloc(sizeof(stackNode_t));
-        memcpy(p, &node, sizeof(stackNode_t));
-        pStack->size++;
-        pStack->head->previous = p;
-        pStack->head = p;
-    }
-    return EXIT_SUCCESS;
-}
-
-int pop_from_stack(stack_t *pStack, line_t *value)
-{
-    if (pStack->head == NULL)
-    {
-        return EXIT_FAILURE;
-    }
-    else if (pStack->size == 1)
-    {
-        *value = pStack->head->val;
-        free(pStack->head);
-        pStack->size--;
-        pStack->head = NULL;
-    }
-    else
-    {
-        *value = pStack->head->val;
-        free(pStack->head);
-        pStack->size--;
-        pStack->head->previous = NULL;
-    }
-    return EXIT_SUCCESS;
-}
 
 // A switch case to find which operation is being called
 int execute_instruction(line_t *instruction)
@@ -268,7 +207,7 @@ int execute_instruction(line_t *instruction)
         ret(*instruction);
         return SUCCESS;
     default:
-        printf("Error : line %d. Not a valid operation\n", instruction->lineNumber);
+        printf("Error : line %llu. Not a valid operation\n", instruction->lineNumber);
         return GENERIC_ERROR;
     }
     return GENERIC_ERROR;
@@ -313,6 +252,7 @@ int create_bin()
         printf("Error: binary file could not be closed");
         return GENERIC_ERROR;
     }
+    return SUCCESS;
 }
 
 // --- Operations ---

@@ -73,7 +73,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
 
     // Extract the third word
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
-        param1 = token;// Change to pointer in file
+        param1 = token; // Change to pointer in file
 
     // Extract the fourth word
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
