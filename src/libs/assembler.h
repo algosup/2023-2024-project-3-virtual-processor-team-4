@@ -85,7 +85,7 @@ typedef struct binInstruction
             uint8_t opcode; //4bits
             union
             {
-                uint32_t addres;
+                int16_t addres;
                 int16_t immediate;
             };
             uint8_t register_; //5bits
@@ -101,7 +101,7 @@ int create_bin();
 int push_to_stack(stack_t*, line_t);
 int pop_from_stack(stack_t*, line_t*);
 int execute_instruction(line_t*);
-int find_label_line(char*, uint32_t*);
+int find_label_line(char*, int16_t*);
 int get_labels(line_t*, uint64_t);
 int iterate_through_all_line(line_t*, uint64_t);
 
@@ -133,7 +133,7 @@ int iterate_through_all_line(line_t* instructions, uint64_t arrSize){
 // --- manipulate Labels ---
 
 //A function to translate labels to int.
-int find_label_line(char* labelStr, uint32_t* lineOut){
+int find_label_line(char* labelStr, int16_t* lineOut){
     char** str;
     label_t label = {0, str};
 
@@ -454,7 +454,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionT
         error = true;
     }
 
-    uint32_t addres;
+    int16_t addres;
     if(instruction.param1_t == LABEL){
         if(find_label_line(instruction.label1, &addres) != SUCCESS){
             error = true;
