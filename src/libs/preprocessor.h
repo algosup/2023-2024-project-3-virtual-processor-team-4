@@ -68,21 +68,25 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     char *opcode = (token != NULL) ? token : "skip";
 
     // Extract the second word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL) {
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    {
         dest = token; // Change to pointer in file
     }
 
     // Extract the third word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL){
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    {
         param1 = token; // Change to pointer in file
     }
 
     // Extract the fourth word
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL){
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    {
         param2 = token; // Change to pointer in file
     }
 
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL) {
+    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    {
         printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
@@ -307,10 +311,28 @@ int check_label_declaration(InstructionType_t *instructionId, char *label)
 {
     if (label[strlen(label) - 1] == ':')
     {
-        *instructionId = LABEL_;
-        return SUCCESS;
+        // Remove the last character from label
+        char *newLabel = (char *)malloc((strlen(label) - 1) * sizeof(char));
+        strcpy(newLabel, label);
+        newLabel[strlen(newLabel) - 1] = '\0';
+        if (check_is_label(newLabel) == SUCCESS)
+        {
+            *instructionId = LABEL_;
+            return SUCCESS;
+        }
+        else
+        {
+            *instructionId = SKIP;
+            return GENERIC_ERROR;
+        }
     }
-    return SUCCESS;
+    else
+    {
+        *instructionId = SKIP;
+        return GENERIC_ERROR;
+    }
+    *instructionId = SKIP;
+    return GENERIC_ERROR;
 }
 
 int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
@@ -360,8 +382,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         return is_first_operand_register(instructionId, param1, lineNumber);
         break;
     case JMP:
-        // Check if first operand is address (WIP: missing example in functional)
-        return SUCCESS;
+        return is_first_operand_label(instructionId, param1, lineNumber);
         break;
     case XCHG:
     case LD:
@@ -370,7 +391,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     case STRP:
         return are_two_first_operand_registers(instructionId, param1, param2, lineNumber);
         break;
-        // Following instructions are not implemented yet
+    // Following instructions are not implemented yet
     default:
         printf("Instruction not found");
         return GENERIC_ERROR;

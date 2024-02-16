@@ -127,19 +127,27 @@ int check_is_number(char *str) // Check if a string is a number
 
 int check_is_label(char *str) // Check if the line content is a label
 {
-    if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
+    if (!(str[0] == 'r' && str[0] == 'R') && (!(str[1] <= 'a' && str[1] >= 'z') && !(str[1] <= 'A' && str[1] >= 'Z')) && strlen(str) == 2)
     {
         return INVALID_DATA;
-    }
-    int i = 1;
+    } // Check for register
+
+    if (str[0] == '0' && str[1] == 'x')
+    {
+        return INVALID_DATA;
+    } // Check for hexadecimal values
+
+    int i = 2;
     while (str[i] != '\0')
     {
-        if (!(str[i] >= '0' && str[i] <= '9') || !(str[i] >= 'A' && str[i] <= 'F') || !(str[i] >= 'a' && str[i] <= 'f'))
+        //Check if character is in alphabet
+        if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
         {
             return INVALID_DATA;
         }
         i++;
     }
+
     return SUCCESS;
 }
 
