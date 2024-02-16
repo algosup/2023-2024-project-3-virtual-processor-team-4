@@ -94,7 +94,12 @@ typedef struct line // Definition of a line after parsing and checking all its a
     {
         struct
         {
-            uint8_t param1;
+            ParameterType_t param1_t;
+            union {
+                uint8_t register1;
+                int16_t immediate1;
+                char *label1;
+            };
             ParameterType_t param2_t;
             union
             {
@@ -112,7 +117,7 @@ typedef struct line // Definition of a line after parsing and checking all its a
 typedef struct label
 {
     uint32_t line;
-    char *labelStr;
+    char **labelStr;
 } label_t;
 
 typedef struct nodeLabel
@@ -206,7 +211,7 @@ int check_val(char *val) // Used to know what kind of input value we're working 
     return INVALID_DATA;
 }
 
-int get_list_str(listLabel_t *pList, label_t *value, int index)
+int get_list_label(listLabel_t *pList, label_t *value, int index)
 {
     if (index >= 0)
     {
@@ -215,7 +220,7 @@ int get_list_str(listLabel_t *pList, label_t *value, int index)
         {
             current = current->next;
         }
-        strcpy(value->labelStr, current->val.labelStr);
+        value->labelStr = current->val.labelStr;
         value->line = current->val.line;
     }
     else
@@ -225,13 +230,13 @@ int get_list_str(listLabel_t *pList, label_t *value, int index)
         {
             current = current->previous;
         }
-        strcpy(value->labelStr, current->val.labelStr);
+        value->labelStr = current->val.labelStr;
         value->line = current->val.line;
     }
     return SUCCESS;
 };
 
-int add_to_list_str(listLabel_t *pList, label_t value)
+int add_to_list_label(listLabel_t *pList, label_t value)
 {
     if (pList->head == NULL)
     {

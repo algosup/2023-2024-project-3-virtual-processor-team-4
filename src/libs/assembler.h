@@ -94,8 +94,6 @@ typedef struct binInstruction
 } binInstruction_t;
 
 listLabel_t labelList = {NULL, 0, NULL};
-uint32_t machineCodeLine = 0;
-bool firstPass;
 
 int write_to_bin(binInstruction_t);
 int create_bin();
@@ -104,38 +102,19 @@ int push_to_stack(stack_t*, line_t);
 int pop_from_stack(stack_t*, line_t*);
 int find_register(char*, int*);
 int execute_instruction(line_t*);
-int label_to_int(char*, uint32_t*);
+int find_label_line(char*, uint32_t*);
 
 // --- manipulate register ---
 
-int find_register(char *inString, int *registerIndex)
-{
-    if(strlen(inString) != 2){
-        return INVALID_DATA;
-    }
-
-    char str2[3];
-    strcpy(str2, inString);
-    char *ptr = str2;
-    ptr++;
-
-    if((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')){
-        *registerIndex = (int)strtol(ptr, NULL, 16);
-        return SUCCESS;
-    }else{
-        return INVALID_DATA;
-    }
-};
-
 //A function to translate labels to int.
-int label_to_int(char* labelStr, uint32_t* lineOut){
-    char str[256];
+int find_label_line(char* labelStr, uint32_t* lineOut){
+    char** str;
     label_t label = {0, str};
 
     for (int i = 0; i < labelList.size; i++)
     {
-        get_list_str(&labelList, &label, i);
-        if(strcmp(label.labelStr, labelStr) == 0){
+        get_list_label(&labelList, &label, i);
+        if(strcmp(*label.labelStr, labelStr) == 0){
             *lineOut = label.line;
             return SUCCESS;
         }
@@ -143,6 +122,21 @@ int label_to_int(char* labelStr, uint32_t* lineOut){
 
     printf("Error: undefined label \"%s\"\n", labelStr);
     return GENERIC_ERROR;
+}
+
+//iterate through the list of instruction to get label and the places they jump to
+int get_labels(line_t* instruction, uint64_t arrSize){
+    int machineCodeLineNumber = 0;
+
+    for(int i = 0; i < arrSize; i++){
+        if(instruction[i].mnemonic == LABEL_){
+            label_t tmp = {machineCodeLineNumber+1, &instruction[i].label};
+            add_to_list_label(&labelList, tmp);
+        }else{
+            machineCodeLineNumber++;
+            instruction[i].lineNumber = machineCodeLineNumber;
+        }
+    }
 }
 
 // A switch case to find which operation is being called
@@ -153,11 +147,7 @@ int execute_instruction(line_t *instruction)
     case SKIP:
         return SUCCESS;
     case LABEL_:
-        if(firstPass == true){
-            return label(*instruction);
-        }else{
-            return SUCCESS;
-        }
+        return SUCCESS;
     case ABS:
         return abs_(*instruction);
     case ADD:
@@ -254,62 +244,58 @@ int execute_instruction(line_t *instruction)
 
 
 int write_to_bin(binInstruction_t input){
-    if(firstPass == false){
-        FILE* fPtr = fopen(outputFile, "ab");
-        if(fPtr == NULL){
-            printf("Error: binary file could not be opened\n");
-            return GENERIC_ERROR;
-        }
+    FILE* fPtr = fopen(outputFile, "ab");
+    if(fPtr == NULL){
+        printf("Error: binary file could not be opened\n");
+        return GENERIC_ERROR;
+    }
 
-        // 4 8bit to make a 32bit instruction.
-        unsigned char byteArr[4] = {0, 0, 0, 0};
+    // 4 8bit to make a 32bit instruction.
+    unsigned char byteArr[4] = {0, 0, 0, 0};
 
-        //big blocks of byteshift to organise the bytes for the machine code
-        switch (input.type)
-        {
-        case R:
-            byteArr[0] = byteArr[0] | input.typeR.opcode << 1;
-            byteArr[2] = byteArr[2] | input.typeR.source2 << 2;
-            byteArr[2] = byteArr[2] | input.typeR.source >> 3;
-            byteArr[3] = byteArr[3] | input.typeR.source << 5;
-            byteArr[3] = byteArr[3] | input.typeR.destination;
-            break;
+    //big blocks of byteshift to organise the bytes for the machine code
+    switch (input.type)
+    {
+    case R:
+        byteArr[0] = byteArr[0] | input.typeR.opcode << 1;
+        byteArr[2] = byteArr[2] | input.typeR.source2 << 2;
+        byteArr[2] = byteArr[2] | input.typeR.source >> 3;
+        byteArr[3] = byteArr[3] | input.typeR.source << 5;
+        byteArr[3] = byteArr[3] | input.typeR.destination;
+        break;
 
-        case I:
-            byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
-            byteArr[0] = byteArr[0] | input.typeI.immediate >> 14;
-            byteArr[1] = byteArr[1] | input.typeI.immediate >> 6;
-            byteArr[2] = byteArr[2] | input.typeI.immediate << 2;
-            byteArr[2] = byteArr[2] | input.typeI.source >> 3;
-            byteArr[3] = byteArr[3] | input.typeI.source << 5;
-            byteArr[3] = byteArr[3] | input.typeI.destination;
-            break;
+    case I:
+        byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
+        byteArr[0] = byteArr[0] | input.typeI.immediate >> 14;
+        byteArr[1] = byteArr[1] | input.typeI.immediate >> 6;
+        byteArr[2] = byteArr[2] | input.typeI.immediate << 2;
+        byteArr[2] = byteArr[2] | input.typeI.source >> 3;
+        byteArr[3] = byteArr[3] | input.typeI.source << 5;
+        byteArr[3] = byteArr[3] | input.typeI.destination;
+        break;
 
-        case J:
-            byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
-            byteArr[0] = byteArr[0] | input.typeJ.addres >> 19;
-            byteArr[1] = byteArr[1] | input.typeJ.addres >> 11;
-            byteArr[2] = byteArr[2] | input.typeJ.addres >> 3;
-            byteArr[3] = byteArr[3] | input.typeJ.addres << 5;
-            byteArr[3] = byteArr[3] | input.typeJ.register_;
-            break;
+    case J:
+        byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
+        byteArr[0] = byteArr[0] | input.typeJ.addres >> 19;
+        byteArr[1] = byteArr[1] | input.typeJ.addres >> 11;
+        byteArr[2] = byteArr[2] | input.typeJ.addres >> 3;
+        byteArr[3] = byteArr[3] | input.typeJ.addres << 5;
+        byteArr[3] = byteArr[3] | input.typeJ.register_;
+        break;
 
-        default:
-            printf("Error: writing binary file. Invalid input\n");
-            return INVALID_DATA;
-            break;
-        }
+    default:
+        printf("Error: writing binary file. Invalid input\n");
+        return INVALID_DATA;
+        break;
+    }
 
-        for (int i = 0; i < 4; i++) {
-            fwrite(&byteArr[i], sizeof(int8_t), 1, fPtr);
-        }
+    for (int i = 0; i < 4; i++) {
+        fwrite(&byteArr[i], sizeof(int8_t), 1, fPtr);
+    }
 
-        if(fclose(fPtr) != 0){
-            printf("Error: binary file could not be closed\n");
-            return GENERIC_ERROR;
-        }
-    }else{
-        machineCodeLine++;
+    if(fclose(fPtr) != 0){
+        printf("Error: binary file could not be closed\n");
+        return GENERIC_ERROR;
     }
     return SUCCESS;
 }
@@ -335,29 +321,37 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionT
         bin->typeR.opcode = opcode;
     }else{
         printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
-        return INVALID_DATA;
+        error = true;
     }
 
-    if(instruction.dest < 32 && instruction.dest >= 0 && instruction.dest_t == REGISTER){
+    if(instruction.param2_t == NULL_){
         bin->typeR.destination = instruction.dest;
-    }else if (instruction.dest_t == NULL_){
-        bin->typeI.destination = 0;
+        bin->typeR.source = instruction.dest;
+
+        if(instruction.param1_t == REGISTER){
+            bin->typeR.source2 = instruction.register1;
+        }else{
+            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            error = true;
+        }
     }else{
-        printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
-        error = true;
-    }
-    if(instruction.param1 < 32 && instruction.param1 >= 0){
-        bin->typeR.source = instruction.param1;
-    }else{
-        printf("Error: Invalid 1st register. Line %d\n", instruction.lineNumber);
-        error = true;
-    }
-    if(instruction.register2 < 32 && instruction.register2 >= 0){
+        bin->typeR.destination = instruction.dest;
+
+        if(instruction.param1_t == REGISTER){
+            bin->typeR.source = instruction.register1;
+        }else{
+            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            error = true;
+        }
+
+        if(instruction.param2_t == REGISTER){
             bin->typeR.source2 = instruction.register2;
-    }else{
-        printf("Error: Invalid 2nd register. Line %d\n", instruction.lineNumber);
-        error = true;
+        }else{
+            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            error = true;
+        }
     }
+    
     if(error == false){
         return SUCCESS;
     }else{
@@ -373,29 +367,37 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionT
         bin->typeI.opcode = opcode;
     }else{
         printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
-        return INVALID_DATA;
+        error = true;
     }
 
-    if(instruction.dest < 32 && instruction.dest >= 0 && instruction.dest_t == REGISTER){
+    if(instruction.param2_t == NULL_){
         bin->typeI.destination = instruction.dest;
-    }else if (instruction.dest_t == NULL_){
-        bin->typeI.destination = 0;
+        bin->typeI.source = instruction.dest;
+
+        if(instruction.param1_t == IMMEDIATE){
+            bin->typeI.immediate = instruction.immediate1;
+        }else{
+            printf("Error: Invalide data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
+            error = true;
+        }
     }else{
-        printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
-        error = true;
-    }
-    if(instruction.param1 < 32 && instruction.param1 >= 0){
-        bin->typeI.source = instruction.param1;
-    }else{
-        printf("Error: Invalid register. Line %d\n", instruction.lineNumber);
-        error = true;
-    }
-    if(instruction.immediate2 < 32768 && instruction.immediate2 >= -32768){
+        bin->typeI.destination = instruction.dest;
+
+        if(instruction.param1_t == REGISTER){
+            bin->typeI.source = instruction.register1;
+        }else{
+            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            error = true;
+        }
+
+        if(instruction.param2_t == IMMEDIATE){
             bin->typeI.immediate = instruction.immediate2;
-    }else{
-        printf("Error: Invalid immediate. Line %d\n", instruction.lineNumber);
-        error = true;
+        }else{
+            printf("Error: Invalide data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
+            error = true;
+        }
     }
+
     if(error == false){
         return SUCCESS;
     }else{
@@ -412,32 +414,36 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionT
         bin->typeI.opcode = opcode;
     }else{
         printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
-        return INVALID_DATA;
+        error = true;
     }
 
-    bool isImmediate = false;
-    if(instruction.param2_t == IMMEDIATE){
-        isImmediate = true;
-    }
-
-    if(instruction.dest < 32 && instruction.dest >= 0 && instruction.dest_t == REGISTER){
-        bin->typeJ.register_ = instruction.dest;
-    }else if (instruction.dest_t == NULL_){
-        bin->typeI.destination = 0;
+    if(instruction.dest_t == NULL_){
+        bin->typeJ.register_ == 31; //31 isn't a valid register
+    }else if(instruction.dest_t == REGISTER){
+        bin->typeJ.register_ == instruction.dest;
     }else{
         printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
         error = true;
     }
 
     uint32_t addres;
-    if((instruction.immediate2 < 32768 && instruction.immediate2 >= -32768) && isImmediate){
-        bin->typeJ.immediate = instruction.immediate2;
-    }else if(label_to_int(instruction.label, &addres) == SUCCESS && !isImmediate){
-        bin->typeJ.addres = addres;
-    }
-    else{
+    if(instruction.param1_t == LABEL){
+        if(find_label_line(instruction.label1, &addres) != SUCCESS){
+            error = true;
+        }else{
+            addres = addres - instruction.lineNumber;
+        }
+    }else if (instruction.param1_t = IMMEDIATE)
+    {
+        addres = instruction.immediate1;
+    }else if (instruction.param1_t = NULL_){
+        addres = 0;
+    }else{
         error = true;
+        printf("Error: Invalid Label or Imediate. Line %d\n", instruction.lineNumber);
     }
+
+    bin->typeJ.addres = addres;
 
     if(error == false){
         return SUCCESS;
@@ -447,23 +453,6 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionT
 }
 
 // --- Operations ---
-
-int label(line_t instruction){
-    if(instruction.mnemonic != LABEL_){
-        printf("Error: invalid instruction at line %d", instruction.lineNumber);
-        return INVALID_DATA;
-    }
-
-    if (labelList.size >= 8388607)
-    {
-        printf("Error: exceeded maximum amount of possible labels (8388607)\n");
-        return GENERIC_ERROR;
-    }else{
-        label_t label = {machineCodeLine, instruction.label};
-        add_to_list_str(&labelList, label);
-        return SUCCESS;
-    }
-}
 
 int abs_(line_t instruction){
     binInstruction_t bin;
