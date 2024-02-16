@@ -103,14 +103,20 @@ int pop_from_stack(stack_t*, line_t*);
 int execute_instruction(line_t*);
 int find_label_line(char*, uint32_t*);
 int get_labels(line_t*, uint64_t);
+int iterate_through_all_line(line_t*, uint64_t);
 
 int iterate_through_all_line(line_t* instructions, uint64_t arrSize){
-    create_bin();
-    get_labels(instructions, arrSize);
+    ErrorType_t er = create_bin();
+    if(er != SUCCESS){
+        return er;
+    }
+    er = get_labels(instructions, arrSize);
+    if(er != SUCCESS){
+        return er;
+    }
 
     bool error = false;
-
-    for (int i = 0; i < labelList.size; i++)
+    for (int i = 0; i < arrSize; i++)
     {
         if(execute_instruction(&instructions[i]) != SUCCESS){
             error = true;
@@ -157,6 +163,8 @@ int get_labels(line_t* instructions, uint64_t arrSize){
             instructions[i].lineNumber = machineCodeLineNumber;
         }
     }
+
+    return SUCCESS;
 }
 
 // A switch case to find which operation is being called
@@ -438,7 +446,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionT
     }
 
     if(instruction.dest_t == NULL_){
-        bin->typeJ.register_ == 31; //31 isn't a valid register
+        bin->typeJ.register_ == 0;
     }else if(instruction.dest_t == REGISTER){
         bin->typeJ.register_ == instruction.dest;
     }else{
