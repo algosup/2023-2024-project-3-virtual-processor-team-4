@@ -83,11 +83,7 @@ typedef struct binInstruction
         struct typeJ
         {
             uint8_t opcode; //4bits
-            union
-            {
-                int16_t addres;
-                int16_t immediate;
-            };
+            int32_t addres;
             uint8_t register_; //5bits
         }typeJ;
     };
@@ -101,7 +97,7 @@ int create_bin();
 int push_to_stack(stack_t*, line_t);
 int pop_from_stack(stack_t*, line_t*);
 int execute_instruction(line_t*);
-int find_label_line(char*, int16_t*);
+int find_label_line(char*, int32_t*);
 int get_labels(line_t*, uint64_t);
 int iterate_through_all_line(line_t*, uint64_t);
 
@@ -133,7 +129,7 @@ int iterate_through_all_line(line_t* instructions, uint64_t arrSize){
 // --- manipulate Labels ---
 
 //A function to translate labels to int.
-int find_label_line(char* labelStr, int16_t* lineOut){
+int find_label_line(char* labelStr, int32_t* lineOut){
     char** str;
     label_t label = {0, str};
 
@@ -303,12 +299,13 @@ int write_to_bin(binInstruction_t input){
         break;
 
     case J:
-        byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
         byteArr[0] = byteArr[0] | input.typeJ.addres >> 19;
         byteArr[1] = byteArr[1] | input.typeJ.addres >> 11;
         byteArr[2] = byteArr[2] | input.typeJ.addres >> 3;
         byteArr[3] = byteArr[3] | input.typeJ.addres << 5;
         byteArr[3] = byteArr[3] | input.typeJ.register_;
+        byteArr[0] = byteArr[0] & 15; //clear the last 4 bits as they are used for opcode
+        byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
         break;
 
     default:
@@ -439,22 +436,22 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionT
     bin->type = J;
 
     if(instruction.mnemonic == inst){
-        bin->typeI.opcode = opcode;
+        bin->typeJ.opcode = opcode;
     }else{
         printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
         error = true;
     }
 
     if(instruction.dest_t == NULL_){
-        bin->typeJ.register_ == 0;
+        bin->typeJ.register_ = 0;
     }else if(instruction.dest_t == REGISTER){
-        bin->typeJ.register_ == instruction.dest;
+        bin->typeJ.register_ = instruction.dest;
     }else{
         printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
         error = true;
     }
 
-    int16_t addres;
+    int32_t addres;
     if(instruction.param1_t == LABEL){
         if(find_label_line(instruction.label1, &addres) != SUCCESS){
             error = true;
