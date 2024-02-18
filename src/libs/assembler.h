@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include "utils.h"
 
-char* outputFile = "../compiled.bin";
+char *outputFile = "../compiled.bin";
 
 int label(line_t);
 int abs_(line_t);
@@ -55,11 +55,12 @@ int xor_(line_t);
 int xori(line_t);
 // Added _ to avoid conflict with existing keywords
 
-typedef enum binType{
+typedef enum binType
+{
     R,
     I,
     J
-}binType_t;
+} binType_t;
 
 typedef struct binInstruction
 {
@@ -260,7 +261,7 @@ int execute_instruction(line_t *instruction)
         return xori(*instruction);
     
     default:
-        printf("Error : line %d. Not a valid operation\n", instruction->lineNumber);
+        printf("Error : line %llu. Not a valid operation\n", instruction->lineNumber);
         return GENERIC_ERROR;
     }
     return GENERIC_ERROR;
@@ -332,12 +333,12 @@ int create_bin(){
         return GENERIC_ERROR;
     }
 
-    if(fclose(fPtr) != 0){
+    if (fclose(fPtr) != 0)
+    {
         printf("Error: binary file could not be closed\n");
         return GENERIC_ERROR;
     }
 }
-
 ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionType_t inst, uint8_t opcode){
     bool error = false;
 

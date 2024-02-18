@@ -2,8 +2,9 @@
 #define UTILS_H
 #include <stdint.h>
 #include <stdio.h>
-
-// ************************** ENUM DECLARATIONS **************************
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 typedef enum ErrorType // Define all the errors which could happen and their codes
 {
@@ -13,6 +14,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
+    REGISTER_INSTEAD_OF_LABEL
 } ErrorType_t;
 
 typedef enum InstructionType
@@ -95,7 +97,8 @@ typedef struct line // Definition of a line after parsing and checking all its a
         struct
         {
             ParameterType_t param1_t;
-            union {
+            union
+            {
                 uint8_t register1;
                 int16_t immediate1;
                 char *label1;
@@ -112,6 +115,7 @@ typedef struct line // Definition of a line after parsing and checking all its a
             char *label;
         };
     };
+
 } line_t;
 
 typedef struct label
@@ -151,9 +155,40 @@ typedef struct stack
 // ************************** FUNCTION DECLARATIONS **************************s
 // The functions contained in this section are of general purpose and can be used in any part of the code
 
+int isHexadecimal(const char *str)
+{
+    int len = strlen(str);
+    for (int i = 0; i < len; i++)
+    {
+        char ch = str[i];
+        if (!((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F')))
+        {
+            return INVALID_DATA;
+        }
+    }
+    return SUCCESS;
+}
+
 int check_is_number(char *str) // Check if a string is a number
 {
+    if (str == NULL || strlen(str) == 0)
+    {
+        return INVALID_DATA;
+    }
+
     int i = 0;
+    if (str[i] == '-')
+    {
+        i++;
+    }
+
+    // Check if it's a hexadecimal number
+    if ((str[i] == 'x' || str[i] == 'X'))
+    {
+        return isHexadecimal(str + 1);
+    }
+
+    // Check if it's a decimal number
     while (str[i] != '\0')
     {
         if (!(str[i] >= '0' && str[i] <= '9'))
@@ -167,23 +202,27 @@ int check_is_number(char *str) // Check if a string is a number
 
 int check_is_label(char *str) // Check if the line content is a label
 {
-    if (!(str[0] >= 'A' && str[0] <= 'Z') || !(str[0] >= 'a' && str[0] <= 'z'))
+    if (!(str[0] == 'r' && str[0] == 'R') && (!(str[1] <= 'a' && str[1] >= 'z') && !(str[1] <= 'A' && str[1] >= 'Z')) && strlen(str) == 2)
     {
-        return INVALID_DATA;
-    }
-    int i = 1;
+        return REGISTER_INSTEAD_OF_LABEL;
+    } // Check for register
+
+    int i = 0;
     while (str[i] != '\0')
     {
-        if (!(str[i] >= '0' && str[i] <= '9') || !(str[i] >= 'A' && str[i] <= 'Z') || !(str[i] >= 'a' && str[i] <= 'z'))
+        // Check if character is in alphabet
+        if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
         {
             return INVALID_DATA;
         }
         i++;
     }
+
     return SUCCESS;
 }
 
-int check_val(char *val) // Used to know what kind of input value we're working with
+// Used to know what kind of input value we're working with
+int check_val(char *val)
 {
     if (val == NULL || strcmp(val, "") == 0)
     {
@@ -211,53 +250,31 @@ int check_val(char *val) // Used to know what kind of input value we're working 
     return INVALID_DATA;
 }
 
-int get_list_label(listLabel_t *pList, label_t *value, int index)
+int find_register(char *inString, uint8_t *registerIndex)
 {
-    if (index >= 0)
+    if (inString == NULL || strlen(inString) != 2)
     {
-        nodeLabel_t *current = pList->head;
-        for (int i = 0; i < index; i++)
-        {
-            current = current->next;
-        }
-        value->labelStr = current->val.labelStr;
-        value->line = current->val.line;
+        return INVALID_DATA;
+    }
+
+    if (inString[0] != 'R' && inString[0] != 'r')
+    {
+        return INVALID_DATA;
+    }
+
+    char str2[3];
+    strcpy(str2, inString);
+    char *ptr = str2;
+    ptr++;
+    if ((*ptr >= 'A' && *ptr <= 'Z') || (*ptr >= 'a' && *ptr <= 'z'))
+    {
+        *registerIndex = (uint8_t)strtol(ptr, NULL, 16);
+        return SUCCESS;
     }
     else
     {
-        nodeLabel_t *current = pList->tail;
-        for (int i = -1; i > index; i--)
-        {
-            current = current->previous;
-        }
-        value->labelStr = current->val.labelStr;
-        value->line = current->val.line;
+        return INVALID_DATA;
     }
-    return SUCCESS;
 };
 
-int add_to_list_label(listLabel_t *pList, label_t value)
-{
-    if (pList->head == NULL)
-    {
-        nodeLabel_t node = {NULL, value, NULL};
-        nodeLabel_t *p = (nodeLabel_t *)malloc(sizeof(nodeLabel_t));
-        memcpy(p, &node, sizeof(nodeLabel_t));
-        pList->size++;
-        pList->head = p;
-        pList->tail = p;
-    }
-    else
-    {
-        nodeLabel_t node = {pList->tail, value, NULL};
-        nodeLabel_t *p = (nodeLabel_t *)malloc(sizeof(nodeLabel_t));
-        memcpy(p, &node, sizeof(nodeLabel_t));
-        pList->size++;
-        pList->tail->next = p;
-        pList->tail = p;
-    }
-    return SUCCESS;
-}
-
-// ************************** END FUNCTION DECLARATIONS **************************
 #endif
