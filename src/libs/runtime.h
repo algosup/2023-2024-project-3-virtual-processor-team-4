@@ -11,7 +11,7 @@ uint16_t registerArr[32];
 uint8_t memory[201326591];
 
 
-int read_bin(char* inputFile, uint32_t** outputPtr){
+int read_bin(char* inputFile, uint8_t** outputPtr){
     FILE *f = fopen(inputFile, "rb");
     if (f == NULL) {
         perror("Error: Failed to open file");
@@ -24,15 +24,18 @@ int read_bin(char* inputFile, uint32_t** outputPtr){
 
     // Adjust allocation size for uint32_t and ensure it is a multiple of 4
     long adjustedSize = size - (size % 4);
-    *outputPtr = (uint32_t*)malloc(sizeof(uint32_t) * (adjustedSize / 4));
+    if(adjustedSize != size){
+        printf("Warning: Total number of byte should be divisible by 4 but is not.");
+    }
+    *outputPtr = (uint8_t*)malloc(sizeof(uint8_t) * (adjustedSize));
     if (*outputPtr == NULL) {
         perror("Error: Memory allocation failed");
         fclose(f);
         return GENERIC_ERROR;
     }
 
-    size_t read = fread(*outputPtr, 4, adjustedSize / 4, f);
-    if (read < (adjustedSize / 4)) {
+    size_t read = fread(*outputPtr, 1, adjustedSize, f);
+    if (read < adjustedSize) {
         perror("Error: Failed to read file");
         free(*outputPtr);
         fclose(f);
