@@ -113,17 +113,40 @@ typedef struct line // Definition of a line after parsing and checking all its a
     };
 } line_t;
 
+int isHexadecimal(const char *str)
+{
+    int len = strlen(str);
+    for (int i = 0; i < len; i++)
+    {
+        char ch = str[i];
+        if (!((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F')))
+        {
+            return INVALID_DATA;
+        }
+    }
+    return SUCCESS;
+}
+
 int check_is_number(char *str) // Check if a string is a number
 {
-    if(str == NULL || strlen(str) == 0)
+    if (str == NULL || strlen(str) == 0)
     {
         return INVALID_DATA;
     }
+
     int i = 0;
-    if(str[i] == '-')
+    if (str[i] == '-')
     {
         i++;
     }
+
+    // Check if it's a hexadecimal number
+    if ((str[i] == 'x' || str[i] == 'X'))
+    {
+        return isHexadecimal(str + 1);
+    }
+
+    // Check if it's a decimal number
     while (str[i] != '\0')
     {
         if (!(str[i] >= '0' && str[i] <= '9'))
