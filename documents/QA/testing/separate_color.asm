@@ -17,7 +17,7 @@ addi rz ra 0
 andi rz xFF0000
 addi rd rc 0
 div rz rc
-andi ra 0x00FFFF
+andi ra x00FFFF
 
 greenComponent:
 // Isolate the red component from ra in ry

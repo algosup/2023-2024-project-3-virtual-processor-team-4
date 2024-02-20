@@ -1,7 +1,7 @@
 set ra x234561
 
 tle rt ra xF
-bnz rt end
+bnz rt exitProg
 addi rb ra 0
 addi rc ra 0
 tle rt ra xFF

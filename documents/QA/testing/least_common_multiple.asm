@@ -22,7 +22,7 @@ calli modulo
 teqi rt rm 0
 bnz rt end
 add rc rz
-jump next
+jmp next
 
 modulo:
 tlt rt rm rf

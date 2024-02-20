@@ -19,7 +19,7 @@ addi rb ra 0
 // select the last digit
 andi rb x0F
 // check the value of the digit
-tli rt rb x9
+tlti rt rb x9
 bnz rt addNum
 teqi rt rb xA
 bnz rt isA

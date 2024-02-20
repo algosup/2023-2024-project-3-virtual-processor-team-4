@@ -16,7 +16,7 @@ add re rd
 addi rm re 0
 calli modulo
 addi re rf 0
-end
+jmp end
 
 modulo:
 tlt rt rm rf
@@ -25,3 +25,6 @@ sub rm rf
 jmp modulo
 endModulo:
 ret
+
+end:
+// exit the prog
