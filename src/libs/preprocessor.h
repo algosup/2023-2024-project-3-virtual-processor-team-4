@@ -63,34 +63,26 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
 
     char *saveptr; // Position in the line
     char *token = strtok_r(lineContent, " ", &saveptr);
-    char *dest[10], *param1[10], *param2[10]; // TODO
+    char *dest = NULL, *param1 = NULL, *param2 = NULL; // Size of 8 bytes will be changed because of labels in the future
 
     char *opcode = (token != NULL) ? token : "skip";
 
     // Extract the second word
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
     {
-        strcpy(dest, token); // Change to pointer in file
-    }
-    else {
-        dest = NULL;
+        dest = token; // Change to pointer in file
     }
 
     // Extract the third word
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
     {
-        strcpy(param1, token); // Change to pointer in file
-    }
-    else {
-        param1 = NULL;
+        param1 = token; // Change to pointer in file
     }
 
     // Extract the fourth word
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
     {
-        strcpy(param2, token); // Change to pointer in file
-    } else {
-        param2 = NULL;
+        param2 = token; // Change to pointer in file
     }
 
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
@@ -168,10 +160,6 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             line->dest_t = REGISTER;
         }
-        else
-        {
-            line->dest_t = NULL_;
-        }
     }
     else
     {
@@ -195,7 +183,6 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         else
         {
             printf("Error: Invalid operation (unhandled second param) on line: %" PRIu64 "\n", *lineNumber);
-            line -> param1_t = NULL_;
             return GENERIC_ERROR;
         }
     }
@@ -218,7 +205,6 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         else
         {
             printf("Error: Invalid operation (unhandled third param) on line: %" PRIu64 "\n", *lineNumber);
-            line -> param1_t = NULL_;
             return GENERIC_ERROR;
         }
     }

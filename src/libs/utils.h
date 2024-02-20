@@ -202,7 +202,7 @@ int check_is_number(char *str) // Check if a string is a number
 
 int check_is_label(char *str) // Check if the line content is a label
 {
-    if (!(str[0] == 'r' && str[0] == 'R') && (!(str[1] <= 'a' && str[1] >= 'z')) && strlen(str) == 2)
+    if ((!(str[0] == 'r' || str[0] == 'R') && !(str[1] >= 'a' && str[1] <= 'z')) || (strlen(str) == 2 && (strcmp(str, "ip") == 0 || strcmp(str, "sp") == 0)))
     {
         return REGISTER_INSTEAD_OF_LABEL;
     } // Check for register
@@ -234,7 +234,7 @@ int check_val(char *val)
     char *ptr = str2;
     ptr++;
 
-    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r'))
+    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r' || strcmp(str2, "ip") == 0 || strcmp(str2, "sp") == 0))
     {
         return REGISTER;
     }
@@ -260,6 +260,18 @@ int find_register(char *inString, uint8_t *registerIndex)
     if (inString[0] != 'R' && inString[0] != 'r')
     {
         return INVALID_DATA;
+    }
+
+    if (strcmp(inString, "ip") == 0)
+    {
+        *registerIndex = 30;
+        return SUCCESS;
+    }
+
+    if (strcmp(inString, "sp") == 0)
+    {
+        *registerIndex = 31;
+        return SUCCESS;
     }
 
     char str2[3];

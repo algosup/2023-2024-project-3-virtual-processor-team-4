@@ -1,1 +1,1 @@
-set ra 0
+add ra rf
