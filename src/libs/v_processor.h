@@ -26,108 +26,171 @@ int add(binInstruction_t instruction)
 {
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] + registerArr[params.source2];
+    return SUCCESS;
 }
 
 int sub(binInstruction_t instruction)
 {
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] - registerArr[params.source2];
+    return SUCCESS;
 }
 
 int mul(binInstruction_t instruction)
 {
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] * registerArr[params.source2];
+    return SUCCESS;
 }
 
 int div(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source] / registerArr[params.source2];
+    return SUCCESS;
 }
 
 int or(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source] | registerArr[params.source2];
+    return SUCCESS;
 }
 
 int and(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source] & registerArr[params.source2];
+    return SUCCESS;
 }
 
 int xor(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source] ^ registerArr[params.source2];
+    return SUCCESS;
 }
 
 int abs(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = abs(registerArr[params.source]);
+    return SUCCESS;
 }
 
 int tlt(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    if (registerArr[params.source] < registerArr[params.source2]){
+        registerArr[params.destination] = 1;
+    }else{
+        registerArr[params.destination] = 0;
+    }
+    return SUCCESS;
 }
 
 int tle(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    if (registerArr[params.source] <= registerArr[params.source2]){
+        registerArr[params.destination] = 1;
+    }else{
+        registerArr[params.destination] = 0;
+    }
+    return SUCCESS;
 }
 
 int tgt(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    if (registerArr[params.source] > registerArr[params.source2]){
+        registerArr[params.destination] = 1;
+    }else{
+        registerArr[params.destination] = 0;
+    }
+    return SUCCESS;
 }
 
 int tge(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    if (registerArr[params.source] >= registerArr[params.source2]){
+        registerArr[params.destination] = 1;
+    }else{
+        registerArr[params.destination] = 0;
+    }
+    return SUCCESS;
 }
 
 int teq(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    if (registerArr[params.source] == registerArr[params.source2]){
+        registerArr[params.destination] = 1;
+    }else{
+        registerArr[params.destination] = 0;
+    }
+    return SUCCESS;
 }
 
 int tne(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    if (registerArr[params.source] != registerArr[params.source2]){
+        registerArr[params.destination] = 1;
+    }else{
+        registerArr[params.destination] = 0;
+    }
+    return SUCCESS;
 }
 
 int str(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source];
+    return SUCCESS;
 }
 
 int ld(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source];
+    return SUCCESS;
 }
 
 int strp(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source];
+    return SUCCESS;
 }
 
 int ldp(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source];
+    return SUCCESS;
 }
 
 int push(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source];
+    return SUCCESS;
 }
 
 int pop(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int xchg(binInstruction_t instruction)
 {
-    return 0;
+    struct params = instruction.typeR;
+    int internal = registerArr[params.source];
+    registerArr[params.source] = registerArr[params.source2];
+    registerArr[params.source2] = internal;
+    return SUCCESS;
 }
 
 int addi(binInstruction_t instruction)
