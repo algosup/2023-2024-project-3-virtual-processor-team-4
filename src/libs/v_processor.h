@@ -26,192 +26,195 @@ int add(binInstruction_t instruction)
 {
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] + registerArr[params.source2];
+    return SUCCESS;
 }
 
 int sub(binInstruction_t instruction)
 {
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] - registerArr[params.source2];
+    return SUCCESS;
 }
 
 int mul(binInstruction_t instruction)
 {
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] * registerArr[params.source2];
+    return SUCCESS;
 }
 
 int div(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int or(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int and(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int xor(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int abs(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tlt(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tle(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tgt(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tge(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int teq(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tne(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int str(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int ld(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int strp(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int ldp(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int push(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int pop(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int xchg(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int addi(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int subi(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int stri(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int ldi(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int ori(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int andi(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int xori(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int set(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tlti(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tlei(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tgti(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tgei(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int teqi(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int tnei(binInstruction_t instruction)
 {
-    return 0;
+    return SUCCESS;
 }
 
 int b(binInstruction_t instruction)
 {
     address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
     registerArr[INSTRUCTION_POINTER] += address << 4;
-    return 0;
+    return SUCCESS;
 }
 
 int bi(binInstruction_t instruction)
 {
     address = instruction.typeJ.address + (instruction.typeJ.register_ << 5);
     registerArr[INSTRUCTION_POINTER] += address << 4;
-    return 0;
+    return SUCCESS;
 }
 
 int bz(binInstruction_t instruction)
@@ -221,7 +224,7 @@ int bz(binInstruction_t instruction)
     {
         return bi(instruction);
     }
-    return 0;
+    return SUCCESS;
 }
 
 int bnz(binInstruction_t instruction)
@@ -231,7 +234,7 @@ int bnz(binInstruction_t instruction)
     {
         return bi(instruction);
     }
-    return 0;
+    return SUCCESS;
 }
 
 int call(binInstruction_t instruction)
@@ -255,13 +258,13 @@ int ret(binInstruction_t instruction)
     registerArr[STACK_POINTER] += 1;
     uint32_t address = registerArr[STACK_POINTER];
     registerArr[INSTRUCTION_POINTER] = memory[address];
-    return 0;
+    return SUCCESS;
 }
 
 int jmp(binInstruction_t instruction)
 {
     registerArr[INSTRUCTION_POINTER] = instruction.typeJ.address << 4;
-    return 0;
+    return SUCCESS;
 }
 
 #endif
