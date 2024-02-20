@@ -95,8 +95,8 @@ int main(int argc, char **argv)
         }
         else
         {
+            iterate_through_all_line(*instructionMap, lineCount);
             printf("Compiled successfully!\n");
-            // Function to write machine code into .o file
         }
 
         // Free instructionMap memory

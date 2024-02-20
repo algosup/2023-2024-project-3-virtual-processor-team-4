@@ -277,4 +277,52 @@ int find_register(char *inString, uint8_t *registerIndex)
     }
 };
 
+int get_list_label(listLabel_t *pList, label_t *value, int index)
+{
+    if (index >= 0)
+    {
+        nodeLabel_t *current = pList->head;
+        for (int i = 0; i < index; i++)
+        {
+            current = current->next;
+        }
+        value->labelStr = current->val.labelStr;
+        value->line = current->val.line;
+    }
+    else
+    {
+        nodeLabel_t *current = pList->tail;
+        for (int i = -1; i > index; i--)
+        {
+            current = current->previous;
+        }
+        value->labelStr = current->val.labelStr;
+        value->line = current->val.line;
+    }
+    return SUCCESS;
+};
+
+int add_to_list_label(listLabel_t *pList, label_t value)
+{
+    if (pList->head == NULL)
+    {
+        nodeLabel_t node = {NULL, value, NULL};
+        nodeLabel_t *p = (nodeLabel_t *)malloc(sizeof(nodeLabel_t));
+        memcpy(p, &node, sizeof(nodeLabel_t));
+        pList->size++;
+        pList->head = p;
+        pList->tail = p;
+    }
+    else
+    {
+        nodeLabel_t node = {pList->tail, value, NULL};
+        nodeLabel_t *p = (nodeLabel_t *)malloc(sizeof(nodeLabel_t));
+        memcpy(p, &node, sizeof(nodeLabel_t));
+        pList->size++;
+        pList->tail->next = p;
+        pList->tail = p;
+    }
+    return SUCCESS;
+}
+
 #endif
