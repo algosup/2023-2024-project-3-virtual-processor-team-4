@@ -8,7 +8,7 @@ teqi rt ra x00FFFF
 bnz rt greenComponent
 teqi rt ra x0000FF
 bnz rt blueComponent
-exit
+jmp exitProg
 
 
 redComponent:
@@ -32,4 +32,5 @@ blueComponent:
 addi rx ra 0
 addi rd rb 0
 div ra rd
-exit
+exitProg
+// exit the prog

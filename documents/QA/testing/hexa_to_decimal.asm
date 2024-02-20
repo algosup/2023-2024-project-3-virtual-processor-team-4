@@ -34,9 +34,6 @@ bnz rt isE
 teqi rt rb xF
 bnz rt isF
 
-exitProg:
-exit
-
 isA:
 // convert hexa digit in decimal number
 set rb 10
@@ -89,3 +86,6 @@ shift:
 addi rz 1
 div ra rd
 jmp loop
+
+exitProg:
+// exit the prog

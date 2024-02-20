@@ -1,8 +1,8 @@
 set ra 0
 
-call celsiusToKelvin
-call celisusToFarhenheit
-exit
+calli celsiusToKelvin
+calli celisusToFarhenheit
+jmp exitProg
 
 celsiusToKelvin:
 addi rb ra 0
@@ -17,3 +17,6 @@ mul rc rd
 div rc re
 addi rc 32
 ret
+
+exitProg:
+// exit the prog

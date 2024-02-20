@@ -14,7 +14,7 @@ addi rg rc 0
 mul re rg
 add re rd
 addi rm re 0
-call modulo
+calli modulo
 addi re rf 0
 end
 
