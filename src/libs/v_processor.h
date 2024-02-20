@@ -32,6 +32,58 @@ uint8_t memory[1073741824]; // Memory does only 1GB of RAM
 //__________________________________________________________________________________________________
 
 
+//__________________________________________________________________________________________________
+//  VIRTUAL INSTRUCTIONS PROTOTYPES
+//_____________________
+
+int add(binInstruction_t instruction);
+int sub(binInstruction_t instruction);
+int mul(binInstruction_t instruction);
+//                                     int div(binInstruction_t instruction);
+int or(binInstruction_t instruction);
+int and(binInstruction_t instruction);
+int xor(binInstruction_t instruction);
+//                                     int abs(binInstruction_t instruction);
+int tlt(binInstruction_t instruction);
+int tle(binInstruction_t instruction);
+int tgt(binInstruction_t instruction);
+int tge(binInstruction_t instruction);
+int teq(binInstruction_t instruction);
+int tne(binInstruction_t instruction);
+int str(binInstruction_t instruction);
+int ld(binInstruction_t instruction);
+int strp(binInstruction_t instruction);
+int ldp(binInstruction_t instruction);
+int push(binInstruction_t instruction);
+int pop(binInstruction_t instruction);
+int xchg(binInstruction_t instruction);
+int addi(binInstruction_t instruction);
+int subi(binInstruction_t instruction);
+int stri(binInstruction_t instruction);
+int ldi(binInstruction_t instruction);
+int ori(binInstruction_t instruction);
+int andi(binInstruction_t instruction);
+int xori(binInstruction_t instruction);
+int set(binInstruction_t instruction);
+int tlti(binInstruction_t instruction);
+int tlei(binInstruction_t instruction);
+int tgti(binInstruction_t instruction);
+int tgei(binInstruction_t instruction);
+int teqi(binInstruction_t instruction);
+int tnei(binInstruction_t instruction);
+int b(binInstruction_t instruction);
+int bi(binInstruction_t instruction);
+int bz(binInstruction_t instruction);
+int bnz(binInstruction_t instruction);
+int call(binInstruction_t instruction);
+int calli(binInstruction_t instruction);
+int ret(binInstruction_t instruction);
+int jmp(binInstruction_t instruction);
+
+//__________________________________________________________________________________________________
+//  VIRTUAL INSTRUCTIONS IMPLEMENTATION
+//_____________________
+
 int add(binInstruction_t instruction)
 {
     registerArr[instruction.typeR.destination] = registerArr[instruction.typeR.source] + registerArr[instruction.typeR.source2];

@@ -3,10 +3,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include <unistd.h>
-#include <pthread.h>
-#include "./libs/utils.h"
 
+#include "./libs/utils.h"
+#include "./libs/clock.h"
 #include "./libs/assembler.h"
 #include "./libs/preprocessor.h"
 

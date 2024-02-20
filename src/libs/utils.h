@@ -6,8 +6,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include <unistd.h>
-#include <pthread.h>
 
 #define STACK_POINTER 30
 #define INSTRUCTION_POINTER 31

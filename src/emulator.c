@@ -1,11 +1,22 @@
-#include "libs/utils.h"
-#include "libs/clock.h"
-//#include "libs/interpreter.h" //commented while interpreter is not blocking compilation
-#include "libs/v_processor.h"
+#include "./libs/utils.h"
+#include "./libs/clock.h"
+//#include "./libs/interpreter.h" //commented while interpreter is not blocking compilation
+#include "./libs/v_processor.h"
+
+//Prototypes
+void testADD();
+
+
+int main()
+{
+    testADD();
+    return 0;
+}
 
 
 //exemple
 void testADD(){
+    //add 5 and 3, print 8
 
     registerArr[0] = 5;
     registerArr[1] = 3;
@@ -18,11 +29,4 @@ void testADD(){
     add(testADD);
 
     printf("%d\n", registerArr[2]);
-}
-
-int main()
-{
-    testADD();
-
-    return 0;
 }
