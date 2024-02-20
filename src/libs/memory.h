@@ -93,3 +93,27 @@ void init_memory(void)
 
     memoryInitialized = true;
 }
+
+uint8_t read_memory_8(uint32_t address)
+{
+    perror("read_memory_8 not implemented");
+    abort();
+}
+
+uint32_t read_memory_32(uint32_t address)
+{
+    perror("read_memory_32 not implemented");
+    abort();
+}
+
+void set_memory_8(uint32_t address, uint8_t value)
+{
+    perror("set_memory_8 not implemented");
+    abort();
+}
+
+void set_memory_32(uint32_t address, uint32_t value)
+{
+    perror("set_memory_32 not implemented");
+    abort();
+}

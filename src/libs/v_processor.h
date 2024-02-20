@@ -10,8 +10,6 @@
 
 uint32_t registerArr[32];     // the 32 registers
 
-uint8_t memory[1]; // TEMP
-
 // No flags
 //__________________________________________________________________________________________________
 
@@ -204,7 +202,7 @@ int ldp(binInstruction_t instruction)
 int push(binInstruction_t instruction)
 {
     uint32_t address = registerArr[STACK_POINTER];
-    memory[address] = registerArr[instruction.typeR.source];
+    set_memory_32(address, registerArr[instruction.typeR.source]);
     registerArr[STACK_POINTER] -= 4;
     return SUCCESS;
 }
@@ -213,7 +211,7 @@ int pop(binInstruction_t instruction)
 {
     registerArr[STACK_POINTER] += 4;
     uint32_t address = registerArr[STACK_POINTER];
-    registerArr[instruction.typeR.destination] = memory[address];
+    registerArr[instruction.typeR.destination] = read_memory_32(address);
     return SUCCESS;
 }
 
@@ -370,7 +368,7 @@ int bnz(binInstruction_t instruction)
 int call(binInstruction_t instruction)
 {
     uint32_t address = registerArr[STACK_POINTER];
-    memory[address] = registerArr[INSTRUCTION_POINTER] + 4;
+    set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;
     return b(instruction);
 }
@@ -378,7 +376,7 @@ int call(binInstruction_t instruction)
 int calli(binInstruction_t instruction)
 {
     uint32_t address = registerArr[STACK_POINTER];
-    memory[address] = registerArr[INSTRUCTION_POINTER] + 4;
+    set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;
     return bi(instruction);
 }
@@ -387,7 +385,7 @@ int ret(binInstruction_t instruction)
 {
     registerArr[STACK_POINTER] += 4;
     uint32_t address = registerArr[STACK_POINTER];
-    registerArr[INSTRUCTION_POINTER] = memory[address];
+    registerArr[INSTRUCTION_POINTER] = read_memory_32(address);
     return SUCCESS;
 }
 
