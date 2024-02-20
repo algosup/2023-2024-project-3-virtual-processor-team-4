@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include "utils.h"
 
-char *outputFile = "../compiled.bin";
+char *outputFile = "./compiled.bin";
 
 int label(line_t);
 int abs_(line_t);
@@ -103,7 +103,7 @@ int get_labels(line_t*, uint64_t);
 int iterate_through_all_line(line_t*, uint64_t);
 
 int iterate_through_all_line(line_t* instructions, uint64_t arrSize){
-    ErrorType_t er = create_bin();
+    int er = create_bin();
     if(er != SUCCESS){
         return er;
     }
@@ -346,7 +346,7 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionT
     if(instruction.mnemonic == inst){
         bin->typeR.opcode = opcode;
     }else{
-        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
+        printf("Error: Invalid data in assembler. Mnemonic without opcode\n");
         error = true;
     }
 
@@ -357,7 +357,7 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionT
         if(instruction.param1_t == REGISTER){
             bin->typeR.source2 = instruction.register1;
         }else{
-            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
             error = true;
         }
     }else{
@@ -366,14 +366,14 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionT
         if(instruction.param1_t == REGISTER){
             bin->typeR.source = instruction.register1;
         }else{
-            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
             error = true;
         }
 
         if(instruction.param2_t == REGISTER){
             bin->typeR.source2 = instruction.register2;
         }else{
-            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
             error = true;
         }
     }
@@ -392,7 +392,7 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionT
     if(instruction.mnemonic == inst){
         bin->typeI.opcode = opcode;
     }else{
-        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
+        printf("Error: Invalid data in assembler. Mnemonic without opcode\n");
         error = true;
     }
 
@@ -403,7 +403,7 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionT
         if(instruction.param1_t == IMMEDIATE){
             bin->typeI.immediate = instruction.immediate1;
         }else{
-            printf("Error: Invalide data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
+            printf("Error: Invalid data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
             error = true;
         }
     }else{
@@ -412,14 +412,14 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionT
         if(instruction.param1_t == REGISTER){
             bin->typeI.source = instruction.register1;
         }else{
-            printf("Error: Invalide data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+            printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
             error = true;
         }
 
         if(instruction.param2_t == IMMEDIATE){
             bin->typeI.immediate = instruction.immediate2;
         }else{
-            printf("Error: Invalide data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
+            printf("Error: Invalid data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
             error = true;
         }
     }
@@ -439,7 +439,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionT
     if(instruction.mnemonic == inst){
         bin->typeJ.opcode = opcode;
     }else{
-        printf("Error: Invalide data in assembler. Mnemonic without opcode\n");
+        printf("Error: Invalid data in assembler. Mnemonic without opcode\n");
         error = true;
     }
 

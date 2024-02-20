@@ -202,7 +202,7 @@ int check_is_number(char *str) // Check if a string is a number
 
 int check_is_label(char *str) // Check if the line content is a label
 {
-    if (!(str[0] == 'r' && str[0] == 'R') && (!(str[1] <= 'a' && str[1] >= 'z') && !(str[1] <= 'A' && str[1] >= 'Z')) && strlen(str) == 2)
+    if (!(str[0] == 'r' && str[0] == 'R') && (!(str[1] <= 'a' && str[1] >= 'z')) && strlen(str) == 2)
     {
         return REGISTER_INSTEAD_OF_LABEL;
     } // Check for register
@@ -211,7 +211,7 @@ int check_is_label(char *str) // Check if the line content is a label
     while (str[i] != '\0')
     {
         // Check if character is in alphabet
-        if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
+        if (!(str[i] >= 'a' && str[i] <= 'z'))
         {
             return INVALID_DATA;
         }
@@ -234,7 +234,7 @@ int check_val(char *val)
     char *ptr = str2;
     ptr++;
 
-    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r'))
+    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r'))
     {
         return REGISTER;
     }
@@ -266,16 +266,16 @@ int find_register(char *inString, uint8_t *registerIndex)
     strcpy(str2, inString);
     char *ptr = str2;
     ptr++;
-    if ((*ptr >= 'A' && *ptr <= 'Z') || (*ptr >= 'a' && *ptr <= 'z'))
+    if ((*ptr >= 'a' && *ptr <= 'z'))
     {
-        *registerIndex = (uint8_t)strtol(ptr, NULL, 16);
+        *registerIndex = (uint8_t)(*ptr - 97);
         return SUCCESS;
     }
     else
     {
         return INVALID_DATA;
     }
-};
+}
 
 int get_list_label(listLabel_t *pList, label_t *value, int index)
 {

@@ -8,8 +8,14 @@
 #include "./libs/preprocessor.h"
 #include "./libs/assembler.h"
 
-int main(int argc, char **argv)
+int main()//int argc, char **argv)
 {
+
+    int argc = 2;
+
+    char* fname = "./example.asm";
+    char* foutname = "./example";
+    char* argv[] = {fname, foutname};
     char *output_file = NULL;
     // Check if we have a source file to compile
     if (argv[1] == NULL)
@@ -52,7 +58,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        uint64_t lineCount = 0; // File has at least one line if it exists
+        uint64_t lineCount = 1; // File has at least one line if it exists
 
         char *content = malloc((charCount + 1) * sizeof(char));
 
@@ -60,7 +66,7 @@ int main(int argc, char **argv)
         bool fileHasError = false;
 
         // Allocate memory for instructionMap
-        line_t **instructionMap = malloc((lineCount + 1) * sizeof(line_t *));
+        line_t **instructionMap = malloc((lineCount) * sizeof(line_t *));
 
         if (instructionMap == NULL)
         {
@@ -68,7 +74,7 @@ int main(int argc, char **argv)
             return 1;
         }
 
-        for (uint64_t j = 0; j <= lineCount; j++)
+        for (uint64_t j = 0; j < lineCount; j++)
         {
             // malloc line content
             char *lineContent = malloc(100 * sizeof(char));
@@ -100,7 +106,7 @@ int main(int argc, char **argv)
         }
 
         // Free instructionMap memory
-        for (long long int j = 0; j <= lineCount; j++)
+        for (long long int j = 0; j < lineCount; j++)
         {
             free(instructionMap[j]); // Free each line_t struct
         }
