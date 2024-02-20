@@ -1,85 +1,7 @@
-#ifndef COMPILED_H
-#define COMPILED_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include "utils.h"
+#ifndef ASSEMBLER_H
+#define ASSEMBLER_H
 
 char* outputFile = "../compiled.bin";
-
-int16_t registerArr[32];
-
-typedef enum InstructionType
-{
-    SKIP = -1,
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    OR,
-    AND,
-    XOR,
-    TEQ,
-    TNE,
-    TLT,
-    TLE,
-    TGT,
-    TGE,
-    PUSH,
-    POP,
-    STR,
-    LD,
-    STRP,
-    LDP,
-    XCHG,
-    ADDI,
-    SUBI,
-    ORI,
-    ANDI,
-    XORI,
-    TEQI,
-    TNEI,
-    TLTI,
-    TLEI,
-    TGTI,
-    TGEI,
-    STRI,
-    LDI,
-    JZ,
-    JNZ,
-    CALL,
-    RET,
-    JABS
-} InstructionType_t;
-
-typedef struct line // Definition of a line after parsing and checking all its arguments
-{
-    struct
-    {
-        InstructionType_t mnemonic;
-        ParameterType_t param1;
-        union
-        {
-            int register1; // 0-32
-            char *label;
-        };
-        ParameterType_t param2;
-        union
-        {
-            int register2;
-        };
-        ParameterType_t param3;
-        union
-        {
-            int register3;
-            int16_t immediate3;
-        };
-    };
-    char *labelDeclaration;
-    int lineNumber;
-} line_t;
 
 typedef struct stackNode
 { // Item of linked list
@@ -133,39 +55,7 @@ int ret(line_t instruction);
 int jabs(line_t instruction);
 // Added _ to avoid conflict with existing keywords
 
-typedef enum binType{
-    R,
-    I,
-    J
-}binType_t;
 
-typedef struct binInstruction
-{
-    binType_t type;
-    union
-    {
-        struct typeR
-        {
-            int8_t opcode; //7bits
-            int8_t source2; //5bits
-            int8_t source;
-            int8_t destination;
-        };
-        struct typeI
-        {
-            int8_t opcode; //6bits
-            int16_t immediate; //16bits
-            int8_t source; //5bits
-            int8_t destination;
-        };
-        struct typeJ
-        {
-            int8_t opcode; //4bits
-            int32_t addres; //23bits
-            int8_t register_; //5bits
-        };
-    };
-} binInstruction_t;
 
 int write_to_bin(binInstruction_t);
 int create_bin();

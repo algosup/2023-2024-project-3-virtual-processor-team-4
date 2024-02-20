@@ -2,6 +2,12 @@
 #define UTILS_H
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <pthread.h>
 
 typedef enum ErrorType // Define all the errors which could happen and their codes
 {
@@ -13,32 +19,89 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     OUT_OF_MEMORY,
 } ErrorType_t;
 
-typedef enum InstructionType // Define all the instructions with a linked identifier
+typedef enum binType{
+    R,
+    I,
+    J
+}binType_t;
+
+typedef struct binInstruction
 {
+    binType_t type;
+    union
+    {
+        struct typeR
+        {
+            uint8_t opcode; //7bits
+            uint8_t source2; //5bits
+            uint8_t source;
+            uint8_t destination;
+        }typeR;
+        struct typeI
+        {
+            uint8_t opcode; //6bits
+            int16_t immediate; //16bits
+            uint8_t source; //5bits
+            uint8_t destination;
+        }typeI;
+        struct typeJ
+        {
+            uint8_t opcode; //4bits
+            int32_t addres;
+            uint8_t register_; //5bits
+        }typeJ;
+    };
+    
+} binInstruction_t;
+
+typedef enum InstructionType
+{
+    LABEL_ = -2,
     SKIP = -1,
-    NOOP,
-    SET,
-    COPY,
-    LOAD,
-    STORE,
+    ABS,
     ADD,
-    SUB,
-    MUL,
-    DIV,
-    NOT,
+    ADDI,
     AND,
-    OR,
-    XOR,
-    CMPEQ,
-    CMPGE,
-    JTRUE,
-    JFALSE,
-    JUMP,
+    ANDI,
+    B,
+    BI,
+    BNZ,
+    BZ,
     CALL,
+    CALLI,
+    DIV,
+    JMP,
+    LD,
+    LDI,
+    LDP,
+    MUL,
+    OR,
+    ORI,
+    POP,
+    PUSH,
     RET,
-    HALT,
-    INT
-} InstructionType_t; // etc...
+    SET,
+    STR,
+    STRI,
+    STRP,
+    SUB,
+    SUBI,
+    TEQ,
+    TEQI,
+    TGE,
+    TGEI,
+    TGT,
+    TGTI,
+    TLE,
+    TLEI,
+    TLT,
+    TLTI,
+    TNE,
+    TNEI,
+    XCHG,
+    XOR,
+    XORI
+} InstructionType_t;
 
 typedef struct instruction // Definition of an instruction after parsing
 {

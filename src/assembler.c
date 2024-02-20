@@ -6,7 +6,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "./libs/utils.h"
-#include "./libs/runtime.h"
+
+#include "./libs/assembler.h"
 #include "./libs/preprocessor.h"
 
 // #define TARGET_OPS_PER_SEC 10000
