@@ -3,7 +3,7 @@
 
 // rest of v_processor.h
 
-#include ".libs/utils.h"
+#include "./libs/utils.h"
 
 //__________________________________________________________________________________________________
 //  VIRTUAL COMPONENTS
@@ -132,72 +132,86 @@ int xchg(binInstruction_t instruction)
 
 int addi(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] + registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int subi(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] - registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int stri(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int ldi(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int ori(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] | registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int andi(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] & registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int xori(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] ^ registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int set(binInstruction_t instruction)
 {
-    return 0;
+    registerArr[instruction.typeI.source] == registerArr[instruction.typeI.immediate];
+    return SUCCESS;
 }
 
 int tlti(binInstruction_t instruction)
 {
-    return 0;
+    assert(registerArr[instruction.typeI.source] < registerArr[instruction.typeI.immediate]);
+    return SUCCESS;
 }
 
 int tlei(binInstruction_t instruction)
 {
-    return 0;
+    assert(registerArr[instruction.typeI.source] <= registerArr[instruction.typeI.immediate]);
+    return SUCCESS;
 }
 
 int tgti(binInstruction_t instruction)
 {
-    return 0;
+    assert(registerArr[instruction.typeI.source] > registerArr[instruction.typeI.immediate]);
+    return SUCCESS;
 }
 
 int tgei(binInstruction_t instruction)
 {
-    return 0;
+    assert(registerArr[instruction.typeI.source] >= registerArr[instruction.typeI.immediate]);
+    return SUCCESS;
 }
 
 int teqi(binInstruction_t instruction)
 {
-    return 0;
+    assert(registerArr[instruction.typeI.source] == registerArr[instruction.typeI.immediate]);
+    return SUCCESS;
 }
 
 int tnei(binInstruction_t instruction)
 {
-    return 0;
+    assert(registerArr[instruction.typeI.source] != registerArr[instruction.typeI.immediate]);
+    return SUCCESS;
 }
 
 int b(binInstruction_t instruction)
