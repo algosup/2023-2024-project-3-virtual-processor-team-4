@@ -3,11 +3,7 @@
 
 // rest of v_processor.h
 
-<<<<<<< Updated upstream
 #include "./libs/utils.h"
-=======
-#include "utils.h"
->>>>>>> Stashed changes
 
 //__________________________________________________________________________________________________
 //  VIRTUAL COMPONENTS
