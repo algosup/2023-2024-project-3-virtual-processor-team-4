@@ -174,20 +174,24 @@ int ldp(binInstruction_t instruction)
 
 int push(binInstruction_t instruction)
 {
-    struct params = instruction.typeR;
-    registerArr[params.destination] = registerArr[params.source];
+    uint32_t address = registerArr[STACK_POINTER];
+    memory[address] = registerArr[params.source];
+    registerArr[STACK_POINTER] -= 4;
     return SUCCESS;
 }
 
 int pop(binInstruction_t instruction)
 {
+    registerArr[STACK_POINTER] += 4;
+    uint32_t address = registerArr[STACK_POINTER];
+    registerArr[params.destination] = memory[address];
     return SUCCESS;
 }
 
 int xchg(binInstruction_t instruction)
 {
     struct params = instruction.typeR;
-    int internal = registerArr[params.source];
+    uint32_t internal = registerArr[params.source];
     registerArr[params.source] = registerArr[params.source2];
     registerArr[params.source2] = internal;
     return SUCCESS;
