@@ -19,7 +19,7 @@ addi rb ra 0
 // select the last digit
 andi rb x0F
 // check the value of the digit
-tli rt rb x9
+tlti rt rb x9
 bnz rt addNum
 teqi rt rb xA
 bnz rt isA
@@ -33,9 +33,6 @@ teqi rt rb xE
 bnz rt isE
 teqi rt rb xF
 bnz rt isF
-
-exitProg:
-exit
 
 isA:
 // convert hexa digit in decimal number
@@ -89,3 +86,6 @@ shift:
 addi rz 1
 div ra rd
 jmp loop
+
+exitProg:
+// exit the prog

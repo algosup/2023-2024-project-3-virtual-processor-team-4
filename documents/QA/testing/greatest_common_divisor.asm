@@ -15,7 +15,7 @@ addi ry ra 0
 addi rz rb 0
 addi rd rc 0
 addi rm ry 0
-call modulo
+calli modulo
 teqi rt rm 0
 bnz rt secondTest
 subi rc 1
@@ -24,7 +24,7 @@ jmp next
 secondTest:
 addi rd rc 0
 addi rm rz 0
-call modulo
+calli modulo
 teqi rt rm 0
 bnz rt end
 subi rc 1
@@ -39,4 +39,4 @@ endModulo:
 ret
 
 end:
-exit
+// exit the prog
