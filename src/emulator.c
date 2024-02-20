@@ -1,15 +1,8 @@
 #include "libs/utils.h"
 #include "libs/clock.h"
-#include "libs/interpreter.h"
-#include "v_processor.h"
+//#include "libs/interpreter.h" //commented while interpreter is not blocking compilation
+#include "libs/v_processor.h"
 
-
-int main()
-{
-    testADD();
-
-    return 0;
-}
 
 //exemple
 void testADD(){
@@ -25,4 +18,11 @@ void testADD(){
     add(testADD);
 
     printf("%d\n", registerArr[2]);
+}
+
+int main()
+{
+    testADD();
+
+    return 0;
 }

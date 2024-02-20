@@ -1,18 +1,12 @@
 #ifndef V_PROCESSOR_H
 #define V_PROCESSOR_H
 
-<<<<<<< Updated upstream
-// rest of v_processor.h
-
-#include "./libs/utils.h"
-=======
->>>>>>> Stashed changes
 
 //__________________________________________________________________________________________________
 //  VIRTUAL COMPONENTS
 //_____________________
 
-uint32_t registerArr[32];     // the 32 registers
+uint32_t registerArr[32]={0};     // the 32 registers
 
 // the memory
 uint8_t memory[1073741824]; // Memory does only 1GB of RAM
@@ -57,11 +51,11 @@ int mul(binInstruction_t instruction)
     return SUCCESS;
 }
 
-int div(binInstruction_t instruction)
+/* int div(binInstruction_t instruction)
 {
     registerArr[instruction.typeR.destination] = registerArr[instruction.typeR.source] / registerArr[instruction.typeR.source2];
     return SUCCESS;
-}
+} */
 
 int or(binInstruction_t instruction)
 {
@@ -81,11 +75,11 @@ int xor(binInstruction_t instruction)
     return SUCCESS;
 }
 
-int abs(binInstruction_t instruction)
+/* int abs(binInstruction_t instruction)
 {
     registerArr[instruction.typeR.destination] = abs(registerArr[instruction.typeR.source]);
     return SUCCESS;
-}
+} */
 
 int tlt(binInstruction_t instruction)
 {
