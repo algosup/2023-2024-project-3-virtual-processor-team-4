@@ -4,10 +4,10 @@
 #include "utils.h"
 
 int read_bin(char*, uint8_t**);
-int check_opcode(uint8_t, binInstruction_t*);
-int opcode_type_I(uint8_t, binInstruction_t*);
-int opcode_type_J(uint8_t, binInstruction_t*);
-int opcode_type_R(uint8_t, binInstruction_t*);
+int check_opcode(uint8_t*, binInstruction_t*);
+int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
+int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
+int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
 
 int read_bin(char* inputFile, uint8_t** outputPtr){
     FILE *f = fopen(inputFile, "rb");
@@ -46,28 +46,47 @@ int read_bin(char* inputFile, uint8_t** outputPtr){
 }
 
 
-int check_opcode(uint8_t byteIn, binInstruction_t* instruction){
-    uint8_t buffer;
+int check_opcode(uint8_t* byteIn, binInstruction_t* instruction){
+    uint8_t opcode;
 
-    if(byteIn >> 6 == true){
+    //calculate source, source2, immediate, and dest
+    uint8_t source = byteIn[2] << 3;
+    source = source | byteIn[3] >> 5;
+
+    uint8_t source2 = byteIn[2] & 0b01111100;
+
+    uint8_t dest = byteIn[3] & 0b00011111; //mask the last three bits
+
+    int16_t immediate = byteIn[0] << 14;
+    immediate = immediate | byteIn[1] << 6;
+    immediate = immediate | byteIn[2] >> 2;
+
+    if(byteIn[0] >> 6 == true){
         // every type I instruction has this patern 01000000
         instruction->type = I;
-        buffer = byteIn >> 2;
-        return opcode_type_I(buffer, instruction);
-    }else if(byteIn >> 7 == true){
+        opcode = byteIn[0] >> 2;
+
+        return opcode_type_I(instruction, opcode, source, dest, immediate);
+
+    }else if(byteIn[0] >> 7 == true){
         // every type I instruction has this patern 01000000
         instruction->type = J;
-        buffer = byteIn >> 4;
-        return opcode_type_J(buffer, instruction);
+        opcode = byteIn[0] >> 4;
+        return opcode_type_J(instruction, opcode, dest, immediate);
     }else{
         instruction->type = R;
-        buffer = byteIn >> 1;
-        return opcode_type_R(buffer, instruction);
-    }
+        opcode = byteIn[0] >> 1;
+        return opcode_type_R(instruction, opcode, source, source2, dest);
+    } 
 };
 
-int opcode_type_I(uint8_t byteIn, binInstruction_t* instruction){
-    switch (byteIn)
+int opcode_type_I(binInstruction_t* instruction, uint8_t opcode, uint8_t source, uint8_t dest, int16_t immediate){
+
+    instruction->typeI.source = source;
+    instruction->typeI.destination = dest;
+    instruction->typeI.immediate = immediate;
+
+    switch (opcode)
     {
     case 0b010000:
         instruction->typeI.opcode = ADDI;
@@ -115,11 +134,15 @@ int opcode_type_I(uint8_t byteIn, binInstruction_t* instruction){
         printf("Error: Invalid machine code operand\n");
         return GENERIC_ERROR;
     }
+
     return SUCCESS;
 };
 
-int opcode_type_J(uint8_t byteIn, binInstruction_t* instruction){
-    switch (byteIn)
+int opcode_type_J(binInstruction_t* instruction, uint8_t opcode, uint8_t dest, int16_t immediate){
+    instruction->typeJ.register_ = dest;
+    instruction->typeJ.address = immediate;
+
+    switch (opcode)
     {
     case 0b1000:
         instruction->typeJ.opcode = B;
@@ -152,8 +175,12 @@ int opcode_type_J(uint8_t byteIn, binInstruction_t* instruction){
     return SUCCESS;
 }
 
-int opcode_type_I(uint8_t byteIn, binInstruction_t* instruction){
-    switch (byteIn)
+int opcode_type_R(binInstruction_t* instruction, uint8_t opcode, uint8_t source, uint8_t source2, uint8_t dest){
+    instruction->typeR.source = source;
+    instruction->typeR.source2 = source2;
+    instruction->typeR.destination = dest;
+
+    switch (opcode)
     {
     case 0b0000111:
         instruction->typeR.opcode = ABS;
