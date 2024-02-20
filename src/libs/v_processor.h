@@ -6,27 +6,11 @@
 //  VIRTUAL COMPONENTS
 //_____________________
 
-uint32_t registerArr[32]={0};     // the 32 registers
+#include "memory.h"
 
-// the memory
-uint8_t memory[1073741824]; // Memory does only 1GB of RAM
+uint32_t registerArr[32];     // the 32 registers
 
-// Sections order and their size inside the memory
-// inputSection  :         1,024 Bytes (1 KB)
-// outputSection :        32,768 Bytes (32 KB)
-// videoSection  :       262,144 Bytes (256 KB)
-// stackSection  :     1,048,576 Bytes (1 MB)
-// codeSection   :    33,554,432 Bytes (32 MB)
-// dataSection   : 1,038,842,880 Bytes (1,014,495 KB) (aproximately 0.968,75 GB)
-
-// Memory adresses of each section on 30 bits (so the 2 first bits are always 0 on 32 bits addresses)
-// inputSection   : HEX 0000 0000   : BIN 0000 0000 0000 0000 0000 0000 0000 0000
-// outputSection  : HEX 0000 0400   : BIN 0000 0000 0000 0000 0000 0100 0000 0000
-// videoSection   : HEX 0000 8400   : BIN 0000 0000 0000 0000 1000 0100 0000 0000
-// stackSection   : HEX 0004 8400   : BIN 0000 0000 0000 0100 1000 0100 0000 0000
-// codeSection    : HEX 0014 8400   : BIN 0000 0000 0010 0100 1000 0100 0000 0000
-// dataSection    : HEX 0214 8400   : BIN 0000 0010 0001 0100 1000 0100 0000 0000
-
+uint8_t memory[1]; // TEMP
 
 // No flags
 //__________________________________________________________________________________________________
