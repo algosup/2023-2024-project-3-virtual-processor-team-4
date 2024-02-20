@@ -17,7 +17,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     REGISTER_INSTEAD_OF_LABEL
 } ErrorType_t;
 
-typedef enum InstructionType // Define all the instructions with a linked identifier
+typedef enum InstructionType
 {
     LABEL_ = -2,
     SKIP = -1,
@@ -66,14 +66,6 @@ typedef enum InstructionType // Define all the instructions with a linked identi
     XORI
 } InstructionType_t; // etc...
 
-typedef struct instruction // Definition of an instruction after parsing
-{
-    InstructionType_t instT;
-    char *val1;
-    char *val2;
-    int line;
-} instruction_t;
-
 typedef enum ParameterType // Define type of parameters in a function
 {
     IMMEDIATE,
@@ -81,6 +73,18 @@ typedef enum ParameterType // Define type of parameters in a function
     LABEL,
     NULL_,
 } ParameterType_t;
+
+// ************************** END ENUM DECLARATIONS **************************
+
+// ************************** STRUCT DECLARATIONS **************************
+
+typedef struct instruction // Definition of an instruction after parsing
+{
+    InstructionType_t instT;
+    char *val1;
+    char *val2;
+    int line;
+} instruction_t;
 
 typedef struct line // Definition of a line after parsing and checking all its arguments
 {
@@ -111,7 +115,45 @@ typedef struct line // Definition of a line after parsing and checking all its a
             char *label;
         };
     };
+
 } line_t;
+
+typedef struct label
+{
+    uint32_t line;
+    char **labelStr;
+} label_t;
+
+typedef struct nodeLabel
+{
+    struct nodeLabel *previous;
+    label_t val;
+    struct nodeLabel *next;
+} nodeLabel_t;
+
+typedef struct listLabel
+{
+    nodeLabel_t *head;
+    unsigned int size;
+    nodeLabel_t *tail;
+} listLabel_t;
+
+typedef struct stackNode
+{ // Item of linked list
+    struct stackNode *previous;
+    line_t val;
+} stackNode_t;
+
+typedef struct stack
+{ // Linked list = stack
+    stackNode_t *head;
+    unsigned int size;
+} stack_t;
+
+// ************************** END STRUCT DECLARATIONS **************************
+
+// ************************** FUNCTION DECLARATIONS **************************s
+// The functions contained in this section are of general purpose and can be used in any part of the code
 
 int isHexadecimal(const char *str)
 {
