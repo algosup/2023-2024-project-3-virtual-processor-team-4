@@ -153,7 +153,7 @@ int get_labels(line_t* instructions, uint64_t arrSize){
 
     for(int i = 0; i < arrSize; i++){
         if(instructions[i].mnemonic == LABEL_){
-            label_t tmp = {machineCodeLineNumber+1, &instructions[i].label};
+            label_t tmp = {machineCodeLineNumber+1, &instructions[i].labelDef};
             add_to_list_label(&labelList, tmp);
         }else if(instructions[i].mnemonic != SKIP){
             machineCodeLineNumber++;
@@ -350,7 +350,7 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionT
         error = true;
     }
 
-    if(instruction.param2_t == NULL_){
+    if(instruction.param2_t == NULL_ && instruction.dest_t == REGISTER){
         bin->typeR.destination = instruction.dest;
         bin->typeR.source = instruction.dest;
 
@@ -360,7 +360,7 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionT
             printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
             error = true;
         }
-    }else{
+    }else if(instruction.dest_t == REGISTER){
         bin->typeR.destination = instruction.dest;
 
         if(instruction.param1_t == REGISTER){
@@ -376,6 +376,9 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t* bin, InstructionT
             printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
             error = true;
         }
+    }else{
+        printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+        error = true;
     }
     
     if(error == false){
@@ -396,7 +399,7 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionT
         error = true;
     }
 
-    if(instruction.param2_t == NULL_){
+    if(instruction.param2_t == NULL_ && instruction.dest_t == REGISTER){
         bin->typeI.destination = instruction.dest;
         bin->typeI.source = instruction.dest;
 
@@ -406,7 +409,7 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionT
             printf("Error: Invalid data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
             error = true;
         }
-    }else{
+    }else if(instruction.dest_t == REGISTER){
         bin->typeI.destination = instruction.dest;
 
         if(instruction.param1_t == REGISTER){
@@ -422,6 +425,9 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t* bin, InstructionT
             printf("Error: Invalid data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
             error = true;
         }
+    }else{
+        printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+        error = true;
     }
 
     if(error == false){
@@ -443,26 +449,26 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t* bin, InstructionT
         error = true;
     }
 
+    int32_t addres;
     if(instruction.dest_t == NULL_){
         bin->typeJ.register_ = 0;
     }else if(instruction.dest_t == REGISTER){
         bin->typeJ.register_ = instruction.dest;
-    }else{
-        printf("Error: Invalid destination register. Line %d\n", instruction.lineNumber);
-        error = true;
-    }
-
-    int32_t addres;
-    if(instruction.param1_t == LABEL){
-        if(find_label_line(instruction.label1, &addres) != SUCCESS){
+    }else if(instruction.dest_t == LABEL){
+        if(find_label_line(instruction.labelCall, &addres) != SUCCESS){
             error = true;
         }else{
             addres = addres - instruction.lineNumber;
         }
-    }else if (instruction.param1_t = IMMEDIATE)
+    }else{
+        printf("Error: Invalid destination. Line %d\n", instruction.lineNumber);
+        error = true;
+    }
+
+    if (instruction.param1_t == IMMEDIATE)
     {
         addres = instruction.immediate1;
-    }else if (instruction.param1_t = NULL_){
+    }else if (instruction.param1_t == NULL_){
         addres = 0;
     }else{
         error = true;
