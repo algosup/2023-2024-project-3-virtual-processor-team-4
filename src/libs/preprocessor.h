@@ -29,6 +29,7 @@ int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, 
 int is_third_operand_immediate(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
 int is_first_operand_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_second_operand_label(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
+int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_first_operand_immediate_or_register(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_second_operand_immediate_or_register(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
 int is_third_operand_immediate_or_register(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
@@ -50,83 +51,82 @@ int find_operand(char *opcode, InstructionType_t *instructionType);
 
 // ************************** PREPROCESS AND DATA STRUCTURE FUNCTIONS **************************
 
-int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Function to handle the whole preprocessing of a line
+int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
 {
-    if (lineContent[0] == '/' && lineContent[1] == '/') // Check if the line is a comment
+    if (lineContent[0] == '/' && lineContent[1] == '/')
     {
         line->mnemonic = SKIP;
-        line->labelDef = "\0";
-        line->dest_t = NULL_;
-        line->lineNumber = *lineNumber; // Returns skip instruciton with all params nullified
+        line->labelDef = NULL; // Changed from "\0"
+        line->lineNumber = *lineNumber;
         return SUCCESS;
     }
 
-    char *saveptr; // Position in the line
+    char *saveptr;
     char *token = strtok_r(lineContent, " ", &saveptr);
     char *opcode = (token != NULL) ? token : "skip";
 
-    // Allocate memory for dest
     char *dest = NULL;
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
-    {
-        dest = malloc(strlen(token) + 1); // +1 for null terminator
-        if (dest != NULL)
-        {
-            strcpy(dest, token);
-        }
-        else
-        {
-            fprintf(stderr, "Memory allocation failed!\n");
-            return GENERIC_ERROR;
-        }
-    }
-
-    // Allocate memory for param1
     char *param1 = NULL;
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
-    {
-        param1 = malloc(strlen(token) + 1); // +1 for null terminator
-        if (param1 != NULL)
-        {
-            strcpy(param1, token);
-        }
-        else
-        {
-            fprintf(stderr, "Memory allocation failed!\n");
-            return GENERIC_ERROR;
-        }
-    }
-
-    // Allocate memory for param2
     char *param2 = NULL;
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+
+    token = strtok_r(NULL, " ", &saveptr);
+    if (token != NULL)
     {
-        param2 = malloc(strlen(token) + 1); // +1 for null terminator
-        if (param2 != NULL)
-        {
-            strcpy(param2, token);
-        }
-        else
+        dest = strdup(token); // Using strdup to allocate and copy
+        if (dest == NULL)
         {
             fprintf(stderr, "Memory allocation failed!\n");
             return GENERIC_ERROR;
         }
     }
 
-    if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
+    token = strtok_r(NULL, " ", &saveptr);
+    if (token != NULL)
     {
-        if (token[0] != '/' && token[1] != '/')
+        param1 = strdup(token); // Using strdup to allocate and copy
+        if (param1 == NULL)
         {
-            printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
-            line->mnemonic = SKIP;
-            line->lineNumber = *lineNumber;
-            line->param1_t = NULL_;
-            line->labelDef = NULL;
+            fprintf(stderr, "Memory allocation failed!\n");
+            free(dest);
             return GENERIC_ERROR;
         }
     }
 
-    InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t)); // check for free afterwhile
+    token = strtok_r(NULL, " ", &saveptr);
+    if (token != NULL)
+    {
+        param2 = strdup(token); // Using strdup to allocate and copy
+        if (param2 == NULL)
+        {
+            fprintf(stderr, "Memory allocation failed!\n");
+            free(dest);
+            free(param1);
+            return GENERIC_ERROR;
+        }
+    }
+
+    token = strtok_r(NULL, " ", &saveptr);
+    if (token != NULL && token[0] != '/' && token[1] != '/')
+    {
+        printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
+        line->mnemonic = SKIP;
+        line->lineNumber = *lineNumber;
+        line->param1_t = NULL_;
+        free(dest);
+        free(param1);
+        free(param2);
+        return GENERIC_ERROR;
+    }
+
+    InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t));
+    if (instructionType == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed!\n");
+        free(dest);
+        free(param1);
+        free(param2);
+        return GENERIC_ERROR;
+    }
 
     int labelDeclarationCode = check_label_declaration(instructionType, opcode);
     switch (labelDeclarationCode)
@@ -134,11 +134,20 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     case SUCCESS:
         if (*instructionType == LABEL_)
         {
-            line->labelDef = opcode;
+            line->labelDef = strdup(opcode); // Using strdup to allocate and copy
+            if (line->labelDef == NULL)
+            {
+                fprintf(stderr, "Memory allocation failed!\n");
+                free(dest);
+                free(param1);
+                free(param2);
+                free(instructionType);
+                return GENERIC_ERROR;
+            }
             line->mnemonic = *instructionType;
             line->lineNumber = *lineNumber;
             line->param1_t = LABEL;
-            // printf("%s", opcode);
+            free(instructionType);
             return SUCCESS;
         }
         break;
@@ -147,7 +156,10 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1_t = NULL_;
-        line->labelDef = NULL;
+        free(dest);
+        free(param1);
+        free(param2);
+        free(instructionType);
         return GENERIC_ERROR;
         break;
     }
@@ -158,7 +170,10 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1_t = NULL_;
-        line->labelDef = NULL;
+        free(dest);
+        free(param1);
+        free(param2);
+        free(instructionType);
         return GENERIC_ERROR;
     }
 
@@ -168,14 +183,24 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1_t = NULL_;
-        line->labelDef = NULL;
+        free(dest);
+        free(param1);
+        free(param2);
+        free(instructionType);
         return GENERIC_ERROR;
     }
+
     if (fill_line_struct(line, instructionType, dest, param1, param2, lineNumber) != SUCCESS)
     {
         printf("Generic error");
+        free(dest);
+        free(param1);
+        free(param2);
+        free(instructionType);
         return GENERIC_ERROR;
     }
+
+    free(instructionType);
     return SUCCESS;
 }
 

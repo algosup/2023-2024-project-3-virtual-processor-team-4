@@ -78,9 +78,9 @@ int main() // int argc, char **argv)
         {
             // malloc line content
             char *lineContent = malloc(100 * sizeof(char));
+            line_t *line = (line_t *)malloc(sizeof(line_t));
 
             line_content_from_file_content(content, (j + 1), lineContent);
-            line_t *line = malloc(sizeof(line_t));
 
             if (preprocess_line(lineContent, line, &j) != 0)
             {
