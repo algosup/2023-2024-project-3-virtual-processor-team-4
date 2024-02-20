@@ -9,6 +9,9 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#define STACK_POINTER 30
+#define INSTRUCTION_POINTER 31
+
 typedef enum ErrorType // Define all the errors which could happen and their codes
 {
     SUCCESS,
@@ -47,7 +50,7 @@ typedef struct binInstruction
         struct typeJ
         {
             uint8_t opcode; //4bits
-            int32_t addres;
+            int32_t address;
             uint8_t register_; //5bits
         }typeJ;
     };

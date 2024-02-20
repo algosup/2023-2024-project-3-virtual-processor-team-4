@@ -265,41 +265,65 @@ int tnei(binInstruction_t instruction)
 
 int b(binInstruction_t instruction)
 {
+    address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
+    registerArr[INSTRUCTION_POINTER] += address << 4;
     return 0;
 }
 
 int bi(binInstruction_t instruction)
 {
+    address = instruction.typeJ.address + (instruction.typeJ.register_ << 5);
+    registerArr[INSTRUCTION_POINTER] += address << 4;
     return 0;
 }
 
 int bz(binInstruction_t instruction)
 {
+    uint32_t value = registerArr[instruction.typeJ.register_];
+    if (value == 0)
+    {
+        return bi(instruction);
+    }
     return 0;
 }
 
 int bnz(binInstruction_t instruction)
 {
+    uint32_t value = registerArr[instruction.typeJ.register_];
+    if (value != 0)
+    {
+        return bi(instruction);
+    }
     return 0;
 }
 
 int call(binInstruction_t instruction)
 {
-    return 0;
+    uint32_t address = registerArr[STACK_POINTER];
+    memory[address] = (registerArr[INSTRUCTION_POINTER] + 1) << 4;
+    registerArr[STACK_POINTER] -= 1;
+    return b(instruction);
 }
 
 int calli(binInstruction_t instruction)
 {
-    return 0;
+    uint32_t address = registerArr[STACK_POINTER];
+    memory[address] = (registerArr[INSTRUCTION_POINTER] + 1) << 4;
+    registerArr[STACK_POINTER] -= 1;
+    return bi(instruction);
 }
 
 int ret(binInstruction_t instruction)
 {
+    registerArr[STACK_POINTER] += 1;
+    uint32_t address = registerArr[STACK_POINTER];
+    registerArr[INSTRUCTION_POINTER] = memory[address];
     return 0;
 }
 
 int jmp(binInstruction_t instruction)
 {
+    registerArr[INSTRUCTION_POINTER] = instruction.typeJ.address << 4;
     return 0;
 }
 
