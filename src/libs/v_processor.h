@@ -3,7 +3,7 @@
 
 // rest of v_processor.h
 
-
+#include ".libs/utils.h"
 
 //__________________________________________________________________________________________________
 //  VIRTUAL COMPONENTS
@@ -21,5 +21,20 @@ uint8_t stackSection[1048576]; // 1 MB of the stack section
 
 // No flags
 //__________________________________________________________________________________________________
+
+int add(binInstruction_t instruction){
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source] + registerArr[params.source2];
+}
+
+int sub(binInstruction_t instruction){
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source] - registerArr[params.source2];
+}
+
+int mul(binInstruction_t instruction){
+    struct params = instruction.typeR;
+    registerArr[params.destination] = registerArr[params.source] * registerArr[params.source2];
+}
 
 #endif
