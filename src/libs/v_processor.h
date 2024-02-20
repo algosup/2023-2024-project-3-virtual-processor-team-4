@@ -247,37 +247,61 @@ int set(binInstruction_t instruction)
 
 int tlti(binInstruction_t instruction)
 {
-    assert(registerArr[instruction.typeI.source] < registerArr[instruction.typeI.immediate]);
+    if (registerArr[instruction.typeI.source] < registerArr[instruction.typeI.immediate]) {
+        registerArr[instruction.typeI.destination] = 1;
+    } else {
+        registerArr[instruction.typeI.destination] = 0;
+    }
     return SUCCESS;
 }
 
 int tlei(binInstruction_t instruction)
 {
-    assert(registerArr[instruction.typeI.source] <= registerArr[instruction.typeI.immediate]);
+    if (registerArr[instruction.typeI.source] <= registerArr[instruction.typeI.immediate]) {
+        registerArr[instruction.typeI.destination] = 1;
+    } else {
+        registerArr[instruction.typeI.destination] = 0;
+    }
     return SUCCESS;
 }
 
 int tgti(binInstruction_t instruction)
 {
-    assert(registerArr[instruction.typeI.source] > registerArr[instruction.typeI.immediate]);
+    if (registerArr[instruction.typeI.source] > registerArr[instruction.typeI.immediate]) {
+        registerArr[instruction.typeI.destination] = 1;
+    } else {
+        registerArr[instruction.typeI.destination] = 0;
+    }
     return SUCCESS;
 }
 
 int tgei(binInstruction_t instruction)
 {
-    assert(registerArr[instruction.typeI.source] >= registerArr[instruction.typeI.immediate]);
+    if (registerArr[instruction.typeI.source] >= registerArr[instruction.typeI.immediate]) {
+        registerArr[instruction.typeI.destination] = 1;
+    } else {
+        registerArr[instruction.typeI.destination] = 0;
+    }
     return SUCCESS;
 }
 
 int teqi(binInstruction_t instruction)
 {
-    assert(registerArr[instruction.typeI.source] == registerArr[instruction.typeI.immediate]);
+    if (registerArr[instruction.typeI.source] == registerArr[instruction.typeI.immediate]) {
+        registerArr[instruction.typeI.destination] = 1;
+    } else {
+        registerArr[instruction.typeI.destination] = 0;
+    }
     return SUCCESS;
 }
 
 int tnei(binInstruction_t instruction)
 {
-    assert(registerArr[instruction.typeI.source] != registerArr[instruction.typeI.immediate]);
+    if (registerArr[instruction.typeI.source] != registerArr[instruction.typeI.immediate]) {
+        registerArr[instruction.typeI.destination] = 1;
+    } else {
+        registerArr[instruction.typeI.destination] = 0;
+    }
     return SUCCESS;
 }
 
