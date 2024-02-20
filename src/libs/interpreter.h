@@ -1,7 +1,7 @@
-#ifndef DECODER_H
-#define DECODER_H
+#ifndef INTERPRETER_H
+#define INTERPRETER_H
 
-#include ".libs/utils.h"
+#include "utils.h"
 
 int read_bin(char*, uint8_t**);
 int check_opcode(uint8_t, binInstruction_t*);
