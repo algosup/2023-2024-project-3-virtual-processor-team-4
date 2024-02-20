@@ -22,19 +22,222 @@ uint8_t stackSection[1048576]; // 1 MB of the stack section
 // No flags
 //__________________________________________________________________________________________________
 
-int add(binInstruction_t instruction){
+int add(binInstruction_t instruction)
+{
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] + registerArr[params.source2];
 }
 
-int sub(binInstruction_t instruction){
+int sub(binInstruction_t instruction)
+{
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] - registerArr[params.source2];
 }
 
-int mul(binInstruction_t instruction){
+int mul(binInstruction_t instruction)
+{
     struct params = instruction.typeR;
     registerArr[params.destination] = registerArr[params.source] * registerArr[params.source2];
+}
+
+int div(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int or(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int and(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int xor(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int abs(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tlt(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tle(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tgt(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tge(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int teq(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tne(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int str(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int ld(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int strp(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int ldp(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int push(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int pop(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int xchg(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int addi(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int subi(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int stri(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int ldi(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int ori(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int andi(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int xori(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int set(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tlti(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tlei(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tgti(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tgei(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int teqi(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int tnei(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int b(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int bi(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int bz(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int bnz(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int call(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int calli(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int ret(binInstruction_t instruction)
+{
+    return 0;
+}
+
+int jmp(binInstruction_t instruction)
+{
+    return 0;
 }
 
 #endif
