@@ -8,14 +8,14 @@
 #include "./libs/preprocessor.h"
 #include "./libs/assembler.h"
 
-int main()//int argc, char **argv)
+int main() // int argc, char **argv)
 {
 
     int argc = 2;
 
-    char* fname = "./example.asm";
-    char* foutname = "./example";
-    char* argv[] = {fname, foutname};
+    char *fname = "./example.asm";
+    char *foutname = "./example";
+    char *argv[] = {fname, foutname};
     char *output_file = NULL;
     // Check if we have a source file to compile
     if (argv[1] == NULL)
@@ -79,7 +79,7 @@ int main()//int argc, char **argv)
             // malloc line content
             char *lineContent = malloc(100 * sizeof(char));
 
-            line_content_from_file_content(content, j, lineContent);
+            line_content_from_file_content(content, (j + 1), lineContent);
             line_t *line = malloc(sizeof(line_t));
 
             if (preprocess_line(lineContent, line, &j) != 0)

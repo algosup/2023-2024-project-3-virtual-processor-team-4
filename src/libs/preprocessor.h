@@ -55,7 +55,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     if (lineContent[0] == '/' && lineContent[1] == '/') // Check if the line is a comment
     {
         line->mnemonic = SKIP;
-        line->label = "\0";
+        line->labelDef = "\0";
         line->dest_t = NULL_;
         line->lineNumber = *lineNumber; // Returns skip instruciton with all params nullified
         return SUCCESS;
@@ -63,36 +63,67 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
 
     char *saveptr; // Position in the line
     char *token = strtok_r(lineContent, " ", &saveptr);
-    char *dest = NULL, *param1 = NULL, *param2 = NULL; // Size of 8 bytes will be changed because of labels in the future
-
     char *opcode = (token != NULL) ? token : "skip";
 
-    // Extract the second word
+    // Allocate memory for dest
+    char *dest = NULL;
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
     {
-        dest = token; // Change to pointer in file
+        dest = malloc(strlen(token) + 1); // +1 for null terminator
+        if (dest != NULL)
+        {
+            strcpy(dest, token);
+        }
+        else
+        {
+            fprintf(stderr, "Memory allocation failed!\n");
+            return GENERIC_ERROR;
+        }
     }
 
-    // Extract the third word
+    // Allocate memory for param1
+    char *param1 = NULL;
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
     {
-        param1 = token; // Change to pointer in file
+        param1 = malloc(strlen(token) + 1); // +1 for null terminator
+        if (param1 != NULL)
+        {
+            strcpy(param1, token);
+        }
+        else
+        {
+            fprintf(stderr, "Memory allocation failed!\n");
+            return GENERIC_ERROR;
+        }
     }
 
-    // Extract the fourth word
+    // Allocate memory for param2
+    char *param2 = NULL;
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
     {
-        param2 = token; // Change to pointer in file
+        param2 = malloc(strlen(token) + 1); // +1 for null terminator
+        if (param2 != NULL)
+        {
+            strcpy(param2, token);
+        }
+        else
+        {
+            fprintf(stderr, "Memory allocation failed!\n");
+            return GENERIC_ERROR;
+        }
     }
 
     if ((token = strtok_r(NULL, " ", &saveptr)) != NULL)
     {
-        printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
-        line->mnemonic = SKIP;
-        line->lineNumber = *lineNumber;
-        line->param1_t = NULL_;
-        line->label = NULL;
-        return GENERIC_ERROR;
+        if (token[0] != '/' && token[1] != '/')
+        {
+            printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
+            line->mnemonic = SKIP;
+            line->lineNumber = *lineNumber;
+            line->param1_t = NULL_;
+            line->labelDef = NULL;
+            return GENERIC_ERROR;
+        }
     }
 
     InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t)); // check for free afterwhile
@@ -103,11 +134,10 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
     case SUCCESS:
         if (*instructionType == LABEL_)
         {
-            line->label = opcode;
+            line->labelDef = opcode;
             line->mnemonic = *instructionType;
             line->lineNumber = *lineNumber;
             line->param1_t = LABEL;
-            line->label = opcode;
             // printf("%s", opcode);
             return SUCCESS;
         }
@@ -117,7 +147,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1_t = NULL_;
-        line->label = NULL;
+        line->labelDef = NULL;
         return GENERIC_ERROR;
         break;
     }
@@ -128,7 +158,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1_t = NULL_;
-        line->label = NULL;
+        line->labelDef = NULL;
         return GENERIC_ERROR;
     }
 
@@ -138,7 +168,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber) // Fu
         line->mnemonic = SKIP;
         line->lineNumber = *lineNumber;
         line->param1_t = NULL_;
-        line->label = NULL;
+        line->labelDef = NULL;
         return GENERIC_ERROR;
     }
     if (fill_line_struct(line, instructionType, dest, param1, param2, lineNumber) != SUCCESS)
@@ -156,29 +186,32 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
 
     if (dest != NULL)
     {
-        if (find_register(param1, &line->dest) == SUCCESS)
+        if (find_register(dest, &line->dest) == SUCCESS)
         {
             line->dest_t = REGISTER;
         }
     }
     else
     {
-        line->param1_t = NULL_;
+        line->dest = NULL_;
     }
 
     if (param1 != NULL)
     {
-        if (find_register(param1, &line->register2) == SUCCESS)
+        if (find_register(param1, &line->register1) == SUCCESS)
         {
+            // line->register1 = atoi(param1);
             line->param1_t = REGISTER;
         }
         else if (check_is_number(param1) == SUCCESS)
         {
+            line->immediate1 = atoi(param1);
             line->param1_t = IMMEDIATE;
         }
         else if (check_is_label(param1) == SUCCESS)
         {
-            line->label = param1;
+            line->labelCall = param1;
+            line->param1_t = LABEL;
         }
         else
         {
@@ -195,6 +228,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
     {
         if (find_register(param2, &line->register2) == SUCCESS)
         {
+            // line->register2 = atoi(param2);
             line->param2_t = REGISTER;
         }
         else if (check_is_number(param2) == SUCCESS)
@@ -384,7 +418,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case BI:
     case CALLI:
-        return is_first_operand_immediate(instructionId, param1, lineNumber);
+        return is_first_operand_immediate_or_label(instructionId, param1, lineNumber);
         break;
     case BNZ:
     case BZ:
@@ -580,6 +614,24 @@ int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, u
     {
         get_operand_name(*instructionId, opcode);
         printf("Error: %s instruction first parameter is not an immediate on line: %" PRIu64 "\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
+{
+    char opcode[4];
+
+    if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    if (check_is_number(param1) != SUCCESS && check_is_label(param1) != SUCCESS)
+    {
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction first parameter is nor an immediate or label on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;

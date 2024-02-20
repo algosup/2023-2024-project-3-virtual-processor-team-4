@@ -91,7 +91,11 @@ typedef struct line // Definition of a line after parsing and checking all its a
     uint64_t lineNumber;
     InstructionType_t mnemonic;
     ParameterType_t dest_t;
-    uint8_t dest;
+    union
+    {
+        uint8_t dest;
+        char *labelCall;
+    };
     union
     {
         struct
@@ -101,7 +105,6 @@ typedef struct line // Definition of a line after parsing and checking all its a
             {
                 uint8_t register1;
                 int16_t immediate1;
-                char *label1;
             };
             ParameterType_t param2_t;
             union
@@ -112,10 +115,9 @@ typedef struct line // Definition of a line after parsing and checking all its a
         };
         struct
         {
-            char *label;
+            char *labelDef;
         };
     };
-
 } line_t;
 
 typedef struct label
