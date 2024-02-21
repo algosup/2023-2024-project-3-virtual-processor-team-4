@@ -33,6 +33,29 @@ bool memoryInitialized = false;
 
 
 
+FILE* get_memory_file(int page, const char* mode)
+{
+    // Get the filename for this file
+    char filename[256];
+    int err = sprintf_s(filename, sizeof(filename), TEMPLATE_MEMORY_FILEPATH, page);
+    if (!err)
+    {
+        fprintf(stderr, "Failed to generate filename for memory file %d\n", page);
+        abort();
+    }
+
+    // Open the file
+    FILE* fs;
+    err = fopen_s(&fs, filename, mode);
+    if (err)
+    {
+        fprintf(stderr, "Failed to open memory file %d: %s\n", page, strerror(err));
+        abort();
+    }
+
+    return fs;
+}
+
 void init_memory(void)
 {
     // Initialize the indices arrays
@@ -53,26 +76,10 @@ void init_memory(void)
     // Initialize the swap files
     for (int i = 0; i <= MAX_MEMORY_INDEX; i++)
     {
-        // Get the filename for this file
-        char filename[256];
-        int err = sprintf_s(filename, sizeof(filename), TEMPLATE_MEMORY_FILEPATH, i);
-        if (!err)
-        {
-            fprintf(stderr, "Failed to generate filename for memory file %d\n", i);
-            abort();
-        }
-
-        // Open the file
-        FILE* fs;
-        err = fopen_s(&fs, filename, "wb");
-        if (err)
-        {
-            fprintf(stderr, "Failed to open memory file %d for initialization: %s\n", i, strerror(err));
-            abort();
-        }
+        FILE* fs = get_memory_file(i, "wb");
 
         // Set the number of bytes we want
-        err = fseek(fs, PAGE_SIZE, SEEK_SET);
+        int err = fseek(fs, PAGE_SIZE, SEEK_SET);
         if (err)
         {
             fprintf(stderr, "Failed to write initial memory file %d: %s\n", i, strerror(err));
@@ -92,6 +99,60 @@ void init_memory(void)
     }
 
     memoryInitialized = true;
+}
+
+int load_page_memory(int page)
+{
+    // Update the history
+    for (int i = 0; i < NUMBER_PAGES - 1; i++)
+    {
+        if (memoryPagesHistory[i] != page)
+            continue;
+        memoryPagesHistory[i] = memoryPagesHistory[i + 1];
+        memoryPagesHistory[i + 1] = page;
+    }
+
+    // Check if page is already loaded
+    if (memoryPagesHistory[NUMBER_PAGES - 1] == page)
+        for (int i = 0; i < NUMBER_PAGES; i++)
+            if (memoryPagesMapping[i] == page)
+                return i;
+
+    // Find the index of the oldest page
+    int index = -1;
+    for (int i = 0; i < NUMBER_PAGES; i++)
+        if (memoryPagesMapping[i] == memoryPagesHistory[0])
+            index = i;
+    if (index == -1)
+    {
+        perror("Desync between memory mapping and history");
+        abort();
+    }
+    
+    // Write the old page back
+    FILE* fs = get_memory_file(memoryPagesHistory[0], "wb");
+    int written = fwrite(memoryPages[index], sizeof(uint8_t), PAGE_SIZE, fs);
+    if (written != PAGE_SIZE)
+    {
+        perror("Could not write memory page back");
+        abort();
+    }
+    fclose(fs);
+
+    // Read the new page
+    fs = get_memory_file(page, "rb");
+    int read = fread(memoryPages[index], sizeof(uint8_t), PAGE_SIZE, fs);
+    if (read != PAGE_SIZE)
+    {
+        perror("Could not read memory page");
+        abort();
+    }
+    fclose(fs);
+    memoryPagesMapping[index] = page;
+    memoryPagesHistory[0] = page;
+
+    // Re-run the function now that the page is ready
+    return load_page_memory(page);
 }
 
 uint8_t read_memory_8(uint32_t address)
