@@ -1,18 +1,5 @@
-#ifndef V_PROCESSOR_H
-#define V_PROCESSOR_H
-
-
-//__________________________________________________________________________________________________
-//  VIRTUAL COMPONENTS
-//_____________________
-
-#include "memory.h"
-
-uint32_t registerArr[32];     // the 32 registers
-
-// No flags
-//__________________________________________________________________________________________________
-
+#ifndef V_INSTRUCTIONS_H
+#define V_INSTRUCTIONS_H
 
 //__________________________________________________________________________________________________
 //  VIRTUAL INSTRUCTIONS PROTOTYPES
@@ -64,7 +51,7 @@ int jmp(binInstruction_t instruction);
 
 //__________________________________________________________________________________________________
 //  VIRTUAL INSTRUCTIONS IMPLEMENTATION
-//_____________________
+//____________________________________
 
 int add(binInstruction_t instruction)
 {
@@ -267,7 +254,7 @@ int xori(binInstruction_t instruction)
 
 int set(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.source] == registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.source] = registerArr[instruction.typeI.immediate];
     return SUCCESS;
 }
 

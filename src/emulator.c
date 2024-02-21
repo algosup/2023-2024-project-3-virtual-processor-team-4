@@ -1,7 +1,8 @@
 #include "./libs/utils.h"
 #include "./libs/clock.h"
+#include "./libs/v_components.h"
+#include "./libs/v_instructions.h"
 //#include "./libs/interpreter.h" //commented while interpreter is not blocking compilation
-#include "./libs/v_processor.h"
 
 //Prototypes
 void testADD();
@@ -22,7 +23,8 @@ int main()
 }
 
 
-//exemple
+//TESTS
+
 void testADD(){
     //add 5 and 3, print 8
 
@@ -92,6 +94,14 @@ void testDIV(){
     div_(testDIV);
 
     printf("%d\n", registerArr[2]);
+    if (registerArr[2] != 8)
+    {
+        printf("ADD test failed: Expected 8, got %d\n", registerArr[2]);
+    }
+    else
+    {
+        puts("ADD test success");
+    }
 }
 
 void test_memory(void)
