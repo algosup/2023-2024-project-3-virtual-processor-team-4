@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include <pthread.h> // Include pthread library for threading
 #include "./libs/utils.h"
 #include "./libs/preprocessor.h"
 #include "./libs/assembler.h"
@@ -80,7 +79,9 @@ int main() // int argc, char **argv)
             char *lineContent = malloc(100 * sizeof(char));
             line_t *line = (line_t *)malloc(sizeof(line_t));
 
-            line_content_from_file_content(content, (j + 1), lineContent);
+            line_content_from_file_content(content, j, lineContent);
+
+            printf("Line %d: %s\n", j, lineContent);
 
             if (preprocess_line(lineContent, line, &j) != 0)
             {
@@ -101,15 +102,18 @@ int main() // int argc, char **argv)
         }
         else
         {
-            iterate_through_all_line(*instructionMap, lineCount);
-            printf("Compiled successfully!\n");
+            int resCode = iterate_through_all_line(*instructionMap, lineCount);
+            if (resCode != 0)
+            {
+                printf("Failed to compile!\n");
+                return GENERIC_ERROR;
+            }
+            else
+            {
+                printf("Compiled successfully!\n");
+            }
         }
 
-        // Free instructionMap memory
-        for (long long int j = 0; j < lineCount; j++)
-        {
-            free(instructionMap[j]); // Free each line_t struct
-        }
         free(instructionMap); // Free the array itself
 
         // Free file content
