@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include "utils.h"
 
-char *outputFile = "./compiled.bin";
+char *outputFile = NULL;
 
 int label(line_t);
 int abs_(line_t);
@@ -100,10 +100,13 @@ int pop_from_stack(stack_t *, line_t *);
 int execute_instruction(line_t *);
 int find_label_line(char *, int32_t *);
 int get_labels(line_t *, uint64_t);
-int iterate_through_all_line(line_t *, uint64_t);
+int iterate_through_all_line(line_t *, uint64_t, char*);
 
-int iterate_through_all_line(line_t *instructions, uint64_t arrSize)
+int iterate_through_all_line(line_t *instructions, uint64_t arrSize, char* output_file)
 {
+    outputFile = malloc(strlen(output_file) + 1);
+    strcpy(outputFile, output_file);
+
     int er = create_bin();
     if (er != SUCCESS)
     {
@@ -165,8 +168,9 @@ int get_labels(line_t *instructions, uint64_t arrSize)
     {
         if (instructions[i].mnemonic == LABEL_)
         {
-            line_t a = instructions[i];
-            char* label = strdup(instructions[2].labelDef);
+            char* label;
+            label = malloc(strlen(instructions[2].labelDef) + 1);
+            strcpy(label, instructions[2].labelDef);
 
             label_t tmp = {machineCodeLineNumber + 1, "test"};
             add_to_list_label(&labelList, tmp);

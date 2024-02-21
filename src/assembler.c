@@ -22,6 +22,9 @@ int main(int argc, char **argv)
     {
         printf("Did you know? You can provide a third parameter to name your object file?\n");
         destinationProvided = false;
+
+        output_file = malloc(strlen("output.bin") + 1);
+        strcpy(output_file, "output.bin");
     }
     else
     {
@@ -106,7 +109,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            int resCode = iterate_through_all_line(instructionMap, lineCount);
+            int resCode = iterate_through_all_line(instructionMap, lineCount, output_file);
             if (resCode != 0)
             {
                 printf("Failed to compile!\n");
