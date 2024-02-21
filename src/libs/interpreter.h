@@ -2,9 +2,11 @@
 #define INTERPRETER_H
 
 #include "utils.h"
+#include "memory.h"
 
 int read_bin(char*, uint8_t**, uint32_t*);
-int check_opcode(uint8_t*, binInstruction_t*);
+int load_bin_to_mem(char*);
+int machinecode_to_bininstruction(uint8_t*, binInstruction_t*);
 int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
 int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
 int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
@@ -45,38 +47,22 @@ int read_bin(char* inputFile, uint8_t** outputPtr, uint32_t* size){
     return SUCCESS;
 }
 
-int make_map_of_instructions(char* inputFile, binInstruction_t** mapOfInstructions){
+int load_bin_to_mem(char* inputFile){
     uint8_t* outputPtr;
     uint32_t size;
     read_bin(inputFile, &outputPtr, &size);
 
-    *mapOfInstructions = (binInstruction_t*)malloc(sizeof(binInstruction_t) * size/4);
-    if (*mapOfInstructions == NULL) {
-        perror("Error: Memory allocation failed");
-        return GENERIC_ERROR;
-    }
-
-    int instructionCounter = 0;
-
-    for (size_t i = 0; i <= size-3; i+4)
+    for (size_t i = 0; i <= size; i++)
     {
-        if(i+3 > size){
-            printf("Error: Invalid number of byte in instruction");
-            return GENERIC_ERROR;
-        }
-
-        uint8_t byteIn[4] = {outputPtr[i], outputPtr[i+1], outputPtr[i+2], outputPtr[i+3]};
-        int error = check_opcode(byteIn, mapOfInstructions[instructionCounter]);
-        if(error != SUCCESS){
-            return error;
-        }
-        instructionCounter++;
+        set_memory_8(i, outputPtr[i]);
     }
+    
+    free(outputPtr);
 
     return SUCCESS;
 }
 
-int check_opcode(uint8_t* byteIn, binInstruction_t* instruction){
+int machinecode_to_bininstruction(uint8_t* byteIn, binInstruction_t* instruction){
     uint8_t opcode;
 
     //calculate source, source2, immediate, and dest

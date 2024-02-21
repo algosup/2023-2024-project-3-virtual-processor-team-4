@@ -212,55 +212,55 @@ int instr_xchg(binInstruction_t instruction)
 
 int instr_addi(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] + registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] + instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_subi(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] - registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] - instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_stri(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.destination] = instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_ldi(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.destination] = instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_ori(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] | registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] | instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_andi(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] & registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] & instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_xori(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] ^ registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.destination] = registerArr[instruction.typeI.source] ^ instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_set(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.source] = registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.source] = instruction.typeI.immediate;
     return SUCCESS;
 }
 
 int instr_tlti(binInstruction_t instruction)
 {
-    if (registerArr[instruction.typeI.source] < registerArr[instruction.typeI.immediate]) {
+    if (registerArr[instruction.typeI.source] < instruction.typeI.immediate) {
         registerArr[instruction.typeI.destination] = 1;
     } else {
         registerArr[instruction.typeI.destination] = 0;
@@ -270,7 +270,7 @@ int instr_tlti(binInstruction_t instruction)
 
 int instr_tlei(binInstruction_t instruction)
 {
-    if (registerArr[instruction.typeI.source] <= registerArr[instruction.typeI.immediate]) {
+    if (registerArr[instruction.typeI.source] <= instruction.typeI.immediate) {
         registerArr[instruction.typeI.destination] = 1;
     } else {
         registerArr[instruction.typeI.destination] = 0;
@@ -280,7 +280,7 @@ int instr_tlei(binInstruction_t instruction)
 
 int instr_tgti(binInstruction_t instruction)
 {
-    if (registerArr[instruction.typeI.source] > registerArr[instruction.typeI.immediate]) {
+    if (registerArr[instruction.typeI.source] > instruction.typeI.immediate) {
         registerArr[instruction.typeI.destination] = 1;
     } else {
         registerArr[instruction.typeI.destination] = 0;
@@ -290,7 +290,7 @@ int instr_tgti(binInstruction_t instruction)
 
 int instr_tgei(binInstruction_t instruction)
 {
-    if (registerArr[instruction.typeI.source] >= registerArr[instruction.typeI.immediate]) {
+    if (registerArr[instruction.typeI.source] >= instruction.typeI.immediate) {
         registerArr[instruction.typeI.destination] = 1;
     } else {
         registerArr[instruction.typeI.destination] = 0;
@@ -300,7 +300,7 @@ int instr_tgei(binInstruction_t instruction)
 
 int instr_teqi(binInstruction_t instruction)
 {
-    if (registerArr[instruction.typeI.source] == registerArr[instruction.typeI.immediate]) {
+    if (registerArr[instruction.typeI.source] == instruction.typeI.immediate) {
         registerArr[instruction.typeI.destination] = 1;
     } else {
         registerArr[instruction.typeI.destination] = 0;
@@ -310,7 +310,7 @@ int instr_teqi(binInstruction_t instruction)
 
 int instr_tnei(binInstruction_t instruction)
 {
-    if (registerArr[instruction.typeI.source] != registerArr[instruction.typeI.immediate]) {
+    if (registerArr[instruction.typeI.source] != instruction.typeI.immediate) {
         registerArr[instruction.typeI.destination] = 1;
     } else {
         registerArr[instruction.typeI.destination] = 0;

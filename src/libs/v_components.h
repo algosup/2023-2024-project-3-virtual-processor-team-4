@@ -1,23 +1,9 @@
-//__________________________________________________________________________________________________
-//  THE VIRTUAL COMPONENTS OF THE ARCHITECTURE
-//__________________________________________________________________________________________________
-
 #ifndef V_COMPONENTS_H
 #define V_COMPONENTS_H
 
-//______________________________________________
-//  VIRTUAL REGISTERS
-//  32 registers of 32 bits
-
-uint32_t registerArr[32];
-
-
-//______________________________________________
-//  VIRTUAL MEMORY
-//  4GB of memory addressable by 32 bits addresses
-
 #include <errno.h>
 #include <limits.h>
+#include "utils.h"
 
 // Platform specific includes
 #ifdef _WIN32
@@ -28,7 +14,20 @@ uint32_t registerArr[32];
 #include <sys/types.h>
 #endif
 
-// the memory definition
+//__________________________________________________________________________________________________
+//  THE VIRTUAL COMPONENTS OF THE ARCHITECTURE
+//__________________________________________________________________________________________________
+
+//______________________________________________
+//  VIRTUAL REGISTERS
+//  32 registers of 32 bits
+
+int32_t registerArr[32];
+
+//______________________________________________
+//  VIRTUAL MEMORY
+//  4GB of memory addressable by 32 bits addresses
+
 #define NUMBER_PAGES 4
 #define PAGE_SIZE 1048576
 
@@ -41,6 +40,16 @@ bool memoryInitialized = false;
 #define TEMPLATE_MEMORY_DIRECTORY "memory"
 #define TEMPLATE_MEMORY_FILEPATH (TEMPLATE_MEMORY_DIRECTORY "/%d.mem")
 #define MAX_MEMORY_INDEX (UINT32_MAX / PAGE_SIZE)
+
+// Memory ranges
+#define CODE_SECTION_START 0x00000000
+#define CODE_SECTION_END 0x1FFFFFFF
+#define RAM_SECTION_START 0x20000000
+#define RAM_SECTION_END 0x7FFFFFFF
+#define PERIPHERAL_SECTION_START 0x80000000
+#define PERIPHERAL_SECTION_END 0x9FFFFFFF
+#define SYSTEM_SECTION_START 0xE0000000
+#define SYSTEM_SECTION_END 0xFFFFFFFF
 
 
 
@@ -68,6 +77,10 @@ FILE* get_memory_file(int page, const char* mode)
 
 void init_memory(void)
 {
+    // Initialize the sp and ip pointers
+    registerArr[STACK_POINTER] = SYSTEM_SECTION_END - 3;
+    registerArr[INSTRUCTION_POINTER] = CODE_SECTION_START;
+
     // Initialize the indices arrays
     for (int i = 0; i < NUMBER_PAGES; i++)
     {
