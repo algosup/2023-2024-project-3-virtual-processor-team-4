@@ -3,13 +3,13 @@
 
 #include "utils.h"
 
-int read_bin(char*, uint8_t**);
+int read_bin(char*, uint8_t**, uint32_t*);
 int check_opcode(uint8_t*, binInstruction_t*);
 int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
 int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
 int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
 
-int read_bin(char* inputFile, uint8_t** outputPtr){
+int read_bin(char* inputFile, uint8_t** outputPtr, uint32_t* size){
     FILE *f = fopen(inputFile, "rb");
     if (f == NULL) {
         perror("Error: Failed to open file");
@@ -17,12 +17,12 @@ int read_bin(char* inputFile, uint8_t** outputPtr){
     }
 
     fseek(f, 0, SEEK_END);
-    long size = ftell(f);
+    *size = ftell(f);
     rewind(f);
 
     // Adjust allocation size for uint32_t and ensure it is a multiple of 4
-    long adjustedSize = size - (size % 4);
-    if(adjustedSize != size){
+    long adjustedSize = *size - (*size % 4);
+    if(adjustedSize != *size){
         printf("Warning: Total number of bytes should be divisible by 4 but is not.");
     }
     *outputPtr = (uint8_t*)malloc(sizeof(uint8_t) * (adjustedSize));
@@ -45,6 +45,36 @@ int read_bin(char* inputFile, uint8_t** outputPtr){
     return SUCCESS;
 }
 
+int make_map_of_instructions(char* inputFile, binInstruction_t** mapOfInstructions){
+    uint8_t* outputPtr;
+    uint32_t size;
+    read_bin(inputFile, &outputPtr, &size);
+
+    *mapOfInstructions = (binInstruction_t*)malloc(sizeof(binInstruction_t) * size/4);
+    if (*mapOfInstructions == NULL) {
+        perror("Error: Memory allocation failed");
+        return GENERIC_ERROR;
+    }
+
+    int instructionCounter = 0;
+
+    for (size_t i = 0; i <= size-3; i+4)
+    {
+        if(i+3 > size){
+            printf("Error: Invalid number of byte in instruction");
+            return GENERIC_ERROR;
+        }
+
+        uint8_t byteIn[4] = {outputPtr[i], outputPtr[i+1], outputPtr[i+2], outputPtr[i+3]};
+        int error = check_opcode(byteIn, mapOfInstructions[instructionCounter]);
+        if(error != SUCCESS){
+            return error;
+        }
+        instructionCounter++;
+    }
+
+    return SUCCESS;
+}
 
 int check_opcode(uint8_t* byteIn, binInstruction_t* instruction){
     uint8_t opcode;
