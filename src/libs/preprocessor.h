@@ -39,6 +39,7 @@ int is_first_operand_register_or_first_and_second_operand_registers(InstructionT
 int is_first_operand_register_and_second_operand_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
 int is_first_operand_register_and_second_operand_immediate_or_are_two_first_operands_registers_and_third_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber, uint8_t paramsNumber);
 int are_two_first_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
+int are_two_first_operand_registers_and_third_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int are_first_two_operands_register_and_third_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int are_two_first_operand_registers_or_are_all_operands_registers(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber, uint8_t paramsNumber);
 int is_first_operand_register_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
@@ -134,7 +135,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     case SUCCESS:
         if (*instructionType == LABEL_)
         { // Using strdup to allocate and copy
-            line->labelDef = malloc(sizeof(strlen(opcode)+1));
+            line->labelDef = malloc(sizeof(strlen(opcode) + 1));
 
             if (line->labelDef == NULL)
             {
@@ -467,6 +468,22 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     case STR:
     case STRP:
         return are_two_first_operand_registers(instructionId, param1, param2, lineNumber);
+        break;
+    case TEQ:
+    case TGE:
+    case TGT:
+    case TLE:
+    case TLT:
+    case TNE:
+        return are_all_operand_registers(instructionId, param1, param2, param3, lineNumber);
+        break;
+    case TEQI:
+    case TGEI:
+    case TGTI:
+    case TLEI:
+    case TLTI:
+    case TNEI:
+        return are_two_first_operand_registers_and_third_immediate(instructionId, param1, param2, param3, lineNumber);
         break;
     // Following instructions are not implemented yet
     default:
@@ -866,6 +883,15 @@ int is_first_operand_register_and_second_operand_immediate_or_are_two_first_oper
 int are_two_first_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
 {
     if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_register(instructionId, param2, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int are_two_first_operand_registers_and_third_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
+{
+    if (are_two_first_operand_registers(instructionId, param1, param2, lineNumber) != SUCCESS || is_third_operand_immediate(instructionId, param3, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }

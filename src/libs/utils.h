@@ -95,6 +95,7 @@ typedef struct line // Definition of a line after parsing and checking all its a
     {
         uint8_t dest;
         char *labelCall;
+        int16_t immediateDest;
     };
     union
     {
