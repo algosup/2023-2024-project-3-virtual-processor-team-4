@@ -123,7 +123,7 @@ typedef struct line // Definition of a line after parsing and checking all its a
 typedef struct label
 {
     uint32_t line;
-    char **labelStr;
+    char *labelStr;
 } label_t;
 
 typedef struct nodeLabel
@@ -300,7 +300,7 @@ int get_list_label(listLabel_t *pList, label_t *value, int index)
         {
             current = current->next;
         }
-        value->labelStr = current->val.labelStr;
+        strcpy(value->labelStr, current->val.labelStr);
         value->line = current->val.line;
     }
     else
@@ -310,7 +310,7 @@ int get_list_label(listLabel_t *pList, label_t *value, int index)
         {
             current = current->previous;
         }
-        value->labelStr = current->val.labelStr;
+        strcpy(value->labelStr, current->val.labelStr);
         value->line = current->val.line;
     }
     return SUCCESS;

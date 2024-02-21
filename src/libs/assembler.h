@@ -139,13 +139,13 @@ int iterate_through_all_line(line_t *instructions, uint64_t arrSize)
 // A function to translate labels to int.
 int find_label_line(char *labelStr, int32_t *lineOut)
 {
-    char **str;
+    char *str;
     label_t label = {0, str};
 
     for (int i = 0; i < labelList.size; i++)
     {
         get_list_label(&labelList, &label, i);
-        if (strcmp(*label.labelStr, labelStr) == 0)
+        if (strcmp(label.labelStr, labelStr) == 0)
         {
             *lineOut = label.line;
             return SUCCESS;
@@ -165,7 +165,7 @@ int get_labels(line_t *instructions, uint64_t arrSize)
     {
         if (instructions[i].mnemonic == LABEL_)
         {
-            label_t tmp = {machineCodeLineNumber + 1, &instructions[i].labelDef};
+            label_t tmp = {machineCodeLineNumber + 1, instructions[i].labelDef};
             add_to_list_label(&labelList, tmp);
         }
         else if (instructions[i].mnemonic != SKIP)
