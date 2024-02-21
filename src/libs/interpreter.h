@@ -4,7 +4,7 @@
 #include "utils.h"
 
 int read_bin(char*, uint8_t**, uint32_t*);
-int check_opcode(uint8_t*, binInstruction_t*);
+int machinecode_to_bininstruction(uint8_t*, binInstruction_t*);
 int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
 int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
 int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
@@ -76,7 +76,7 @@ int make_map_of_instructions(char* inputFile, binInstruction_t** mapOfInstructio
     return SUCCESS;
 }
 
-int check_opcode(uint8_t* byteIn, binInstruction_t* instruction){
+int machinecode_to_bininstruction(uint8_t* byteIn, binInstruction_t* instruction){
     uint8_t opcode;
 
     //calculate source, source2, immediate, and dest
