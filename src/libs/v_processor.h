@@ -267,7 +267,7 @@ int xori(binInstruction_t instruction)
 
 int set(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.source] == registerArr[instruction.typeI.immediate];
+    registerArr[instruction.typeI.source] = registerArr[instruction.typeI.immediate];
     return SUCCESS;
 }
 

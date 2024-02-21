@@ -37,7 +37,7 @@ FILE* get_memory_file(int page, const char* mode)
 {
     // Get the filename for this file
     char filename[256];
-    int err = sprintf_s(filename, sizeof(filename), TEMPLATE_MEMORY_FILEPATH, page);
+    int err = sprintf(filename, TEMPLATE_MEMORY_FILEPATH, page);
     if (!err)
     {
         fprintf(stderr, "Failed to generate filename for memory file %d\n", page);
@@ -45,11 +45,10 @@ FILE* get_memory_file(int page, const char* mode)
     }
 
     // Open the file
-    FILE* fs;
-    err = fopen_s(&fs, filename, mode);
-    if (err)
+    FILE* fs = fopen(filename, mode);
+    if (!fs)
     {
-        fprintf(stderr, "Failed to open memory file %d: %s\n", page, strerror(err));
+        fprintf(stderr, "Failed to open memory file %d: %s\n", page, strerror(errno));
         abort();
     }
 
