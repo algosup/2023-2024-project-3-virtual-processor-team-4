@@ -3,13 +3,13 @@
 
 #include "utils.h"
 
-int read_bin(char*, uint8_t**);
-int check_opcode(uint8_t, binInstruction_t*);
-int opcode_type_I(uint8_t, binInstruction_t*);
-int opcode_type_J(uint8_t, binInstruction_t*);
-int opcode_type_R(uint8_t, binInstruction_t*);
+int read_bin(char*, uint8_t**, uint32_t*);
+int check_opcode(uint8_t*, binInstruction_t*);
+int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
+int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
+int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
 
-int read_bin(char* inputFile, uint8_t** outputPtr){
+int read_bin(char* inputFile, uint8_t** outputPtr, uint32_t* size){
     FILE *f = fopen(inputFile, "rb");
     if (f == NULL) {
         perror("Error: Failed to open file");
@@ -17,12 +17,12 @@ int read_bin(char* inputFile, uint8_t** outputPtr){
     }
 
     fseek(f, 0, SEEK_END);
-    long size = ftell(f);
+    *size = ftell(f);
     rewind(f);
 
     // Adjust allocation size for uint32_t and ensure it is a multiple of 4
-    long adjustedSize = size - (size % 4);
-    if(adjustedSize != size){
+    long adjustedSize = *size - (*size % 4);
+    if(adjustedSize != *size){
         printf("Warning: Total number of bytes should be divisible by 4 but is not.");
     }
     *outputPtr = (uint8_t*)malloc(sizeof(uint8_t) * (adjustedSize));
@@ -45,29 +45,78 @@ int read_bin(char* inputFile, uint8_t** outputPtr){
     return SUCCESS;
 }
 
+int make_map_of_instructions(char* inputFile, binInstruction_t** mapOfInstructions){
+    uint8_t* outputPtr;
+    uint32_t size;
+    read_bin(inputFile, &outputPtr, &size);
 
-int check_opcode(uint8_t byteIn, binInstruction_t* instruction){
-    uint8_t buffer;
+    *mapOfInstructions = (binInstruction_t*)malloc(sizeof(binInstruction_t) * size/4);
+    if (*mapOfInstructions == NULL) {
+        perror("Error: Memory allocation failed");
+        return GENERIC_ERROR;
+    }
 
-    if(byteIn >> 6 == true){
+    int instructionCounter = 0;
+
+    for (size_t i = 0; i <= size-3; i+4)
+    {
+        if(i+3 > size){
+            printf("Error: Invalid number of byte in instruction");
+            return GENERIC_ERROR;
+        }
+
+        uint8_t byteIn[4] = {outputPtr[i], outputPtr[i+1], outputPtr[i+2], outputPtr[i+3]};
+        int error = check_opcode(byteIn, mapOfInstructions[instructionCounter]);
+        if(error != SUCCESS){
+            return error;
+        }
+        instructionCounter++;
+    }
+
+    return SUCCESS;
+}
+
+int check_opcode(uint8_t* byteIn, binInstruction_t* instruction){
+    uint8_t opcode;
+
+    //calculate source, source2, immediate, and dest
+    uint8_t source = byteIn[2] << 3;
+    source = source | byteIn[3] >> 5;
+
+    uint8_t source2 = byteIn[2] & 0b01111100;
+
+    uint8_t dest = byteIn[3] & 0b00011111; //mask the last three bits
+
+    int16_t immediate = byteIn[0] << 14;
+    immediate = immediate | byteIn[1] << 6;
+    immediate = immediate | byteIn[2] >> 2;
+
+    if(byteIn[0] >> 6 == true){
         // every type I instruction has this patern 01000000
         instruction->type = I;
-        buffer = byteIn >> 2;
-        return opcode_type_I(buffer, instruction);
-    }else if(byteIn >> 7 == true){
+        opcode = byteIn[0] >> 2;
+
+        return opcode_type_I(instruction, opcode, source, dest, immediate);
+
+    }else if(byteIn[0] >> 7 == true){
         // every type I instruction has this patern 01000000
         instruction->type = J;
-        buffer = byteIn >> 4;
-        return opcode_type_J(buffer, instruction);
+        opcode = byteIn[0] >> 4;
+        return opcode_type_J(instruction, opcode, dest, immediate);
     }else{
         instruction->type = R;
-        buffer = byteIn >> 1;
-        return opcode_type_R(buffer, instruction);
-    }
+        opcode = byteIn[0] >> 1;
+        return opcode_type_R(instruction, opcode, source, source2, dest);
+    } 
 };
 
-int opcode_type_I(uint8_t byteIn, binInstruction_t* instruction){
-    switch (byteIn)
+int opcode_type_I(binInstruction_t* instruction, uint8_t opcode, uint8_t source, uint8_t dest, int16_t immediate){
+
+    instruction->typeI.source = source;
+    instruction->typeI.destination = dest;
+    instruction->typeI.immediate = immediate;
+
+    switch (opcode)
     {
     case 0b010000:
         instruction->typeI.opcode = ADDI;
@@ -115,11 +164,15 @@ int opcode_type_I(uint8_t byteIn, binInstruction_t* instruction){
         printf("Error: Invalid machine code operand\n");
         return GENERIC_ERROR;
     }
+
     return SUCCESS;
 };
 
-int opcode_type_J(uint8_t byteIn, binInstruction_t* instruction){
-    switch (byteIn)
+int opcode_type_J(binInstruction_t* instruction, uint8_t opcode, uint8_t dest, int16_t immediate){
+    instruction->typeJ.register_ = dest;
+    instruction->typeJ.address = immediate;
+
+    switch (opcode)
     {
     case 0b1000:
         instruction->typeJ.opcode = B;
@@ -152,8 +205,12 @@ int opcode_type_J(uint8_t byteIn, binInstruction_t* instruction){
     return SUCCESS;
 }
 
-int opcode_type_I(uint8_t byteIn, binInstruction_t* instruction){
-    switch (byteIn)
+int opcode_type_R(binInstruction_t* instruction, uint8_t opcode, uint8_t source, uint8_t source2, uint8_t dest){
+    instruction->typeR.source = source;
+    instruction->typeR.source2 = source2;
+    instruction->typeR.destination = dest;
+
+    switch (opcode)
     {
     case 0b0000111:
         instruction->typeR.opcode = ABS;
