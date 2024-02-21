@@ -63,17 +63,19 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     }
 
     char *saveptr;
-    char *token = strtok_r(lineContent, " ", &saveptr);
+    char *token = strtok(lineContent, " ");
     char *opcode = (token != NULL) ? token : "skip";
 
     char *dest = NULL;
     char *param1 = NULL;
     char *param2 = NULL;
 
-    token = strtok_r(NULL, " ", &saveptr);
+    token = strtok(NULL, " ");
     if (token != NULL)
     {
-        dest = strdup(token); // Using strdup to allocate and copy
+
+        dest = malloc(strlen(token) + 1);
+        strcpy(dest, token);
         if (dest == NULL)
         {
             fprintf(stderr, "Memory allocation failed!\n");
@@ -81,10 +83,11 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         }
     }
 
-    token = strtok_r(NULL, " ", &saveptr);
+    token = strtok(NULL, " ");
     if (token != NULL)
     {
-        param1 = strdup(token); // Using strdup to allocate and copy
+        param1 = malloc(strlen(token) + 1);
+        strcpy(param1, token);
         if (param1 == NULL)
         {
             fprintf(stderr, "Memory allocation failed!\n");
@@ -93,10 +96,11 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         }
     }
 
-    token = strtok_r(NULL, " ", &saveptr);
+    token = strtok(NULL, " ");
     if (token != NULL)
     {
-        param2 = strdup(token); // Using strdup to allocate and copy
+        param2 = malloc(strlen(token) + 1);
+        strcpy(param2, token);
         if (param2 == NULL)
         {
             fprintf(stderr, "Memory allocation failed!\n");
@@ -106,7 +110,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         }
     }
 
-    token = strtok_r(NULL, " ", &saveptr);
+    token = strtok(NULL, " ");
     if (token != NULL && token[0] != '/' && token[1] != '/')
     {
         printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
@@ -134,7 +138,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     {
     case SUCCESS:
         if (*instructionType == LABEL_)
-        { // Using strdup to allocate and copy
+        {
             line->labelDef = malloc(sizeof(strlen(opcode) + 1));
 
             if (line->labelDef == NULL)
