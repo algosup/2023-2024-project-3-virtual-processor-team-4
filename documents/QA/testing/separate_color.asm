@@ -8,7 +8,7 @@ teqi rt ra x00FFFF
 bnz rt greenComponent
 teqi rt ra x0000FF
 bnz rt blueComponent
-exit
+jmp exitProg
 
 
 redComponent:
@@ -17,7 +17,7 @@ addi rz ra 0
 andi rz xFF0000
 addi rd rc 0
 div rz rc
-andi ra 0x00FFFF
+andi ra x00FFFF
 
 greenComponent:
 // Isolate the red component from ra in ry
@@ -32,4 +32,5 @@ blueComponent:
 addi rx ra 0
 addi rd rb 0
 div ra rd
-exit
+exitProg
+// exit the prog

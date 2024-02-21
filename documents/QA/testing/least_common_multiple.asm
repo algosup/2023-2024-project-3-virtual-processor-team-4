@@ -18,11 +18,11 @@ next:
 addi re rc 0
 addi rf rd 0
 addi rm re 0
-call modulo
+calli modulo
 teqi rt rm 0
 bnz rt end
 add rc rz
-jump next
+jmp next
 
 modulo:
 tlt rt rm rf
@@ -33,4 +33,4 @@ endModulo:
 ret
 
 end:
-exit
+// exit the prog

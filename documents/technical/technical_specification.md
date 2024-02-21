@@ -128,7 +128,7 @@ The GitHub repository will be organized as such:
         └── 📝 technical_specification.md
     └── 📄 project_charter.md
 └── 📁 src
-    └── 📄 assembleur.c
+    └── 📄 assembler.c
     └── 📄 emulator.c
     └── 📁 libs
         └── 📄 assembler.h
@@ -142,7 +142,7 @@ The GitHub repository will be organized as such:
 ```
 Here is an explanation of the `src` folder:
 
-- assembleur.c is the main file for the assembler it includes assembler.h and preprocessor.h
+- assembler.c is the main file for the assembler it includes assembler.h and preprocessor.h
 - emulator.c is the main file for the emulator, it includes runtime.h and clock.h
 - assembler.h will contain all the functions pertaining to the assembler;
 - clock.h will house the workload of the clock;

@@ -36,7 +36,7 @@ The assembly language will also be created and tailored by us.
         - [Tasks time estimation](#tasks-time-estimation)
         - [Tasks schedule](#tasks-schedule)
     - [Test deliverables](#test-deliverables)
-    - [Conclusion and acknowledgments](# conclusion-and-acknowledgments)
+    - [Conclusion and acknowledgments](#conclusion-and-acknowledgments)
     - [Sources](#sources)
     
 </details>
@@ -45,12 +45,12 @@ The assembly language will also be created and tailored by us.
 
 |Role             |Name               |Signature      |Date      |
 |-----------------|-------------------|---------------|----------|
-| Benoît DE KEYN  | Project Manager   |               |16/02/2024|
-| Léo CHARTIER    | Program Manager   |               |16/02/2024|
-| Jason GROSSO    | Tech Lead         |               |16/02/2024|
-| Antoine PREVOST | Software Engineer |               |16/02/2024|
-| Max BERNARD     | Software Engineer |               |16/02/2024|
-| Maxime THIZEAU  | Quality Assurance |               |16/02/2024|
+| Benoît DE KEYN  | Project Manager   | ✅            |16/02/2024|
+| Léo CHARTIER    | Program Manager   | ✅            |16/02/2024|
+| Jason GROSSO    | Tech Lead         | ✅            |16/02/2024|
+| Antoine PREVOST | Software Engineer | ✅            |16/02/2024|
+| Max BERNARD     | Software Engineer | ✅            |16/02/2024|
+| Maxime THIZEAU  | Quality Assurance | ✅            |16/02/2024|
 
 ## Glossary
 
