@@ -165,7 +165,10 @@ int get_labels(line_t *instructions, uint64_t arrSize)
     {
         if (instructions[i].mnemonic == LABEL_)
         {
-            label_t tmp = {machineCodeLineNumber + 1, instructions[i].labelDef};
+            line_t a = instructions[i];
+            char* label = strdup(instructions[2].labelDef);
+
+            label_t tmp = {machineCodeLineNumber + 1, label};
             add_to_list_label(&labelList, tmp);
         }
         else if (instructions[i].mnemonic != SKIP)

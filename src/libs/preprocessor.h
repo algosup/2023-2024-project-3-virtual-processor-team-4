@@ -133,8 +133,9 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     {
     case SUCCESS:
         if (*instructionType == LABEL_)
-        {
-            line->labelDef = strdup(opcode); // Using strdup to allocate and copy
+        { // Using strdup to allocate and copy
+            line->labelDef = malloc(sizeof(strlen(opcode)+1));
+
             if (line->labelDef == NULL)
             {
                 fprintf(stderr, "Memory allocation failed!\n");
@@ -144,10 +145,12 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
                 free(instructionType);
                 return GENERIC_ERROR;
             }
-            line->mnemonic = *instructionType;
+            line->dest_t = LABEL;
+            line->mnemonic = LABEL_;
+
+            strcpy(line->labelDef, opcode);
+
             line->lineNumber = *lineNumber;
-            line->param1_t = LABEL;
-            free(instructionType);
             return SUCCESS;
         }
         break;
