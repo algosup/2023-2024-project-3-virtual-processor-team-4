@@ -22,7 +22,7 @@
 //  VIRTUAL REGISTERS
 //  32 registers of 32 bits
 
-uint32_t registerArr[32];
+int32_t registerArr[32];
 
 //______________________________________________
 //  VIRTUAL MEMORY
