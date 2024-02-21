@@ -544,6 +544,9 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
     if (instruction.param1_t == IMMEDIATE)
     {
         addres = instruction.immediate1;
+    }if (instruction.param1_t == REGISTER)
+    {
+        addres = instruction.register1;
     }
     else if (instruction.param1_t == NULL_)
     {
