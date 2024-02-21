@@ -6,13 +6,18 @@
 
 //Prototypes
 void test_arithmetic_operations();
+void test_logical_operations();
+void test_instr_abs();
+void test_logical_comaparisons();
 void test_memory(void);
 
 
 int main()
 {
     test_arithmetic_operations();
-    //test_memory();
+    test_logical_operations();
+    test_instr_abs();
+    test_memory();
     return 0;
 }
 
@@ -67,9 +72,89 @@ void test_arithmetic_operations(){
     }
     else
     {
-        puts("Arithmetic operations test success");
+        puts("Arithmetic operations test succeed");
     }
 }
+
+void test_logical_operations(){
+    registerArr[0] = 2;
+    registerArr[1] = 3;
+    registerArr[2] = 15;
+    registerArr[3] = 2;
+
+    // or 2 and 3, get 3
+
+    binInstruction_t testOR;
+    testOR.typeR.source = 0;
+    testOR.typeR.source2 = 1;
+    testOR.typeR.destination = 4;
+
+    // and 3 and 15, get 3
+
+    binInstruction_t testAND;
+    testAND.typeR.source = 4;
+    testAND.typeR.source2 = 2;
+    testAND.typeR.destination = 5;
+
+    // xor 3 and 2, get 1
+
+    binInstruction_t testXOR;
+    testXOR.typeR.source = 5;
+    testXOR.typeR.source2 = 3;
+    testXOR.typeR.destination = 6;
+
+    instr_or(testOR);
+    instr_and(testAND);
+    instr_xor(testXOR);
+
+    if (registerArr[6] != 1){
+        printf("Logical operations test failed: Expected 1, got %d\n", registerArr[6]);
+        return;
+    }else{
+        puts("Logical operations test succeed");
+    }
+}
+
+void test_instr_abs(){
+    registerArr[0] = -1;
+
+    // abs -1, get 1
+
+    binInstruction_t testABS;
+    testABS.typeR.source = 0;
+    testABS.typeR.destination = 1;
+
+    instr_abs(testABS);
+
+    if (registerArr[1] != 1){
+        printf("Absolute instruction test failed: Expected 1, got %d\n", registerArr[1]);
+        return;
+    }else{
+        puts("Absolute instruction test succeed");
+    }
+}
+
+// in progress
+// void test_logical_comaparisons(){
+//     registerArr[0] = 40;
+//     registerArr[1] = 20;
+//     registerArr[2] = 20;
+
+//     // test 20 < 40, get 1
+
+//     binInstruction_t testTLT;
+//     testTLT.typeR.source = 1;
+//     testTLT.typeR.source2 = 0;
+//     testTLT.typeR.destination = 3;
+
+//     binInstruction_t testTLE;
+//     testTLE.typeR.source = 1;
+//     testTLE.typeR.source = 2;
+//     testTLE.typeR.destination = 4
+
+//     binInstruction_t testTGT;
+//     testTGT.typeR.source; 
+// }
 
 void test_memory(void)
 {
