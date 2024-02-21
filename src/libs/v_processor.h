@@ -85,11 +85,11 @@ int mul(binInstruction_t instruction)
     return SUCCESS;
 }
 
-/* int div(binInstruction_t instruction)
+int div_(binInstruction_t instruction)
 {
     registerArr[instruction.typeR.destination] = registerArr[instruction.typeR.source] / registerArr[instruction.typeR.source2];
     return SUCCESS;
-} */
+}
 
 int or(binInstruction_t instruction)
 {
@@ -109,11 +109,11 @@ int xor(binInstruction_t instruction)
     return SUCCESS;
 }
 
-/* int abs(binInstruction_t instruction)
+int abs_(binInstruction_t instruction)
 {
     registerArr[instruction.typeR.destination] = abs(registerArr[instruction.typeR.source]);
     return SUCCESS;
-} */
+}
 
 int tlt(binInstruction_t instruction)
 {

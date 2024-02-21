@@ -5,13 +5,19 @@
 
 //Prototypes
 void testADD();
+void testSUB();
+void testMUL();
+void testDIV();
 void test_memory(void);
 
 
 int main()
 {
     testADD();
-    test_memory();
+    testSUB();
+    testMUL();
+    testDIV();
+    //test_memory();
     return 0;
 }
 
@@ -29,6 +35,61 @@ void testADD(){
     testADD.typeR.destination = 2;
 
     add(testADD);
+
+    binInstruction_t testSUB;
+    testSUB.typeR.source2 = 0;
+    testSUB.typeR.source = 2;
+    testSUB.typeR.destination = 3;
+
+    sub(testSUB);
+
+    printf("%d\n", registerArr[3]);
+}
+
+void testSUB(){
+    //add 5 and 3, print 8
+
+    registerArr[0] = 5;
+    registerArr[1] = 3;
+
+    binInstruction_t testSUB;
+    testSUB.typeR.source2 = 1;
+    testSUB.typeR.source = 0;
+    testSUB.typeR.destination = 2;
+
+    sub(testSUB);
+
+    printf("%d\n", registerArr[2]);
+}
+
+void testMUL(){
+    //add 5 and 3, print 8
+
+    registerArr[0] = 5;
+    registerArr[1] = 3;
+
+    binInstruction_t testMUL;
+    testMUL.typeR.source2 = 1;
+    testMUL.typeR.source = 0;
+    testMUL.typeR.destination = 2;
+
+    mul(testMUL);
+
+    printf("%d\n", registerArr[2]);
+}
+
+void testDIV(){
+    //add 5 and 3, print 8
+
+    registerArr[0] = 6;
+    registerArr[1] = 3;
+
+    binInstruction_t testDIV;
+    testDIV.typeR.source2 = 1;
+    testDIV.typeR.source = 0;
+    testDIV.typeR.destination = 2;
+
+    div_(testDIV);
 
     printf("%d\n", registerArr[2]);
 }
