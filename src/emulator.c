@@ -32,7 +32,14 @@ void testADD(){
 
     add(testADD);
 
-    printf("%d\n", registerArr[2]);
+    if (registerArr[2] != 8)
+    {
+        printf("ADD test failed: Expected 8, got %d\n", registerArr[2]);
+    }
+    else
+    {
+        puts("ADD test success");
+    }
 }
 
 void test_memory(void)
