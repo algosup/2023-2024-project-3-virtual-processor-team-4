@@ -23,6 +23,7 @@ int main()
     test_arithmetic_operations();
     test_logical_operations();
     test_instr_abs();
+    test_logical_comaparisons();
     test_memory();
     test_stack();
     test_Op_I();
@@ -147,26 +148,67 @@ void test_instr_abs(){
 }
 
 // in progress
-// void test_logical_comaparisons(){
-//     registerArr[0] = 40;
-//     registerArr[1] = 20;
-//     registerArr[2] = 20;
+void test_logical_comaparisons(){
+    registerArr[0] = 40;
+    registerArr[1] = 20;
+    registerArr[2] = 20;
 
-//     // test 20 < 40, get 1
+    // test 20 < 40, get 1
 
-//     binInstruction_t testTLT;
-//     testTLT.typeR.source = 1;
-//     testTLT.typeR.source2 = 0;
-//     testTLT.typeR.destination = 3;
+    binInstruction_t testTLT;
+    testTLT.typeR.source = 1;
+    testTLT.typeR.source2 = 0;
+    testTLT.typeR.destination = 3;
 
-//     binInstruction_t testTLE;
-//     testTLE.typeR.source = 1;
-//     testTLE.typeR.source = 2;
-//     testTLE.typeR.destination = 4
+    // test 20 <= 20, get 1
 
-//     binInstruction_t testTGT;
-//     testTGT.typeR.source; 
-// }
+    binInstruction_t testTLE;
+    testTLE.typeR.source = 1;
+    testTLE.typeR.source = 2;
+    testTLE.typeR.destination = 4;
+
+    // test 40 > 20, get 1
+
+    binInstruction_t testTGT;
+    testTGT.typeR.source = 0;
+    testTGT.typeR.source2 = 1;
+    testTGT.typeR.destination = 5;
+
+    // test 1 >= 1, get 1
+
+    binInstruction_t testTGE;
+    testTGE.typeR.source = 3;
+    testTGE.typeR.source2 = 4;
+    testTGE.typeR.destination = 6;
+
+    // test 1 == 1; get 1
+
+    binInstruction_t testTEQ;
+    testTEQ.typeR.source = 5;
+    testTEQ.typeR.source2 = 6;
+    testTEQ.typeR.destination = 7;
+
+    // test 1 != 40, get 1
+
+    binInstruction_t testTNE;
+    testTNE.typeR.source = 7;
+    testTNE.typeR.source2 = 0;
+    testTEQ.typeR.destination = 8;
+
+    instr_tlt(testTLT);
+    instr_tle(testTLE);
+    instr_tgt(testTGT);
+    instr_tge(testTGE);
+    instr_teq(testTEQ);
+    instr_tne(testTNE);
+
+    if (registerArr[8] != 1){
+        printf("Tesing logical comparison test failed: Expected 1, got %d\n", registerArr[8]);
+        return;
+    }else{
+        puts("Testing logical comparison test succeed");
+    }
+}
 
 void test_memory(void)
 {
