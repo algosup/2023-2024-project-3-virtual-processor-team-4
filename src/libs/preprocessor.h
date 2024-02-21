@@ -147,7 +147,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
             }
             line->dest_t = LABEL;
             line->mnemonic = LABEL_;
-
+            opcode[strlen(opcode) - 1] = '\0';
             strcpy(line->labelDef, opcode);
 
             line->lineNumber = *lineNumber;
@@ -162,7 +162,6 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         free(dest);
         free(param1);
         free(param2);
-        free(instructionType);
         return GENERIC_ERROR;
         break;
     }
@@ -218,6 +217,11 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             line->dest_t = REGISTER;
         }
+        else if (check_is_label(dest) == SUCCESS)
+        {
+            line->dest_t = LABEL;
+            line->labelCall = dest;
+        }
     }
     else
     {
@@ -235,11 +239,6 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             line->immediate1 = atoi(param1);
             line->param1_t = IMMEDIATE;
-        }
-        else if (check_is_label(param1) == SUCCESS)
-        {
-            line->labelCall = param1;
-            line->param1_t = LABEL;
         }
         else
         {

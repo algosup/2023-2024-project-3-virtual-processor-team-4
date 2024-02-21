@@ -78,10 +78,22 @@ int main() // int argc, char **argv)
             // malloc line content
             char *lineContent = malloc(100 * sizeof(char));
 
+            if (lineContent == NULL)
+            {
+                printf("Failed to allocate memory for line content\n");
+                return 1;
+            }
+
+            line_t *line = (line_t *)malloc(sizeof(line_t));
+
+            if (line == NULL)
+            {
+                printf("Failed to allocate memory for line\n");
+                return 1;
+            }
+
             line_content_from_file_content(content, j, lineContent);
-
-            printf("Line %d: %s\n", j, lineContent);
-
+            
             if (preprocess_line(lineContent, &instructionMap[j], &j) != 0)
             {
                 fileHasError = true;

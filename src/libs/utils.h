@@ -339,4 +339,6 @@ int add_to_list_label(listLabel_t *pList, label_t value)
     return SUCCESS;
 }
 
+// int memory_allocation_failed()
+
 #endif
