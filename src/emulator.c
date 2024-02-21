@@ -1,7 +1,8 @@
 #include "./libs/utils.h"
 #include "./libs/clock.h"
+#include "./libs/v_components.h"
+#include "./libs/v_instructions.h"
 //#include "./libs/interpreter.h" //commented while interpreter is not blocking compilation
-#include "./libs/v_processor.h"
 
 //Prototypes
 void testADD();
@@ -16,7 +17,8 @@ int main()
 }
 
 
-//exemple
+//TESTS
+
 void testADD(){
     //add 5 and 3, print 8
 

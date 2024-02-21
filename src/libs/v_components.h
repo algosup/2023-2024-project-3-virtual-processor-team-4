@@ -1,10 +1,23 @@
+//__________________________________________________________________________________________________
+//  THE VIRTUAL COMPONENTS OF THE ARCHITECTURE
+//__________________________________________________________________________________________________
+
+#ifndef V_COMPONENTS_H
+#define V_COMPONENTS_H
+
+//______________________________________________
+//  VIRTUAL REGISTERS
+//  32 registers of 32 bits
+
+uint32_t registerArr[32];
+
+
+//______________________________________________
+//  VIRTUAL MEMORY
+//  4GB of memory addressable by 32 bits addresses
+
 #include <errno.h>
 #include <limits.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 // Platform specific includes
 #ifdef _WIN32
@@ -15,9 +28,7 @@
 #include <sys/types.h>
 #endif
 
-
-
-// the memory
+// the memory definition
 #define NUMBER_PAGES 4
 #define PAGE_SIZE 1048576
 
@@ -190,3 +201,7 @@ void set_memory_32(uint32_t address, uint32_t value)
         value >>= 8;
     }
 }
+
+//__________________________________________________________________________________
+
+#endif // V_COMPONENTS_H
