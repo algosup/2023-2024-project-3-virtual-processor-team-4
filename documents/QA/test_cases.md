@@ -119,7 +119,7 @@ This document will have the entire test cases created to ensure the well-functio
 | Test case Name            | Missing third parameter                                                                                                                                       |
 | Test Case Description     | Search if it misses the third parameter in a line.                                                                                                                   |
 | Test Case Pre-conditions  | ```assembler.exe``` must be build.                                                                                                                           |
-| Test Case Steps           | 1. Create ```example.asm``` containing ```test rt ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```. |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt rt ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```. |
 | Test Case Expected Result | An error must be sent.                                                                                                                                       |
 | Test Case Actual Result   | ---                                                                                                                                                          |
 | Test Case Status          | To Test                                                                                                                                                      |
