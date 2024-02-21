@@ -169,45 +169,43 @@ Next week we plan to:
 
 [*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/week_6__12-02_to_16-02.md)
 
-# Weekly report - week 6
+- # Weekly report - week 6
 
-*From     --- Monday, February 12th ---     to     --- Friday, February 16th ---*
+   *From     --- Monday, February 12th ---     to     --- Friday, February 16th ---*
 
-### Overview of the week
+   ### Overview of the week
 
-This week, we got some trouble trying to finish the assembler program, especially due to a lot of absence on the part of this program's main coder.
-We had to redefine some technical specifications which were undefined in the technical document about memory that was impossible to implement easily due to the huge size it would take on the emulating machine
+   This week, we had some trouble trying to finish the assembler program, especially due to a lot of absence on the part of the program's main coder.
+   We had to redefine some technical specifications that were undefined in the technical document about memory that was impossible to implement easily due to the huge size it would take on the emulating machine.
 
-<hr>
-### Accomplishments
+   <hr>
 
-- We finished the test plan.
 
-- We continued.
+   ### Accomplishments
 
-- We almost finished the documentation of our assembly language.
+   - We finished the test plan.
+   - We continued.
+   - We almost finished the documentation of our assembly language.
+   - We defined how the virtual terminal would work through the memory without interrupt.
+   - In parallel, we continued to review the documents and update the management content.
 
-- We defined how the virtual terminal would work through the memory without interrupt.
+   ### challenges encountered
 
-- In parallel, we continued to review the documents and update the management content.
+   - Some technical specifications for the implementation of virtual memory were still to be defined.
+   - The software engineer who was working on the assembler was absent for four hours of project time.
+   - The exam of the assembly language took all afternoon for three members of our team.
+   - The merge of the two steps of the assembler program generated a lot of unresolved conflicts.
 
-### challenges encountered
+   ### Plan for Next Week
 
-- Some technical specification about implementation of virtual memory were still to be defined.
-- The software engineer who was working on the assembler was absent during 4h of project time.
-- The exam of assembly took all the afternoon for three of us.
-- The merge of the two steps of the assembler program generated a lot of unresolved conflicts.
+   Next week we plan to:
 
-### Plan for Next Week
-
-Next week we plan to:
-
-- Definitely finish the assembler program,
-- Finish the documentation of the assembly language,
-- continue the step of decoding the binary instructions in the v-processor,
-- make the functions corresponding to the instructions, in C,
-- If we have time, be able to print the content of the registers,
-- Have a regular instruction's execution with a clock (but as threads are relative to each OS, it will be hard),
-- If we have time, be able to write directly in the memory in the data section without any instruction.
+   - Definitely finish the assembler program,
+   - Finish the documentation of the assembly language,
+   - continue the step of decoding the binary instructions in the v-processor,
+   - make the functions corresponding to the instructions, in C,
+   - If we have time, be able to print the content of the registers,
+   - Have a regular instruction execution with a clock (but as threads are relative to each OS, it will be hard),
+   - If we have time, be able to write directly in the memory in the data section without any instruction.
 
 <br><hr><br>
