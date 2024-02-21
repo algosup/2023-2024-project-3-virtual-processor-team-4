@@ -5,19 +5,13 @@
 //#include "./libs/interpreter.h" //commented while interpreter is not blocking compilation
 
 //Prototypes
-void testADD();
-void testSUB();
-void testMUL();
-void testDIV();
+void test_arithmetic_operations();
 void test_memory(void);
 
 
 int main()
 {
-    testADD();
-    testSUB();
-    testMUL();
-    testDIV();
+    test_arithmetic_operations();
     //test_memory();
     return 0;
 }
@@ -25,82 +19,55 @@ int main()
 
 //TESTS
 
-void testADD(){
-    //add 5 and 3, print 8
-
+void test_arithmetic_operations(){
     registerArr[0] = 5;
     registerArr[1] = 3;
+    registerArr[4] = 10;
+
+    //add 5 and 3, print 8
 
     binInstruction_t testADD;
     testADD.typeR.source2 = 0;
     testADD.typeR.source = 1;
     testADD.typeR.destination = 2;
 
-    add(testADD);
+    instr_add(testADD);
+
+    //sub 8 and 5, print 3
 
     binInstruction_t testSUB;
     testSUB.typeR.source2 = 0;
     testSUB.typeR.source = 2;
     testSUB.typeR.destination = 3;
 
-    sub(testSUB);
+    instr_sub(testSUB);
 
-    printf("%d\n", registerArr[3]);
-}
-
-void testSUB(){
-    //add 5 and 3, print 8
-
-    registerArr[0] = 5;
-    registerArr[1] = 3;
-
-    binInstruction_t testSUB;
-    testSUB.typeR.source2 = 1;
-    testSUB.typeR.source = 0;
-    testSUB.typeR.destination = 2;
-
-    sub(testSUB);
-
-    printf("%d\n", registerArr[2]);
-}
-
-void testMUL(){
-    //add 5 and 3, print 8
-
-    registerArr[0] = 5;
-    registerArr[1] = 3;
+    // mul 3 and 10, print 30
 
     binInstruction_t testMUL;
-    testMUL.typeR.source2 = 1;
-    testMUL.typeR.source = 0;
-    testMUL.typeR.destination = 2;
+    testMUL.typeR.source2 = 3;
+    testMUL.typeR.source = 4;
+    testMUL.typeR.destination = 5;
 
-    mul(testMUL);
+    instr_mul(testMUL);
 
-    printf("%d\n", registerArr[2]);
-}
-
-void testDIV(){
-    //add 5 and 3, print 8
-
-    registerArr[0] = 6;
-    registerArr[1] = 3;
+    // div 30 and 10, print 3
 
     binInstruction_t testDIV;
-    testDIV.typeR.source2 = 1;
-    testDIV.typeR.source = 0;
-    testDIV.typeR.destination = 2;
+    testDIV.typeR.source2 = 4;
+    testDIV.typeR.source = 5;
+    testDIV.typeR.destination = 6;
 
-    div_(testDIV);
+    instr_div(testDIV);
 
-    printf("%d\n", registerArr[2]);
-    if (registerArr[2] != 8)
+    if (registerArr[6] != 3)
     {
-        printf("ADD test failed: Expected 8, got %d\n", registerArr[2]);
+        printf("Arithmetic operations test failed: Expected 3, got %d\n", registerArr[6]);
+        return;
     }
     else
     {
-        puts("ADD test success");
+        puts("Arithmetic operations test success");
     }
 }
 
