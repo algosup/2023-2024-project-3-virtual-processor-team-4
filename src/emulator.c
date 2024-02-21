@@ -11,7 +11,7 @@ void test_arithmetic_operations();
 void test_Op_I();
 void test_store_load_set();
 void test_logic_op_immediate();
-
+int test_load_bin();
 
 
 int main()
@@ -22,6 +22,8 @@ int main()
     test_Op_I();
     test_store_load_set();
     test_logic_op_immediate();
+    test_load_bin();
+
     return 0;
 }
 
@@ -171,6 +173,7 @@ void test_Op_I(){
     printf("expected result: '2', got: %d \n", registerArr[2]);
 }
 
+
 void test_store_load_set()
 {
     registerArr[0] = 3;
@@ -193,7 +196,7 @@ void test_store_load_set()
     printf("expected result: '6', got: %d \n", registerArr[0]);
 }
 
-void test_logic_op_immediate_1()
+void test_logic_op_immediate()
 {
     registerArr[0] = 5;
     registerArr[2] = 5;
@@ -211,4 +214,46 @@ void test_logic_op_immediate_1()
 
     instr_xori(testLogicI);
     printf("expected result: '1', got %d \n", registerArr[1]);
+}
+
+int test_load_bin(){
+    FILE *file = fopen("./test.bin", "wb");
+    if (file == NULL) {
+        perror("Error opening file\n");
+        return GENERIC_ERROR;
+    }
+    uint8_t array[8] = {8, 11, 13, 14, 2, 31, 4, 5};
+    int size = 8;
+    size_t written = fwrite(array, sizeof(uint8_t), size, file);
+    fclose(file);
+
+    init_memory();
+    load_bin_to_mem("./test.bin");
+    load_page_memory(1);
+    load_page_memory(2);
+    load_page_memory(3);
+    load_page_memory(4);
+
+    FILE *fileMem = fopen("./test.bin", "rb");
+    if (fileMem == NULL) {
+        perror("Error opening file\n");
+        return GENERIC_ERROR;
+    }
+
+    uint8_t outputArray[8]; 
+    fread(outputArray, 1, 8, fileMem);
+    fclose(fileMem);
+
+    bool error = false;
+    for (int i = 0; i < 8; i++)
+    {
+        if(outputArray[i] != array[i]){
+            error = true;
+            printf("test_load_bin: expected result %d, got %d\n", outputArray[i], array[i]);
+        }
+    }
+    
+    if(!error){
+        printf("test_load_bin: succesful");
+    }
 }
