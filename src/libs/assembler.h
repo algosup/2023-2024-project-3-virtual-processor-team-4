@@ -168,7 +168,7 @@ int get_labels(line_t *instructions, uint64_t arrSize)
             line_t a = instructions[i];
             char* label = strdup(instructions[2].labelDef);
 
-            label_t tmp = {machineCodeLineNumber + 1, label};
+            label_t tmp = {machineCodeLineNumber + 1, "test"};
             add_to_list_label(&labelList, tmp);
         }
         else if (instructions[i].mnemonic != SKIP)
@@ -521,11 +521,11 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
     int32_t addres;
     if (instruction.dest_t == NULL_)
     {
-        bin->typeJ.register_ = 0;
+        bin->typeJ.addres = 0;
     }
     else if (instruction.dest_t == REGISTER)
     {
-        bin->typeJ.register_ = instruction.dest;
+        bin->typeJ.addres = instruction.dest;
     }
     else if (instruction.dest_t == LABEL)
     {
@@ -533,9 +533,18 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
         {
             error = true;
         }
-        else
+        else if(instruction.mnemonic == JMP)
         {
-            addres = addres - instruction.lineNumber;
+            bin->typeJ.addres = addres;
+        }else{
+            bin->typeJ.addres = addres - instruction.lineNumber;
+        }
+    }else if(instruction.dest_t == IMMEDIATE){
+        if(instruction.mnemonic == JMP)
+        {
+            bin->typeJ.addres = instruction.immediateDest + instruction.lineNumber;
+        }else{
+            bin->typeJ.addres = instruction.immediateDest;
         }
     }
     else
@@ -543,22 +552,20 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
         printf("Error: Invalid destination. Line %d\n", instruction.lineNumber);
         error = true;
     }
-
-    if (instruction.param1_t == IMMEDIATE)
+    
+    
+    if (instruction.param1_t == REGISTER)
     {
-        addres = instruction.immediate1;
-    }if (instruction.param1_t == REGISTER)
-    {
-        addres = instruction.register1;
+        bin->typeJ.register_ = instruction.register1;
     }
     else if (instruction.param1_t == NULL_)
     {
-        addres = 0;
+        bin->typeJ.register_ = 0;
     }
     else
     {
         error = true;
-        printf("Error: Invalid Label or Imediate. Line %d\n", instruction.lineNumber);
+        printf("Error: Invalid Register. Line %d\n", instruction.lineNumber);
     }
 
     bin->typeJ.addres = addres;
