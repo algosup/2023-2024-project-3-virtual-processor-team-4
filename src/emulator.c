@@ -7,12 +7,14 @@
 //Prototypes
 void test_arithmetic_operations();
 void test_memory(void);
+void test_stack(void);
 
 
 int main()
 {
     test_arithmetic_operations();
     //test_memory();
+    test_stack();
     return 0;
 }
 
@@ -98,5 +100,48 @@ void test_memory(void)
     else
     {
         puts("Memory test success");
+    }
+}
+
+void test_stack(void)
+{
+    init_memory();
+
+    uint32_t value1 = 5, value2 = 7, value3 = 13;
+    uint8_t source1 = 0, source2 = 1, source3 = 2;
+    uint8_t destination1 = 10, destination2 = 11, destination3 = 12;
+
+    registerArr[source1] = value1;
+    registerArr[source2] = value2;
+    registerArr[source3] = value3;
+
+    binInstruction_t push1 = {.typeR = {.source = source1}};
+    instr_push(push1);
+    binInstruction_t push2 = {.typeR = {.source = source2}};
+    instr_push(push2);
+    binInstruction_t pop2 = {.typeR = {.destination = destination2}};
+    instr_pop(pop2);
+    binInstruction_t push3 = {.typeR = {.source = source3}};
+    instr_push(push3);
+    binInstruction_t pop3 = {.typeR = {.destination = destination3}};
+    instr_pop(pop3);
+    binInstruction_t pop1 = {.typeR = {.destination = destination1}};
+    instr_pop(pop1);
+
+    if (
+        registerArr[destination1] != value1 ||
+        registerArr[destination2] != value2 ||
+        registerArr[destination3] != value3
+    )
+    {
+        printf(
+            "Stack test failed:\nExpected (%d, %d, %d), got (%d, %d, %d)\n",
+            value1, value2, value3,
+            registerArr[destination1], registerArr[destination2], registerArr[destination3]
+        );
+    }
+    else
+    {
+        puts("Stack test success");
     }
 }
