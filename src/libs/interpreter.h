@@ -52,7 +52,8 @@ int load_bin_to_mem(char* inputFile){
     uint32_t size;
     read_bin(inputFile, &outputPtr, &size);
 
-    for (size_t i = 0; i <= size; i++)
+    size_t i = 0;
+    for (i;i <= size; i++)
     {
         set_memory_8(i, outputPtr[i]);
     }
@@ -66,10 +67,10 @@ int machinecode_to_bininstruction(uint8_t* byteIn, binInstruction_t* instruction
     uint8_t opcode;
 
     //calculate source, source2, immediate, and dest
-    uint8_t source = byteIn[2] << 3;
+    uint8_t source = (byteIn[2] & 0b00000011) << 3;
     source = source | byteIn[3] >> 5;
 
-    uint8_t source2 = byteIn[2] & 0b01111100;
+    uint8_t source2 = (byteIn[2] & 0b01111100) >> 2;
 
     uint8_t dest = byteIn[3] & 0b00011111; //mask the last three bits
 

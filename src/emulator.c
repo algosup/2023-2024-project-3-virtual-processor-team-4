@@ -16,6 +16,7 @@ void test_Op_I();
 void test_store_load_set();
 void test_logic_op_immediate();
 int test_load_bin();
+void test_machinecode_to_bininstruction();
 
 
 int main()
@@ -30,6 +31,7 @@ int main()
     test_store_load_set();
     test_logic_op_immediate();
     test_load_bin();
+    test_machinecode_to_bininstruction();
 
     return 0;
 }
@@ -382,6 +384,71 @@ int test_load_bin(){
     }
     
     if(!error){
-        printf("test_load_bin: succesful");
+        printf("test_load_bin: succesful\n");
+    }else{
+        printf("test_load_bin: failed\n");
+    }
+}
+
+void test_machinecode_to_bininstruction(){
+    bool error;
+
+    uint8_t setRb[4] = {0b01011100, 0b00000000, 0b00000000, 0b00100001};
+    binInstruction_t instr0;
+    machinecode_to_bininstruction(setRb, &instr0);
+
+    if(instr0.type != I){
+        error = true;
+        printf("test_machinecode_to_bininstruction 0: type expected %d but got %d\n", I, instr0.type);
+    }else{
+        if(instr0.typeI.destination != 1){
+            error = true;
+            printf("test_machinecode_to_bininstruction 0: destination expected %d but got %d\n", 1, instr0.typeI.destination);
+        }
+        if(instr0.typeI.immediate != 0){
+            error = true;
+            printf("test_machinecode_to_bininstruction 0: immediate expected %d but got %d\n", 0, instr0.typeI.immediate);
+        }
+        if(instr0.typeI.source != 1){
+            error = true;
+            printf("test_machinecode_to_bininstruction 0: source expected %d but got %d\n", 1, instr0.typeI.source);
+        }
+        if(instr0.typeI.opcode != SET){
+            error = true;
+            printf("test_machinecode_to_bininstruction 0: opcode expected %d but got %d\n", SET, instr0.typeI.opcode);
+        }
+    }
+    
+
+    uint8_t divZero[4] = {0b00000110, 0b00000000, 0b00000100, 0b00100001};
+    binInstruction_t instr1;
+    machinecode_to_bininstruction(divZero, &instr1);
+
+    if(instr1.type != R){
+        error = true;
+        printf("test_machinecode_to_bininstruction 1: type expected %d but got %d\n", R, instr1.type);
+    }else{
+        if(instr1.typeR.destination != 1){
+            error = true;
+            printf("test_machinecode_to_bininstruction 1: destination expected %d but got %d\n", 1, instr1.typeR.destination);
+        }
+        if(instr1.typeR.source2 != 1){
+            error = true;
+            printf("test_machinecode_to_bininstruction 1: source2 expected %d but got %d\n", 1, instr1.typeR.source2);
+        }
+        if(instr1.typeR.source != 1){
+            error = true;
+            printf("test_machinecode_to_bininstruction 1: source expected %d but got %d\n", 1, instr1.typeR.source);
+        }
+        if(instr1.typeR.opcode != DIV){
+            error = true;
+            printf("test_machinecode_to_bininstruction 1: opcode expected %d but got %d\n", DIV, instr1.typeR.opcode);
+        }
+    }
+
+    if(!error){
+        printf("test_machinecode_to_bininstruction: succesful\n");
+    }else{
+        printf("test_machinecode_to_bininstruction: failed\n");
     }
 }
