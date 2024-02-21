@@ -7,12 +7,16 @@
 //Prototypes
 void test_arithmetic_operations();
 void test_memory(void);
+void test_Op_I();
+void test_store_load_set();
 
 
 int main()
 {
     test_arithmetic_operations();
-    //test_memory();
+    test_memory();
+    test_Op_I();
+    test_store_load_set();
     return 0;
 }
 
@@ -99,4 +103,44 @@ void test_memory(void)
     {
         puts("Memory test success");
     }
+}
+
+void test_Op_I(){
+
+    registerArr[0] = 5;
+
+    binInstruction_t testOpI;
+    testOpI.typeI.source = 0;
+    testOpI.typeI.immediate = 3;
+    testOpI.typeI.destination = 2;
+
+    // test the addi instruction, add the immediate 3 to a 5 in a register
+    addi(testOpI);
+    printf("expected result: '8', got: %d \n", registerArr[2]);
+
+    // test the subi instruction, substact the immediate 3 to a 5 in a register
+    subi(testOpI);
+    printf("expected result: '2', got: %d \n", registerArr[2]);
+}
+
+void test_store_load_set()
+{
+    registerArr[0] = 3;
+
+    binInstruction_t testSls;
+    testSls.typeI.source = 0;
+    testSls.typeI.immediate = 6;
+    testSls.typeI.destination = 1;
+
+    // test the stri instruction, store a 6 in a register
+    stri(testSls);
+    printf("expected result: '6', got: %d \n", registerArr[1]);
+
+    // test the ldi instruction, load a 6 from a register
+    ldi(testSls);
+    printf("expected result: '6', got: %d \n", registerArr[1]);
+
+    // test the set instruction, change the set the value of a register to 6
+    set(testSls);
+    printf("expected result: '6', got: %d \n", registerArr[0]);
 }
