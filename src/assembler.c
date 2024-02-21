@@ -65,7 +65,7 @@ int main() // int argc, char **argv)
         bool fileHasError = false;
 
         // Allocate memory for instructionMap
-        line_t **instructionMap = malloc((lineCount) * sizeof(line_t *));
+        line_t *instructionMap = malloc((lineCount) * sizeof(line_t));
 
         if (instructionMap == NULL)
         {
@@ -77,20 +77,18 @@ int main() // int argc, char **argv)
         {
             // malloc line content
             char *lineContent = malloc(100 * sizeof(char));
-            line_t *line = (line_t *)malloc(sizeof(line_t));
 
             line_content_from_file_content(content, j, lineContent);
 
             printf("Line %d: %s\n", j, lineContent);
 
-            if (preprocess_line(lineContent, line, &j) != 0)
+            if (preprocess_line(lineContent, &instructionMap[j], &j) != 0)
             {
                 fileHasError = true;
                 continue; // Go to next line
             }
 
-            // Assign the pointer to line struct to instructionMap
-            instructionMap[j] = line;
+            line_t test = instructionMap[j];
 
             free(lineContent);
         }
@@ -102,7 +100,7 @@ int main() // int argc, char **argv)
         }
         else
         {
-            int resCode = iterate_through_all_line(*instructionMap, lineCount);
+            int resCode = iterate_through_all_line(instructionMap, lineCount);
             if (resCode != 0)
             {
                 printf("Failed to compile!\n");
