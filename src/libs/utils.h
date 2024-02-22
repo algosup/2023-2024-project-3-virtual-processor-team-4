@@ -105,6 +105,7 @@ typedef struct line // Definition of a line after parsing and checking all its a
             union
             {
                 uint8_t register1;
+                char *labelCall1;
                 int16_t immediate1;
             };
             ParameterType_t param2_t;
@@ -260,11 +261,6 @@ int find_register(char *inString, uint8_t *registerIndex)
         return INVALID_DATA;
     }
 
-    if (inString[0] != 'R' && inString[0] != 'r')
-    {
-        return INVALID_DATA;
-    }
-
     if (strcmp(inString, "ip") == 0)
     {
         *registerIndex = 30;
@@ -275,6 +271,11 @@ int find_register(char *inString, uint8_t *registerIndex)
     {
         *registerIndex = 31;
         return SUCCESS;
+    }
+
+    if (inString[0] != 'R' && inString[0] != 'r')
+    {
+        return INVALID_DATA;
     }
 
     char str2[3];
