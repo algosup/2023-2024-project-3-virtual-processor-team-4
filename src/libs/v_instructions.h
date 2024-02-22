@@ -191,7 +191,11 @@ int instr_ldp(binInstruction_t instruction)
 }
 
 int instr_push(binInstruction_t instruction)
-{
+{   
+    if (registerArr[STACK_POINTER] < 4*0xE0000000){
+        printf("Stack overflow while pushing in the stack\n");
+        return STACK_OVERFLOW;
+    }
     uint32_t address = registerArr[STACK_POINTER];
     set_memory_32(address, registerArr[instruction.typeR.source]);
     registerArr[STACK_POINTER] -= 4;
@@ -358,6 +362,10 @@ int instr_bnz(binInstruction_t instruction)
 
 int instr_call(binInstruction_t instruction)
 {
+    if (registerArr[STACK_POINTER] < 4*0xE0000000){
+        printf("Stack overflow while calling a function\n");
+        return STACK_OVERFLOW;
+    }
     uint32_t address = registerArr[STACK_POINTER];
     set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;
@@ -366,6 +374,10 @@ int instr_call(binInstruction_t instruction)
 
 int instr_calli(binInstruction_t instruction)
 {
+    if (registerArr[STACK_POINTER] < 4*0xE0000000){
+        printf("Stack overflow while calling a function\n");
+        return STACK_OVERFLOW;
+    }
     uint32_t address = registerArr[STACK_POINTER];
     set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;

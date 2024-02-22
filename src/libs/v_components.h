@@ -55,6 +55,11 @@ bool memoryInitialized = false;
 #define SYSTEM_SECTION_START 0xE0000000
 #define SYSTEM_SECTION_END 0xFFFFFFFF
 
+// Sub memory ranges
+#define INPUT_SECTION_START 0x80000000
+#define INPUT_SECTION_END 0x800003FF
+#define INPUT_SECTION_SIZE INPUT_SECTION_END - INPUT_SECTION_START
+
 
 
 FILE* get_memory_file(int page, const char* mode)
@@ -225,9 +230,9 @@ void set_memory_32(uint32_t address, uint32_t value)
 // PRINT COMPONENTS
 //__________________
 
-void print_registers(int base);
-void print_register(int reg, int base);
-void print_memory(uint32_t start, uint32_t end, int base);
+int print_registers(int base);
+int print_register(int reg, int base);
+int print_memory(uint32_t start, uint32_t end, int base);
 void print_32b_number(uint32_t number, int base, uint32_t max);
 
 
@@ -243,10 +248,10 @@ void print_32b_number(uint32_t number, int base, uint32_t max)
         if (nibbles == 4){
             printf("0x%04X ", number);
         }else{
-            int16_t b = number >> 16;
+            uint16_t b = number>> 16;
             printf("0x%04X ", b);
             b = number<<16>>16;
-            printf("%04X\n", b);
+            printf("%04X", b);
         }
     }
     else if (base == BIN)
@@ -278,8 +283,13 @@ void print_32b_number(uint32_t number, int base, uint32_t max)
     }
 }
 
-void print_registers(int base)
+int print_registers(int base)
 {
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
     printf("Registers:\n");
     for (int i = 0; i < 32; i++)
     {
@@ -289,15 +299,36 @@ void print_registers(int base)
     }
 }
 
-void print_register(int reg, int base)
-{
+int print_register(int reg, int base)
+{   
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
+    if (reg < 0 || reg > 31)
+    {
+        printf("Invalid register (trying to print)\n");
+        return 1;
+    }
+
     printf("R_%02d: ", reg);
     print_32b_number(registerArr[reg], base, 32);
     printf("\n");
 }
 
-void print_memory(uint32_t start, uint32_t end, int base)
+int print_memory(uint32_t start, uint32_t end, int base)
 {
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
+    if (start < 0 || start > 0xFFFFFFFF || end < 0 || end > 0xFFFFFFFF || start > end)
+    {
+        printf("Invalid memory range (trying to print)\n");
+        return OUT_OF_MEMORY;
+    }
     printf("Memory:\n");
     for (uint32_t i = start; i < end; i += 4)
     {   
@@ -312,5 +343,41 @@ void print_memory(uint32_t start, uint32_t end, int base)
 
 //__________________________________________________________________________________
 
+//____________________________________________________________
+//  VIRTUAL TERMINAL
+//__________________
+
+// To deal with the virtual terminal, we write data in memory at the address 0x80000000 to the address 0x800003FF
+
+int check_input_section();
+
+int check_input_section()
+{   
+    int exit_char_position = 0;
+    char input_section[INPUT_SECTION_SIZE];
+    for (int i = INPUT_SECTION_START; i < INPUT_SECTION_SIZE; i++)
+    {
+        input_section[i] = read_memory_8(INPUT_SECTION_START + i);
+        printf("%d\n", input_section[i]);
+        if (input_section[i] == 0xFF){
+            printf("found\n");
+            exit_char_position = i;
+            set_memory_8(INPUT_SECTION_START + i, 0);
+            break;
+        }
+    }
+    if (exit_char_position == 0){
+        printf("not found\n");
+        return SUCCESS;
+    }
+    for (int i = 0; i < exit_char_position; i++){
+        if (input_section[i] != 0){
+            printf("%c", input_section[i]);
+            set_memory_8(INPUT_SECTION_START + i, 0);
+        }
+    }
+}
+
+//__________________________________________________________________________________
 
 #endif // V_COMPONENTS_H
