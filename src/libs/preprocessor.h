@@ -38,6 +38,7 @@ int are_all_operand_null(InstructionType_t *instructionId, char *param1, char *p
 int is_first_operand_register_or_first_and_second_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
 int is_first_operand_register_and_second_operand_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
 int is_first_operand_register_and_second_operand_immediate_or_are_two_first_operands_registers_and_third_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber, uint8_t paramsNumber);
+int is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
 int are_two_first_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
 int are_two_first_operand_registers_and_third_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int are_first_two_operands_register_and_third_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
@@ -473,7 +474,6 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     case TNEI:
         return are_two_first_operand_registers_and_third_immediate(instructionId, param1, param2, param3, lineNumber);
         break;
-    // Following instructions are not implemented yet
     default:
         printf("Instruction not found");
         return GENERIC_ERROR;
@@ -580,6 +580,13 @@ int is_first_operand_register(InstructionType_t *instructionId, char *param1, ui
 
     if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
     {
+        return INVALID_DATA;
+    }
+
+    if(strcmp(param1, "sp") == 0 || strcmp(param1, "ip") == 0)
+    {
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction first parameter is a read-only register (ip/sp) on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
 
