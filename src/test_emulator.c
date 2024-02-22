@@ -519,6 +519,7 @@ int test_load_bin(){
     }else{
         printf("test_load_bin: failed\n");
     }
+    return 0;
 }
 
 void test_machinecode_to_bininstruction(){
