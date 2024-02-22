@@ -947,8 +947,7 @@ int is_first_operand_register_and_second_operand_register_or_immediate(Instructi
 
 int is_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
-    printf("Param2: %s\n", param2);
-    if (check_is_label(param2) != SUCCESS && check_is_label(param2) != SUCCESS)
+    if (check_is_label(param2) != SUCCESS && check_is_number(param2) != SUCCESS)
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
