@@ -10,6 +10,46 @@
 #include "./libs/v_instructions.h"
 #include "./libs/interpreter.h" //commented while interpreter is not blocking compilation
 
+bool running;
+
+int emulate(char *filepath)
+{
+    int err;
+
+    // Initialize
+    init_memory();
+
+    err = load_bin_to_mem(filepath);
+    if (err != SUCCESS) return err;
+
+    // Loop until halt
+    running = true;
+    while (running)
+    {
+        uint32_t instructionAddress = registerArr[INSTRUCTION_POINTER];
+
+        uint32_t rawInstruction = read_memory_32(instructionAddress);
+
+        binInstruction_t instruction;
+        err = machinecode_to_bininstruction(rawInstruction, &instruction);
+        if (err == HALT)
+        {
+            running = false;
+            break;
+        }
+        if (err != SUCCESS) return err;
+
+        // TODO: Execute instruction
+
+        if (instruction.type != J)
+        {
+            registerArr[INSTRUCTION_POINTER] += 4;
+        }
+    }
+
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char *argv[])
 {
     char *filepath = NULL;
@@ -46,10 +86,12 @@ int main(int argc, char *argv[])
 
     filepath = argv[optind];
 
-    // Execution
-
-    // TODO: Execute the file
-    puts(filepath); // TEMP
+    int status = emulate(filepath);
+    if (status != SUCCESS)
+    {
+        perror("failed to execute the code");
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
