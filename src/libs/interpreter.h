@@ -6,7 +6,7 @@
 
 int read_bin(char*, uint8_t**, uint32_t*);
 int load_bin_to_mem(char*);
-int machinecode_to_bininstruction(uint8_t*, binInstruction_t*);
+int machinecode_to_bininstruction(uint32_t, binInstruction_t*);
 int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
 int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
 int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
@@ -63,36 +63,31 @@ int load_bin_to_mem(char* inputFile){
     return SUCCESS;
 }
 
-int machinecode_to_bininstruction(uint8_t* byteIn, binInstruction_t* instruction){
+int machinecode_to_bininstruction(uint32_t bytes, binInstruction_t* instruction){
     uint8_t opcode;
 
     //calculate source, source2, immediate, and dest
-    uint8_t source = (byteIn[2] & 0b00000011) << 3;
-    source = source | byteIn[3] >> 5;
+    uint8_t source = (bytes & 0b1111100000) >> 5;
 
-    uint8_t source2 = (byteIn[2] & 0b01111100) >> 2;
+    uint8_t source2 = (bytes & 0b111110000000000) >> 10;
 
-    uint8_t dest = byteIn[3] & 0b00011111; //mask the last three bits
+    uint8_t dest = bytes & 0b11111; //mask the last three bits
 
-    int16_t immediate = byteIn[0] << 14;
-    immediate = immediate | byteIn[1] << 6;
-    immediate = immediate | byteIn[2] >> 2;
+    int16_t immediate = bytes >> 10;
 
-    if(byteIn[0] >> 6 == true){
-        // every type I instruction has this patern 01000000
-        instruction->type = I;
-        opcode = byteIn[0] >> 2;
-
-        return opcode_type_I(instruction, opcode, source, dest, immediate);
-
-    }else if(byteIn[0] >> 7 == true){
-        // every type I instruction has this patern 01000000
+    if(bytes & 0x80000000){
+        // every type J instruction has the first bit set
         instruction->type = J;
-        opcode = byteIn[0] >> 4;
+        opcode = bytes >> 28;
         return opcode_type_J(instruction, opcode, dest, immediate);
+    } else if(bytes & 0x40000000) {
+        // every type I instruction has first bit unset and second bit set
+        instruction->type = I;
+        opcode = bytes >> 26;
+        return opcode_type_I(instruction, opcode, source, dest, immediate);
     }else{
         instruction->type = R;
-        opcode = byteIn[0] >> 1;
+        opcode = bytes >> 25;
         return opcode_type_R(instruction, opcode, source, source2, dest);
     } 
 };
