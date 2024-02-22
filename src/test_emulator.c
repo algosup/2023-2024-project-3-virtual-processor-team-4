@@ -27,13 +27,7 @@ void test_comparison_immediate();
 
 int main()
 {   
-    //execute_tests();
-    
-    print_register(5, BIN);
-    print_registers(DEC);
-    init_memory();
-    set_memory_32(0xFFF9, 0x12345678);
-    print_memory(0xFFF0, 0xFFFF, HEX);
+    execute_tests();
 
     return 0;
 }
@@ -55,6 +49,12 @@ void execute_tests(){
     test_load_bin();
     test_machinecode_to_bininstruction();
     test_comparison_immediate();
+
+    print_register(5, BIN);
+    print_registers(DEC);
+    init_memory();
+    set_memory_32(0xFFF9, 0x12345678);
+    print_memory(0xFFF0, 0xFFFF, HEX);
 }
 
 void test_arithmetic_operations(){
