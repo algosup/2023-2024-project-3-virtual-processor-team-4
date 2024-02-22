@@ -228,24 +228,53 @@ void set_memory_32(uint32_t address, uint32_t value)
 void print_registers(int base);
 void print_register(int reg, int base);
 void print_memory(uint32_t start, uint32_t end, int base);
-void print_number(uint32_t number, int base);
+void print_32b_number(uint32_t number, int base, uint32_t max);
 
-void print_number(uint32_t number, int base)
+
+void print_32b_number(uint32_t number, int base, uint32_t max)
 {
-    if (base == DEC)
-        printf("%d", number);
-    else if (base == HEX)
-        printf("0x%x", number);
-    else if (base == BIN)
+    //nibbles is the number of nibbles to print, so we print numbers by block of 4 digits in hexa and binary and 3 digits in decimal
+    if (base == HEX)
     {   
-        int counter = 0;
-        for (int i = 31; i >= 0; i--){
-            counter ++;
-            printf("%d", (number >> i) & 1);
-            if (counter % 4 == 0)
-                printf(" ");
+        int nibbles = 4;
+        if (max > 0xFFFF){
+            nibbles = 8;
         }
-            
+        if (nibbles == 4){
+            printf("0x%04X ", number);
+        }else{
+            int16_t b = number >> 16;
+            printf("0x%04X ", b);
+            b = number<<16>>16;
+            printf("%04X\n", b);
+        }
+    }
+    else if (base == BIN)
+    {
+        int nibbles = 8;
+        int counter = nibbles;
+        for (int i = 0; i <= counter; i++)
+        {
+            if (max << i*4 >> i*4 == max){ nibbles--;}
+        }
+        if (nibbles == 0){nibbles = 1;}
+        printf("0b");
+        for (int i = nibbles*4-1; i >= 0; i--)
+        {
+            printf("%d", (number >> i) & 1);
+            if (i % 4 == 0)
+            {
+                printf(" ");
+            }
+        }
+    }
+    else if (base == DEC)
+    {
+        printf("%d", number);
+    }
+    else
+    {
+        printf("Invalid base");
     }
 }
 
@@ -254,16 +283,16 @@ void print_registers(int base)
     printf("Registers:\n");
     for (int i = 0; i < 32; i++)
     {
-        printf("R%d: ", i);
-        print_number(registerArr[i], base);
+        printf("R_%02d: ", i);
+        print_32b_number(registerArr[i], base, 32);
         printf("\n");
     }
 }
 
 void print_register(int reg, int base)
 {
-    printf("R%d: ", reg);
-    print_number(registerArr[reg], base);
+    printf("R_%02d: ", reg);
+    print_32b_number(registerArr[reg], base, 32);
     printf("\n");
 }
 
@@ -271,13 +300,15 @@ void print_memory(uint32_t start, uint32_t end, int base)
 {
     printf("Memory:\n");
     for (uint32_t i = start; i < end; i += 4)
-    {
-        print_number(i, HEX);
-        printf(": ");
-        print_number(read_memory_32(i), base);
+    {   
+        print_32b_number(i, HEX, end);
+        printf(" : ");
+        uint32_t value = read_memory_32(i);
+        print_32b_number(value, base, 0xFFFFFFFF);
         printf("\n");
     }
 }
+
 
 //__________________________________________________________________________________
 
