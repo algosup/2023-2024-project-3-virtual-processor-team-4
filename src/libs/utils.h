@@ -18,6 +18,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
+    HALT,
 } ErrorType_t;
 
 typedef enum binType{

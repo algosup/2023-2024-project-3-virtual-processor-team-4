@@ -1,6 +1,8 @@
 #ifndef V_INSTRUCTIONS_H
 #define V_INSTRUCTIONS_H
 
+extern bool running;
+
 //__________________________________________________________________________________________________
 //  VIRTUAL INSTRUCTIONS PROTOTYPES
 //_____________________
@@ -374,6 +376,11 @@ int instr_calli(binInstruction_t instruction)
 
 int instr_ret(binInstruction_t instruction)
 {
+    if (instruction.typeR.destination)
+    {
+        running = false;
+        return HALT;
+    }
     registerArr[STACK_POINTER] += 4;
     uint32_t address = registerArr[STACK_POINTER];
     registerArr[INSTRUCTION_POINTER] = read_memory_32(address);
