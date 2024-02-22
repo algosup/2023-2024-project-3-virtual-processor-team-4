@@ -557,6 +557,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
         }
         
         if(notTwoArg && instruction.param1_t != NULL_){
+            error = true;
             printf("Error: too many argument in line %d\n", instruction.lineNumber);
         }else if(instruction.param1_t == LABEL){
             if(hasSetLabel){
