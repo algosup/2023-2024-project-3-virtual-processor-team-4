@@ -4,6 +4,7 @@
 #include "./libs/v_instructions.h"
 #include "./libs/interpreter.h" //commented while interpreter is not blocking compilation
 
+
 //Prototypes
 void test_arithmetic_operations();
 void test_logical_operations();
@@ -17,10 +18,26 @@ void test_store_load_set();
 void test_logic_op_immediate();
 int test_load_bin();
 void test_machinecode_to_bininstruction();
+void execute_tests();
 
 
 int main()
-{
+{   
+    //execute_tests();
+    print_register(0, DEC);
+    print_registers(DEC);
+    print_memory(0, 5, BIN);
+
+    return 0;
+}
+
+
+
+
+
+//TESTS
+
+void execute_tests(){
     test_arithmetic_operations();
     test_logical_operations();
     test_instr_abs();
@@ -32,12 +49,7 @@ int main()
     test_logic_op_immediate();
     test_load_bin();
     test_machinecode_to_bininstruction();
-
-    return 0;
 }
-
-
-//TESTS
 
 void test_arithmetic_operations(){
     registerArr[0] = 5;

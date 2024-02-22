@@ -14,6 +14,10 @@
 #include <sys/types.h>
 #endif
 
+#define DEC 10
+#define HEX 16
+#define BIN 2
+
 //__________________________________________________________________________________________________
 //  THE VIRTUAL COMPONENTS OF THE ARCHITECTURE
 //__________________________________________________________________________________________________
@@ -215,5 +219,67 @@ void set_memory_32(uint32_t address, uint32_t value)
 }
 
 //__________________________________________________________________________________
+
+
+//______________________________________________
+// PRINT COMPONENTS
+//__________________
+
+void print_registers(int base);
+void print_register(int reg, int base);
+void print_memory(uint32_t start, uint32_t end, int base);
+void print_number(uint32_t number, int base);
+
+void print_number(uint32_t number, int base)
+{
+    if (base == DEC)
+        printf("%d", number);
+    else if (base == HEX)
+        printf("0x%x", number);
+    else if (base == BIN)
+    {   
+        int counter = 0;
+        for (int i = 31; i >= 0; i--){
+            counter ++;
+            printf("%d", (number >> i) & 1);
+            if (counter % 4 == 0)
+                printf(" ");
+        }
+            
+    }
+}
+
+void print_registers(int base)
+{
+    printf("Registers:\n");
+    for (int i = 0; i < 32; i++)
+    {
+        printf("R%d: ", i);
+        print_number(registerArr[i], base);
+        printf("\n");
+    }
+}
+
+void print_register(int reg, int base)
+{
+    printf("R%d: ", reg);
+    print_number(registerArr[reg], base);
+    printf("\n");
+}
+
+void print_memory(uint32_t start, uint32_t end, int base)
+{
+    printf("Memory:\n");
+    for (uint32_t i = start; i < end; i += 4)
+    {
+        print_number(i, HEX);
+        printf(": ");
+        print_number(read_memory_32(i), base);
+        printf("\n");
+    }
+}
+
+//__________________________________________________________________________________
+
 
 #endif // V_COMPONENTS_H
