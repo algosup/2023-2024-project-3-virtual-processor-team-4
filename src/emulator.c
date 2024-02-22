@@ -1,3 +1,9 @@
+#include <errno.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include "./libs/utils.h"
 //#include "./libs/clock.h"
 #include "./libs/v_components.h"
@@ -5,6 +11,7 @@
 #include "./libs/interpreter.h" //commented while interpreter is not blocking compilation
 
 //Prototypes
+void all_tests(void);
 void test_arithmetic_operations();
 void test_logical_operations();
 void test_instr_abs();
@@ -19,7 +26,65 @@ int test_load_bin();
 void test_machinecode_to_bininstruction();
 
 
-int main()
+int main(int argc, char *argv[])
+{
+    char *filepath = NULL;
+    bool run_tests = false;
+
+    // Parse arguments
+
+    char opt;
+    while((opt = getopt(argc, argv, "t")) != -1)
+    {
+        switch(opt)
+        {
+            case 't':
+                run_tests = true;
+                break;
+            case '?':
+                errno = EINVAL;
+                return EXIT_FAILURE;
+            default:
+                errno = EINVAL;
+                char message[19];
+                sprintf(message, "unknown option '%c'", optopt);
+                perror(message);
+                return EXIT_FAILURE;
+        }
+    }
+
+    if (optind != argc - 1 && !run_tests)
+    {
+        errno = EINVAL;
+        perror("expecting exactly one argument for file path");
+        return EXIT_FAILURE;
+    }
+    
+    if (optind == argc - 1 && run_tests)
+    {
+        errno = EINVAL;
+        perror("cannot run tests and execute a program simultaneously");
+        return EXIT_FAILURE;
+    }
+
+    filepath = argv[optind];
+
+    // Execution
+
+    if (run_tests)
+    {
+        all_tests();
+        return EXIT_SUCCESS;
+    }
+
+    // TODO: Execute the file
+    puts(filepath); // TEMP
+
+    return EXIT_SUCCESS;
+} 
+
+
+void all_tests(void)
 {
     test_arithmetic_operations();
     test_logical_operations();
@@ -32,8 +97,6 @@ int main()
     test_logic_op_immediate();
     test_load_bin();
     test_machinecode_to_bininstruction();
-
-    return 0;
 }
 
 
