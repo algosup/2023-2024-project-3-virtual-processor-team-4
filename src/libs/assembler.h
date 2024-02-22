@@ -588,7 +588,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
             hasSetRegister = true;
         }
         
-        if (instruction.param1_t == NULL || instruction.dest_t == NULL){
+        if (instruction.param1_t == NULL_ || instruction.dest_t == NULL_){
             if(!hasSetLabel){
                 bin->typeJ.addres = 0; 
             }

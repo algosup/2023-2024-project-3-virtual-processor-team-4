@@ -214,8 +214,8 @@ int check_is_label(char *str) // Check if the line content is a label
     int i = 0;
     while (str[i] != '\0')
     {
-        // Check if character is in alphabet
-        if (!(str[i] >= 'a' && str[i] <= 'z'))
+        // Check if character is in alphabet upper or lower case
+        if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
         {
             return INVALID_DATA;
         }
@@ -302,7 +302,7 @@ int get_list_label(listLabel_t *pList, label_t *value, int index)
         {
             current = current->next;
         }
-        value->labelStr = malloc(strlen(current->val.labelStr)+1);
+        value->labelStr = malloc(strlen(current->val.labelStr) + 1);
         strcpy(value->labelStr, current->val.labelStr);
         value->line = current->val.line;
     }

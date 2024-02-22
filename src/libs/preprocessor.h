@@ -43,7 +43,7 @@ int are_two_first_operand_registers_and_third_immediate(InstructionType_t *instr
 int are_first_two_operands_register_and_third_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int are_two_first_operand_registers_or_are_all_operands_registers(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber, uint8_t paramsNumber);
 int is_first_operand_register_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
-int is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber, uint8_t paramsNumber);
+int is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber, uint8_t paramsNumber);
 int are_first_two_operands_register_and_third_register_or_immediate_or_is_first_operand_register_and_second_operand_register_or_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber, uint8_t paramsNumber);
 int get_operand_name(InstructionType_t instruction, char *output);
 int find_operand(char *opcode, InstructionType_t *instructionType);
@@ -209,8 +209,12 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
     {
         if (find_register(param1, &line->register1) == SUCCESS)
         {
-            // line->register1 = atoi(param1);
             line->param1_t = REGISTER;
+        }
+        else if (check_is_label(param1) == SUCCESS)
+        {
+            line->param1_t = LABEL;
+            line->labelCall1 = param1;
         }
         else if (check_is_number(param1) == SUCCESS)
         {
@@ -418,7 +422,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case B:
     case CALL:
-        return is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate(instructionId, param1, param2, lineNumber, count_non_null_params(param1, param2, param3));
+        return is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate_or_label(instructionId, param1, param2, lineNumber, count_non_null_params(param1, param2, param3));
         break;
     case BI:
     case CALLI:
@@ -926,7 +930,29 @@ int is_first_operand_register_and_second_operand_register_or_immediate(Instructi
     return SUCCESS;
 }
 
-int is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber, uint8_t paramsNumber)
+int is_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
+{
+    printf("Param2: %s\n", param2);
+    if (check_is_label(param2) != SUCCESS && check_is_label(param2) != SUCCESS)
+    {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction second parameter is not an immediate or label on line: %" PRIu64 "\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
+{
+    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_immediate_or_label(instructionId, param2, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+    return SUCCESS;
+}
+
+int is_first_operand_register_or_is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber, uint8_t paramsNumber)
 {
     if (paramsNumber == 1)
     {
@@ -938,7 +964,7 @@ int is_first_operand_register_or_is_first_operand_register_and_second_operand_im
     }
     else if (paramsNumber == 2)
     {
-        if (is_second_operand_immediate(instructionId, param2, lineNumber) != SUCCESS && is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS)
+        if (is_first_operand_register_and_second_operand_immediate_or_label(instructionId, param1, param2, lineNumber) != SUCCESS)
         {
             return GENERIC_ERROR;
         }
