@@ -193,7 +193,7 @@ uint32_t read_memory_32(uint32_t address)
 {
     // Weirdly enough, this code is actually optimized for all edge cases
     uint32_t value;
-    for (int i = 3; i >= 0; i--)
+    for (int i = 0; i < 4; i++)
     {
         value <<= 8;
         value |= read_memory_8(address + i);
@@ -211,7 +211,7 @@ void set_memory_8(uint32_t address, uint8_t value)
 void set_memory_32(uint32_t address, uint32_t value)
 {
     // Weirdly enough, this code is actually optimized for all edge cases
-    for (int i = 0; i < 4; i++)
+    for (int i = 3; i >= 0; i--)
     {
         set_memory_8(address + i, value & 0xff);
         value >>= 8;
