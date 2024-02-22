@@ -19,6 +19,7 @@ void test_logic_op_immediate();
 int test_load_bin();
 void test_machinecode_to_bininstruction();
 void execute_tests();
+void test_comparison_immediate();
 
 
 
@@ -48,6 +49,7 @@ void execute_tests(){
     test_logic_op_immediate();
     test_load_bin();
     test_machinecode_to_bininstruction();
+    test_comparison_immediate();
 }
 
 void test_arithmetic_operations(){
@@ -216,7 +218,7 @@ void test_logical_comaparisons(){
     instr_tne(testTNE);
 
     if (registerArr[8] != 1){
-        printf("Tesing logical comparison test failed: Expected 1, got %d\n", registerArr[8]);
+        printf("Testing logical comparison test failed: Expected 1, got %d\n", registerArr[8]);
         return;
     }else{
         puts("Testing logical comparison test succeed");
@@ -348,13 +350,64 @@ void test_logic_op_immediate()
     testLogicI.typeI.destination = 1;
 
     instr_ori(testLogicI);
-    printf("expected '1', got %d \n", registerArr[1]);
+    printf("expected result: '7', got: %d \n", registerArr[1]);
 
     instr_andi(testLogicI);
-    printf("expected'0', got %d \n", registerArr[1]);
+    printf("expected result: '5', got: %d \n", registerArr[1]);
 
     instr_xori(testLogicI);
-    printf("expected result: '1', got %d \n", registerArr[1]);
+    printf("expected result: '2', got: %d \n", registerArr[1]);
+}
+
+void test_comparison_immediate()
+{
+
+    registerArr[0] = 10;
+    registerArr[1] = 20;
+
+    binInstruction_t testTLTI;
+    testTLTI.typeI.source = 0;
+    testTLTI.typeI.immediate = 20;
+    testTLTI.typeI.destination = 2;
+
+    binInstruction_t testTLEI;
+    testTLEI.typeI.source = 0;
+    testTLEI.typeI.immediate = 10;
+    testTLEI.typeI.destination = 3;
+
+    binInstruction_t testTGTI;
+    testTGTI.typeI.source = 1;
+    testTGTI.typeI.immediate = 10;
+    testTGTI.typeI.destination = 4;
+
+    binInstruction_t testTGEI;
+    testTGEI.typeI.source = 0;
+    testTGEI.typeI.immediate = 10;
+    testTGEI.typeI.destination = 5;
+
+    binInstruction_t testTEQI;
+    testTEQI.typeI.source = 0;
+    testTEQI.typeI.immediate = 10;
+    testTEQI.typeI.destination = 6;
+
+    binInstruction_t testTNEI;
+    testTNEI.typeI.source = 0;
+    testTNEI.typeI.immediate = 20;
+    testTNEI.typeI.destination = 7;
+
+    instr_tlti(testTLTI);
+    instr_tlei(testTLEI);
+    instr_tgti(testTGTI);
+    instr_tgei(testTGEI);
+    instr_teqi(testTEQI);
+    instr_tnei(testTNEI);
+
+    if (registerArr[2] == 1 && registerArr[3] == 1 && registerArr[4] == 1 && registerArr[5] == 1 && registerArr[6] == 1 && registerArr[7] == 1)
+    {
+        printf("all comparison with immediate tests passed \n");
+    } else {
+        printf("all comparison with immediate test did not pass \n");
+    }
 }
 
 int test_load_bin(){
