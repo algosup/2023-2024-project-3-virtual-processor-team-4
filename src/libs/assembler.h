@@ -171,7 +171,7 @@ int get_labels(line_t *instructions, uint64_t arrSize)
             char* label = malloc(strlen(instructions[i].labelDef) + 1);
             strcpy(label, instructions[i].labelDef);
 
-            label_t tmp = {machineCodeLineNumber + 1, label};
+            label_t tmp = {machineCodeLineNumber, label};
             add_to_list_label(&labelList, tmp);
         }
         else if (instructions[i].mnemonic != SKIP)
@@ -511,6 +511,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
 
     bin->type = J;
 
+    
     if (instruction.mnemonic == inst)
     {
         bin->typeJ.opcode = opcode;
@@ -521,57 +522,81 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
         error = true;
     }
 
-    int32_t addres;
-    if (instruction.dest_t == NULL_)
-    {
+    if(instruction.mnemonic == RET){
         bin->typeJ.addres = 0;
-    }
-    else if (instruction.dest_t == REGISTER)
-    {
-        bin->typeJ.addres = instruction.dest;
-    }
-    else if (instruction.dest_t == LABEL)
-    {
-        if (find_label_line(instruction.labelCall, &addres) != SUCCESS)
-        {
-            error = true;
-        }
-        else if(instruction.mnemonic == JMP)
-        {
-            bin->typeJ.addres = addres;
-        }else{
-            bin->typeJ.addres = addres - instruction.lineNumber;
-        }
-    }else if(instruction.dest_t == IMMEDIATE){
-        if(instruction.mnemonic == JMP)
-        {
-            bin->typeJ.addres = instruction.immediateDest + instruction.lineNumber;
-        }else{
-            bin->typeJ.addres = instruction.immediateDest;
-        }
-    }
-    else
-    {
-        printf("Error: Invalid destination. Line %d\n", instruction.lineNumber);
-        error = true;
-    }
-    
-    
-    if (instruction.param1_t == REGISTER)
-    {
-        bin->typeJ.register_ = instruction.register1;
-    }
-    else if (instruction.param1_t == NULL_)
-    {
         bin->typeJ.register_ = 0;
-    }
-    else
-    {
-        error = true;
-        printf("Error: Invalid Register. Line %d\n", instruction.lineNumber);
-    }
+    }else{
+        int32_t addres;
+        bool hasSetLabel = false;
+        bool hasSetRegister = false;
 
-    bin->typeJ.addres = addres;
+        if(instruction.dest_t == LABEL){
+            if (find_label_line(instruction.labelCall, &addres) != SUCCESS)
+            {
+                error = true;
+            }
+            else if(instruction.mnemonic == JMP)
+            {
+                bin->typeJ.addres = addres;
+            }else{
+                bin->typeJ.addres = addres - instruction.lineNumber;
+            }
+            hasSetLabel = true;
+        }else if(instruction.dest_t == IMMEDIATE){
+            if(instruction.mnemonic == JMP)
+            {
+                bin->typeJ.addres = instruction.immediateDest + instruction.lineNumber;
+            }else{
+                bin->typeJ.addres = instruction.immediateDest;
+            }
+            hasSetLabel = true;
+        }else if (instruction.dest_t == REGISTER)
+        {
+            bin->typeJ.register_ = instruction.dest;
+            hasSetRegister = true;
+        }
+        
+        if(instruction.param1_t == LABEL){
+            if(hasSetLabel){
+                error = true;
+                printf("Error: Two adress are defined at line %d", instruction.lineNumber);
+            }else if (find_label_line(instruction.labelCall1, &addres) != SUCCESS)
+            {
+                error = true;
+            }
+            else if(instruction.mnemonic == JMP)
+            {
+                bin->typeJ.addres = addres;
+            }else{
+                bin->typeJ.addres = addres - instruction.lineNumber;
+            }
+            hasSetLabel = true;
+        }else if(instruction.dest_t == IMMEDIATE){
+            if(hasSetLabel){
+                error = true;
+                printf("Error: Two adress are defined at line %d", instruction.lineNumber);
+            }else if(instruction.mnemonic == JMP)
+            {
+                bin->typeJ.addres = instruction.immediate1 + instruction.lineNumber;
+            }else{
+                bin->typeJ.addres = instruction.immediate1;
+            }
+            hasSetLabel = true;
+        }else if (instruction.param1_t == REGISTER)
+        {
+            bin->typeJ.register_ = instruction.register1;
+            hasSetRegister = true;
+        }
+        
+        if (instruction.param1_t == NULL || instruction.dest_t == NULL){
+            if(!hasSetLabel){
+                bin->typeJ.addres = 0; 
+            }
+            if(!hasSetRegister){
+                bin->typeJ.register_ = 0; 
+            }
+        }
+    }
 
     if (error == false)
     {
