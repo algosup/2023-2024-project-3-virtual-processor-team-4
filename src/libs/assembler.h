@@ -168,11 +168,10 @@ int get_labels(line_t *instructions, uint64_t arrSize)
     {
         if (instructions[i].mnemonic == LABEL_)
         {
-            char* label;
-            label = malloc(strlen(instructions[2].labelDef) + 1);
-            strcpy(label, instructions[2].labelDef);
+            char* label = malloc(strlen(instructions[i].labelDef) + 1);
+            strcpy(label, instructions[i].labelDef);
 
-            label_t tmp = {machineCodeLineNumber + 1, "test"};
+            label_t tmp = {machineCodeLineNumber + 1, label};
             add_to_list_label(&labelList, tmp);
         }
         else if (instructions[i].mnemonic != SKIP)
@@ -644,7 +643,7 @@ int andi(line_t instruction)
 int b(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, B, 8);
+    ErrorType_t err = check_type_J(instruction, &bin, B, 0b1000);
     if (err != SUCCESS)
     {
         return err;
@@ -666,7 +665,7 @@ int bi(line_t instruction)
 int bnz(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 0b1011);
     if (err != SUCCESS)
     {
         return err;
@@ -677,7 +676,7 @@ int bnz(line_t instruction)
 int bz(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 10);
+    ErrorType_t err = check_type_J(instruction, &bin, BZ, 0b1010);
     if (err != SUCCESS)
     {
         return err;
@@ -699,7 +698,7 @@ int call(line_t instruction)
 int calli(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    ErrorType_t err = check_type_J(instruction, &bin, CALLI, 0b1101);
     if (err != SUCCESS)
     {
         return err;
@@ -721,7 +720,7 @@ int div_(line_t instruction)
 int jmp(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    ErrorType_t err = check_type_J(instruction, &bin, JMP, 0b1111);
     if (err != SUCCESS)
     {
         return err;
@@ -820,7 +819,7 @@ int push(line_t instruction)
 int ret(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 11);
+    ErrorType_t err = check_type_J(instruction, &bin, RET, 0b1110);
     if (err != SUCCESS)
     {
         return err;

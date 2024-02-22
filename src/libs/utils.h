@@ -301,6 +301,7 @@ int get_list_label(listLabel_t *pList, label_t *value, int index)
         {
             current = current->next;
         }
+        value->labelStr = malloc(strlen(current->val.labelStr)+1);
         strcpy(value->labelStr, current->val.labelStr);
         value->line = current->val.line;
     }
