@@ -11,6 +11,7 @@ void test_logical_operations();
 void test_instr_abs();
 void test_logical_comaparisons();
 void test_store_load_typeR();
+void test_xchg();
 void test_memory(void);
 void test_stack(void);
 void test_arithmetic_operations();
@@ -44,6 +45,7 @@ void execute_tests(){
     test_instr_abs();
     test_logical_comaparisons();
     test_store_load_typeR();
+    test_xchg();
     test_memory();
     test_stack();
     test_Op_I();
@@ -266,6 +268,28 @@ void test_store_load_typeR(){
         puts("instr_ldp test succeed");
     }
 
+}
+
+void test_xchg(){
+    registerArr[0] = 1;
+    registerArr[1] = 2;
+
+    binInstruction_t testXCHG;
+    testXCHG.typeR.source = 0;
+    testXCHG.typeR.source2 = 1;
+
+    instr_xchg(testXCHG);
+
+    if (registerArr[0] != 2){
+        printf("instr_xchg test failed: Expected 2, got %d\n", registerArr[0]);
+        return;
+    }else if (registerArr[1] != 1){
+        printf("instr_xchg test failed: Expected 1, got %d\n", registerArr[1]);
+        return;
+    }else{
+        puts("instr_xchg test succeed");
+    }
+    
 }
 
 void test_memory(void)
