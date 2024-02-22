@@ -258,7 +258,7 @@ int instr_xori(binInstruction_t instruction)
 
 int instr_set(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.source] = instruction.typeI.immediate;
+    registerArr[instruction.typeI.source] = (instruction.typeI.immediate << 5) | instruction.typeI.source;
     return SUCCESS;
 }
 
