@@ -27,15 +27,14 @@ void test_comparison_immediate();
 
 int main()
 {   
-    execute_tests();
+    //execute_tests();
+    
     print_register(5, BIN);
     print_registers(HEX);
-    print_memory(10, 50, BIN);
+    print_memory(10, 20, DEC);
 
     return 0;
 }
-
-
 
 //TESTS
 
