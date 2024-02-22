@@ -591,3 +591,31 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Status          | To Test                                   |
 | Test Case Priority        | Medium 2                                  |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### ip read-only
+
+| Test Case ID              | 42                                        |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ip read-only                              |
+| Test Case Description     | Check if we can write in the ip register. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set ip 2```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product should send an error.         |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 3                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### sp read-only
+
+| Test Case ID              | 43                                        |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | sp read-only                              |
+| Test Case Description     | Check if we can write in the sp register. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set sp 2```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product should send an error.         |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 3                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
