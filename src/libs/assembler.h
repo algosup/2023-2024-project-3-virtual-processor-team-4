@@ -176,8 +176,8 @@ int get_labels(line_t *instructions, uint64_t arrSize)
         }
         else if (instructions[i].mnemonic != SKIP)
         {
-            machineCodeLineNumber++;
             instructions[i].lineNumber = machineCodeLineNumber;
+            machineCodeLineNumber++;
         }
     }
 
