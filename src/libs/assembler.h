@@ -574,7 +574,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
                 bin->typeJ.addres = addres - instruction.lineNumber;
             }
             hasSetLabel = true;
-        }else if(instruction.dest_t == IMMEDIATE){
+        }else if(instruction.param1_t == IMMEDIATE){
             if(hasSetLabel){
                 error = true;
                 printf("Error: Two adress are defined at line %d\n", instruction.lineNumber);
