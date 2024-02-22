@@ -505,7 +505,7 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t *bin, InstructionT
     }
 }
 
-ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionType_t inst, uint8_t opcode)
+ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionType_t inst, uint8_t opcode, bool notTwoArg)
 {
     bool error = false;
 
@@ -556,10 +556,12 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
             hasSetRegister = true;
         }
         
-        if(instruction.param1_t == LABEL){
+        if(notTwoArg && instruction.param1_t != NULL_){
+            printf("Error: too many argument in line %d\n", instruction.lineNumber);
+        }else if(instruction.param1_t == LABEL){
             if(hasSetLabel){
                 error = true;
-                printf("Error: Two adress are defined at line %d", instruction.lineNumber);
+                printf("Error: Two adress are defined at line %d\n", instruction.lineNumber);
             }else if (find_label_line(instruction.labelCall1, &addres) != SUCCESS)
             {
                 error = true;
@@ -574,7 +576,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
         }else if(instruction.dest_t == IMMEDIATE){
             if(hasSetLabel){
                 error = true;
-                printf("Error: Two adress are defined at line %d", instruction.lineNumber);
+                printf("Error: Two adress are defined at line %d\n", instruction.lineNumber);
             }else if(instruction.mnemonic == JMP)
             {
                 bin->typeJ.addres = instruction.immediate1 + instruction.lineNumber;
@@ -669,7 +671,7 @@ int andi(line_t instruction)
 int b(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, B, 0b1000);
+    ErrorType_t err = check_type_J(instruction, &bin, B, 0b1000, false);
     if (err != SUCCESS)
     {
         return err;
@@ -680,7 +682,7 @@ int b(line_t instruction)
 int bi(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BI, 9);
+    ErrorType_t err = check_type_J(instruction, &bin, BI, 9, true);
     if (err != SUCCESS)
     {
         return err;
@@ -691,7 +693,7 @@ int bi(line_t instruction)
 int bnz(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 0b1011);
+    ErrorType_t err = check_type_J(instruction, &bin, BNZ, 0b1011, false);
     if (err != SUCCESS)
     {
         return err;
@@ -702,7 +704,7 @@ int bnz(line_t instruction)
 int bz(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, BZ, 0b1010);
+    ErrorType_t err = check_type_J(instruction, &bin, BZ, 0b1010, false);
     if (err != SUCCESS)
     {
         return err;
@@ -713,7 +715,7 @@ int bz(line_t instruction)
 int call(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, CALL, 12);
+    ErrorType_t err = check_type_J(instruction, &bin, CALL, 12, false);
     if (err != SUCCESS)
     {
         return err;
@@ -724,7 +726,7 @@ int call(line_t instruction)
 int calli(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, CALLI, 0b1101);
+    ErrorType_t err = check_type_J(instruction, &bin, CALLI, 0b1101, true);
     if (err != SUCCESS)
     {
         return err;
@@ -746,7 +748,7 @@ int div_(line_t instruction)
 int jmp(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, JMP, 0b1111);
+    ErrorType_t err = check_type_J(instruction, &bin, JMP, 0b1111, true);
     if (err != SUCCESS)
     {
         return err;
@@ -845,7 +847,7 @@ int push(line_t instruction)
 int ret(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_J(instruction, &bin, RET, 0b1110);
+    ErrorType_t err = check_type_J(instruction, &bin, RET, 0b1110, false);
     if (err != SUCCESS)
     {
         return err;
