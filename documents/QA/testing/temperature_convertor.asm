@@ -1,7 +1,7 @@
 set ra 0
 
 calli celsiusToKelvin
-calli celisusToFarhenheit
+calli celisusToFahrenheit
 jmp exitProg
 
 celsiusToKelvin:
@@ -9,7 +9,7 @@ addi rb ra 0
 addi rb 273
 ret
 
-celsiusToFarenheit:
+celisusToFahrenheit:
 addi rc ra 0
 set rd 9
 set re 5

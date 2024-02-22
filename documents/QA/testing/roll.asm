@@ -1,18 +1,18 @@
 set ra x234561
 
-tle rt ra xF
+tlei rt ra xF
 bnz rt exitProg
 addi rb ra 0
 addi rc ra 0
-tle rt ra xFF
+tlei rt ra xFF
 bnz rt twoDigits
-tle rt ra xFFF
+tlei rt ra xFFF
 bnz rt threeDigits
-tle rt ra xFFFF
+tlei rt ra xFFFF
 bnz rt fourDigits
-tle rt ra xFFFFF
+tlei rt ra xFFFFF
 bnz rt fiveDigits
-tle rt ra xFFFFFF
+tlei rt ra xFFFFFF
 bnz rt sixDigits
 jmp exitProg
 
