@@ -436,6 +436,8 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case BNZ:
     case BZ:
+        return is_first_operand_register_and_second_operand_immediate_or_label(instructionId, param1, param2, lineNumber);
+        break;
     case LDI:
     case SET:
     case STRI:
