@@ -10,6 +10,7 @@ void test_arithmetic_operations();
 void test_logical_operations();
 void test_instr_abs();
 void test_logical_comaparisons();
+void test_store_load_typeR();
 void test_memory(void);
 void test_stack(void);
 void test_arithmetic_operations();
@@ -41,6 +42,7 @@ void execute_tests(){
     test_logical_operations();
     test_instr_abs();
     test_logical_comaparisons();
+    test_store_load_typeR();
     test_memory();
     test_stack();
     test_Op_I();
@@ -221,6 +223,47 @@ void test_logical_comaparisons(){
     }else{
         puts("Testing logical comparison test succeed");
     }
+}
+
+void test_store_load_typeR(){
+    registerArr[0] = 3;
+
+    binInstruction_t testSls;
+    testSls.typeR.source = 0;
+    testSls.typeR.destination = 1;
+
+    // test the stri instruction, store a 6 in a register
+    instr_str(testSls);
+    if (registerArr[1] != 3){
+        printf("instr_str test failed: Expected 3, got %d\n", registerArr[1]);
+    }else{
+        puts("instr_str test succeed");
+    }
+
+    // test the ldi instruction, load a 6 from a register
+    instr_ld(testSls);
+    if (registerArr[1] != 3){
+        printf("instr_ld test failed: Expected 3, got %d\n", registerArr[1]);
+    }else{
+        puts("instr_ld test succeed");
+    }
+
+    instr_strp(testSls);
+    if (registerArr[1] != 3){
+        printf("instr_strp test failed: Expected 3, got %d\n", registerArr[1]);
+    }else{
+        puts("instr_strp test succeed");
+    }
+
+    // test the ldi instruction, load a 6 from a register
+    instr_ldp(testSls);
+    if (registerArr[1] != 3){
+        printf("instr_ldp test failed: Expected 3, got %d\n", registerArr[1]);
+        return;
+    }else{
+        puts("instr_ldp test succeed");
+    }
+
 }
 
 void test_memory(void)
