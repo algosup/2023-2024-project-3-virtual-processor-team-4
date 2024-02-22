@@ -77,13 +77,18 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         {
             break; // Ignore comments
         }
-
-        if (dest == NULL)
-            dest = strdup(token);
-        else if (param1 == NULL)
-            param1 = strdup(token);
-        else if (param2 == NULL)
-            param2 = strdup(token);
+        if (dest == NULL){
+            dest = malloc(sizeof(char)*strlen(token));
+            strcpy(dest, token);
+        }
+        else if (param1 == NULL){
+            param1 = malloc(sizeof(char)*strlen(token));
+            strcpy(param1, token);
+        }
+        else if (param2 == NULL){
+            param2 = malloc(sizeof(char)*strlen(token));
+            strcpy(param2, token);
+        }
         else
         {
             printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
@@ -112,7 +117,8 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         {
             if (strlen(opcode) > 0 && opcode[strlen(opcode) - 1] == ':')
             {
-                line->labelDef = strdup(opcode);
+                line->labelDef = malloc(sizeof(char)*strlen(opcode));
+                strcpy(line->labelDef, opcode);
                 if (line->labelDef == NULL)
                 {
                     fprintf(stderr, "Memory allocation failed!\n");
