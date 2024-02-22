@@ -53,10 +53,71 @@ int instr_jmp(binInstruction_t instruction);
 //  VIRTUAL INSTRUCTIONS IMPLEMENTATION
 //____________________________________
 
+int check_registers_typeR(binInstruction_t instruction){
+    if (instruction.typeR.destination > 31 || instruction.typeR.source > 31 || instruction.typeR.source2 > 31){
+        printf("Error: not existing register");
+        return INVALID_DATA;
+    }
+
+    if (instruction.typeR.destination > 29 || instruction.typeR.source > 29 || instruction.typeR.source2 > 29){
+        printf("Error: ip and sp are read-only");
+        return INVALID_DATA;
+    }
+
+    if (instruction.typeR.destination > 25 || instruction.typeR.source > 25 || instruction.typeR.source2 > 25){
+        printf("Error: not existing register");
+        return INVALID_DATA;
+    }
+
+    return SUCCESS;
+}
+
+int check_registers_typeI(binInstruction_t instruction){
+    if (instruction.typeI.destination > 31 || instruction.typeI.source > 31){
+        printf("Error: not existing register");
+        return INVALID_DATA;
+    }
+
+    if (instruction.typeI.destination > 29 || instruction.typeI.source > 29){
+        printf("Error: ip and sp are read-only");
+        return INVALID_DATA;
+    }
+
+    if (instruction.typeI.destination > 25 || instruction.typeI.source > 25){
+        printf("Error: not existing register");
+        return INVALID_DATA;
+    }
+
+    return SUCCESS;
+}
+
+int check_register_typeJ(binInstruction_t instruction){
+    if (instruction.typeJ.destination > 31){
+        printf("Error: not existing register");
+        return INVALID_DATA;
+    }
+
+    if (instruction.typeJ.destination > 29){
+        printf("Error: ip and sp are read-only");
+        return INVALID_DATA;
+    }
+
+    if (instruction.typeJ.destination > 25){
+        printf("Error: not existing register");
+        return INVALID_DATA;
+    }
+
+    return SUCCESS;
+}
+
 int instr_add(binInstruction_t instruction)
 {
-    registerArr[instruction.typeR.destination] = registerArr[instruction.typeR.source] + registerArr[instruction.typeR.source2];
-    return SUCCESS;
+    if (check_registers_typeR(instruction) == 0){
+        registerArr[instruction.typeR.destination] = registerArr[instruction.typeR.source] + registerArr[instruction.typeR.source2];
+        return SUCCESS;
+    }else{
+        return GENERIC_ERROR;
+    }
 }
 
 
