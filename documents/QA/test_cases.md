@@ -603,7 +603,7 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Expected Result | The product should send an error.         |
 | Test Case Actual Result   | ---                                       |
 | Test Case Status          | To Test                                   |
-| Test Case Priority        | Medium 3                                  |
+| Test Case Priority        | High 3                                    |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                       |
 
 ### sp read-only
@@ -617,5 +617,5 @@ This document will have the entire test cases created to ensure the well-functio
 | Test Case Expected Result | The product should send an error.         |
 | Test Case Actual Result   | ---                                       |
 | Test Case Status          | To Test                                   |
-| Test Case Priority        | Medium 3                                  |
+| Test Case Priority        | High 3                                    |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                       |
