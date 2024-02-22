@@ -57,12 +57,11 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     if (lineContent[0] == '/' && lineContent[1] == '/')
     {
         line->mnemonic = SKIP;
-        line->labelDef = NULL; // Changed from "\0"
+        line->labelDef = NULL;
         line->lineNumber = *lineNumber;
         return SUCCESS;
     }
 
-    char *saveptr;
     char *token = strtok(lineContent, " ");
     char *opcode = (token != NULL) ? token : "skip";
 
@@ -70,60 +69,32 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     char *param1 = NULL;
     char *param2 = NULL;
 
-    token = strtok(NULL, " ");
-    if (token != NULL)
-    {
+    bool areNextArgsComments = false;
 
-        dest = malloc(strlen(token) + 1);
-        strcpy(dest, token);
+    while ((token = strtok(NULL, " ")) != NULL)
+    {
+        if (token[0] == '/' && token[1] == '/')
+        {
+            break; // Ignore comments
+        }
+
         if (dest == NULL)
+            dest = strdup(token);
+        else if (param1 == NULL)
+            param1 = strdup(token);
+        else if (param2 == NULL)
+            param2 = strdup(token);
+        else
         {
-            fprintf(stderr, "Memory allocation failed!\n");
-            return GENERIC_ERROR;
-        }
-    }
-
-    token = strtok(NULL, " ");
-    if (token != NULL)
-    {
-        param1 = malloc(strlen(token) + 1);
-        strcpy(param1, token);
-        if (param1 == NULL)
-        {
-            fprintf(stderr, "Memory allocation failed!\n");
-            free(dest);
-            return GENERIC_ERROR;
-        }
-    }
-
-    token = strtok(NULL, " ");
-    if (token != NULL)
-    {
-        param2 = malloc(strlen(token) + 1);
-        strcpy(param2, token);
-        if (param2 == NULL)
-        {
-            fprintf(stderr, "Memory allocation failed!\n");
+            printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
             free(dest);
             free(param1);
+            free(param2);
             return GENERIC_ERROR;
         }
     }
 
-    token = strtok(NULL, " ");
-    if (token != NULL && token[0] != '/' && token[1] != '/')
-    {
-        printf("Error: Too many arguments passed in operation on line: %" PRIu64 "\n", *lineNumber);
-        line->mnemonic = SKIP;
-        line->lineNumber = *lineNumber;
-        line->param1_t = NULL_;
-        free(dest);
-        free(param1);
-        free(param2);
-        return GENERIC_ERROR;
-    }
-
-    InstructionType_t *instructionType = (InstructionType_t *)malloc(sizeof(InstructionType_t));
+    InstructionType_t *instructionType = malloc(sizeof(InstructionType_t));
     if (instructionType == NULL)
     {
         fprintf(stderr, "Memory allocation failed!\n");
@@ -139,44 +110,48 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     case SUCCESS:
         if (*instructionType == LABEL_)
         {
-            line->labelDef = malloc(sizeof(strlen(opcode) + 1));
-
-            if (line->labelDef == NULL)
+            if (strlen(opcode) > 0 && opcode[strlen(opcode) - 1] == ':')
             {
-                fprintf(stderr, "Memory allocation failed!\n");
+                line->labelDef = strdup(opcode);
+                if (line->labelDef == NULL)
+                {
+                    fprintf(stderr, "Memory allocation failed!\n");
+                    free(dest);
+                    free(param1);
+                    free(param2);
+                    free(instructionType);
+                    return GENERIC_ERROR;
+                }
+                line->dest_t = LABEL;
+                line->mnemonic = LABEL_;
+                opcode[strlen(opcode) - 1] = '\0';
+                strcpy(line->labelDef, opcode);
+                line->lineNumber = *lineNumber;
+                return SUCCESS;
+            }
+            else
+            {
+                printf("Error: Improper label declaration on line: %" PRIu64 "\n", *lineNumber);
                 free(dest);
                 free(param1);
                 free(param2);
                 free(instructionType);
                 return GENERIC_ERROR;
             }
-            line->dest_t = LABEL;
-            line->mnemonic = LABEL_;
-            opcode[strlen(opcode) - 1] = '\0';
-            strcpy(line->labelDef, opcode);
-
-            line->lineNumber = *lineNumber;
-            return SUCCESS;
         }
         break;
     case REGISTER_INSTEAD_OF_LABEL:
         printf("Error: Register instead of label on line: %" PRIu64 "\n", *lineNumber);
-        line->mnemonic = SKIP;
-        line->lineNumber = *lineNumber;
-        line->param1_t = NULL_;
         free(dest);
         free(param1);
         free(param2);
+        free(instructionType);
         return GENERIC_ERROR;
-        break;
     }
 
     if (find_operand(opcode, instructionType) != SUCCESS)
     {
         printf("Error: Could not find a matching opcode on line: %" PRIu64 "\n", *lineNumber);
-        line->mnemonic = SKIP;
-        line->lineNumber = *lineNumber;
-        line->param1_t = NULL_;
         free(dest);
         free(param1);
         free(param2);
@@ -187,9 +162,6 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     if (are_operation_params_valid(instructionType, dest, param1, param2, lineNumber) != SUCCESS)
     {
         printf("Params invalid\n");
-        line->mnemonic = SKIP;
-        line->lineNumber = *lineNumber;
-        line->param1_t = NULL_;
         free(dest);
         free(param1);
         free(param2);
