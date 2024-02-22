@@ -8,7 +8,7 @@ int read_bin(char*, uint8_t**, uint32_t*);
 int load_bin_to_mem(char*);
 int machinecode_to_bininstruction(uint32_t, binInstruction_t*);
 int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
-int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
+int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int32_t);
 int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
 
 int read_bin(char* inputFile, uint8_t** outputPtr, uint32_t* size){
@@ -66,28 +66,26 @@ int load_bin_to_mem(char* inputFile){
 int machinecode_to_bininstruction(uint32_t bytes, binInstruction_t* instruction){
     uint8_t opcode;
 
-    //calculate source, source2, immediate, and dest
-    uint8_t source = (bytes & 0b1111100000) >> 5;
-
-    uint8_t source2 = (bytes & 0b111110000000000) >> 10;
-
-    uint8_t dest = bytes & 0b11111; //mask the last three bits
-
-    int16_t immediate = bytes >> 10;
+    uint8_t source = (bytes >> 5) & 0b11111;
+    uint8_t dest = bytes & 0b11111;
 
     if(bytes & 0x80000000){
         // every type J instruction has the first bit set
         instruction->type = J;
         opcode = bytes >> 28;
-        return opcode_type_J(instruction, opcode, dest, immediate);
+        int32_t address = (bytes >> 5) & 0b1111111111111111111111;
+        address = bytes & 0x08000000 ? -address : address; // Add the sign to the address
+        return opcode_type_J(instruction, opcode, dest, address);
     } else if(bytes & 0x40000000) {
         // every type I instruction has first bit unset and second bit set
         instruction->type = I;
         opcode = bytes >> 26;
+        int16_t immediate = bytes >> 10;
         return opcode_type_I(instruction, opcode, source, dest, immediate);
     }else{
         instruction->type = R;
         opcode = bytes >> 25;
+        uint8_t source2 = (bytes >> 10) & 0b11111;
         return opcode_type_R(instruction, opcode, source, source2, dest);
     } 
 };
@@ -150,9 +148,9 @@ int opcode_type_I(binInstruction_t* instruction, uint8_t opcode, uint8_t source,
     return SUCCESS;
 };
 
-int opcode_type_J(binInstruction_t* instruction, uint8_t opcode, uint8_t dest, int16_t immediate){
+int opcode_type_J(binInstruction_t* instruction, uint8_t opcode, uint8_t dest, int32_t address){
     instruction->typeJ.register_ = dest;
-    instruction->typeJ.address = immediate;
+    instruction->typeJ.address = address;
 
     switch (opcode)
     {
