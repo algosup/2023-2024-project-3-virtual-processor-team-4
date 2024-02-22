@@ -228,10 +228,10 @@ void set_memory_32(uint32_t address, uint32_t value)
 void print_registers(int base);
 void print_register(int reg, int base);
 void print_memory(uint32_t start, uint32_t end, int base);
-void print_32b_number(int32_t number, int base, int32_t max);
+void print_32b_number(uint32_t number, int base, uint32_t max);
 
 
-void print_32b_number(int32_t number, int base, int32_t max)
+void print_32b_number(uint32_t number, int base, uint32_t max)
 {
     //nibbles is the number of nibbles to print, so we print numbers by block of 4 digits in hexa and binary and 3 digits in decimal
     if (base == HEX)
@@ -240,12 +240,10 @@ void print_32b_number(int32_t number, int base, int32_t max)
         if (max > 0xFFFF){
             nibbles = 8;
         }
-        if (nibbles <= 4){
-            int32_t b = number >> 16;
-            printf("0x%04X ", b);
-        }
-        else{
-            int32_t b = number >> 16;
+        if (nibbles == 4){
+            printf("0x%04X ", number);
+        }else{
+            int16_t b = number >> 16;
             printf("0x%04X ", b);
             b = number<<16>>16;
             printf("%04X\n", b);
@@ -301,13 +299,12 @@ void print_register(int reg, int base)
 void print_memory(uint32_t start, uint32_t end, int base)
 {
     printf("Memory:\n");
-    
-    int32_t max = end;
     for (uint32_t i = start; i < end; i += 4)
     {   
-        print_32b_number(i, HEX, max);
-        printf(": ");
-        print_32b_number(read_memory_32(i), base, max);
+        print_32b_number(i, HEX, end);
+        printf(" : ");
+        uint32_t value = read_memory_32(i);
+        print_32b_number(value, base, 0xFFFFFFFF);
         printf("\n");
     }
 }

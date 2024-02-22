@@ -30,8 +30,10 @@ int main()
     //execute_tests();
     
     print_register(5, BIN);
-    print_registers(HEX);
-    print_memory(10, 20, DEC);
+    print_registers(DEC);
+    init_memory();
+    set_memory_32(0xFFF9, 0x12345678);
+    print_memory(0xFFF0, 0xFFFF, HEX);
 
     return 0;
 }
