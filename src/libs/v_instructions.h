@@ -74,8 +74,12 @@ int instr_mul(binInstruction_t instruction)
 
 int instr_div(binInstruction_t instruction)
 {
-    registerArr[instruction.typeR.destination] = registerArr[instruction.typeR.source] / registerArr[instruction.typeR.source2];
-    return SUCCESS;
+    if (registerArr[instruction.typeR.source2] != 0){
+        registerArr[instruction.typeR.destination] = registerArr[instruction.typeR.source] / registerArr[instruction.typeR.source2];
+        return SUCCESS;
+    }else{
+        return INVALID_DATA;
+    }
 }
 
 int instr_or(binInstruction_t instruction)
