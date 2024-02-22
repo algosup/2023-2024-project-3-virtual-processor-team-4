@@ -27,7 +27,7 @@ void test_comparison_immediate();
 
 int main()
 {   
-    //execute_tests();
+    execute_tests();
     
     print_register(5, BIN);
     print_registers(HEX);
