@@ -27,7 +27,6 @@ int is_third_operand_register(InstructionType_t *instructionId, char *param3, ui
 int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
 int is_third_operand_immediate(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
-int is_first_operand_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_second_operand_label(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
 int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int is_first_operand_immediate_or_register(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
@@ -460,6 +459,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case BI:
     case CALLI:
+    case JMP:
         return is_first_operand_immediate_or_label(instructionId, param1, param2, param3, lineNumber);
         break;
     case BNZ:
@@ -474,9 +474,6 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     case POP:
     case PUSH:
         return is_first_operand_register(instructionId, param1, lineNumber);
-        break;
-    case JMP:
-        return is_first_operand_label(instructionId, param1, lineNumber);
         break;
     case XCHG:
     case LD:
@@ -694,7 +691,8 @@ int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *
         return INVALID_DATA;
     }
 
-    if(is_first_operand_register(instructionId, param1, lineNumber) == SUCCESS){
+    uint8_t *paramVerificationReturn;
+    if(find_register(param1, paramVerificationReturn) == SUCCESS){
         char opcode[4];
         get_operand_name(*instructionId, opcode);
         printf("Error: %s instruction first parameter is nor an immediate or label on line: %" PRIu64 "\n", opcode, *lineNumber);
@@ -758,24 +756,6 @@ int is_third_operand_immediate(InstructionType_t *instructionId, char *param3, u
     {
         get_operand_name(*instructionId, opcode);
         printf("Error: %s instruction third parameter is not an immediate on line: %" PRIu64 "\n", opcode, *lineNumber);
-        return INVALID_DATA;
-    }
-    return SUCCESS;
-}
-
-int is_first_operand_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
-{
-    char opcode[4];
-
-    if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
-    {
-        return INVALID_DATA;
-    }
-
-    if (check_is_label(param1) != SUCCESS)
-    {
-        get_operand_name(*instructionId, opcode);
-        printf("Error: %s instruction first parameter is not a label on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
     return SUCCESS;
