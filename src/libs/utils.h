@@ -6,7 +6,8 @@
 #include <string.h>
 #include <stdbool.h>
 
-typedef enum ErrorType // Define all the errors which could happen and their codes
+// Define all the errors which could happen and their codes
+typedef enum ErrorType 
 {
     SUCCESS,
     GENERIC_ERROR,
@@ -143,13 +144,13 @@ typedef struct listLabel // Linked list of labels in assembler.h
 } listLabel_t;
 
 typedef struct stackNode // Node of a linked list of stack in assembler.h
-{ // Item of linked list
+{                        // Item of linked list
     struct stackNode *previous;
     line_t val;
 } stackNode_t;
 
 typedef struct stack // Linked list of stack in assembler.h
-{ // Linked list = stack
+{                    // Linked list = stack
     stackNode_t *head;
     unsigned int size;
 } stack_t;
@@ -174,7 +175,8 @@ int isHexadecimal(const char *str)
     return SUCCESS;
 }
 
-int check_is_number(char *str) // Check if a string is a number
+// Check if a string is a number
+int check_is_number(char *str)
 {
     if (str == NULL || strlen(str) == 0)
     {
@@ -205,7 +207,8 @@ int check_is_number(char *str) // Check if a string is a number
     return SUCCESS;
 }
 
-int check_is_label(char *str) // Check if the line content is a label
+// Check if the line content is a label
+int check_is_label(char *str)
 {
     if ((!(str[0] == 'r' || str[0] == 'R') && !(str[1] >= 'a' && str[1] <= 'z')) || (strlen(str) == 2 && (strcmp(str, "ip") == 0 || strcmp(str, "sp") == 0)))
     {
@@ -255,6 +258,7 @@ int check_val(char *val)
     return INVALID_DATA;
 }
 
+// Function to convert a hexadecimal number to a decimal number
 int hex_to_decimal(const char *hex, int16_t *decimal)
 {
     int length = strlen(hex);
@@ -286,6 +290,7 @@ int hex_to_decimal(const char *hex, int16_t *decimal)
     return SUCCESS;
 }
 
+// Function to convert a decimal number to a hexadecimal number
 int find_register(char *inString, uint8_t *registerIndex)
 {
     if (inString == NULL || strlen(inString) != 2)
@@ -325,6 +330,7 @@ int find_register(char *inString, uint8_t *registerIndex)
     }
 }
 
+// Function to get the labels from the stack
 int get_list_label(listLabel_t *pList, label_t *value, int index)
 {
     if (index >= 0)
@@ -351,9 +357,10 @@ int get_list_label(listLabel_t *pList, label_t *value, int index)
     return SUCCESS;
 };
 
+// Function to add a label to the stack
 int add_to_list_label(listLabel_t *pList, label_t value)
 {
-    if (pList->head == NULL)
+    if (pList->head == NULL) // If no head
     {
         nodeLabel_t node = {NULL, value, NULL};
         nodeLabel_t *p = (nodeLabel_t *)malloc(sizeof(nodeLabel_t));
@@ -373,7 +380,5 @@ int add_to_list_label(listLabel_t *pList, label_t value)
     }
     return SUCCESS;
 }
-
-// int memory_allocation_failed()
 
 #endif

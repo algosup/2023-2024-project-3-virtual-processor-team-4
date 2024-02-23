@@ -52,9 +52,10 @@ int find_operand(char *opcode, InstructionType_t *instructionType);
 
 // ************************** PREPROCESS AND DATA STRUCTURE FUNCTIONS **************************
 
+// Main function to preprocess a line and returns the line as a struct
 int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
 {
-    if (lineContent[0] == '/' && lineContent[1] == '/')
+    if (lineContent[0] == '/' && lineContent[1] == '/') // Line considered as a comment
     {
         line->mnemonic = SKIP;
         line->labelDef = NULL;
@@ -71,6 +72,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
 
     bool areNextArgsComments = false;
 
+    // Parse the line and store the values in dest, param1 and param2
     while ((token = strtok(NULL, " ")) != NULL)
     {
         if (token[0] == '/' && token[1] == '/')
@@ -103,6 +105,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     }
 
     InstructionType_t *instructionType = malloc(sizeof(InstructionType_t));
+    // Check if malloc failed
     if (instructionType == NULL)
     {
         fprintf(stderr, "Memory allocation failed!\n");
@@ -112,10 +115,11 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         return GENERIC_ERROR;
     }
 
+    // Check for label declarations
     int labelDeclarationCode = check_label_declaration(instructionType, opcode);
     switch (labelDeclarationCode)
     {
-    case SUCCESS:
+    case SUCCESS: // It is a label
         if (*instructionType == LABEL_)
         {
             if (strlen(opcode) > 0 && opcode[strlen(opcode) - 1] == ':')
@@ -149,7 +153,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
             }
         }
         break;
-    case REGISTER_INSTEAD_OF_LABEL:
+    case REGISTER_INSTEAD_OF_LABEL: // It has the name of a register
         printf("Error: Register instead of label on line: %" PRIu64 "\n", *lineNumber);
         free(dest);
         free(param1);
@@ -158,8 +162,9 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         return GENERIC_ERROR;
     }
 
-    if (find_operand(opcode, instructionType) != SUCCESS)
+    if (find_operand(opcode, instructionType) != SUCCESS) // Check if the opcode is valid
     {
+        // If not, print an error message and return
         printf("Error: Could not find a matching opcode on line: %" PRIu64 "\n", *lineNumber);
         free(dest);
         free(param1);
@@ -168,8 +173,9 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         return GENERIC_ERROR;
     }
 
-    if (are_operation_params_valid(instructionType, dest, param1, param2, lineNumber) != SUCCESS)
+    if (are_operation_params_valid(instructionType, dest, param1, param2, lineNumber) != SUCCESS) // We check the parameter types validity
     {
+        // If not, print an error message and return
         free(dest);
         free(param1);
         free(param2);
@@ -177,8 +183,9 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         return GENERIC_ERROR;
     }
 
-    if (fill_line_struct(line, instructionType, dest, param1, param2, lineNumber) != SUCCESS)
+    if (fill_line_struct(line, instructionType, dest, param1, param2, lineNumber) != SUCCESS) // We fill the line struct
     {
+        // If we get an error, we break
         free(dest);
         free(param1);
         free(param2);
@@ -190,6 +197,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
     return SUCCESS;
 }
 
+// Fill the line struct with the values of the line
 int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *dest, char *param1, char *param2, uint64_t *lineNumber) // Create the final
 {
     line->mnemonic = *instructionType;
@@ -197,11 +205,11 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
 
     if (dest != NULL)
     {
-        if (find_register(dest, &line->dest) == SUCCESS)
+        if (find_register(dest, &line->dest) == SUCCESS) //check if dest is a register
         {
             line->dest_t = REGISTER;
         }
-        else if (check_is_label(dest) == SUCCESS)
+        else if (check_is_label(dest) == SUCCESS) //check if dest is a label
         {
             line->dest_t = LABEL;
             line->labelCall = dest;
@@ -209,34 +217,33 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
     }
     else
     {
-        line->dest = NULL_;
+        line->dest = NULL_; // By default, dest is NULL
     }
 
     if (param1 != NULL)
     {
-        if (find_register(param1, &line->register1) == SUCCESS)
+        if (find_register(param1, &line->register1) == SUCCESS) //check if param1 is a register
         {
             line->param1_t = REGISTER;
         }
-        else if (check_is_number(param1) == SUCCESS)
+        else if (check_is_number(param1) == SUCCESS) // check if param1 is a number
         {
             if (param1[0] == 'x' || param1[0] == 'X')
             {
-                if (hex_to_decimal(param1 + 1, &line->immediate1) != SUCCESS)
+                if (hex_to_decimal(param1 + 1, &line->immediate1) != SUCCESS) // We try to see if it is a valid hexadecimal number
                 {
                     printf("Error: Invalid hexadecimal value on line: %" PRIu64 "\n", *lineNumber);
                     return GENERIC_ERROR;
                 }
-                printf("immediate1: %d\n", line->immediate1);
                 line->param1_t = IMMEDIATE;
             }
             else
             {
-                line->immediate1 = atoi(param1);
+                line->immediate1 = atoi(param1); // We convert the string to an integer
                 line->param1_t = IMMEDIATE;
             }
         }
-        else if (check_is_label(param1) == SUCCESS)
+        else if (check_is_label(param1) == SUCCESS) // check if param1 is a label
         {
             line->param1_t = LABEL;
             line->labelCall1 = param1;
@@ -249,31 +256,30 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
     }
     else
     {
-        line->param1_t = NULL_;
+        line->param1_t = NULL_; // By default, param1 is NULL
     }
 
     if (param2 != NULL)
     {
-        if (find_register(param2, &line->register2) == SUCCESS)
+        if (find_register(param2, &line->register2) == SUCCESS) //check if param2 is a register
         {
             // line->register2 = atoi(param2);
             line->param2_t = REGISTER;
         }
-        else if (check_is_number(param2) == SUCCESS)
+        else if (check_is_number(param2) == SUCCESS) // check if param2 is a number
         {
             if (param2[0] == 'x' || param2[0] == 'X')
             {
-                if (hex_to_decimal(param2 + 1, &line->immediate2) != SUCCESS)
+                if (hex_to_decimal(param2 + 1, &line->immediate2) != SUCCESS) // We try to see if it is a valid hexadecimal number
                 {
                     printf("Error: Invalid hexadecimal value on line: %" PRIu64 "\n", *lineNumber);
                     return GENERIC_ERROR;
                 }
-                printf("immediate2: %d\n", line->immediate2);
                 line->param2_t = IMMEDIATE;
             }
             else
             {
-                line->immediate1 = atoi(param2);
+                line->immediate1 = atoi(param2); // We convert the string to an integer
                 line->param2_t = IMMEDIATE;
             }
         }
@@ -285,7 +291,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
     }
     else
     {
-        line->param2_t = NULL_;
+        line->param2_t = NULL_; // By default, param2 is NULL
     }
     return SUCCESS;
 }
@@ -294,7 +300,8 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
 
 // ************************** FILE READING AND DATA EXTRACTION FUNCTIONS **************************
 
-int get_file_size(char *filename, uint64_t *size) // Get the number of characters in the file to malloc the correct number of bytes
+// Get the number of characters in the file to malloc the correct number of bytes
+int get_file_size(char *filename, uint64_t *size) 
 {
     FILE *fp;
 
@@ -317,6 +324,7 @@ int get_file_size(char *filename, uint64_t *size) // Get the number of character
     return SUCCESS;
 }
 
+// Read the content of a file and store it in a string
 int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLines) // Read content of specified file and store it in output
 {
     FILE *ptr;
@@ -347,6 +355,7 @@ int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLin
     return SUCCESS;
 }
 
+// Extract the content of a specified line from a file content
 int line_content_from_file_content(char *content, int lineNumber, char *lineContent) // Extract the content of a specified line from a file content
 {
     // Returns the content of the lineNumber until next \n
@@ -393,6 +402,7 @@ int line_content_from_file_content(char *content, int lineNumber, char *lineCont
 
 // ********************* INSTRUCTION PARAMS VERIFICATION *********************
 
+// Check if the label declaration is valid
 int check_label_declaration(InstructionType_t *instructionId, char *label)
 {
     if (label[strlen(label) - 1] == ':')
@@ -426,8 +436,9 @@ int check_label_declaration(InstructionType_t *instructionId, char *label)
     return GENERIC_ERROR;
 }
 
+// Check if the parameters of an operation are valid 
 int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
-{ // Check if the parameters of an operation are valid (WIP: Waiting for all the instructions in functional appendix)
+{
     switch (*instructionId)
     {
     case SKIP:
@@ -505,6 +516,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     }
 }
 
+// Count the number of non-null parameters
 uint8_t count_non_null_params(char *param1, char *param2, char *param3)
 {
     uint8_t paramCount = 0;
@@ -1102,6 +1114,7 @@ int are_first_two_operands_register_and_third_register_or_immediate_or_is_first_
 
 // ************************** TRANSLATION OPCODE - INSTRUCTION CODE DEFINITIONS **************************
 
+// Get the operand name from its instruction code
 int get_operand_name(InstructionType_t instruction, char *output)
 {
     switch (instruction)
