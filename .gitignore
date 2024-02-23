@@ -53,6 +53,6 @@ Mkfile.old
 dkms.conf
 
 .vscode
-*.asm
+*.bin
 *.mem
 *.json
