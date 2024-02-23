@@ -5,7 +5,7 @@ tge rt ra rb
 bnz rt greaterOrEqual
 addi rc rb 0
 jmp next
-greatetOrEqual:
+greaterOrEqual:
 addi rc ra 0
 
 next:
