@@ -7,8 +7,14 @@
 #include "./libs/preprocessor.h"
 #include "./libs/assembler.h"
 
-int main(int argc, char **argv)
+int main() // int argc, char **argv)
 {
+
+    int argc = 2;
+
+    char *fname = "./example.asm";
+    char *foutname = "./example";
+    char *argv[] = {fname, foutname};
     char *output_file = NULL;
     // Check if we have a source file to compile
     if (argv[1] == NULL)
