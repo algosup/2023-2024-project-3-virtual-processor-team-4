@@ -254,30 +254,31 @@ int check_val(char *val)
     return INVALID_DATA;
 }
 
-int16_t hex_to_decimal(const char *hex)
+int hex_to_decimal(const char *hex, int16_t *decimal)
 {
-    int decimal = 0;
     int length = strlen(hex);
+    if (length > 4)
+    {
+        return -1;
+    }
     int base = 1;
-
     for (int i = length - 1; i >= 0; i--)
     {
         if (hex[i] >= '0' && hex[i] <= '9')
         {
-            decimal += (hex[i] - '0') * base;
+            *decimal += (hex[i] - '0') * base;
         }
         else if (hex[i] >= 'A' && hex[i] <= 'F')
         {
-            decimal += (hex[i] - 'A' + 10) * base;
+            *decimal += (hex[i] - 'A' + 10) * base;
         }
         else if (hex[i] >= 'a' && hex[i] <= 'f')
         {
-            decimal += (hex[i] - 'a' + 10) * base;
+            *decimal += (hex[i] - 'a' + 10) * base;
         }
         base *= 16;
     }
-    printf("Decimal: %d\n", decimal);
-    return decimal;
+    return SUCCESS;
 }
 
 int find_register(char *inString, uint8_t *registerIndex)

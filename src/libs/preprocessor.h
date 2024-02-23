@@ -225,8 +225,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             if (param1[0] == 'x' || param1[0] == 'X')
             {
-                int16_t decimal_value = hex_to_decimal(param1 + 1);
-                line->immediate1 = decimal_value;
+                hex_to_decimal(param1 + 1, &line->immediate1);
                 line->param1_t = IMMEDIATE;
             }
             else
@@ -258,18 +257,17 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
             // line->register2 = atoi(param2);
             line->param2_t = REGISTER;
         }
-        else if (check_is_number(param1) == SUCCESS)
+        else if (check_is_number(param2) == SUCCESS)
         {
-            if (param1[0] == 'x' || param1[0] == 'X')
+            if (param2[0] == 'x' || param2[0] == 'X')
             {
-                int16_t decimal_value = hex_to_decimal(param1 + 1);
-                line->immediate1 = decimal_value;
-                line->param1_t = IMMEDIATE;
+                hex_to_decimal(param2 + 1, &line->immediate2);
+                line->param2_t = IMMEDIATE;
             }
             else
             {
-                line->immediate1 = atoi(param1);
-                line->param1_t = IMMEDIATE;
+                line->immediate1 = atoi(param2);
+                line->param2_t = IMMEDIATE;
             }
         }
         else
