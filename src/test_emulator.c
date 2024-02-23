@@ -65,6 +65,7 @@ void test_arithmetic_operations(){
     //add 5 and 3, print 8
 
     binInstruction_t testADD;
+    testADD.typeR.opcode = ADD;
     testADD.typeR.source2 = 0;
     testADD.typeR.source = 1;
     testADD.typeR.destination = 2;
@@ -74,6 +75,7 @@ void test_arithmetic_operations(){
     //sub 8 and 5, print 3
 
     binInstruction_t testSUB;
+    testSUB.typeR.opcode = SUB;
     testSUB.typeR.source2 = 0;
     testSUB.typeR.source = 2;
     testSUB.typeR.destination = 3;
@@ -83,6 +85,7 @@ void test_arithmetic_operations(){
     // mul 3 and 10, print 30
 
     binInstruction_t testMUL;
+    testMUL.typeR.opcode = MUL;
     testMUL.typeR.source2 = 3;
     testMUL.typeR.source = 4;
     testMUL.typeR.destination = 5;
@@ -92,6 +95,7 @@ void test_arithmetic_operations(){
     // div 30 and 10, print 3
 
     binInstruction_t testDIV;
+    testDIV.typeR.opcode = DIV;
     testDIV.typeR.source2 = 4;
     testDIV.typeR.source = 5;
     testDIV.typeR.destination = 6;
