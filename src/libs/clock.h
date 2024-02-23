@@ -1,5 +1,6 @@
 #ifndef CLOCK_H
 #define CLOCK_H
+#include <stdbool.h>
 #include <pthread.h>
 
 // #define TARGET_OPS_PER_SEC 10000
