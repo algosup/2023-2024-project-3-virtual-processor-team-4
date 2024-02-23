@@ -338,7 +338,7 @@ int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLin
     }
 
     int count = 0;
-    while (!feof(ptr))
+    while (!feof(ptr)) // Loop until pointer hits end of file
     {
         ch = fgetc(ptr);
         if (ch == '\n')
@@ -346,12 +346,12 @@ int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLin
             *numberOfLines += 1;
         }
         output[count] = ch;
-        count++;
+        count++; // Increment the number of characters contained in the string
     }
 
     output[count - 1] = '\0';
 
-    fclose(ptr);
+    fclose(ptr); // Close after reading file content
     return SUCCESS;
 }
 
@@ -407,7 +407,7 @@ int check_label_declaration(InstructionType_t *instructionId, char *label)
 {
     if (label[strlen(label) - 1] == ':')
     {
-        // Remove the last character from label
+        // Remove the last character from label (:)
         char *newLabel = (char *)malloc((strlen(label) - 1) * sizeof(char));
         strcpy(newLabel, label);
         newLabel[strlen(newLabel) - 1] = '\0';
@@ -436,7 +436,7 @@ int check_label_declaration(InstructionType_t *instructionId, char *label)
     return GENERIC_ERROR;
 }
 
-// Check if the parameters of an operation are valid 
+// Check if the parameters of an operation are valid, each instruction has its own parameter types
 int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
 {
     switch (*instructionId)

@@ -54,6 +54,11 @@ int main(int argc, char **argv)
     }
     else
     {
+        if(charCount == 0) {
+            printf("%s is empty and can not be compiled", input_file);
+            return GENERIC_ERROR;
+        }
+
         uint64_t lineCount = 1; // File has at least one line if it exists
 
         char *content = malloc((charCount + 1) * sizeof(char));
@@ -91,7 +96,10 @@ int main(int argc, char **argv)
 
             line_content_from_file_content(content, j, lineContent);
 
-            if (preprocess_line(lineContent, &instructionMap[j], &j) != 0)
+            // To match the line number written in people's editor
+            uint64_t lineNumber = j + 1;
+
+            if (preprocess_line(lineContent, &instructionMap[j], &lineNumber) != 0)
             {
                 fileHasError = true;
                 continue; // Go to next line
