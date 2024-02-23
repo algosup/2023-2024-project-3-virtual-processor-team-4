@@ -220,14 +220,13 @@ void set_memory_32(uint32_t address, uint32_t value)
 
 //__________________________________________________________________________________
 
-
 //______________________________________________
 // PRINT COMPONENTS
 //__________________
 
-void print_registers(int base);
-void print_register(int reg, int base);
-void print_memory(uint32_t start, uint32_t end, int base);
+int print_registers(int base);
+int print_register(int reg, int base);
+int print_memory(uint32_t start, uint32_t end, int base);
 void print_32b_number(uint32_t number, int base, uint32_t max);
 
 
@@ -243,10 +242,10 @@ void print_32b_number(uint32_t number, int base, uint32_t max)
         if (nibbles == 4){
             printf("0x%04X ", number);
         }else{
-            int16_t b = number >> 16;
+            uint16_t b = number>> 16;
             printf("0x%04X ", b);
             b = number<<16>>16;
-            printf("%04X\n", b);
+            printf("%04X", b);
         }
     }
     else if (base == BIN)
@@ -278,8 +277,13 @@ void print_32b_number(uint32_t number, int base, uint32_t max)
     }
 }
 
-void print_registers(int base)
+int print_registers(int base)
 {
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
     printf("Registers:\n");
     for (int i = 0; i < 32; i++)
     {
@@ -289,15 +293,36 @@ void print_registers(int base)
     }
 }
 
-void print_register(int reg, int base)
-{
+int print_register(int reg, int base)
+{   
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
+    if (reg < 0 || reg > 31)
+    {
+        printf("Invalid register (trying to print)\n");
+        return 1;
+    }
+
     printf("R_%02d: ", reg);
     print_32b_number(registerArr[reg], base, 32);
     printf("\n");
 }
 
-void print_memory(uint32_t start, uint32_t end, int base)
+int print_memory(uint32_t start, uint32_t end, int base)
 {
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
+    if (start < 0 || start > 0xFFFFFFFF || end < 0 || end > 0xFFFFFFFF || start > end)
+    {
+        printf("Invalid memory range (trying to print)\n");
+        return OUT_OF_MEMORY;
+    }
     printf("Memory:\n");
     for (uint32_t i = start; i < end; i += 4)
     {   
@@ -308,8 +333,6 @@ void print_memory(uint32_t start, uint32_t end, int base)
         printf("\n");
     }
 }
-
-
 //__________________________________________________________________________________
 
 
