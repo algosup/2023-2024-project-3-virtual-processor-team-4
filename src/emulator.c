@@ -35,7 +35,7 @@ int emulate(char *filepath)
         if (err != SUCCESS) return err;
 
         err = execute_instr(instruction);
-        if (err == HALT)
+        if (err == HALT_PROGRAM)
         {
             running = false;
             break;

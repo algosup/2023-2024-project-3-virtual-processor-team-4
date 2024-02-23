@@ -707,7 +707,7 @@ int instr_ret(binInstruction_t instruction)
     if (check_opcode_typeJ(instruction) == SUCCESS && check_register_typeJ(instruction) == SUCCESS){
         if (instruction.typeJ.register_)
         {
-            return HALT;
+            return HALT_PROGRAM;
         }
         registerArr[STACK_POINTER] += 4;
         uint32_t address = registerArr[STACK_POINTER];

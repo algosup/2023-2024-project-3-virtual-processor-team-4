@@ -19,7 +19,7 @@ typedef enum ErrorType
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
-    HALT,
+    HALT_PROGRAM,
     REGISTER_INSTEAD_OF_LABEL
 } ErrorType_t;
 
