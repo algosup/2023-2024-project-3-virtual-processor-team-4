@@ -36,6 +36,9 @@
 *.i*86
 *.x86_64
 *.hex
+*.bin
+# Expected outputs of testing files
+!documents/QA/testing/*.bin
 
 # Debug files
 *.dSYM/
@@ -56,3 +59,4 @@ dkms.conf
 *.bin
 *.mem
 *.json
+.DS_Store
