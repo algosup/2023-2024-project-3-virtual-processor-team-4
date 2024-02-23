@@ -35,7 +35,7 @@ int is_second_operand_immediate_or_register(InstructionType_t *instructionId, ch
 int is_third_operand_immediate_or_register(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
 int are_all_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int are_all_operand_null(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
-int is_first_operand_register_or_first_and_second_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
+int is_first_operand_register_or_first_and_second_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int is_first_operand_register_and_second_operand_immediate(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
 int is_first_operand_register_and_second_operand_immediate_or_are_two_first_operands_registers_and_third_immediate(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber, uint8_t paramsNumber);
 int is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber);
@@ -436,7 +436,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         return are_all_operand_null(instructionId, param1, param2, param3, lineNumber);
         break;
     case ABS:
-        return is_first_operand_register_or_first_and_second_operand_registers(instructionId, param1, param2, lineNumber);
+        return is_first_operand_register_or_first_and_second_operand_registers(instructionId, param1, param2, param3, lineNumber);
         break;
     case ADD:
     case AND:
@@ -861,12 +861,28 @@ int are_all_operand_null(InstructionType_t *instructionId, char *param1, char *p
     return SUCCESS;
 }
 
-int is_first_operand_register_or_first_and_second_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
+int is_first_operand_register_or_first_and_second_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
 {
-    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS && are_two_first_operand_registers(instructionId, param1, param2, lineNumber) != SUCCESS)
+
+    if (is_third_operand_null(instructionId, param3, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
+
+    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    uint8_t registerPlaceholder;
+    if(param2 != NULL)
+    {
+        if (find_register(param2, &registerPlaceholder) != SUCCESS)
+        {
+            return INVALID_DATA;
+        }
+    }
+
     return SUCCESS;
 }
 
