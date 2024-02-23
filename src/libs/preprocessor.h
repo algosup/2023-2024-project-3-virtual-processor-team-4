@@ -78,16 +78,19 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         {
             break; // Ignore comments
         }
-        if (dest == NULL){
-            dest = malloc(sizeof(char)*strlen(token));
+        if (dest == NULL)
+        {
+            dest = malloc(sizeof(char) * strlen(token));
             strcpy(dest, token);
         }
-        else if (param1 == NULL){
-            param1 = malloc(sizeof(char)*strlen(token));
+        else if (param1 == NULL)
+        {
+            param1 = malloc(sizeof(char) * strlen(token));
             strcpy(param1, token);
         }
-        else if (param2 == NULL){
-            param2 = malloc(sizeof(char)*strlen(token));
+        else if (param2 == NULL)
+        {
+            param2 = malloc(sizeof(char) * strlen(token));
             strcpy(param2, token);
         }
         else
@@ -118,7 +121,7 @@ int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber)
         {
             if (strlen(opcode) > 0 && opcode[strlen(opcode) - 1] == ':')
             {
-                line->labelDef = malloc(sizeof(char)*strlen(opcode));
+                line->labelDef = malloc(sizeof(char) * strlen(opcode));
                 strcpy(line->labelDef, opcode);
                 if (line->labelDef == NULL)
                 {
@@ -218,15 +221,24 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             line->param1_t = REGISTER;
         }
+        else if (check_is_number(param1) == SUCCESS)
+        {
+            if (param1[0] == 'x' || param1[0] == 'X')
+            {
+                int16_t decimal_value = hex_to_decimal(param1 + 1);
+                line->immediate1 = decimal_value;
+                line->param1_t = IMMEDIATE;
+            }
+            else
+            {
+                line->immediate1 = atoi(param1);
+                line->param1_t = IMMEDIATE;
+            }
+        }
         else if (check_is_label(param1) == SUCCESS)
         {
             line->param1_t = LABEL;
             line->labelCall1 = param1;
-        }
-        else if (check_is_number(param1) == SUCCESS)
-        {
-            line->immediate1 = atoi(param1);
-            line->param1_t = IMMEDIATE;
         }
         else
         {
@@ -246,10 +258,19 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
             // line->register2 = atoi(param2);
             line->param2_t = REGISTER;
         }
-        else if (check_is_number(param2) == SUCCESS)
+        else if (check_is_number(param1) == SUCCESS)
         {
-            line->param2_t = IMMEDIATE;
-            line->immediate2 = atoi(param2);
+            if (param1[0] == 'x' || param1[0] == 'X')
+            {
+                int16_t decimal_value = hex_to_decimal(param1 + 1);
+                line->immediate1 = decimal_value;
+                line->param1_t = IMMEDIATE;
+            }
+            else
+            {
+                line->immediate1 = atoi(param1);
+                line->param1_t = IMMEDIATE;
+            }
         }
         else
         {
@@ -583,7 +604,7 @@ int is_first_operand_register(InstructionType_t *instructionId, char *param1, ui
         return INVALID_DATA;
     }
 
-    if(strcmp(param1, "sp") == 0 || strcmp(param1, "ip") == 0)
+    if (strcmp(param1, "sp") == 0 || strcmp(param1, "ip") == 0)
     {
         get_operand_name(*instructionId, opcode);
         printf("Error: %s instruction first parameter is a read-only register (ip/sp) on line: %" PRIu64 "\n", opcode, *lineNumber);
