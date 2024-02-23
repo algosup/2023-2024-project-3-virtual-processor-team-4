@@ -1,6 +1,8 @@
 #ifndef V_INSTRUCTIONS_H
 #define V_INSTRUCTIONS_H
 
+extern bool running;
+
 //__________________________________________________________________________________________________
 //  VIRTUAL INSTRUCTIONS PROTOTYPES
 //_____________________
@@ -192,10 +194,6 @@ int instr_ldp(binInstruction_t instruction)
 
 int instr_push(binInstruction_t instruction)
 {   
-    if (registerArr[STACK_POINTER] < 4*0xE0000000){
-        printf("Stack overflow while pushing in the stack\n");
-        return STACK_OVERFLOW;
-    }
     uint32_t address = registerArr[STACK_POINTER];
     set_memory_32(address, registerArr[instruction.typeR.source]);
     registerArr[STACK_POINTER] -= 4;
@@ -262,7 +260,7 @@ int instr_xori(binInstruction_t instruction)
 
 int instr_set(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.source] = instruction.typeI.immediate;
+    registerArr[instruction.typeI.destination] = (instruction.typeI.immediate << 5) | instruction.typeI.source;
     return SUCCESS;
 }
 
@@ -328,64 +326,70 @@ int instr_tnei(binInstruction_t instruction)
 
 int instr_b(binInstruction_t instruction)
 {
-    uint32_t address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
+    int32_t address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
     registerArr[INSTRUCTION_POINTER] += address << 2;
     return SUCCESS;
 }
 
 int instr_bi(binInstruction_t instruction)
 {
-    uint32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
+    int32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
     registerArr[INSTRUCTION_POINTER] += address << 2;
     return SUCCESS;
 }
 
 int instr_bz(binInstruction_t instruction)
 {
-    uint32_t value = registerArr[instruction.typeJ.register_];
+    int32_t value = registerArr[instruction.typeJ.register_];
     if (value == 0)
     {
-        return instr_bi(instruction);
+        registerArr[INSTRUCTION_POINTER] += instruction.typeJ.address << 2;
+    }
+    else
+    {
+        registerArr[INSTRUCTION_POINTER] += 4;
     }
     return SUCCESS;
 }
 
 int instr_bnz(binInstruction_t instruction)
 {
-    uint32_t value = registerArr[instruction.typeJ.register_];
-    if (value != 0)
+    int32_t value = registerArr[instruction.typeJ.register_];
+    if (value == 0)
     {
-        return instr_bi(instruction);
+        registerArr[INSTRUCTION_POINTER] += 4;
+    }
+    else
+    {
+        registerArr[INSTRUCTION_POINTER] += instruction.typeJ.address << 2;
     }
     return SUCCESS;
 }
 
 int instr_call(binInstruction_t instruction)
 {
-    if (registerArr[STACK_POINTER] < 4*0xE0000000){
-        printf("Stack overflow while calling a function\n");
-        return STACK_OVERFLOW;
-    }
-    uint32_t address = registerArr[STACK_POINTER];
-    set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
+    set_memory_32(registerArr[STACK_POINTER], registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;
-    return instr_b(instruction);
+    int32_t address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
+    registerArr[INSTRUCTION_POINTER] += address << 2;
+    return SUCCESS;
 }
 
 int instr_calli(binInstruction_t instruction)
 {
-    if (registerArr[STACK_POINTER] < 4*0xE0000000){
-        printf("Stack overflow while calling a function\n");
-        return STACK_OVERFLOW;
-    }
-    uint32_t address = registerArr[STACK_POINTER];
-    set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
+    set_memory_32(registerArr[STACK_POINTER], registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;
-    return instr_bi(instruction);
+    int32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
+    registerArr[INSTRUCTION_POINTER] += address << 2;
+    return SUCCESS;
 }
 
 int instr_ret(binInstruction_t instruction)
 {
+    if (instruction.typeJ.register_)
+    {
+        return HALT;
+    }
     registerArr[STACK_POINTER] += 4;
     uint32_t address = registerArr[STACK_POINTER];
     registerArr[INSTRUCTION_POINTER] = read_memory_32(address);

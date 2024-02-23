@@ -18,7 +18,7 @@ typedef enum ErrorType // Define all the errors which could happen and their cod
     CANNOT_ACCESS_FILE,
     INVALID_DATA,
     OUT_OF_MEMORY,
-    STACK_OVERFLOW,
+    HALT,
 } ErrorType_t;
 
 typedef enum binType{
@@ -123,25 +123,33 @@ typedef enum ParameterType // Define type of parameters in a function
 
 typedef struct line // Definition of a line after parsing and checking all its arguments
 {
-    struct
+    uint64_t lineNumber;
+    InstructionType_t mnemonic;
+    ParameterType_t dest_t;
+    uint8_t dest;
+    union
     {
-        InstructionType_t mnemonic;
-        ParameterType_t param1;
-        union
+        struct
         {
-            int register1; // 0-15
-            int32_t immediate1;
+            ParameterType_t param1_t;
+            union
+            {
+                uint8_t register1;
+                int16_t immediate1;
+                char *label1;
+            };
+            ParameterType_t param2_t;
+            union
+            {
+                uint8_t register2;
+                int16_t immediate2;
+            };
+        };
+        struct
+        {
             char *label;
         };
-        ParameterType_t param2;
-        union
-        {
-            int register2;
-            int32_t immediate2;
-        };
     };
-    char *labelDeclaration;
-    int *lineNumber;
 } line_t;
 
 int check_is_number(char *str) // Check if a string is a number
@@ -158,7 +166,7 @@ int check_is_number(char *str) // Check if a string is a number
     return SUCCESS;
 }
 
-int check_is_label(char *str) //Check if the line content is a label
+int check_is_label(char *str) // Check if the line content is a label
 {
     if (!(str[0] >= 'A' && str[0] <= 'F') || !(str[0] >= 'a' && str[0] <= 'f'))
     {
@@ -176,30 +184,60 @@ int check_is_label(char *str) //Check if the line content is a label
     return SUCCESS;
 }
 
-//Used to know what kind of input value we're working with
-int check_val(char* val){
-    if(val == NULL || strcmp(val, "") == 0){
+// Used to know what kind of input value we're working with
+int check_val(char *val)
+{
+    if (val == NULL || strcmp(val, "") == 0)
+    {
         return NULL_;
     }
 
     char str2[3];
     strcpy(str2, val);
-    char* ptr = str2;
+    char *ptr = str2;
     ptr++;
 
-    if(((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) 
-    && strlen(val) == 2
-    && (val[0] == 'R' || val[0] == 'r')){
+    if (((*ptr >= '0' && *ptr <= '9') || (*ptr >= 'A' && *ptr <= 'F') || (*ptr >= 'a' && *ptr <= 'f')) && strlen(val) == 2 && (val[0] == 'R' || val[0] == 'r'))
+    {
         return REGISTER;
     }
-    if(check_is_number(val) == SUCCESS){
+    if (check_is_number(val) == SUCCESS)
+    {
         return IMMEDIATE;
     }
-    if(check_is_number(val) == SUCCESS){
+    if (check_is_number(val) == SUCCESS)
+    {
         return LABEL;
     }
 
     return INVALID_DATA;
 }
+
+int find_register(char *inString, uint8_t *registerIndex)
+{
+    if (inString == NULL || strlen(inString) != 2)
+    {
+        return INVALID_DATA;
+    }
+
+    if (inString[0] != 'R' && inString[0] != 'r')
+    {
+        return INVALID_DATA;
+    }
+
+    char str2[3];
+    strcpy(str2, inString);
+    char *ptr = str2;
+    ptr++;
+    if ((*ptr >= 'A' && *ptr <= 'Z') || (*ptr >= 'a' && *ptr <= 'z'))
+    {
+        *registerIndex = (uint8_t)strtol(ptr, NULL, 16);
+        return SUCCESS;
+    }
+    else
+    {
+        return INVALID_DATA;
+    }
+};
 
 #endif

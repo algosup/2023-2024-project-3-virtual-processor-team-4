@@ -6,10 +6,11 @@
 
 int read_bin(char*, uint8_t**, uint32_t*);
 int load_bin_to_mem(char*);
-int machinecode_to_bininstruction(uint8_t*, binInstruction_t*);
+int machinecode_to_bininstruction(uint32_t, binInstruction_t*);
 int opcode_type_I(binInstruction_t*, uint8_t, uint8_t, uint8_t, int16_t);
-int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int16_t);
+int opcode_type_J(binInstruction_t*, uint8_t, uint8_t, int32_t);
 int opcode_type_R(binInstruction_t*, uint8_t, uint8_t, uint8_t, uint8_t);
+int execute_instr(binInstruction_t);
 
 int read_bin(char* inputFile, uint8_t** outputPtr, uint32_t* size){
     FILE *f = fopen(inputFile, "rb");
@@ -63,36 +64,29 @@ int load_bin_to_mem(char* inputFile){
     return SUCCESS;
 }
 
-int machinecode_to_bininstruction(uint8_t* byteIn, binInstruction_t* instruction){
+int machinecode_to_bininstruction(uint32_t bytes, binInstruction_t* instruction){
     uint8_t opcode;
 
-    //calculate source, source2, immediate, and dest
-    uint8_t source = (byteIn[2] & 0b00000011) << 3;
-    source = source | byteIn[3] >> 5;
+    uint8_t source = (bytes >> 5) & 0b11111;
+    uint8_t dest = bytes & 0b11111;
 
-    uint8_t source2 = (byteIn[2] & 0b01111100) >> 2;
-
-    uint8_t dest = byteIn[3] & 0b00011111; //mask the last three bits
-
-    int16_t immediate = byteIn[0] << 14;
-    immediate = immediate | byteIn[1] << 6;
-    immediate = immediate | byteIn[2] >> 2;
-
-    if(byteIn[0] >> 6 == true){
-        // every type I instruction has this patern 01000000
-        instruction->type = I;
-        opcode = byteIn[0] >> 2;
-
-        return opcode_type_I(instruction, opcode, source, dest, immediate);
-
-    }else if(byteIn[0] >> 7 == true){
-        // every type I instruction has this patern 01000000
+    if(bytes & 0x80000000){
+        // every type J instruction has the first bit set
         instruction->type = J;
-        opcode = byteIn[0] >> 4;
-        return opcode_type_J(instruction, opcode, dest, immediate);
+        opcode = bytes >> 28;
+        int32_t address = bytes & 0x08000000 ? 0xFFC00000 : 0;
+        address |= (bytes >> 5) & 0x003FFFFF;
+        return opcode_type_J(instruction, opcode, dest, address);
+    } else if(bytes & 0x40000000) {
+        // every type I instruction has first bit unset and second bit set
+        instruction->type = I;
+        opcode = bytes >> 26;
+        int16_t immediate = bytes >> 10;
+        return opcode_type_I(instruction, opcode, source, dest, immediate);
     }else{
         instruction->type = R;
-        opcode = byteIn[0] >> 1;
+        opcode = bytes >> 25;
+        uint8_t source2 = (bytes >> 10) & 0b11111;
         return opcode_type_R(instruction, opcode, source, source2, dest);
     } 
 };
@@ -155,9 +149,9 @@ int opcode_type_I(binInstruction_t* instruction, uint8_t opcode, uint8_t source,
     return SUCCESS;
 };
 
-int opcode_type_J(binInstruction_t* instruction, uint8_t opcode, uint8_t dest, int16_t immediate){
+int opcode_type_J(binInstruction_t* instruction, uint8_t opcode, uint8_t dest, int32_t address){
     instruction->typeJ.register_ = dest;
-    instruction->typeJ.address = immediate;
+    instruction->typeJ.address = address;
 
     switch (opcode)
     {
@@ -267,6 +261,126 @@ int opcode_type_R(binInstruction_t* instruction, uint8_t opcode, uint8_t source,
         return GENERIC_ERROR;
     }
     return SUCCESS;
+}
+
+int execute_instr(binInstruction_t instruction)
+{
+    switch (instruction.type)
+    {
+        case (R):
+            switch (instruction.typeR.opcode)
+            {
+                case ADD:
+                    return instr_add(instruction);
+                case SUB:
+                    return instr_sub(instruction);
+                case MUL:
+                    return instr_mul(instruction);
+                case DIV:
+                    return instr_div(instruction);
+                case OR:
+                    return instr_or(instruction);
+                case AND:
+                    return instr_and(instruction);
+                case XOR:
+                    return instr_xor(instruction);
+                case ABS:
+                    return instr_abs(instruction);
+                case TLT:
+                    return instr_tlt(instruction);
+                case TLE:
+                    return instr_tle(instruction);
+                case TGT:
+                    return instr_tgt(instruction);
+                case TGE:
+                    return instr_tge(instruction);
+                case TEQ:
+                    return instr_teq(instruction);
+                case TNE:
+                    return instr_tne(instruction);
+                case STR:
+                    return instr_str(instruction);
+                case LD:
+                    return instr_ld(instruction);
+                case STRP:
+                    return instr_strp(instruction);
+                case LDP:
+                    return instr_ldp(instruction);
+                case PUSH:
+                    return instr_push(instruction);
+                case POP:
+                    return instr_pop(instruction);
+                case XCHG:
+                    return instr_xchg(instruction);
+                default:
+                    break;
+            }
+            break;
+
+        case (I):
+            switch (instruction.typeI.opcode)
+            {
+                case ADDI:
+                    return instr_addi(instruction);
+                case SUBI:
+                    return instr_subi(instruction);
+                case STRI:
+                    return instr_stri(instruction);
+                case LDI:
+                    return instr_ldi(instruction);
+                case ORI:
+                    return instr_ori(instruction);
+                case ANDI:
+                    return instr_andi(instruction);
+                case XORI:
+                    return instr_xori(instruction);
+                case SET:
+                    return instr_set(instruction);
+                case TLTI:
+                    return instr_tlti(instruction);
+                case TLEI:
+                    return instr_tlei(instruction);
+                case TGTI:
+                    return instr_tgti(instruction);
+                case TGEI:
+                    return instr_tgei(instruction);
+                case TEQI:
+                    return instr_teqi(instruction);
+                case TNEI:
+                    return instr_tnei(instruction);
+                default:
+                    break;
+            }
+            break;
+        
+        case (J):
+            switch (instruction.typeJ.opcode)
+            {
+                case B:
+                    return instr_b(instruction);
+                case BI:
+                    return instr_bi(instruction);
+                case BZ:
+                    return instr_bz(instruction);
+                case BNZ:
+                    return instr_bnz(instruction);
+                case CALL:
+                    return instr_call(instruction);
+                case CALLI:
+                    return instr_calli(instruction);
+                case RET:
+                    return instr_ret(instruction);
+                case JMP:
+                    return instr_jmp(instruction);
+                default:
+                    break;
+            }
+            break;
+
+        default:
+            break;
+    }
+    return GENERIC_ERROR;
 }
 
 #endif

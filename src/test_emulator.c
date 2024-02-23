@@ -529,7 +529,7 @@ int test_load_bin(){
 void test_machinecode_to_bininstruction(){
     bool error;
 
-    uint8_t setRb[4] = {0b01011100, 0b00000000, 0b00000000, 0b00100001};
+    uint32_t setRb = 0b01011100000000000000000000100001;
     binInstruction_t instr0;
     machinecode_to_bininstruction(setRb, &instr0);
 
@@ -556,7 +556,7 @@ void test_machinecode_to_bininstruction(){
     }
     
 
-    uint8_t divZero[4] = {0b00000110, 0b00000000, 0b00000100, 0b00100001};
+    uint32_t divZero = 0b00000110000000000000010000100001;
     binInstruction_t instr1;
     machinecode_to_bininstruction(divZero, &instr1);
 

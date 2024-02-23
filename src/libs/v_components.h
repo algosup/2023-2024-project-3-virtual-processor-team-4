@@ -225,7 +225,6 @@ void set_memory_32(uint32_t address, uint32_t value)
 
 //__________________________________________________________________________________
 
-
 //______________________________________________
 // PRINT COMPONENTS
 //__________________
@@ -297,6 +296,7 @@ int print_registers(int base)
         print_32b_number(registerArr[i], base, 32);
         printf("\n");
     }
+    return SUCCESS;
 }
 
 int print_register(int reg, int base)
@@ -309,12 +309,14 @@ int print_register(int reg, int base)
     if (reg < 0 || reg > 31)
     {
         printf("Invalid register (trying to print)\n");
-        return 1;
+        return GENERIC_ERROR;
     }
 
     printf("\nR_%02d: ", reg);
     print_32b_number(registerArr[reg], base, 32);
     printf("\n");
+
+    return SUCCESS;
 }
 
 int print_memory(uint32_t start, uint32_t end, int base)
@@ -338,9 +340,8 @@ int print_memory(uint32_t start, uint32_t end, int base)
         print_32b_number(value, base, 0xFFFFFFFF);
         printf("\n");
     }
+    return SUCCESS;
 }
-
-
 //__________________________________________________________________________________
 
 //____________________________________________________________
