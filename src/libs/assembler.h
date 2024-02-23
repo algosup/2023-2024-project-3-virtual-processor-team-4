@@ -187,6 +187,8 @@ int execute_instruction(line_t *instruction)
         return calli(*instruction);
     case DIV:
         return div_(*instruction);
+    case HALT:
+        return ret(*instruction);
     case JMP:
         return jmp(*instruction);
     case LD:
@@ -858,12 +860,15 @@ int push(line_t instruction)
 
 int ret(line_t instruction)
 {
+    bool halt = instruction.mnemonic == HALT;
+    if (halt) instruction.mnemonic = RET;
     binInstruction_t bin;
     ErrorType_t err = check_type_J(instruction, &bin, RET, 0b1110, false);
     if (err != SUCCESS)
     {
         return err;
     }
+    if (halt) bin.typeJ.register_ = 1;
     return write_to_bin(bin);
 }
 

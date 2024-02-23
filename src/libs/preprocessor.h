@@ -334,7 +334,7 @@ int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLin
     }
 
     int count = 0;
-    while (!feof(ptr))
+    while (!feof(ptr)) // Loop until pointer hits end of file
     {
         ch = fgetc(ptr);
         if (ch == '\n')
@@ -342,12 +342,12 @@ int read_file(char *filename, char *output, uint64_t size, uint64_t *numberOfLin
             *numberOfLines += 1;
         }
         output[count] = ch;
-        count++;
+        count++; // Increment the number of characters contained in the string
     }
 
     output[count - 1] = '\0';
 
-    fclose(ptr);
+    fclose(ptr); // Close after reading file content
     return SUCCESS;
 }
 
@@ -403,7 +403,7 @@ int check_label_declaration(InstructionType_t *instructionId, char *label)
 {
     if (label[strlen(label) - 1] == ':')
     {
-        // Remove the last character from label
+        // Remove the last character from label (:)
         char *newLabel = (char *)malloc((strlen(label) - 1) * sizeof(char));
         strcpy(newLabel, label);
         newLabel[strlen(newLabel) - 1] = '\0';
@@ -432,13 +432,14 @@ int check_label_declaration(InstructionType_t *instructionId, char *label)
     return GENERIC_ERROR;
 }
 
-// Check if the parameters of an operation are valid 
+// Check if the parameters of an operation are valid, each instruction has its own parameter types
 int are_operation_params_valid(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
 {
     switch (*instructionId)
     {
     case SKIP:
     case RET:
+    case HALT:
         return are_all_operand_null(instructionId, param1, param2, param3, lineNumber);
         break;
     case ABS:
@@ -506,7 +507,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         return are_two_first_operand_registers_and_third_immediate(instructionId, param1, param2, param3, lineNumber);
         break;
     default:
-        printf("Instruction not found");
+        printf("Instruction not found\n");
         return GENERIC_ERROR;
         break;
     }
@@ -543,7 +544,7 @@ int is_first_operand_null(InstructionType_t *instructionId, char *param1, uint64
 int is_second_operand_null(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
     // Check if second operand is null
-    if (param2 == NULL)
+    if (param2 != NULL)
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
@@ -1154,6 +1155,9 @@ int get_operand_name(InstructionType_t instruction, char *output)
     case DIV:
         strcpy(output, "div");
         break;
+    case HALT:
+        strcpy(output, "halt");
+        break;
     case JMP:
         strcpy(output, "jmp");
         break;
@@ -1306,6 +1310,10 @@ int find_operand(char *input, InstructionType_t *instruction)
     else if (strcmp("div", input) == 0)
     {
         *instruction = DIV;
+    }
+    else if (strcmp("halt", input) == 0)
+    {
+        *instruction = HALT;
     }
     else if (strcmp("jmp", input) == 0)
     {

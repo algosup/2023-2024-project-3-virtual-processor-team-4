@@ -74,6 +74,7 @@ typedef enum InstructionType
     CALL,
     CALLI,
     DIV,
+    HALT,
     JMP,
     LD,
     LDI,
