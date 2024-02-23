@@ -31,6 +31,7 @@ In the machine code syntax, question marks (`?`) mark unused bits reserved for f
 - [CALL - Call indirect subroutine (Jump and link)](#call---call-indirect-subroutine-jump-and-link)
 - [CALLI - Call subroutine (Jump and link)](#calli---call-subroutine-jump-and-link)
 - [DIV - Division](#div---division)
+- [HALT - Stop the program](#halt---stop-the-program)
 - [JMP - Absolute jump](#jmp---absolute-jump)
 - [LD - Load with direct addressing](#ld---load-with-direct-addressing)
 - [LDI - Load with direct immediate addressing](#ldi---load-with-direct-immediate-addressing)
@@ -89,7 +90,7 @@ Calculates the absolute value of the source register and stores the result in th
 if (rs < 0)
   rd <- -rs
 else
-  rd >- rs
+  rd <- rs
 ```
 
 ### Machine code
@@ -98,7 +99,7 @@ else
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -129,7 +130,9 @@ Adds the content of two registers without carry and stores the result in the des
 
 ### Operation
 
-`rd <- rs + rt`
+```
+rd <- rs + rt
+```
 
 ### Machine code
 
@@ -137,7 +140,7 @@ Adds the content of two registers without carry and stores the result in the des
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -168,7 +171,9 @@ Adds the content of two registers without carry and stores the result in the des
 
 ### Operation
 
-`rd <- rs + imm`
+```
+rd <- rs + imm
+```
 
 ### Machine code
 
@@ -176,7 +181,7 @@ Adds the content of two registers without carry and stores the result in the des
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -207,7 +212,9 @@ Performs a bitwise logical AND operation between two registers and stores the re
 
 ### Operation
 
-`rd <- rs & rt`
+```
+rd <- rs & rt
+```
 
 ### Machine code
 
@@ -215,7 +222,7 @@ Performs a bitwise logical AND operation between two registers and stores the re
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -246,7 +253,9 @@ Performs a bitwise logical AND operation between the source register and the imm
 
 ### Operation
 
-`rd <- rs & imm`
+```
+rd <- rs & imm
+```
 
 ### Machine code
 
@@ -254,7 +263,7 @@ Performs a bitwise logical AND operation between the source register and the imm
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -275,16 +284,18 @@ Branches from the current address by the base in the specified register and a sp
 
 ### Syntax
 
-`b rb [off]`
+`b rb [offset]`
 
 ### Operands
 
 - `rb`: Base address register
-- `off`: Optional offset, defaults to `0`
+- `offset`: Signed offset, defaults to `0`
 
 ### Operation
 
-`ip <- rb + offset`
+```
+ip <- rb + offset
+```
 
 ### Machine code
 
@@ -319,15 +330,17 @@ Branches from the current address by the specified amount.
 
 ### Syntax
 
-`bi imm`
+`bi offset`
 
 ### Operands
 
-- `imm`: Signed offset for the address
+- `offset`: Signed offset for the address
 
 ### Operation
 
-`ip <- ip + imm`
+```
+ip <- ip + offset
+```
 
 ### Machine code
 
@@ -355,19 +368,18 @@ Branches to the address if the value in the specified register is different from
 
 ### Syntax
 
-`bnz reg imm`
+`bnz reg offset`
 
 ### Operands
 
 - `reg`: Comparison register
-- `imm`: Signed offset for the address
+- `offset`: Signed offset for the address
 
 ### Operation
 
-
 ```
 if (reg != 0)
-  ip <- ip + imm
+  ip <- ip + offset
 ```
 
 ### Machine code
@@ -398,19 +410,18 @@ Branches to the address if the value in the specified register is equal to zero.
 
 ### Syntax
 
-`bz reg imm`
+`bz reg offset`
 
 ### Operands
 
 - `reg`: Comparison register
-- `imm`: Signed offset for the address
+- `offset`: Signed offset for the address
 
 ### Operation
 
-
 ```
 if (reg = 0)
-  ip <- ip + imm
+  ip <- ip + offset
 ```
 
 ### Machine code
@@ -440,12 +451,12 @@ Branches from the current address by the base in the specified register and a sp
 
 ### Syntax
 
-`call rb [off]`
+`call rb [offset]`
 
 ### Operands
 
 - `rb`: Base address register
-- `off`: Optional offset, defaults to `0`
+- `offset`: Optional offset, defaults to `0`
 
 ### Operation
 
@@ -466,7 +477,6 @@ None
 ### Example
 
 <!-- TODO -->
-
 ```
 ```
 
@@ -482,18 +492,18 @@ Branches from the current address by the specified amount. Stores the address of
 
 ### Syntax
 
-`calli imm`
+`calli offset`
 
 ### Operands
 
-- `imm`: Signed offset for the address
+- `offset`: Signed offset for the address
 
 ### Operation
 
 ```
 [sp] <- ip + 1
 sp <- sp - 1
-ip <- imm
+ip <- offset
 ```
 
 ### Machine code
@@ -506,8 +516,14 @@ None
 
 ### Example
 
-<!-- TODO -->
 ```
+recursion:
+teqi rt ra 10
+jnz rt endRecursion
+addi ra ra 1
+call recursion
+endRecursion
+ret
 ```
 
 
@@ -532,7 +548,9 @@ Performs an integer division of the content of the first source register by the 
 
 ### Operation
 
-`rd <- rs / rt`
+```
+rd <- rs / rt
+```
 
 ### Machine code
 
@@ -540,9 +558,9 @@ Performs an integer division of the content of the first source register by the 
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
-The value of `rt` must be different than 0.
+The value of `rt` must be different than 0. Otherwise, an exception must be raised both at compile and runtime.
 
 ### Example
 
@@ -556,11 +574,55 @@ ip <- ip + imm
 
 
 
+## HALT - Stop the program
+
+### Description
+
+Stops the execution of the program.
+
+This instruction is automatically added at the end of a program by the assembler.
+
+Without it, the program keeps going, executing through the rest of the memory, leading to undefined behaviors.
+
+### Syntax
+
+`halt`
+
+### Operands
+
+None
+
+### Operation
+
+None
+
+### Machine code
+
+`1110???? ???????? ???????? ???????1`
+
+Note: This is the same opcode as the `ret` instruction.
+
+### Restrictions
+
+None
+
+### Example
+
+```
+// Some code
+earlyExit:
+halt
+```
+
+
+
+
+
 ## JMP - Absolute jump
 
 ### Description
 
-Jumps to the specified absolute address.
+Jumps to the specified absolute address. It has 28 bits of address but is rarely used.
 
 ### Syntax
 
@@ -572,7 +634,9 @@ Jumps to the specified absolute address.
 
 ### Operation
 
-`ip <- addr`
+```
+ip <- addr
+```
 
 ### Machine code
 
@@ -610,7 +674,9 @@ Reads the address stored in the source register and loads the value at that addr
 
 ### Operation
 
-`rd <- [rs]`
+```
+rd <- [rs]
+```
 
 ### Machine code
 
@@ -653,7 +719,9 @@ Loads the value stored at the immediate address and stores it in the destination
 
 ### Operation
 
-`rd <- [imm]`
+```
+rd <- [imm]
+```
 
 ### Machine code
 
@@ -690,7 +758,10 @@ Reads the address of the pointer stored in the source register and loads the val
 
 ### Operation
 
-`rd <- [[rs]]`
+```
+temp <- [rs]
+rd <- [temp]
+```
 
 or 
 
@@ -737,7 +808,9 @@ In case of overflow, the extra bits are discarded.
 
 ### Operation
 
-`rd <- rs * rt`
+```
+rd <- rs * rt
+```
 
 ### Machine code
 
@@ -745,7 +818,7 @@ In case of overflow, the extra bits are discarded.
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -776,7 +849,9 @@ Performs a bitwise logical OR operation between two registers and stores the res
 
 ### Operation
 
-`rd <- rs | rt`
+```
+rd <- rs | rt
+```
 
 ### Machine code
 
@@ -784,7 +859,7 @@ Performs a bitwise logical OR operation between two registers and stores the res
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -815,7 +890,9 @@ Performs a bitwise logical OR operation between the source register and the imme
 
 ### Operation
 
-`rd <- rs | imm`
+```
+rd <- rs | imm
+```
 
 ### Machine code
 
@@ -823,7 +900,7 @@ Performs a bitwise logical OR operation between the source register and the imme
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -957,7 +1034,7 @@ ip <- [sp]
 
 ### Machine code
 
-`1110???? ???????? ???????? ????????`
+`1110???? ???????? ???????? ???????0`
 
 ### Restrictions
 
@@ -992,7 +1069,9 @@ Sets a register to an immediate value.
 
 ### Operation
 
-`rd <- imm`
+```
+rd <- imm
+```
 
 ### Machine code
 
@@ -1029,7 +1108,9 @@ Reads the address stored in the destination register and writes the value in the
 
 ### Operation
 
-`[rd] <- rs`
+```
+[rd] <- rs
+```
 
 ### Machine code
 
@@ -1075,7 +1156,9 @@ Writes the value in the source register at the immediate address.
 
 ### Operation
 
-`[imm] <- rs`
+```
+[imm] <- rs
+```
 
 ### Machine code
 
@@ -1112,7 +1195,10 @@ Reads the address of the pointer stored in the destination register and writes t
 
 ### Operation
 
-`[[rd]] <- rs`
+```
+temp <- [rd]
+[temp] <- rs
+```
 
 ### Machine code
 
@@ -1150,7 +1236,9 @@ Subtracts the content of the second source register from the content of the firs
 
 ### Operation
 
-`rd <- rs - rt`
+```
+rd <- rs - rt
+```
 
 ### Machine code
 
@@ -1158,7 +1246,7 @@ Subtracts the content of the second source register from the content of the firs
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -1187,7 +1275,9 @@ Subtracts the immediate value from the content of the source register without ca
 
 ### Operation
 
-`rd <- rs - imm`
+```
+rd <- rs - imm
+```
 
 ### Machine code
 
@@ -1195,7 +1285,7 @@ Subtracts the immediate value from the content of the source register without ca
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -1450,7 +1540,7 @@ else
 
 ### Machine code
 
-`011011II IIIIIIII IIIIIISS SSSDDDDD`
+`011010II IIIIIIII IIIIIISS SSSDDDDD`
 
 ### Restrictions
 
@@ -1732,28 +1822,28 @@ Swaps the content of two registers.
 
 ### Syntax
 
-`xchg r1 r2`
+`xchg ra rb`
 
 ### Operands
 
-- `r1`: First register
-- `r2`: Second register
+- `ra`: First register
+- `rb`: Second register
 
 ### Operation
 
 ```
-interal <- r1
-r1 <- r2
-r2 <- internal
+interal <- ra
+ra <- rb
+rb <- internal
 ```
 
 ### Machine code
 
-`0010110? ???????? ??????SS SSSDDDDD`
+`0010110? ???????? ??????BB BBBAAAAA`
 
 ### Restrictions
 
-`r1` and `r2` cannot be `sp` or `ip`.
+`ra` and `rb` cannot be `sp` or `ip`.
 
 ### Example
 
@@ -1786,7 +1876,9 @@ Performs a bitwise logical XOR operation between two registers and stores the re
 
 ### Operation
 
-`rd <- rs ^ rt`
+```
+rd <- rs ^ rt
+```
 
 ### Machine code
 
@@ -1794,7 +1886,7 @@ Performs a bitwise logical XOR operation between two registers and stores the re
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
@@ -1825,7 +1917,9 @@ Performs a bitwise logical XOR operation between the source register and the imm
 
 ### Operation
 
-`rd <- rs ^ imm`
+```
+rd <- rs ^ imm
+```
 
 ### Machine code
 
@@ -1833,7 +1927,7 @@ Performs a bitwise logical XOR operation between the source register and the imm
 
 ### Restrictions
 
-`rd` cannot be `sp` or `ip`. Same condition applies for `rs` if no destination register is specified.
+`rd` cannot be `sp` or `ip`. Same condition applies to `rs` if no destination register is specified.
 
 ### Example
 
