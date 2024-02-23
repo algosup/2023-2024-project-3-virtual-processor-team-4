@@ -73,8 +73,8 @@ int machinecode_to_bininstruction(uint32_t bytes, binInstruction_t* instruction)
         // every type J instruction has the first bit set
         instruction->type = J;
         opcode = bytes >> 28;
-        int32_t address = (bytes >> 5) & 0b1111111111111111111111;
-        address = bytes & 0x08000000 ? -address : address; // Add the sign to the address
+        int32_t address = bytes & 0x08000000 ? 0xFFC00000 : 0;
+        address |= (bytes >> 5) & 0x003FFFFF;
         return opcode_type_J(instruction, opcode, dest, address);
     } else if(bytes & 0x40000000) {
         // every type I instruction has first bit unset and second bit set

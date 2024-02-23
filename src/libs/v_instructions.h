@@ -260,7 +260,7 @@ int instr_xori(binInstruction_t instruction)
 
 int instr_set(binInstruction_t instruction)
 {
-    registerArr[instruction.typeI.source] = (instruction.typeI.immediate << 5) | instruction.typeI.source;
+    registerArr[instruction.typeI.destination] = (instruction.typeI.immediate << 5) | instruction.typeI.source;
     return SUCCESS;
 }
 
@@ -326,57 +326,67 @@ int instr_tnei(binInstruction_t instruction)
 
 int instr_b(binInstruction_t instruction)
 {
-    uint32_t address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
+    int32_t address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
     registerArr[INSTRUCTION_POINTER] += address << 2;
     return SUCCESS;
 }
 
 int instr_bi(binInstruction_t instruction)
 {
-    uint32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
+    int32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
     registerArr[INSTRUCTION_POINTER] += address << 2;
     return SUCCESS;
 }
 
 int instr_bz(binInstruction_t instruction)
 {
-    uint32_t value = registerArr[instruction.typeJ.register_];
+    int32_t value = registerArr[instruction.typeJ.register_];
     if (value == 0)
     {
-        return instr_bi(instruction);
+        registerArr[INSTRUCTION_POINTER] += instruction.typeJ.address << 2;
+    }
+    else
+    {
+        registerArr[INSTRUCTION_POINTER] += 4;
     }
     return SUCCESS;
 }
 
 int instr_bnz(binInstruction_t instruction)
 {
-    uint32_t value = registerArr[instruction.typeJ.register_];
-    if (value != 0)
+    int32_t value = registerArr[instruction.typeJ.register_];
+    if (value == 0)
     {
-        return instr_bi(instruction);
+        registerArr[INSTRUCTION_POINTER] += 4;
+    }
+    else
+    {
+        registerArr[INSTRUCTION_POINTER] += instruction.typeJ.address << 2;
     }
     return SUCCESS;
 }
 
 int instr_call(binInstruction_t instruction)
 {
-    uint32_t address = registerArr[STACK_POINTER];
-    set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
+    set_memory_32(registerArr[STACK_POINTER], registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;
-    return instr_b(instruction);
+    int32_t address = registerArr[instruction.typeJ.register_] + instruction.typeJ.address;
+    registerArr[INSTRUCTION_POINTER] += address << 2;
+    return SUCCESS;
 }
 
 int instr_calli(binInstruction_t instruction)
 {
-    uint32_t address = registerArr[STACK_POINTER];
-    set_memory_32(address, registerArr[INSTRUCTION_POINTER] + 4);
+    set_memory_32(registerArr[STACK_POINTER], registerArr[INSTRUCTION_POINTER] + 4);
     registerArr[STACK_POINTER] -= 4;
-    return instr_bi(instruction);
+    int32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
+    registerArr[INSTRUCTION_POINTER] += address << 2;
+    return SUCCESS;
 }
 
 int instr_ret(binInstruction_t instruction)
 {
-    if (instruction.typeR.destination)
+    if (instruction.typeJ.register_)
     {
         running = false;
         return HALT;
