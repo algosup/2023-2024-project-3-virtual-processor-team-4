@@ -388,7 +388,6 @@ int instr_ret(binInstruction_t instruction)
 {
     if (instruction.typeJ.register_)
     {
-        running = false;
         return HALT;
     }
     registerArr[STACK_POINTER] += 4;
