@@ -7,7 +7,45 @@
 #include <stdint.h>
 #include "utils.h"
 
-char *outputFile = NULL;
+typedef enum binType
+{
+    R,
+    I,
+    J
+} binType_t;
+
+//Struct used to standardise what is going to be writen in the MachinCode
+typedef struct binInstruction
+{
+    binType_t type;
+    union
+    {
+        struct typeR
+        {
+            uint8_t opcode;  // 7bits
+            uint8_t source2; // 5bits
+            uint8_t source;
+            uint8_t destination;
+        } typeR;
+        struct typeI
+        {
+            uint8_t opcode;    // 6bits
+            int16_t immediate; // 16bits
+            uint8_t source;    // 5bits
+            uint8_t destination;
+        } typeI;
+        struct typeJ
+        {
+            uint8_t opcode; // 4bits
+            int32_t addres;
+            uint8_t register_; // 5bits
+        } typeJ;
+    };
+} binInstruction_t;
+
+//initialise the list that will be used to store label
+listLabel_t labelList = {NULL, 0, NULL};
+char* outputFile = NULL;
 
 int label(line_t);
 int abs_(line_t);
@@ -55,43 +93,6 @@ int xor_(line_t);
 int xori(line_t);
 // Added _ to avoid conflict with existing keywords
 
-typedef enum binType
-{
-    R,
-    I,
-    J
-} binType_t;
-
-typedef struct binInstruction
-{
-    binType_t type;
-    union
-    {
-        struct typeR
-        {
-            uint8_t opcode;  // 7bits
-            uint8_t source2; // 5bits
-            uint8_t source;
-            uint8_t destination;
-        } typeR;
-        struct typeI
-        {
-            uint8_t opcode;    // 6bits
-            int16_t immediate; // 16bits
-            uint8_t source;    // 5bits
-            uint8_t destination;
-        } typeI;
-        struct typeJ
-        {
-            uint8_t opcode; // 4bits
-            int32_t addres;
-            uint8_t register_; // 5bits
-        } typeJ;
-    };
-} binInstruction_t;
-
-listLabel_t labelList = {NULL, 0, NULL};
-
 int write_to_bin(binInstruction_t);
 int create_bin();
 
@@ -104,7 +105,7 @@ int iterate_through_all_line(line_t *, uint64_t, char *);
 
 int iterate_through_all_line(line_t *instructions, uint64_t arrSize, char *output_file)
 {
-    outputFile = malloc(strlen(output_file) + 1);
+    outputFile = malloc(strlen(output_file) + 1);//copy output to a global variable
     strcpy(outputFile, output_file);
 
     int er = create_bin();
@@ -126,6 +127,15 @@ int iterate_through_all_line(line_t *instructions, uint64_t arrSize, char *outpu
             error = true;
         };
     }
+
+    binInstruction_t endOfFile;
+    endOfFile.type = J;
+    endOfFile.typeJ.addres = 0;
+    endOfFile.typeJ.opcode = 0b1110; //ret
+    endOfFile.typeJ.register_ = 1;
+
+    write_to_bin(endOfFile);
+
 
     if (error == false)
     {
