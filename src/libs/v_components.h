@@ -193,7 +193,7 @@ uint32_t read_memory_32(uint32_t address)
 {
     // Weirdly enough, this code is actually optimized for all edge cases
     uint32_t value;
-    for (int i = 3; i >= 0; i--)
+    for (int i = 0; i < 4; i++)
     {
         value <<= 8;
         value |= read_memory_8(address + i);
@@ -211,7 +211,7 @@ void set_memory_8(uint32_t address, uint8_t value)
 void set_memory_32(uint32_t address, uint32_t value)
 {
     // Weirdly enough, this code is actually optimized for all edge cases
-    for (int i = 0; i < 4; i++)
+    for (int i = 3; i >= 0; i--)
     {
         set_memory_8(address + i, value & 0xff);
         value >>= 8;
@@ -220,18 +220,17 @@ void set_memory_32(uint32_t address, uint32_t value)
 
 //__________________________________________________________________________________
 
-
 //______________________________________________
 // PRINT COMPONENTS
 //__________________
 
-void print_registers(int base);
-void print_register(int reg, int base);
-void print_memory(uint32_t start, uint32_t end, int base);
-void print_32b_number(int32_t number, int base, int32_t max);
+int print_registers(int base);
+int print_register(int reg, int base);
+int print_memory(uint32_t start, uint32_t end, int base);
+void print_32b_number(uint32_t number, int base, uint32_t max);
 
 
-void print_32b_number(int32_t number, int base, int32_t max)
+void print_32b_number(uint32_t number, int base, uint32_t max)
 {
     //nibbles is the number of nibbles to print, so we print numbers by block of 4 digits in hexa and binary and 3 digits in decimal
     if (base == HEX)
@@ -240,15 +239,13 @@ void print_32b_number(int32_t number, int base, int32_t max)
         if (max > 0xFFFF){
             nibbles = 8;
         }
-        if (nibbles <= 4){
-            int32_t b = number >> 16;
-            printf("0x%04X ", b);
-        }
-        else{
-            int32_t b = number >> 16;
+        if (nibbles == 4){
+            printf("0x%04X ", number);
+        }else{
+            uint16_t b = number>> 16;
             printf("0x%04X ", b);
             b = number<<16>>16;
-            printf("%04X\n", b);
+            printf("%04X", b);
         }
     }
     else if (base == BIN)
@@ -280,39 +277,66 @@ void print_32b_number(int32_t number, int base, int32_t max)
     }
 }
 
-void print_registers(int base)
+int print_registers(int base)
 {
-    printf("Registers:\n");
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
+    printf("\nRegisters:\n");
     for (int i = 0; i < 32; i++)
     {
         printf("R_%02d: ", i);
         print_32b_number(registerArr[i], base, 32);
         printf("\n");
     }
+    return SUCCESS;
 }
 
-void print_register(int reg, int base)
-{
-    printf("R_%02d: ", reg);
+int print_register(int reg, int base)
+{   
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
+    if (reg < 0 || reg > 31)
+    {
+        printf("Invalid register (trying to print)\n");
+        return GENERIC_ERROR;
+    }
+
+    printf("\nR_%02d: ", reg);
     print_32b_number(registerArr[reg], base, 32);
     printf("\n");
+
+    return SUCCESS;
 }
 
-void print_memory(uint32_t start, uint32_t end, int base)
+int print_memory(uint32_t start, uint32_t end, int base)
 {
-    printf("Memory:\n");
-    
-    int32_t max = end;
+    if (base != HEX && base != DEC && base != BIN)
+    {
+        printf("Invalid base\n");
+        return GENERIC_ERROR;
+    }
+    if (start < 0 || start > 0xFFFFFFFF || end < 0 || end > 0xFFFFFFFF || start > end)
+    {
+        printf("Invalid memory range (trying to print)\n");
+        return OUT_OF_MEMORY;
+    }
+    printf("\nMemory:\n");
     for (uint32_t i = start; i < end; i += 4)
     {   
-        print_32b_number(i, HEX, max);
-        printf(": ");
-        print_32b_number(read_memory_32(i), base, max);
+        print_32b_number(i, HEX, end);
+        printf(" : ");
+        uint32_t value = read_memory_32(i);
+        print_32b_number(value, base, 0xFFFFFFFF);
         printf("\n");
     }
+    return SUCCESS;
 }
-
-
 //__________________________________________________________________________________
 
 
