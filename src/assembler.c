@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include <pthread.h> // Include pthread library for threading
 #include "./libs/utils.h"
 #include "./libs/preprocessor.h"
 #include "./libs/assembler.h"
@@ -23,6 +22,9 @@ int main(int argc, char **argv)
     {
         printf("Did you know? You can provide a third parameter to name your object file?\n");
         destinationProvided = false;
+
+        output_file = malloc(strlen("output.bin") + 1);
+        strcpy(output_file, "output.bin");
     }
     else
     {
@@ -52,7 +54,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        uint64_t lineCount = 0; // File has at least one line if it exists
+        uint64_t lineCount = 1; // File has at least one line if it exists
 
         char *content = malloc((charCount + 1) * sizeof(char));
 
@@ -60,7 +62,7 @@ int main(int argc, char **argv)
         bool fileHasError = false;
 
         // Allocate memory for instructionMap
-        line_t **instructionMap = malloc((lineCount + 1) * sizeof(line_t *));
+        line_t *instructionMap = malloc((lineCount) * sizeof(line_t));
 
         if (instructionMap == NULL)
         {
@@ -68,22 +70,34 @@ int main(int argc, char **argv)
             return 1;
         }
 
-        for (uint64_t j = 0; j <= lineCount; j++)
+        for (uint64_t j = 0; j < lineCount; j++)
         {
             // malloc line content
             char *lineContent = malloc(100 * sizeof(char));
 
-            line_content_from_file_content(content, j, lineContent);
-            line_t *line = malloc(sizeof(line_t));
+            if (lineContent == NULL)
+            {
+                printf("Failed to allocate memory for line content\n");
+                return 1;
+            }
 
-            if (preprocess_line(lineContent, line, &j) != 0)
+            line_t *line = (line_t *)malloc(sizeof(line_t));
+
+            if (line == NULL)
+            {
+                printf("Failed to allocate memory for line\n");
+                return 1;
+            }
+
+            line_content_from_file_content(content, j, lineContent);
+
+            if (preprocess_line(lineContent, &instructionMap[j], &j) != 0)
             {
                 fileHasError = true;
                 continue; // Go to next line
             }
 
-            // Assign the pointer to line struct to instructionMap
-            instructionMap[j] = line;
+            line_t test = instructionMap[j];
 
             free(lineContent);
         }
@@ -95,15 +109,18 @@ int main(int argc, char **argv)
         }
         else
         {
-            printf("Compiled successfully!\n");
-            // Function to write machine code into .o file
+            int resCode = iterate_through_all_line(instructionMap, lineCount, output_file);
+            if (resCode != 0)
+            {
+                printf("Failed to compile!\n");
+                return GENERIC_ERROR;
+            }
+            else
+            {
+                printf("Compiled successfully!\n");
+            }
         }
 
-        // Free instructionMap memory
-        for (long long int j = 0; j <= lineCount; j++)
-        {
-            free(instructionMap[j]); // Free each line_t struct
-        }
         free(instructionMap); // Free the array itself
 
         // Free file content
