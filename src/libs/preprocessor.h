@@ -225,7 +225,12 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             if (param1[0] == 'x' || param1[0] == 'X')
             {
-                hex_to_decimal(param1 + 1, &line->immediate1);
+                if(hex_to_decimal(param1 + 1, &line->immediate1) != SUCCESS)
+                {
+                    printf("Error: Invalid hexadecimal value on line: %" PRIu64 "\n", *lineNumber);
+                    return GENERIC_ERROR;
+                }
+                printf("immediate1: %d\n", line->immediate1);
                 line->param1_t = IMMEDIATE;
             }
             else
@@ -261,7 +266,12 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
         {
             if (param2[0] == 'x' || param2[0] == 'X')
             {
-                hex_to_decimal(param2 + 1, &line->immediate2);
+                if(hex_to_decimal(param2 + 1, &line->immediate2) != SUCCESS)
+                {
+                    printf("Error: Invalid hexadecimal value on line: %" PRIu64 "\n", *lineNumber);
+                    return GENERIC_ERROR;
+                }
+                printf("immediate2: %d\n", line->immediate2);
                 line->param2_t = IMMEDIATE;
             }
             else
@@ -692,6 +702,17 @@ int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *
         printf("Error: %s instruction first parameter is nor an immediate or label on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
+
+    if(is_second_operand_null(instructionId, param1, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
+    if(is_third_operand_null(instructionId, param1, lineNumber) != SUCCESS)
+    {
+        return INVALID_DATA;
+    }
+
     return SUCCESS;
 }
 
@@ -844,7 +865,7 @@ int are_all_operand_null(InstructionType_t *instructionId, char *param1, char *p
 
 int is_first_operand_register_or_first_and_second_operand_registers(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
 {
-    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || are_all_operand_registers(instructionId, param1, param2, NULL, lineNumber) != SUCCESS)
+    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS && are_two_first_operand_registers(instructionId, param1, param2, lineNumber) != SUCCESS)
     {
         return INVALID_DATA;
     }
@@ -978,10 +999,29 @@ int is_second_operand_immediate_or_label(InstructionType_t *instructionId, char 
 
 int is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
 {
-    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_immediate_or_label(instructionId, param2, lineNumber) != SUCCESS)
+    if (is_first_operand_register(instructionId, param1, lineNumber) != SUCCESS)
     {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction first parameter is not a register on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
+
+    if(is_second_operand_immediate_or_label(instructionId, param2, lineNumber) != SUCCESS) {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction second parameter is not an immediate or label on line: %" PRIu64 "\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+
+    if(is_third_operand_null(instructionId, param2, lineNumber) != SUCCESS)
+    {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
+        return INVALID_DATA;
+    }
+
     return SUCCESS;
 }
 

@@ -64,9 +64,9 @@ typedef enum InstructionType
     XCHG,
     XOR,
     XORI
-} InstructionType_t; // etc...
+} InstructionType_t; // List of all the instruction types in our assembly language
 
-typedef enum ParameterType // Define type of parameters in a function
+typedef enum ParameterType // Define type of parameters in a function in line struct
 {
     IMMEDIATE,
     REGISTER,
@@ -86,7 +86,7 @@ typedef struct instruction // Definition of an instruction after parsing
     int line;
 } instruction_t;
 
-typedef struct line // Definition of a line after parsing and checking all its arguments
+typedef struct line // Definition of a line after parsing and checking all its arguments to identify them in assembler.h
 {
     uint64_t lineNumber;
     InstructionType_t mnemonic;
@@ -122,33 +122,33 @@ typedef struct line // Definition of a line after parsing and checking all its a
     };
 } line_t;
 
-typedef struct label
+typedef struct label // Structure of a label in assembler.h
 {
     uint32_t line;
     char *labelStr;
 } label_t;
 
-typedef struct nodeLabel
+typedef struct nodeLabel // Node of a linked list of labels in assembler.h
 {
     struct nodeLabel *previous;
     label_t val;
     struct nodeLabel *next;
 } nodeLabel_t;
 
-typedef struct listLabel
+typedef struct listLabel // Linked list of labels in assembler.h
 {
     nodeLabel_t *head;
     unsigned int size;
     nodeLabel_t *tail;
 } listLabel_t;
 
-typedef struct stackNode
+typedef struct stackNode // Node of a linked list of stack in assembler.h
 { // Item of linked list
     struct stackNode *previous;
     line_t val;
 } stackNode_t;
 
-typedef struct stack
+typedef struct stack // Linked list of stack in assembler.h
 { // Linked list = stack
     stackNode_t *head;
     unsigned int size;
@@ -159,6 +159,7 @@ typedef struct stack
 // ************************** FUNCTION DECLARATIONS **************************s
 // The functions contained in this section are of general purpose and can be used in any part of the code
 
+// Check if a string is an hexadecimal number
 int isHexadecimal(const char *str)
 {
     int len = strlen(str);
@@ -259,9 +260,12 @@ int hex_to_decimal(const char *hex, int16_t *decimal)
     int length = strlen(hex);
     if (length > 4)
     {
-        return -1;
+        return GENERIC_ERROR; // Exceeds the maximum length for a 16-bit integer
     }
+
     int base = 1;
+    *decimal = 0;
+
     for (int i = length - 1; i >= 0; i--)
     {
         if (hex[i] >= '0' && hex[i] <= '9')
@@ -278,6 +282,7 @@ int hex_to_decimal(const char *hex, int16_t *decimal)
         }
         base *= 16;
     }
+
     return SUCCESS;
 }
 
@@ -288,19 +293,19 @@ int find_register(char *inString, uint8_t *registerIndex)
         return INVALID_DATA;
     }
 
-    if (strcmp(inString, "ip") == 0)
+    if (strcmp(inString, "ip") == 0) // Compare for read-only registers
     {
         *registerIndex = 30;
         return SUCCESS;
     }
 
-    if (strcmp(inString, "sp") == 0)
+    if (strcmp(inString, "sp") == 0) // Compare for read-only registers
     {
         *registerIndex = 31;
         return SUCCESS;
     }
 
-    if (inString[0] != 'R' && inString[0] != 'r')
+    if (inString[0] != 'R' && inString[0] != 'r') // If it doesn't start with a R or r, it's not a register
     {
         return INVALID_DATA;
     }
@@ -309,9 +314,9 @@ int find_register(char *inString, uint8_t *registerIndex)
     strcpy(str2, inString);
     char *ptr = str2;
     ptr++;
-    if ((*ptr >= 'a' && *ptr <= 'z'))
+    if ((*ptr >= 'a' && *ptr <= 'z')) // Try to see if it is in the range of a-z
     {
-        *registerIndex = (uint8_t)(*ptr - 97);
+        *registerIndex = (uint8_t)(*ptr - 97); // Return the index of the register minus ascii value of A (97)
         return SUCCESS;
     }
     else
