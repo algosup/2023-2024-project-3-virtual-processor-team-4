@@ -443,6 +443,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
     {
     case SKIP:
     case RET:
+    case HALT:
         return are_all_operand_null(instructionId, param1, param2, param3, lineNumber);
         break;
     case ABS:
@@ -510,7 +511,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         return are_two_first_operand_registers_and_third_immediate(instructionId, param1, param2, param3, lineNumber);
         break;
     default:
-        printf("Instruction not found");
+        printf("Instruction not found\n");
         return GENERIC_ERROR;
         break;
     }
@@ -547,7 +548,7 @@ int is_first_operand_null(InstructionType_t *instructionId, char *param1, uint64
 int is_second_operand_null(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber)
 {
     // Check if second operand is null
-    if (param2 == NULL)
+    if (param2 != NULL)
     {
         char opcode[4];
         get_operand_name(*instructionId, opcode);
@@ -1158,6 +1159,9 @@ int get_operand_name(InstructionType_t instruction, char *output)
     case DIV:
         strcpy(output, "div");
         break;
+    case HALT:
+        strcpy(output, "halt");
+        break;
     case JMP:
         strcpy(output, "jmp");
         break;
@@ -1310,6 +1314,10 @@ int find_operand(char *input, InstructionType_t *instruction)
     else if (strcmp("div", input) == 0)
     {
         *instruction = DIV;
+    }
+    else if (strcmp("halt", input) == 0)
+    {
+        *instruction = HALT;
     }
     else if (strcmp("jmp", input) == 0)
     {
