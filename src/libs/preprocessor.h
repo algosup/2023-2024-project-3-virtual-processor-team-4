@@ -29,7 +29,7 @@ int is_second_operand_immediate(InstructionType_t *instructionId, char *param2, 
 int is_third_operand_immediate(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
 int is_first_operand_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_second_operand_label(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
-int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
+int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber);
 int is_first_operand_immediate_or_register(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber);
 int is_second_operand_immediate_or_register(InstructionType_t *instructionId, char *param2, uint64_t *lineNumber);
 int is_third_operand_immediate_or_register(InstructionType_t *instructionId, char *param3, uint64_t *lineNumber);
@@ -460,7 +460,7 @@ int are_operation_params_valid(InstructionType_t *instructionId, char *param1, c
         break;
     case BI:
     case CALLI:
-        return is_first_operand_immediate_or_label(instructionId, param1, lineNumber);
+        return is_first_operand_immediate_or_label(instructionId, param1, param2, param3, lineNumber);
         break;
     case BNZ:
     case BZ:
@@ -685,12 +685,19 @@ int is_first_operand_immediate(InstructionType_t *instructionId, char *param1, u
     return SUCCESS;
 }
 
-int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, uint64_t *lineNumber)
+int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, char *param3, uint64_t *lineNumber)
 {
     char opcode[4];
 
     if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS)
     {
+        return INVALID_DATA;
+    }
+
+    if(is_first_operand_register(instructionId, param1, lineNumber) == SUCCESS){
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction first parameter is nor an immediate or label on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
 
@@ -701,13 +708,19 @@ int is_first_operand_immediate_or_label(InstructionType_t *instructionId, char *
         return INVALID_DATA;
     }
 
-    if (is_second_operand_null(instructionId, param1, lineNumber) != SUCCESS)
+    if (param2 != NULL)
     {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
 
-    if (is_third_operand_null(instructionId, param1, lineNumber) != SUCCESS)
+    if (param3 != NULL)
     {
+        char opcode[4];
+        get_operand_name(*instructionId, opcode);
+        printf("Error: %s instruction has been provided too much arguments on line: %" PRIu64 "\n", opcode, *lineNumber);
         return INVALID_DATA;
     }
 
@@ -875,7 +888,7 @@ int is_first_operand_register_or_first_and_second_operand_registers(InstructionT
     }
 
     uint8_t registerPlaceholder;
-    if(param2 != NULL)
+    if (param2 != NULL)
     {
         if (find_register(param2, &registerPlaceholder) != SUCCESS)
         {
