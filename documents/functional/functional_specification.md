@@ -41,8 +41,7 @@ The assembly language will also be created and tailored by us.
   - [Portability](#portability)
   - [Usability](#usability)
   - [Security](#security)
-- [Examples](#examples)
-- [Resources](#resources)
+- [Example](#example)
 - [Risks and assumptions](#risks-and-assumptions)
 - [Future improvements](#future-improvements)
 - [Glossary](#glossary)
@@ -70,10 +69,10 @@ The assembly language will also be created and tailored by us.
 ## Project scope
 
 We have multiple objectives for this project:
-- Creation of an assembly language and [Instruction Set Architecture](#glossary) (ISA) (defined further down in this document and in the [Appendix](./Appendix_A_-_Instruction_Set_Manual.pdf))
-- Implementation of this ISA in the form of a [virtual processor](#glossary) that can be emulated on a physical computer
-- Implementation of an [assembler](#glossary) to create machine code for this processor from the assembly language
-- Provision of sample assembly scripts that can be assembled and run
+- Creation of an assembly language and [Instruction Set Architecture](#glossary) (ISA) (defined further down in this document and in the [Appendix](./appendix_a_instruction_set_manual.pdf)).
+- Implementation of this ISA in the form of a [virtual processor](#glossary) that can be emulated on a physical computer.
+- Implementation of an [assembler](#glossary) to create machine code for this processor from the assembly language.
+- Provision of sample assembly scripts that can be assembled and run.
 
 ## Functional requirements
 
@@ -81,15 +80,15 @@ The instructions of the language must allow for the following actions:
 - Data handling i.e. writing data between a register and
   - an immediate value (a constant),
   - another register,
-  - the memory (RAM)
-  - the virtual keyboard/display
+  - the memory (RAM),
+  - or the virtual keyboard/display
 - Calculations
-  - The four basic mathematical operations (addition, subtraction, multiplication, division)
-  - The four basic logical operations (not, and, or, xor)
+  - The four basic mathematical operations (addition, subtraction, multiplication, division).
+  - The four basic logical operations (not, and, or, xor).
 - Branching
-  - Comparison between registers and values
-  - Conditional and unconditional jumping
-  - Calling and returning from subroutines
+  - Comparison between registers and values.
+  - Conditional and unconditional jumping.
+  - Calling and returning from subroutines.
 
 Both the assembler and emulator must written in the C language, as well as being able to be compiled and run on any real computer architecture.
 No libraries outside of the standard ones should be used, and the libraries that are operating system-specific must have existing alternatives.
@@ -170,14 +169,14 @@ To ensure that the project is viable, all the specifications must be approved by
 
 The architecture will use 32-bit integers to run. Unless otherwise specified, those integers are supposed signed.
 
-We will consider to have 28 registers. The first 26 are denoted by the letter `r` followed by another letter (ra, rb, ..., ry, rz). \
+We will consider to have 28 registers. The first 26 are denoted by the letter `r` followed by another letter (`ra`, `rb`, ..., `ry`, `rz`) and their machine code representation is the index of the letter (`ra` = 0, `rb` = 1, ...). \
 The other registers are:
-- `sp`, the address of the stack pointer. Read-only.
-- `ip`, number of the currently executed instruction. Read-only.
+- `sp`, the address of the stack pointer. Read-only. Machine code value: 30.
+- `ip`, number of the currently executed instruction. Read-only. Machine code value: 31.
 
 The architecture is flagless. This means that when a comparison is done, the result is stored back in a register rather than a flag. For overflows and carry, those must be checked manually.
 
-The stack starts at the address `0xFFFFFFFF` and grows downwards.
+The stack starts at the address `0xFFFFFFFC` and grows downwards.
 
 The memory mapping we will be using resembles the usual ones and is as follows:
 
@@ -305,7 +304,7 @@ A program written using this assembly language should be run in two steps:
 1. The program is first passed through the assembler to obtain a working machine code version
 2. The machine code is then emulated with a second program
 
-Execution of the program starts at the first line and ends when the end of the file is reached, the `exit` instruction is used, or when a runtime error occurs.
+Execution of the program starts at the first line and ends when the end of the assembly file is reached, the `halt` instruction is used, or when a runtime error occurs.
 
 Here is an example of an input file using our Assembly code:
 
@@ -316,9 +315,11 @@ mul r0 r0
 subi r0 1
 ```
 
-Launching our program following the steps given above would look as follows:
+Launching a program following the steps given above would look as follows:
 
 ![Program launch on command line](./pictures/launch_program.png)
+
+The `-d` parameter on the emulator allows debugging of the program by printing the registers at the end of the execution.
 
 ## Non-functional requirements
 
@@ -351,40 +352,33 @@ This debugger would consist of a way to display the contents of registers and fl
 
 You can use a modified machine code to run illegal operations on your CPU. Through the use of the virtual CPU, we can mitigate that risk as the user would not be running the code directly on the hardware.
 
-## Examples
+## Example
 
 Here is an example program that will always output the 8th Fibonacci number (21), and is written in our assembly language:
 
 ```
-// TODO: Ask for value of c
+// The index we want to calculate is stored in rc
 sub rc rc
 add rc 8 // Calculate the 8th value
+// Initialize
 sub ra ra
 add ra 0
 sub rb rb
 add rb 1
+// Begin loop
 loop:
 add ra rb
 xchg ra rb
+// End loop
 subi rc 1
 teqi rc 1
 jz loop
-// TODO: Print result (=21)
+// The result is stored in rb (=21)
 ```
-
-## Resources
-
-Man-hours:
-- 8 weeks
-- 29 half-days (each of 3.5 hours)
-- 609 manhours
-
-Budget:
-- None
 
 ## Risks and assumptions
 
-- The 32-bit timestamp ends in 2038
+- The way to mitigate 32-bit timestamps ending in 2038 has yet to be defined
 - The instruction we create could infringe a patent
 - We assume that every implementation of C follows the C Standard close enough to not be a problem
 - We assume that any instruction we create can be implemented in real hardware
