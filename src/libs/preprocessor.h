@@ -1,10 +1,6 @@
 #ifndef PREPROCESS_H
 #define PREPROCESS_H
-#include "utils.h"
 #include <inttypes.h>
-#include <string.h>
-#include <stdlib.h>
-
 // ************************** FUNCTION DECLARATIONS **************************
 
 int preprocess_line(char *lineContent, line_t *line, uint64_t *lineNumber);
