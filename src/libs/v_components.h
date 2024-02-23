@@ -284,13 +284,14 @@ int print_registers(int base)
         printf("Invalid base\n");
         return GENERIC_ERROR;
     }
-    printf("Registers:\n");
+    printf("\nRegisters:\n");
     for (int i = 0; i < 32; i++)
     {
         printf("R_%02d: ", i);
         print_32b_number(registerArr[i], base, 32);
         printf("\n");
     }
+    return SUCCESS;
 }
 
 int print_register(int reg, int base)
@@ -303,12 +304,14 @@ int print_register(int reg, int base)
     if (reg < 0 || reg > 31)
     {
         printf("Invalid register (trying to print)\n");
-        return 1;
+        return GENERIC_ERROR;
     }
 
-    printf("R_%02d: ", reg);
+    printf("\nR_%02d: ", reg);
     print_32b_number(registerArr[reg], base, 32);
     printf("\n");
+
+    return SUCCESS;
 }
 
 int print_memory(uint32_t start, uint32_t end, int base)
@@ -323,7 +326,7 @@ int print_memory(uint32_t start, uint32_t end, int base)
         printf("Invalid memory range (trying to print)\n");
         return OUT_OF_MEMORY;
     }
-    printf("Memory:\n");
+    printf("\nMemory:\n");
     for (uint32_t i = start; i < end; i += 4)
     {   
         print_32b_number(i, HEX, end);
@@ -332,6 +335,7 @@ int print_memory(uint32_t start, uint32_t end, int base)
         print_32b_number(value, base, 0xFFFFFFFF);
         printf("\n");
     }
+    return SUCCESS;
 }
 //__________________________________________________________________________________
 
