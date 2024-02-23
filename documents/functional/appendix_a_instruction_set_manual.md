@@ -1,16 +1,23 @@
 # Appendix A - Instruction Set Manual
 
-<!-- TODO: Fix opcodes -->
+Notes about the syntax in this document:
 
-In this document, all optional parameters in the assembly are denoted in square brackets. For example, the absolute value (`abs [rd] rs`) using the same register as the destination and source (`abs ra ra`) can be shortened without specifying the destination (`abs ra`).
+All optional parameters in the assembly are denoted in square brackets. For example, the absolute value (`abs [rd] rs`) using the same register as the destination and source (i.e. `abs rs rs`) can be shortened without specifying the destination (`abs rs`).
 
-Note for all immediate instruction: Since the difference between a register and an immediate value can easily be made, the mnemonics with immediate values (I type) can be written like their register (R type) counterpart. Example `addi ra 5` can be written `add ra 5`.
+For all the immediate instructions, since the difference between a register and an immediate value can easily be made, the mnemonics with immediate values (I type) can be written like their register (R type) counterparts.
+Example: `addi ra 5` can be written `add ra 5`.
+
+In the machine code syntax, question marks (`?`) mark unused bits reserved for future usage. These bits should `0` by default to ensure forward compatibility.
 
 <style>
     h2 {
         page-break-before: always;
     }
 </style>
+
+
+
+### Table of Contents:
 
 - [ABS - Absolute value](#abs---absolute-value)
 - [ADD - Addition](#add---addition)
