@@ -8,9 +8,14 @@
 #include "./libs/assembler.h"
 
 void test_iterate_through_all_line();
+void test_get_file_size();
+void test_read_file();
 
 int main(){
     test_iterate_through_all_line();
+    test_get_file_size();
+    test_read_file();
+
     return 0;
 }
 
@@ -88,7 +93,7 @@ void test_iterate_through_all_line(){
 
     FILE* file = fopen("test.bin", "rb");
     if (file == NULL) {
-        perror("Error opening file");
+        perror("Error opening file\n");
         exit(EXIT_FAILURE);
     }
     unsigned char byte;
@@ -96,19 +101,77 @@ void test_iterate_through_all_line(){
     while (fread(&byte, sizeof(byte), 1, file) == 1) {
         if(byteArr[i] != byte){
             error = true;
-            printf("test_iterate_through_all_line: expected %d got %d", byteArr[i], byte);
+            printf("test_iterate_through_all_line: expected %d got %d\n", byteArr[i], byte);
         }
         i++;
     }
 
     if (!feof(file)) {
-        perror("Error reading file");
+        perror("Error reading file\n");
         fclose(file);
         exit(EXIT_FAILURE);
     }
     fclose(file);
 
     if(!error){
-        printf("test_iterate_through_all_line: Succesful");
+        printf("test_iterate_through_all_line: Succesful\n");
     };
 }
+
+void test_get_file_size(){
+
+    FILE *file = fopen("test.txt", "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+    char* text = "ailuzgbabviulbagoaugeriipabuegergpaiuhgbuiavrbavuoabv";
+    fprintf(file, "%s", text);
+    int expected = strlen(text);
+    fclose(file);
+
+    uint64_t charCount;
+    get_file_size("test.txt", &charCount);
+
+    if(charCount != expected){
+        printf("test_get_file_size: expected %d got %d\n", expected, charCount);
+    }else{
+        printf("test_get_file_size: Succesful\n");
+    }
+    return;
+}
+
+void test_read_file(){
+    bool error = false;
+
+    FILE *file = fopen("test.txt", "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+    char* text = "ailuzgbabviulbagoaugeri\nipabuegergpaiu\nhgbuiavrbavuoabv\n\0";
+    fprintf(file, "%s", text);
+    int expected = 3;
+    fclose(file);
+
+    uint64_t charCount = strlen(text);
+    char *content = malloc((charCount + 1) * sizeof(char));
+
+    uint64_t lineCount = 0;
+    read_file("test.txt", content, charCount, &lineCount);
+
+    if(lineCount != expected){
+        printf("test_read_file: expected %d got %u\n", expected, lineCount);
+        error = true;
+    }
+
+    if(strcmp(content, text) != 0){
+        printf("test_read_file: expected %s got %s\n", text, content);
+        error = true;
+    }
+    
+    if(!error){
+        printf("test_read_file: Succesful\n");
+    }
+    return;
+};
