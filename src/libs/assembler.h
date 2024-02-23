@@ -374,7 +374,7 @@ int create_bin()
         return GENERIC_ERROR;
     }
 }
-ErrorType_t check_type_R(line_t instruction, binInstruction_t *bin, InstructionType_t inst, uint8_t opcode)
+ErrorType_t check_type_R(line_t instruction, binInstruction_t *bin, InstructionType_t inst, uint8_t opcode, bool notThreeArg)
 {
     bool error = false;
 
@@ -389,7 +389,11 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t *bin, InstructionT
         error = true;
     }
 
-    if (instruction.param2_t == NULL_ && instruction.dest_t == REGISTER)
+    if(instruction.param2_t == REGISTER && notThreeArg){
+        error = true;
+        printf("Error: too many argument in line %d\n", instruction.lineNumber);
+    }
+    else if (instruction.param2_t == NULL_ && instruction.dest_t == REGISTER && instruction.param1_t == REGISTER)
     {
         bin->typeR.destination = instruction.dest;
         bin->typeR.source = instruction.dest;
@@ -403,6 +407,11 @@ ErrorType_t check_type_R(line_t instruction, binInstruction_t *bin, InstructionT
             printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
             error = true;
         }
+    }else if (instruction.dest_t == REGISTER && instruction.param1_t == NULL_)
+    {
+        bin->typeR.destination = instruction.dest;
+        bin->typeR.source = instruction.dest;
+        bin->typeR.source2 = instruction.dest;
     }
     else if (instruction.dest_t == REGISTER)
     {
@@ -659,7 +668,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
 int abs_(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, ABS, 7);
+    ErrorType_t err = check_type_R(instruction, &bin, ABS, 7, true);
     if (err != SUCCESS)
     {
         return err;
@@ -670,7 +679,7 @@ int abs_(line_t instruction)
 int add(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, ADD, 0);
+    ErrorType_t err = check_type_R(instruction, &bin, ADD, 0, false);
     if (err != SUCCESS)
     {
         return err;
@@ -692,7 +701,7 @@ int addi(line_t instruction)
 int and_(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, AND, 5);
+    ErrorType_t err = check_type_R(instruction, &bin, AND, 5, false);
     if (err != SUCCESS)
     {
         return err;
@@ -780,7 +789,7 @@ int calli(line_t instruction)
 int div_(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, DIV, 3);
+    ErrorType_t err = check_type_R(instruction, &bin, DIV, 3, false);
     if (err != SUCCESS)
     {
         return err;
@@ -802,7 +811,7 @@ int jmp(line_t instruction)
 int ld(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, LD, 17);
+    ErrorType_t err = check_type_R(instruction, &bin, LD, 17, true);
     if (err != SUCCESS)
     {
         return err;
@@ -824,7 +833,7 @@ int ldi(line_t instruction)
 int ldp(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, LDP, 19);
+    ErrorType_t err = check_type_R(instruction, &bin, LDP, 19, true);
     if (err != SUCCESS)
     {
         return err;
@@ -835,7 +844,7 @@ int ldp(line_t instruction)
 int mul(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, MUL, 2);
+    ErrorType_t err = check_type_R(instruction, &bin, MUL, 2, false);
     if (err != SUCCESS)
     {
         return err;
@@ -846,7 +855,7 @@ int mul(line_t instruction)
 int or_(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, OR, 4);
+    ErrorType_t err = check_type_R(instruction, &bin, OR, 4, false);
     if (err != SUCCESS)
     {
         return err;
@@ -868,7 +877,7 @@ int ori(line_t instruction)
 int pop(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, POP, 21);
+    ErrorType_t err = check_type_R(instruction, &bin, POP, 21, true);
     if (err != SUCCESS)
     {
         return err;
@@ -879,7 +888,7 @@ int pop(line_t instruction)
 int push(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, PUSH, 20);
+    ErrorType_t err = check_type_R(instruction, &bin, PUSH, 20, true);
     if (err != SUCCESS)
     {
         return err;
@@ -912,7 +921,7 @@ int set(line_t instruction)
 int str(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, STR, 16);
+    ErrorType_t err = check_type_R(instruction, &bin, STR, 16, true);
     if (err != SUCCESS)
     {
         return err;
@@ -934,7 +943,7 @@ int stri(line_t instruction)
 int strp(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, STRP, 18);
+    ErrorType_t err = check_type_R(instruction, &bin, STRP, 18, true);
     if (err != SUCCESS)
     {
         return err;
@@ -945,7 +954,7 @@ int strp(line_t instruction)
 int sub(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, SUB, 1);
+    ErrorType_t err = check_type_R(instruction, &bin, SUB, 1, false);
     if (err != SUCCESS)
     {
         return err;
@@ -967,7 +976,7 @@ int subi(line_t instruction)
 int teq(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, TEQ, 12);
+    ErrorType_t err = check_type_R(instruction, &bin, TEQ, 12, false);
     if (err != SUCCESS)
     {
         return err;
@@ -989,7 +998,7 @@ int teqi(line_t instruction)
 int tge(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, TGE, 11);
+    ErrorType_t err = check_type_R(instruction, &bin, TGE, 11, false);
     if (err != SUCCESS)
     {
         return err;
@@ -1011,7 +1020,7 @@ int tgei(line_t instruction)
 int tgt(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, TGT, 10);
+    ErrorType_t err = check_type_R(instruction, &bin, TGT, 10, false);
     if (err != SUCCESS)
     {
         return err;
@@ -1033,7 +1042,7 @@ int tgti(line_t instruction)
 int tle(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, TLE, 9);
+    ErrorType_t err = check_type_R(instruction, &bin, TLE, 9, false);
     if (err != SUCCESS)
     {
         return err;
@@ -1055,7 +1064,7 @@ int tlei(line_t instruction)
 int tlt(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, TLT, 8);
+    ErrorType_t err = check_type_R(instruction, &bin, TLT, 8, false);
     if (err != SUCCESS)
     {
         return err;
@@ -1077,7 +1086,7 @@ int tlti(line_t instruction)
 int tne(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, TNE, 13);
+    ErrorType_t err = check_type_R(instruction, &bin, TNE, 13, false);
     if (err != SUCCESS)
     {
         return err;
@@ -1099,7 +1108,7 @@ int tnei(line_t instruction)
 int xchg(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, XCHG, 22);
+    ErrorType_t err = check_type_R(instruction, &bin, XCHG, 22, false);
     if (err != SUCCESS)
     {
         return err;
@@ -1110,7 +1119,7 @@ int xchg(line_t instruction)
 int xor_(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, XOR, 6);
+    ErrorType_t err = check_type_R(instruction, &bin, XOR, 6, false);
     if (err != SUCCESS)
     {
         return err;
