@@ -1108,7 +1108,7 @@ int tnei(line_t instruction)
 int xchg(line_t instruction)
 {
     binInstruction_t bin;
-    ErrorType_t err = check_type_R(instruction, &bin, XCHG, 22, false);
+    ErrorType_t err = check_type_R(instruction, &bin, XCHG, 22, true);
     if (err != SUCCESS)
     {
         return err;
