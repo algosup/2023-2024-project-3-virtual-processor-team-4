@@ -36,13 +36,12 @@ The assembly language will also be created and tailored by us.
   - [Usage](#usage)
 - [Non-functional requirements](#non-functional-requirements)
   - [Performance](#performance)
-  - [Maintainablility](#maintainablility)
+  - [Maintainability](#maintainability)
   - [Scalability](#scalability)
   - [Portability](#portability)
   - [Usability](#usability)
   - [Security](#security)
-- [Examples](#examples)
-- [Resources](#resources)
+- [Example](#example)
 - [Risks and assumptions](#risks-and-assumptions)
 - [Future improvements](#future-improvements)
 - [Glossary](#glossary)
@@ -70,10 +69,10 @@ The assembly language will also be created and tailored by us.
 ## Project scope
 
 We have multiple objectives for this project:
-- Creation of an assembly language and [Instruction Set Architecture](#glossary) (ISA) (defined further down in this document and in the [Appendix](./Appendix_A_-_Instruction_Set_Manual.pdf))
-- Implementation of this ISA in the form of a [virtual processor](#glossary) that can be emulated on a physical computer
-- Implementation of an [assembler](#glossary) to create machine code for this processor from the assembly language
-- Provision of sample assembly scripts that can be assembled and run
+- Creation of an assembly language and [Instruction Set Architecture](#glossary) (ISA) (defined further down in this document and in the [Appendix](./appendix_a_instruction_set_manual.pdf)).
+- Implementation of this ISA in the form of a [virtual processor](#glossary) that can be emulated on a physical computer.
+- Implementation of an [assembler](#glossary) to create machine code for this processor from the assembly language.
+- Provision of sample assembly scripts that can be assembled and run.
 
 ## Functional requirements
 
@@ -81,15 +80,15 @@ The instructions of the language must allow for the following actions:
 - Data handling i.e. writing data between a register and
   - an immediate value (a constant),
   - another register,
-  - the memory (RAM)
-  - the virtual keyboard/display
+  - the memory (RAM),
+  - or the virtual keyboard/display
 - Calculations
-  - The four basic mathematical operations (addition, subtraction, multiplication, division)
-  - The four basic logical operations (not, and, or, xor)
+  - The four basic mathematical operations (addition, subtraction, multiplication, division).
+  - The four basic logical operations (not, and, or, xor).
 - Branching
-  - Comparison between registers and values
-  - Conditional and unconditional jumping
-  - Calling and returning from subroutines
+  - Comparison between registers and values.
+  - Conditional and unconditional jumping.
+  - Calling and returning from subroutines.
 
 Both the assembler and emulator must written in the C language, as well as being able to be compiled and run on any real computer architecture.
 No libraries outside of the standard ones should be used, and the libraries that are operating system-specific must have existing alternatives.
@@ -170,12 +169,14 @@ To ensure that the project is viable, all the specifications must be approved by
 
 The architecture will use 32-bit integers to run. Unless otherwise specified, those integers are supposed signed.
 
-We will consider to have 28 registers. The first 26 are denoted by the letter `r` followed by another letter (ra, rb, ..., ry, rz). \
+We will consider to have 28 registers. The first 26 are denoted by the letter `r` followed by another letter (`ra`, `rb`, ..., `ry`, `rz`) and their machine code representation is the index of the letter (`ra` = 0, `rb` = 1, ...). \
 The other registers are:
-- `sp`, the address of the stack pointer. Read-only.
-- `ip`, number of the currently executed instruction. Read-only.
+- `sp`, the address of the stack pointer. Read-only. Machine code value: 30.
+- `ip`, number of the currently executed instruction. Read-only. Machine code value: 31.
 
 The architecture is flagless. This means that when a comparison is done, the result is stored back in a register rather than a flag. For overflows and carry, those must be checked manually.
+
+The stack starts at the address `0xFFFFFFFC` and grows downwards.
 
 The memory mapping we will be using resembles the usual ones and is as follows:
 
@@ -212,14 +213,15 @@ The assembly language consists of the different instructions defined further dow
 Here is a summary of those instructions:
 - Arithmetic and logic: `add`, `sub`, `mul`, `div`, `or`, `and`, `xor`
 - Comparison: `teq`, `tne`, `tlt`, `tle`, `tgt`, `tge`
-- Memory: `push`, `pop`, `str`, `ld`, `strp`, `ldp`, `xchg`
-- Branching: `jz`, `jnz`, `call`, `ret`, `jabs`, `exit`
+- Memory: `push`, `pop`, `str`, `ld`, `strp`, `ldp`, `set`, `xchg`
+- Branching: `jz`, `jnz`, `call`, `ret`, `jabs`, `halt`
 
 <!-- TODO: Scancode appendix -->
 
 ### Machine code
 
 Here is a quick summary of the different instructions.
+For the full manual, please refer to the [Appendix A](./appendix_a_instruction_set_manual.pdf).
 
 | Type | Format                             | Description                                                           |
 | ---- | ---------------------------------- | --------------------------------------------------------------------- |
@@ -228,54 +230,55 @@ Here is a quick summary of the different instructions.
 | J    | `OOOOAAAAAAAAAAAAAAAAAAAAAAARRRRR` | Opcode (4) -               Address (23)                - Register (5) |
 
 | Opcode  | Instruction | Type | [CPI](#glossary) | Implementation priority |
-| ------- | ----------- | ---- | --- | ----------------------- |
-| 0000000 | `add`       | R    | 5   | High                    |
-| 0000001 | `sub`       | R    | 5   | High                    |
-| 0000010 | `mul`       | R    | 5   | Normal                  |
-| 0000011 | `div`       | R    | 5   | Normal                  |
-| 0000100 | `or`        | R    | 5   | Normal                  |
-| 0000101 | `and`       | R    | 5   | Normal                  |
-| 0000110 | `xor`       | R    | 5   | Normal                  |
-| 0000111 | `teq`       | R    | 5   | High                    |
-| 0001000 | `tne`       | R    | 5   | High                    |
-| 0001001 | `tlt`       | R    | 5   | Normal                  |
-| 0001010 | `tle`       | R    | 5   | Normal                  |
-| 0001011 | `tgt`       | R    | 5   | Normal                  |
-| 0001100 | `tge`       | R    | 5   | Normal                  |
-| 0001101 | RESERVED    | R    | -   | -                       |
-| 0001110 | RESERVED    | R    | -   | -                       |
-| 0001111 | RESERVED    | R    | -   | -                       |
-| 0010000 | `push`      | R    | 5   | Low                     |
-| 0010001 | `pop`       | R    | 5   | Low                     |
-| 0010010 | `str`       | R    | 4   | High                    |
-| 0010011 | `ld`        | R    | 4   | High                    |
-| 0010010 | `strp`      | R    | 6   | Low                     |
-| 0010011 | `ldp`       | R    | 6   | Low                     |
-| 0010100 | `xchg`      | R    | 5   | Low                     |
-| 001.... | RESERVED    | R    | -   | -                       |
-| 010001  | `addi`      | I    | 4   | High                    |
-| 010010  | `subi`      | I    | 4   | High                    |
-| 010011  | `ori`       | I    | 4   | Normal                  |
-| 010100  | `andi`      | I    | 4   | Normal                  |
-| 010101  | `xori`      | I    | 4   | Normal                  |
-| 010110  | `teqi`      | I    | 4   | Normal                  |
-| 010111  | `tnei`      | I    | 4   | Normal                  |
-| 011000  | `tlti`      | I    | 4   | Normal                  |
-| 011001  | `tlei`      | I    | 4   | Normal                  |
-| 011010  | `tgti`      | I    | 4   | Normal                  |
-| 011011  | `tgei`      | I    | 4   | Normal                  |
-| 011100  | `stri`      | I    | 4   | Normal                  |
-| 011101  | `ldi`       | I    | 4   | Normal                  |
-| 011110  | RESERVED    | I    | -   | -                       |
-| 011111  | RESERVED    | I    | -   | -                       |
-| 1000    | `jz`        | J    | 4   | High                    |
-| 1001    | `jnz`       | J    | 4   | High                    |
-| 1010    | `jr`        | J    | -   | -                       |
-| 1011    | RESERVED    | J    | -   | -                       |
-| 1100    | RESERVED    | J    | -   | -                       |
-| 1101    | `call`      | J    | 5   | Normal                  |
-| 1110    | `ret`       | J    | 5   | Normal                  |
-| 1111    | `jabs`      | J    | 3   | Low                     |
+| ------- | ----------- | ---- | ---------------- | ----------------------- |
+| 0000000 | `add`       | R    | 5                | High                    |
+| 0000001 | `sub`       | R    | 5                | High                    |
+| 0000010 | `mul`       | R    | 5                | Normal                  |
+| 0000011 | `div`       | R    | 5                | Normal                  |
+| 0000100 | `or`        | R    | 5                | Normal                  |
+| 0000101 | `and`       | R    | 5                | Normal                  |
+| 0000110 | `xor`       | R    | 5                | Normal                  |
+| 0000111 | `abs`       | R    | 4                | Normal                  |
+| 0001000 | `tlt`       | R    | 5                | Normal                  |
+| 0001001 | `tle`       | R    | 5                | Normal                  |
+| 0001010 | `tgt`       | R    | 5                | Normal                  |
+| 0001011 | `tge`       | R    | 5                | Normal                  |
+| 0001100 | `teq`       | R    | 5                | High                    |
+| 0001101 | `tne`       | R    | 5                | High                    |
+| 0001110 | RESERVED    | R    | -                | -                       |
+| 0001111 | RESERVED    | R    | -                | -                       |
+| 0010000 | `str`       | R    | 4                | High                    |
+| 0010001 | `ld`        | R    | 4                | High                    |
+| 0010010 | `strp`      | R    | 6                | Low                     |
+| 0010011 | `ldp`       | R    | 6                | Low                     |
+| 0010100 | `push`      | R    | 5                | Low                     |
+| 0010101 | `pop`       | R    | 5                | Low                     |
+| 0010110 | `xchg`      | R    | 5                | Low                     |
+| 001.... | RESERVED    | R    | -                | -                       |
+| 010000  | `addi`      | I    | 4                | High                    |
+| 010001  | `subi`      | I    | 4                | High                    |
+| 010010  | `stri`      | I    | 4                | Normal                  |
+| 010011  | `ldi`       | I    | 4                | Normal                  |
+| 010100  | `ori`       | I    | 4                | Normal                  |
+| 010101  | `andi`      | I    | 4                | Normal                  |
+| 010110  | `xori`      | I    | 4                | Normal                  |
+| 010111  | `set`       | I    | 3                | High                    |
+| 011000  | `tlti`      | I    | 4                | Normal                  |
+| 011001  | `tlei`      | I    | 4                | Normal                  |
+| 011010  | `tgti`      | I    | 4                | Normal                  |
+| 011011  | `tgei`      | I    | 4                | Normal                  |
+| 011100  | `teqi`      | I    | 4                | Normal                  |
+| 011101  | `tnei`      | I    | 4                | Normal                  |
+| 011110  | RESERVED    | I    | -                | -                       |
+| 011111  | RESERVED    | I    | -                | -                       |
+| 1000    | `b`         | J    | 4                | Low                     | 
+| 1001    | `bi`        | J    | 4                | Normal                  |
+| 1010    | `bz`        | J    | 4                | High                    |
+| 1011    | `bnz`       | J    | 4                | High                    |
+| 1100    | `call`      | J    | 4                | Normal                  |
+| 1101    | `calli`     | J    | 4                | Low                     |
+| 1110    | `ret`       | J    | 4                | Normal                  |
+| 1111    | `jmp`       | J    | 3                | High                    |
 
 Notes:
 - The `exit` mnemonic is assembled to a division with an immediate 0 (`divi ra 0`).
@@ -301,20 +304,21 @@ A program written using this assembly language should be run in two steps:
 1. The program is first passed through the assembler to obtain a working machine code version
 2. The machine code is then emulated with a second program
 
-Execution of the program starts at the first line and ends when the end of the file is reached, the `exit` instruction is used, or when a runtime error occurs.
+Execution of the program starts at the first line and ends when the end of the assembly file is reached, the `halt` instruction is used, or when a runtime error occurs.
 
 Here is an example of an input file using our Assembly code:
 
 ```
-xor r0 r0
-addi r0 r0 3
+set r0 3
 mul r0 r0
 subi r0 1
 ```
 
-Launching our program following the steps given above would look as follows:
+Launching the program above would look as follows:
 
 ![Program launch on command line](./pictures/launch_program.png)
+
+The `-d` parameter on the emulator allows debugging of the program by printing the registers at the end of the execution.
 
 ## Non-functional requirements
 
@@ -322,7 +326,7 @@ Launching our program following the steps given above would look as follows:
 
 Since our machine code will be emulated rather than run natively, our software must execute it rapidly to avoid hindering the user experience. No instruction should take more than 5 milliseconds to execute (at least 200 instructions per second), and every instruction should take the same relative amount of time as it would on hardware.
 
-### Maintainablility
+### Maintainability
 
 In the event that the client decides to change their requirements, or if we realize that the current instruction set is insufficient, we must be able to easily update the list of instructions recognized by the assembler and the machine code.
 
@@ -347,40 +351,33 @@ This debugger would consist of a way to display the contents of registers and fl
 
 You can use a modified machine code to run illegal operations on your CPU. Through the use of the virtual CPU, we can mitigate that risk as the user would not be running the code directly on the hardware.
 
-## Examples
+## Example
 
 Here is an example program that will always output the 8th Fibonacci number (21), and is written in our assembly language:
 
 ```
-// TODO: Ask for value of c
+// The index we want to calculate is stored in rc
 sub rc rc
 add rc 8 // Calculate the 8th value
+// Initialize
 sub ra ra
 add ra 0
 sub rb rb
 add rb 1
+// Begin loop
 loop:
 add ra rb
 xchg ra rb
+// End loop
 subi rc 1
 teqi rc 1
 jz loop
-// TODO: Print result (=21)
+// The result is stored in rb (=21)
 ```
-
-## Resources
-
-Man-hours:
-- 8 weeks
-- 27 half-days (each of 3.5 hours)
-- 567 manhours
-
-Budget:
-- None
 
 ## Risks and assumptions
 
-- The 32-bit timestamp ends in 2038
+- The way to mitigate 32-bit timestamps ending in 2038 has yet to be defined
 - The instruction we create could infringe a patent
 - We assume that every implementation of C follows the C Standard close enough to not be a problem
 - We assume that any instruction we create can be implemented in real hardware
