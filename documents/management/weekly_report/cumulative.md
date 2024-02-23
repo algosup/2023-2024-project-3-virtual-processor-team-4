@@ -12,6 +12,7 @@
 - [Week 4](#weekly-report---week-4)
 - [Week 5](#weekly-report---week-5)
 - [Week 6](#weekly-report---week-6)
+- [Week 7](#weekly-report---week-7)
 
 <br><hr><br>
 
@@ -209,3 +210,36 @@ Next week we plan to:
    - If we have time, be able to write directly in the memory in the data section without any instruction.
 
 <br><hr><br>
+
+[*Original file*](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/week_7__19-02_to_23-02.md)
+
+# Weekly report - week 7
+
+*From     --- Monday, February 19th ---     to     --- Friday, February 23th ---*
+
+### Overview of the week
+
+This week, was the last one before handing out the project, so we managed to finish all the basic requirements, and you can see in the [list of tasks](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIB5y_Ylk7CU37q7dEQzBlDig?e=cXOKuN&nav=MTVfe0Q4MzdGRDRCLTJBNUItNDE3OC1CRjQ0LTk0RTE1MzhCRDAzQX0) what we succeeded in implementing in our program.
+A tutorial to run the code is available in the readme.md
+
+We didn't have time to finish implementing the clock cycles and the terminal output, but we have an assembler and an emulator which can compile and run an .asm file through a virtual processor.
+
+<hr>
+
+
+### Accomplishments
+
+- We finished the assembler.
+- We finished the emulator.
+- We finished the documentation of our assembly language.
+- We finished all the tests.
+- In parallel, we continued to review the documents and update the management content.
+
+### challenges encountered
+
+- There was no particular problem, but the merge of all the different programs was long
+- Our QA found a lot of errors that we fixed.
+
+### Plan for Next Week
+
+- Make and rehearse the oral presentation.
