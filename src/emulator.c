@@ -173,17 +173,17 @@ int emulate(char *filepath)
 int main(int argc, char *argv[])
 {
     char *filepath = NULL;
-    // bool run_tests = false;
+    bool debug = false;
 
     // Parse arguments
 
     char opt;
-    while((opt = getopt(argc, argv, "t")) != -1)
+    while((opt = getopt(argc, argv, "d")) != -1)
     {
         switch(opt)
         {
-            case 't':
-                // run_tests = true;
+            case 'd':
+                debug = true;
                 break;
             case '?':
                 errno = EINVAL;
@@ -211,6 +211,16 @@ int main(int argc, char *argv[])
     {
         perror("failed to execute the code");
         return EXIT_FAILURE;
+    }
+
+    if (debug)
+    {
+        for (int i = 0; i < 26; i++)
+        {
+            printf("r%c: 0x%08x (%ld)\n", i+'a', registerArr[i], registerArr[i]);
+        }
+        printf("sp: 0x%08x (%lu)\n", registerArr[STACK_POINTER], registerArr[STACK_POINTER]);
+        printf("ip: 0x%08x (%lu)\n", registerArr[INSTRUCTION_POINTER], registerArr[INSTRUCTION_POINTER]);
     }
 
     return EXIT_SUCCESS;
