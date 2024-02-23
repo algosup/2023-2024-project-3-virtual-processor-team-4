@@ -98,7 +98,7 @@ adapt the code above replacing xxx.exe with ./xxx to execute the executable
 
 - The deadline for the project is Friday, February 23rd
 
-- Date of the last official update of the project: 17/01/2024
+- Date of the last official update of the project: 23/02/2024
 
 <hr>
 
