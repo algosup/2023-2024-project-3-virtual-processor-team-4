@@ -213,8 +213,8 @@ The assembly language consists of the different instructions defined further dow
 Here is a summary of those instructions:
 - Arithmetic and logic: `add`, `sub`, `mul`, `div`, `or`, `and`, `xor`
 - Comparison: `teq`, `tne`, `tlt`, `tle`, `tgt`, `tge`
-- Memory: `push`, `pop`, `str`, `ld`, `strp`, `ldp`, `xchg`
-- Branching: `jz`, `jnz`, `call`, `ret`, `jabs`, `exit`
+- Memory: `push`, `pop`, `str`, `ld`, `strp`, `ldp`, `set`, `xchg`
+- Branching: `jz`, `jnz`, `call`, `ret`, `jabs`, `halt`
 
 <!-- TODO: Scancode appendix -->
 
@@ -309,13 +309,12 @@ Execution of the program starts at the first line and ends when the end of the a
 Here is an example of an input file using our Assembly code:
 
 ```
-xor r0 r0
-addi r0 r0 3
+set r0 3
 mul r0 r0
 subi r0 1
 ```
 
-Launching a program following the steps given above would look as follows:
+Launching the program above would look as follows:
 
 ![Program launch on command line](./pictures/launch_program.png)
 
