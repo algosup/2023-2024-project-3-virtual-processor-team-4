@@ -1,5 +1,5 @@
 // set a random number
-set ra xFFFFFF
+set ra xFFFF
 
 // set the length of the number
 set ry 6
@@ -24,7 +24,7 @@ bnz rt addNum
 teqi rt rb xA
 bnz rt isA
 teqi rt rb xB
-bnz rt xB
+bnz rt isB
 teqi rt rb xC
 bnz rt isC
 teqi rt rb xD

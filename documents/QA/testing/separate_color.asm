@@ -1,4 +1,4 @@
-set ra xFFFFFF
+set ra xFFFF
 set rb 256
 set rc 65536
 SeparateRGB:
@@ -32,5 +32,5 @@ blueComponent:
 addi rx ra 0
 addi rd rb 0
 div ra rd
-exitProg
+exitProg:
 // exit the prog
