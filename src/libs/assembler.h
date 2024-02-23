@@ -1,41 +1,7 @@
 #ifndef ASSEMBLER_H
 #define ASSEMBLER_H
 
-typedef enum binType
-{
-    R,
-    I,
-    J
-} binType_t;
-
-//Struct used to standardise what is going to be writen in the MachinCode
-typedef struct binInstruction
-{
-    binType_t type;
-    union
-    {
-        struct typeR
-        {
-            uint8_t opcode;  // 7bits
-            uint8_t source2; // 5bits
-            uint8_t source;
-            uint8_t destination;
-        } typeR;
-        struct typeI
-        {
-            uint8_t opcode;    // 6bits
-            int16_t immediate; // 16bits
-            uint8_t source;    // 5bits
-            uint8_t destination;
-        } typeI;
-        struct typeJ
-        {
-            uint8_t opcode; // 4bits
-            int32_t addres;
-            uint8_t register_; // 5bits
-        } typeJ;
-    };
-} binInstruction_t;
+#include "utils.h"
 
 //initialise the list that will be used to store label
 listLabel_t labelList = {NULL, 0, NULL};
@@ -124,7 +90,7 @@ int iterate_through_all_line(line_t *instructions, uint64_t arrSize, char *outpu
 
     binInstruction_t endOfFile;
     endOfFile.type = J;
-    endOfFile.typeJ.addres = 0;
+    endOfFile.typeJ.address = 0;
     endOfFile.typeJ.opcode = 0b1110; //ret
     endOfFile.typeJ.register_ = 1;
 
@@ -325,10 +291,10 @@ int write_to_bin(binInstruction_t input)
         break;
 
     case J:
-        byteArr[0] = byteArr[0] | input.typeJ.addres >> 19;
-        byteArr[1] = byteArr[1] | input.typeJ.addres >> 11;
-        byteArr[2] = byteArr[2] | input.typeJ.addres >> 3;
-        byteArr[3] = byteArr[3] | input.typeJ.addres << 5;
+        byteArr[0] = byteArr[0] | input.typeJ.address >> 19;
+        byteArr[1] = byteArr[1] | input.typeJ.address >> 11;
+        byteArr[2] = byteArr[2] | input.typeJ.address >> 3;
+        byteArr[3] = byteArr[3] | input.typeJ.address << 5;
         byteArr[3] = byteArr[3] | input.typeJ.register_;
         byteArr[0] = byteArr[0] & 15; // clear the last 4 bits as they are used for opcode
         byteArr[0] = byteArr[0] | input.typeJ.opcode << 4;
@@ -536,7 +502,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
 
     if (instruction.mnemonic == RET)
     {
-        bin->typeJ.addres = 0;
+        bin->typeJ.address = 0;
         bin->typeJ.register_ = 0;
     }
     else
@@ -553,11 +519,11 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
             }
             else if (instruction.mnemonic == JMP)
             {
-                bin->typeJ.addres = addres;
+                bin->typeJ.address = addres;
             }
             else
             {
-                bin->typeJ.addres = addres - instruction.lineNumber;
+                bin->typeJ.address = addres - instruction.lineNumber;
             }
             hasSetLabel = true;
         }
@@ -565,11 +531,11 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
         {
             if (instruction.mnemonic == JMP)
             {
-                bin->typeJ.addres = instruction.immediateDest + instruction.lineNumber;
+                bin->typeJ.address = instruction.immediateDest + instruction.lineNumber;
             }
             else
             {
-                bin->typeJ.addres = instruction.immediateDest;
+                bin->typeJ.address = instruction.immediateDest;
             }
             hasSetLabel = true;
         }
@@ -597,11 +563,11 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
             }
             else if (instruction.mnemonic == JMP)
             {
-                bin->typeJ.addres = addres;
+                bin->typeJ.address = addres;
             }
             else
             {
-                bin->typeJ.addres = addres - instruction.lineNumber;
+                bin->typeJ.address = addres - instruction.lineNumber;
             }
             hasSetLabel = true;
         }
@@ -614,11 +580,11 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
             }
             else if (instruction.mnemonic == JMP)
             {
-                bin->typeJ.addres = instruction.immediate1 + instruction.lineNumber;
+                bin->typeJ.address = instruction.immediate1 + instruction.lineNumber;
             }
             else
             {
-                bin->typeJ.addres = instruction.immediate1;
+                bin->typeJ.address = instruction.immediate1;
             }
             hasSetLabel = true;
         }
@@ -629,7 +595,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
         }
 
         if(instruction.mnemonic = CALL || instruction.mnemonic == B && !hasSetLabel){
-            bin->typeJ.addres = 0;
+            bin->typeJ.address = 0;
             hasSetLabel = true;
         }
 
