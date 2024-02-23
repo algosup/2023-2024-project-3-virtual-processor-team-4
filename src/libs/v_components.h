@@ -290,7 +290,7 @@ int print_registers(int base)
         printf("Invalid base\n");
         return GENERIC_ERROR;
     }
-    printf("Registers:\n");
+    printf("\nRegisters:\n");
     for (int i = 0; i < 32; i++)
     {
         printf("R_%02d: ", i);
@@ -312,7 +312,7 @@ int print_register(int reg, int base)
         return 1;
     }
 
-    printf("R_%02d: ", reg);
+    printf("\nR_%02d: ", reg);
     print_32b_number(registerArr[reg], base, 32);
     printf("\n");
 }
@@ -329,7 +329,7 @@ int print_memory(uint32_t start, uint32_t end, int base)
         printf("Invalid memory range (trying to print)\n");
         return OUT_OF_MEMORY;
     }
-    printf("Memory:\n");
+    printf("\nMemory:\n");
     for (uint32_t i = start; i < end; i += 4)
     {   
         print_32b_number(i, HEX, end);
@@ -354,20 +354,17 @@ int check_input_section();
 int check_input_section()
 {   
     int exit_char_position = 0;
-    char input_section[INPUT_SECTION_SIZE];
-    for (int i = INPUT_SECTION_START; i < INPUT_SECTION_SIZE; i++)
+    unsigned char input_section[INPUT_SECTION_SIZE];
+    for (uint32_t i = 0; i < INPUT_SECTION_SIZE; i++)
     {
         input_section[i] = read_memory_8(INPUT_SECTION_START + i);
-        printf("%d\n", input_section[i]);
         if (input_section[i] == 0xFF){
-            printf("found\n");
             exit_char_position = i;
             set_memory_8(INPUT_SECTION_START + i, 0);
             break;
         }
     }
     if (exit_char_position == 0){
-        printf("not found\n");
         return SUCCESS;
     }
     for (int i = 0; i < exit_char_position; i++){
@@ -376,6 +373,7 @@ int check_input_section()
             set_memory_8(INPUT_SECTION_START + i, 0);
         }
     }
+    return SUCCESS;
 }
 
 //__________________________________________________________________________________

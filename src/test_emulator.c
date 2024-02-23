@@ -27,9 +27,11 @@ void test_comparison_immediate();
 int main()
 {   
     //execute_tests();
+    check_input_section();
     set_memory_32(0x80000000, 0x6C656FFF);
     print_memory(0x80000000, 0x80000008, HEX);
     check_input_section();
+    print_memory(0x80000000, 0x80000008, HEX);
     return 0;
 }
 
