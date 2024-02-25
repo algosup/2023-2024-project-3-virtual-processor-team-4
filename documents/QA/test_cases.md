@@ -1099,7 +1099,7 @@ qezuibvhusqrbvhsdfvbijsdbvjisbei
 | Test Case Priority        | High 3                                    |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                       |
 
-### One Label
+#### One Label
 
 | Test Case ID              |                                         |
 |---------------------------|-------------------------------------------|
@@ -1739,6 +1739,2854 @@ qezuibvhusqrbvhsdfvbijsdbvjisbei
 | Test Case Actual Result   | ---                                       |
 | Test Case Status          | To Test                                   |
 | Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### JMP - Absolute Jump
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | JMP - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```jmp ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | JMP - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```jmp ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | JMP - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```jmp 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | JMP - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```jmp ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Label
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | JMP - One Label                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing on the first line ```jmp label ``` and on the second ```label:```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Label and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | JMP - One Label and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing on the first line ```jmp ra label``` and on the second ```label:```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### LD - Load With Direct Addressing
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LD - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ld ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LD - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ld ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LD - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ld ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LD - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ld 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LD - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ld ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LD - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ld ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### LDI - Load With Direct Immediate Addressing
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldi ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldi ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldi ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldi 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldi ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldi ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### LDP - Load With Indirect Addressing
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDP - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldp ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDP - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldp ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDP - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldp ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDP - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldp 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDP - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldp ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | LDP - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ldp ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### MUL - Multiplication
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | MUL - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```mul ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | MUL - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```mul ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | MUL - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```mul ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | MUL - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```mul ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | MUL - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```mul 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | MUL - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```mul ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | MUL - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```mul ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### OR - Logical Or
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | OR - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```or ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | OR - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```or ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | OR - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```or ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | OR - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```or ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | OR - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```or 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | OR - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```or ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | OR - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```or ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### ORI - Logical Or With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ORI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ori ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ORI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ori ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ORI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ori ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ORI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ori ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ORI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ori 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ORI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ori ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | ORI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ori ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### POP - Pop Register From Stack
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | POP - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```pop ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | POP - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```pop ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | POP - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```pop 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | POP - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```pop ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### PUSH - Push Register From Stack
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | PUSH - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```push ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | PUSH - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```push ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | PUSH - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```push 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | PUSH - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```push ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### RET - Return From Subroutine
+
+#### No Parameter
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | RET - No Parameter                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ret```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | RET - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ret ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | RET - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```ret 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Label
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | RET - One Label                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing on the first line ```ret label ``` and on the second ```label:```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### SET - Set Register To Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SET - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SET - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SET - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SET - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SET - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SET - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```set ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### STR - Store With Direct Addressing
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STR - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```str ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STR - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```str ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STR - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```str ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STR - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```str 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STR - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```str ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STR - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```str ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### STRI - Store With Direct Immediate Addressing
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```stri ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```stri ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```stri ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```stri 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```stri ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```stri ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### STRP - Store With Indirect Addressing
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRP - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```strp ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRP - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```strp ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRP - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```strp ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRP - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```strp 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRP - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```strp ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | STRP - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```strp ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### SUB - Substraction
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUB - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```sub ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUB - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```sub ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUB - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```sub ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUB - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```sub ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUB - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```sub 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUB - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```sub ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUB - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```sub ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### SUBI - Substraction With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUBI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```subi ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUBI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```subi ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUBI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```subi ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUBI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```subi ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUBI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```subi 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUBI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```subi ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | SUBI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```subi ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TEQ - Test If Equal
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQ - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teq ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQ - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teq ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQ - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teq ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQ - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teq ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQ - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teq 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQ - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teq ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQ - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teq ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TEQI - Test If Equal With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teqi ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teqi ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teqi ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teqi ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teqi 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teqi ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TEQI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```teqi ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TGE - Test If Greater Or Equal
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGE - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tge ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGE - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tge ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGE - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tge ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGE - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tge ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGE - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tge 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGE - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tge ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGE - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tge ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TGEI - Test If Greater Or Equal With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGEI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgei ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGEI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgei ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGEI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgei ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGEI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgei ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGEI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgei 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGEI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgei ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGEI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgei ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TGT - Test If Strictly Greater
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGT - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgt ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGT - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgt ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGT - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgt ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGT - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgt ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGT - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgt 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGT - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgt ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGT - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgt ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TGTI - Test If Strictly Greater With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGTI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgti ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGTI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgti ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGTI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgti ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGTI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgti ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGTI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgti 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGTI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgti ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TGTI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tgti ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TLE - Test If Lower Or Equal
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLE - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tle ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLE - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tle ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLE - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tle ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLE - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tle ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLE - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tle 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLE - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tle ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLE - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tle ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TLEI - Test If Lower Or Equal With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLEI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlei ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLEI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlei ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLEI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlei ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLEI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlei ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLEI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlei 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLEI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlei ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLEI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlei ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TLT - Test If Strictly Lower
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLT - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLT - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLT - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLT - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLT - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLT - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLT - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlt ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TLTI - Test If Strictly Lower With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLTI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlti ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLTI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlti ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLTI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlti ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLTI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlti ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLTI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlti 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLTI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlti ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TLTI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tlti ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TNE - Test If Not Equal
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNE - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tne ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNE - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tne ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNE - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tne ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNE - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tne ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNE - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tne 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNE - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tne ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNE - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tne ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### TNEI - Test If Not Equal With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNEI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tnei ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNEI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tnei ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNEI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tnei ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNEI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tnei ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNEI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tnei 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNEI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tnei ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | TNEI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```tnei ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### XCHG - Exchange Registers
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XCHG - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xchg ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XCHG - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xchg ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XCHG - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xchg ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XCHG - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xchg 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XCHG - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xchg ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XCHG - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xchg ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### XOR - Logical Xor
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XOR - One Register                        |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xor ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XOR - Two Registers                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xor ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XOR - Three Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xor ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XOR - Four Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xor ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XOR - One Immediate                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xor 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XOR - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xor ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XOR - One Immediate and Two Registers     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xor ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+### XORI - Logical Xor With Immediate
+
+#### One Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XORI - One Register                       |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xori ra```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XORI - Two Registers                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xori ra rb```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Three Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XORI - Three Registers                    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xori ra rb rc```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.       |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### Four Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XORI - Four Registers                     |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xori ra rb rc rd```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.                |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XORI - One Immediate                      |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xori 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product sends an error.               |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Register
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XORI - One Immediate and Register          |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xori ra 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | High 3                                    |
+| Test Case Assigned To     | QA (Maxime THIZEAU)                       |
+
+#### One Immediate and Two Registers
+
+| Test Case ID              |                                         |
+|---------------------------|-------------------------------------------|
+| Test Case Name            | XORI - One Immediate and Two Registers    |
+| Test Case Description     | Check if it assemble. |
+| Test Case Pre-conditions  | ```assembler.exe``` must be build.        |
+| Test Case Steps           | 1. Create ```example.asm``` containing ```xori ra rb 1```. <br> 2. Type ```assembler.exe example.asm output.bin``` in the terminal. <br> 3. Press ```enter```.       |
+| Test Case Expected Result | The product runs without any errors.      |
+| Test Case Actual Result   | ---                                       |
+| Test Case Status          | To Test                                   |
+| Test Case Priority        | Medium 2                                  |
 | Test Case Assigned To     | QA (Maxime THIZEAU)                       |
 
 ## Test Cases Emulator
