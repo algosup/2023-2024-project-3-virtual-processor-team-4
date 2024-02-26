@@ -1015,8 +1015,9 @@ int is_second_operand_immediate_or_label(InstructionType_t *instructionId, char 
 
 int is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
 {
-    if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_null(instructionId, param2, lineNumber) != SUCCESS)
+    if (param1 == NULL || param2 == NULL)
     {
+        printf("Error: Invalid operation (missing parameters) on line: %" PRIu64 "\n", *lineNumber);
         return INVALID_DATA;
     }
 
