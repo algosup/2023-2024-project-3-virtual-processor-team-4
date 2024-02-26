@@ -275,7 +275,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
             }
             else
             {
-                line->immediate1 = atoi(param2); // We convert the string to an integer
+                line->immediate2 = atoi(param2); // We convert the string to an integer
                 line->param2_t = IMMEDIATE;
             }
         }
