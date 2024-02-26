@@ -632,7 +632,7 @@ int instr_b(binInstruction_t instruction)
 int instr_bi(binInstruction_t instruction)
 {
     if (check_opcode_typeJ(instruction) == SUCCESS && check_register_typeJ(instruction) == SUCCESS){
-        int32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
+        int32_t address = (instruction.typeJ.address);
         registerArr[INSTRUCTION_POINTER] += address << 2;
         return SUCCESS;
     }else{
@@ -694,7 +694,7 @@ int instr_calli(binInstruction_t instruction)
     if (check_opcode_typeJ(instruction) == SUCCESS && check_register_typeJ(instruction) == SUCCESS){
         set_memory_32(registerArr[STACK_POINTER], registerArr[INSTRUCTION_POINTER] + 4);
         registerArr[STACK_POINTER] -= 4;
-        int32_t address = (instruction.typeJ.address << 5) | instruction.typeJ.register_;
+        int32_t address = (instruction.typeJ.address);
         registerArr[INSTRUCTION_POINTER] += address << 2;
         return SUCCESS;
     }else{
