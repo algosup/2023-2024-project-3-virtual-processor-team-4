@@ -283,13 +283,28 @@ int write_to_bin(binInstruction_t input)
         break;
 
     case I:
-        byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
-        byteArr[0] = byteArr[0] | input.typeI.immediate >> 14;
-        byteArr[1] = byteArr[1] | input.typeI.immediate >> 6;
-        byteArr[2] = byteArr[2] | input.typeI.immediate << 2;
-        byteArr[2] = byteArr[2] | input.typeI.source >> 3;
-        byteArr[3] = byteArr[3] | input.typeI.source << 5;
-        byteArr[3] = byteArr[3] | input.typeI.destination;
+        if(input.typeI.opcode == 23){
+            byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
+            byteArr[1] = byteArr[1] | input.typeI.immediate >> 11;
+            if(input.typeI.immediate >= 0){
+                byteArr[1] = byteArr[1] & 0b00011111;
+                byteArr[0] = byteArr[0] & 0b11111100;
+            }else{
+                byteArr[1] = byteArr[1] | 0b11100000;
+                byteArr[0] = byteArr[0] | 0b00000011;
+            }
+            byteArr[2] = byteArr[2] | input.typeI.immediate >> 3;
+            byteArr[3] = byteArr[3] | input.typeI.immediate << 5;
+            byteArr[3] = byteArr[3] | input.typeI.destination;
+        }else{
+            byteArr[0] = byteArr[0] | input.typeI.opcode << 2;
+            byteArr[0] = byteArr[0] | input.typeI.immediate >> 14;
+            byteArr[1] = byteArr[1] | input.typeI.immediate >> 6;
+            byteArr[2] = byteArr[2] | input.typeI.immediate << 2;
+            byteArr[2] = byteArr[2] | input.typeI.source >> 3;
+            byteArr[3] = byteArr[3] | input.typeI.source << 5;
+            byteArr[3] = byteArr[3] | input.typeI.destination;
+        }
         break;
 
     case J:
@@ -431,48 +446,21 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t *bin, InstructionT
         error = true;
     }
 
-    if (instruction.param2_t == NULL_ && instruction.dest_t == REGISTER)
+    if (instruction.dest_t == REGISTER && instruction.param1_t == REGISTER && instruction.param2_t == IMMEDIATE)
+    {
+        bin->typeI.destination = instruction.dest;
+        bin->typeI.source = instruction.register1;
+        bin->typeI.immediate = instruction.immediate2;
+    }
+    else if (instruction.dest_t == REGISTER && instruction.param1_t == IMMEDIATE && instruction.param2_t == NULL_)
     {
         bin->typeI.destination = instruction.dest;
         bin->typeI.source = instruction.dest;
-
-        if (instruction.param1_t == IMMEDIATE)
-        {
-            bin->typeI.immediate = instruction.immediate1;
-        }
-        else
-        {
-            printf("Error: Invalid data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
-            error = true;
-        }
-    }
-    else if (instruction.dest_t == REGISTER)
-    {
-        bin->typeI.destination = instruction.dest;
-
-        if (instruction.param1_t == REGISTER)
-        {
-            bin->typeI.source = instruction.register1;
-        }
-        else
-        {
-            printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
-            error = true;
-        }
-
-        if (instruction.param2_t == IMMEDIATE)
-        {
-            bin->typeI.immediate = instruction.immediate2;
-        }
-        else
-        {
-            printf("Error: Invalid data in assembler. Expected Immediate at line %d\n", instruction.lineNumber);
-            error = true;
-        }
+        bin->typeI.immediate = instruction.immediate1;
     }
     else
     {
-        printf("Error: Invalid data in assembler. Expected Register at line %d\n", instruction.lineNumber);
+        printf("Error: Invalid data in assembler. Expected Register or Imediate at line %d\n", instruction.lineNumber);
         error = true;
     }
 
@@ -489,6 +477,7 @@ ErrorType_t check_type_I(line_t instruction, binInstruction_t *bin, InstructionT
 ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionType_t inst, uint8_t opcode, bool notTwoArg)
 {
     bool error = false;
+    int32_t addres;
 
     bin->type = J;
 
@@ -509,7 +498,6 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
     }
     else
     {
-        int32_t addres;
         bool hasSetLabel = false;
         bool hasSetRegister = false;
 
@@ -596,7 +584,7 @@ ErrorType_t check_type_J(line_t instruction, binInstruction_t *bin, InstructionT
             hasSetRegister = true;
         }
 
-        if(instruction.mnemonic = CALL || instruction.mnemonic == B && !hasSetLabel){
+        if(instruction.mnemonic == CALL || instruction.mnemonic == B && !hasSetLabel){
             bin->typeJ.address = 0;
             hasSetLabel = true;
         }
