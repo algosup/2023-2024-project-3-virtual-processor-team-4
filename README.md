@@ -67,7 +67,7 @@ OR
 Run the emulator with the generated machine code file:
 ```emulator.exe path_to_your_file.bin```
 However, as there is no way to see print in the terminal with the assembly code, you can use the following command to see the content of the registers at the end of the execution:
-```emulator.exe path_to_your_file.bin -d``` //execute the machine code and then print the registers through the 'debug' option.
+```emulator.exe -d path_to_your_file.bin``` //execute the machine code and then print the registers through the 'debug' option.
 
 ### Linux
 
