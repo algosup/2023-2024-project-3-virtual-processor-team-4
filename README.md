@@ -48,7 +48,7 @@ The prerequisite is a compilator to compile .c files to executable files. We use
 
 ### Windows
 
-Copy your assembly file in the 'src' folder (documentation for our [assembly language](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/appendix_a_instruction_set_manual.pdf) an₫ [processor architecture](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/functional_specification.md#system-architecture) are available in the [functional folder](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/tree/main/documents/functional) of the GitHub repository).
+Copy your assembly file in the 'src' folder. Examples of assembly files are available [here](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/tree/main/documents/QA/testing) and the documentation for our [assembly language](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/appendix_a_instruction_set_manual.pdf) an₫ [processor architecture](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/functional/functional_specification.md#system-architecture) are available in the [functional folder](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/tree/main/documents/functional) of the GitHub repository).
 
 Open a terminal, and place you in the folder 'src'
 ```cd "C:/Users/.../src"```
