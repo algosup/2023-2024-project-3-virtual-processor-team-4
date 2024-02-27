@@ -1,4 +1,4 @@
-set ra 30
+set ra 80
 set rb 40
 
 tge rt ra rb
