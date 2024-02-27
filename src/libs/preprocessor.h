@@ -275,7 +275,7 @@ int fill_line_struct(line_t *line, InstructionType_t *instructionType, char *des
             }
             else
             {
-                line->immediate1 = atoi(param2); // We convert the string to an integer
+                line->immediate2 = atoi(param2); // We convert the string to an integer
                 line->param2_t = IMMEDIATE;
             }
         }
@@ -1015,8 +1015,9 @@ int is_second_operand_immediate_or_label(InstructionType_t *instructionId, char 
 
 int is_first_operand_register_and_second_operand_immediate_or_label(InstructionType_t *instructionId, char *param1, char *param2, uint64_t *lineNumber)
 {
-    if (is_first_operand_not_null(instructionId, param1, lineNumber) != SUCCESS || is_second_operand_null(instructionId, param2, lineNumber) != SUCCESS)
+    if (param1 == NULL || param2 == NULL)
     {
+        printf("Error: Invalid operation (missing parameters) on line: %" PRIu64 "\n", *lineNumber);
         return INVALID_DATA;
     }
 
