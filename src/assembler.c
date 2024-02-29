@@ -10,10 +10,10 @@
 int main(int argc, char **argv)
 {
     char *output_file = NULL;
-    // Check if we have a source file to compile
+    // Check if we have a source file to assemble
     if (argv[1] == NULL)
     {
-        printf("Please provide a source file to compile\n");
+        printf("Please provide a source file to assemble\n");
         return 1;
     };
     // Check if a destination has been provided
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     else
     {
         if(charCount == 0) {
-            printf("%s is empty and can not be compiled", input_file);
+            printf("%s is empty and can not be assembled", input_file);
             return GENERIC_ERROR;
         }
 
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
 
         if (fileHasError)
         {
-            printf("Failed to compile!\n");
+            printf("Failed to assemble!\n");
             return GENERIC_ERROR;
         }
         else
@@ -120,12 +120,12 @@ int main(int argc, char **argv)
             int resCode = iterate_through_all_line(instructionMap, lineCount, output_file);
             if (resCode != 0)
             {
-                printf("Failed to compile!\n");
+                printf("Failed to assemble!\n");
                 return GENERIC_ERROR;
             }
             else
             {
-                printf("Compiled successfully!\n");
+                printf("Assembled successfully!\n");
             }
         }
 
