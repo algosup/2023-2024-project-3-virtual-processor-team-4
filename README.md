@@ -89,6 +89,7 @@ adapt the code above replacing xxx.exe with ./xxx to execute the executable
 - [KPIs](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIBwjEooiU8LSl_ZvGzSR8ylA?e=STmP8k)
 - [Management artifacts](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/management_artifacts.md)
 - [Weekly Report](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/cumulative.md)
+- [Post-Mortem Analysis](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/post-mortem_analysis.md)
 
 <hr>
 
@@ -108,4 +109,3 @@ This project is under the [MIT License](LICENSE).
 
 <hr>
 <img src="documents/.data/pictures/algosup_logo.png" width="750px">
-
