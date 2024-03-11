@@ -5,6 +5,7 @@ This document contains the main management artifacts:
 - [Risks and Assumptions](#risks-and-assumptions)
 - [Key Performance Indicators: Charts](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIB5y_Ylk7CU37q7dEQzBlDig?e=6n05sR&nav=MTVfezAwMDAwMDAwLTAwMDEtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMH0) 
 - [Key Performance Indicators: Data](https://algosup-my.sharepoint.com/:x:/p/benoit_dekeyn/ET3X56ZmAw1PpLeTLcSubvIB5y_Ylk7CU37q7dEQzBlDig?e=hhtu4A&nav=MTVfezQ3RjI0RTkyLUVFMDYtNDY1MS04MzE3LUM2Qjc4MzJERkU4Nn0)
+- [Post-Mortem Analysis](https://github.com/algosup/2023-2024-project-3-virtual-processor-team-4/blob/main/documents/management/weekly_report/cumulative.md)
 
 
 # RACI matrix
